@@ -12,5 +12,4 @@ Ik ga de volgende technologieën gebruiken om mijn eindwerk te ontwikkelen.
 - Vue
 - Vuex
 - Vue router
-- Nuxt
 - Firebase
