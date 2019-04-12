@@ -6,3 +6,11 @@ Luo is een Applicatie in de vorm van een PWA waarin je quizes kan aanmaken en sh
 
 ## Project structuur
 - design/design.xd bevat alle design gerelateerde zaken van de applicatie. Ook het logo is hier te vinden.
+
+## Technologies
+Ik ga de volgende technologieën gebruiken om mijn eindwerk te ontwikkelen.
+- Vue
+- Vuex
+- Vue router
+- Nuxt
+- Firebase
