@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50.004" height="66.668" viewBox="0 0 50.004 66.668">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="1" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#7326d6"/>
+      <stop offset="1" stop-color="#bf44cb"/>
+      <stop offset="1" stop-color="#06f"/>
+    </linearGradient>
+  </defs>
+  <g id="logo-medium" transform="translate(-137.996 -318.998)">
+    <path id="Subtraction_1" data-name="Subtraction 1" class="cls-1" d="M-1095.333-3802.667c-.269,0-.537-.013-.8-.038-.283.025-.576.038-.871.038h-30a10.011,10.011,0,0,1-10-10v-44.167a12.418,12.418,0,0,1,3.661-8.839,12.42,12.42,0,0,1,8.839-3.662,12.418,12.418,0,0,1,8.839,3.662,12.419,12.419,0,0,1,3.661,8.839v33.333a4.172,4.172,0,0,0,4.167,4.167,4.172,4.172,0,0,0,4.167-4.167v-12.625a8.283,8.283,0,0,1,2.482-5.808,8.286,8.286,0,0,1,5.852-2.4A8.343,8.343,0,0,1-1087-3836v25A8.343,8.343,0,0,1-1095.333-3802.667Z" transform="translate(1275 4188.333)"/>
+    <circle id="Ellipse_4" data-name="Ellipse 4" class="cls-1" cx="8.333" cy="8.333" r="8.333" transform="translate(171.333 319)"/>
+  </g>
+</svg>

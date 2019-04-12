@@ -1,6 +1,6 @@
 <template>
-  <div :class='`sidebar ${ open }`'>
-    <div class='overlay' @click='$emit("clicked")'></div>
+  <div :class='`sidebar ${ open ? "open" : "closed" }`'>
+    <div class='overlay' @click='$store.dispatch("Sidebar/closeSidebar")'></div>
 
     <div class='bar'>
       <header>
@@ -11,18 +11,17 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: 'Sidebar',
-  props: ['open']
+  computed: {
+    ...mapState('Sidebar', ['open'])
+  }
 }
 </script>
 
 <style lang='scss' scoped>
 .sidebar {
-  header {
-    @include gradient;
-  }
-
   .overlay, .bar {
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;

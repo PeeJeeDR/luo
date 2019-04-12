@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "firebase": "^5.9.4",
     "node-sass": "^4.11.0",
     "register-service-worker": "^1.6.2",
     "sass-loader": "^7.1.0",
