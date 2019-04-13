@@ -14,7 +14,6 @@
 <script>
 import MainHeader from '@/components/header/MainHeader';
 import Sidebar from '@/components/sidebar/Sidebar';
-import { fire, db } from '@/firebase/firebase';
 
 export default {
   name: 'App',
@@ -22,7 +21,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 #app {
   height: 100vh;
 }
