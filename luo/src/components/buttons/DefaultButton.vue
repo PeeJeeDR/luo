@@ -22,5 +22,6 @@ export default {
   font-size: $bran;
   font-weight: bold;
   font-family: $montserrat;
+  outline: none;
 }
 </style>

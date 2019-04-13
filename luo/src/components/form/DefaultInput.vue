@@ -1,11 +1,11 @@
 <template>
-  <input type='text' :placeholder='placeholder'>
+  <input :type='type' :placeholder='placeholder' @input='$emit("input", $event.target.value)'>
 </template>
 
 <script>
 export default {
   name: 'DefaultInput',
-  props: ['placeholder']
+  props: ['placeholder', 'type']
 }
 </script>
 
@@ -22,6 +22,7 @@ input {
   font-weight: bold;
   font-size: $ned;
   color: $texty;
+  outline: none;
   
   ::placeholder {
     color: $clouds;

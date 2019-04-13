@@ -4,14 +4,23 @@
 
     <div class="form-container flex direction-col align-center">
       <div class="tabs">
-        <button :class='active === "login" && "active"' @click='active = "login"'>Login</button>
-        <button :class='active === "register" && "active"' @click='active = "register"'>Register</button>
-        <hr :class='active'>
+        <button :class='formType === "login" && "active"' @click='formType = "login"'>Login</button>
+        <button :class='formType === "register" && "active"' @click='formType = "register"'>Register</button>
+        <hr :class='formType'>
       </div>
 
-      <form>
-        <default-input :placeholder='"Username"'/>
-        <default-input :placeholder='"Password"'/>
+      <form @submit.prevent='onFormSubmit'>
+        <div v-if='formType === "login"'>
+          <default-input type='text' :placeholder='"Username"' v-model='loginData.username'/>
+          <default-input type='password' :placeholder='"Password"' v-model='loginData.password'/>
+        </div>
+
+        <div v-if='formType === "register"'>
+          <default-input type='text' :placeholder='"Username"' v-model='registerData.username'/>
+          <default-input type='email' :placeholder='"E-mail"' v-model='registerData.email'/>
+          <default-input type='password' :placeholder='"Password"' v-model='registerData.password'/>
+          <default-input type='password' :placeholder='"Repeat password"' v-model='registerData.repeatedPassword'/>
+        </div>
 
         <default-button :content='"Login"'/>
         <p>Forgot password?</p>
@@ -23,6 +32,7 @@
 </template>
 
 <script>
+import { fire } from '@/firebase/firebase';
 import logo from '@/assets/img/Logo@2x.png';
 import DefaultInput from '@/components/form/DefaultInput';
 import DefaultButton from '@/components/buttons/DefaultButton';
@@ -32,14 +42,46 @@ export default {
   components: { DefaultInput, DefaultButton },
   data: () => ({
     logo,
-    active: 'login'
+    formType: 'login',
+    loginData: {
+      username: '',
+      password: ''
+    },
+    registerData: {
+      username: '',
+      email: '',
+      password: '',
+      repeatedPassword: ''
+    }
   }),
   beforeMount () {
     this.$store.dispatch('Header/hideHeader');
   },
   methods: {
-    toHome () {
-      this.$router.push('/');
+    onFormSubmit () {
+      if (this.formType === 'login') {
+        console.log(this.loginData);
+      }
+      
+      if (this.formType === 'register') {
+        const email = this.registerData.email;
+        const password = this.registerData.password;
+        fire.auth().createUserWithEmailAndPassword(email, password).catch(err => {
+          console.log('auth error', err);
+        });
+      }
+    },
+
+    validUsername () {
+      // CHECK IF USER NOT EXISTS
+    },
+
+    validEmail () {
+      // CHECK IF EMAIL IS VALID
+    },
+
+    validPassword () {
+      // CHECK IF PASSWORDS ARE THE SAME
     }
   }
 }
