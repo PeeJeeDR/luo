@@ -2,12 +2,17 @@
   <div class='page wrapper flex justify-center align-center direction-col'>
     <img :src='logo' alt='Logo of Luo.'>
 
-    <div class="form-container">
+    <div class="form-container flex direction-col align-center">
       <div class="tabs">
         <button :class='active === "login" && "active"' @click='active = "login"'>Login</button>
         <button :class='active === "register" && "active"' @click='active = "register"'>Register</button>
         <hr :class='active'>
       </div>
+
+      <form>
+        <default-input :placeholder='"Username"'/>
+        <default-input :placeholder='"Password"'/>
+      </form>
     </div>
   </div>
 </template>
@@ -18,6 +23,7 @@ import DefaultInput from '@/components/form/DefaultInput';
 
 export default {
   name: 'Authentication',
+  components: { DefaultInput },
   data: () => ({
     logo,
     active: 'login'
@@ -69,6 +75,18 @@ hr {
 
   &.register {
     margin-left: 8rem;
+  }
+}
+
+.form-container, form {
+  width: 100%;
+
+  .tabs {
+    padding-top: 6rem;
+  }
+
+  form {
+    padding-top: 2rem;
   }
 }
 </style>
