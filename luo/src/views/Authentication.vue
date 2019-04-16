@@ -104,48 +104,49 @@ export default {
     },
 
     resetData () {
-      this.errors = {};
-
       for (var key in this.loginData) delete this.loginData[key];
       for (var key in this.registerData) delete this.registerData[key];
+      for (var key in this.errors) delete this.errors[key];
     },
 
     onFormSubmit () {
+      /* === LOGIN === */
       if (this.formType === 'login') {
         const email = this.loginData.email;
         const password = this.loginData.password;
 
-        fire.auth().signInWithEmailAndPassword(email, password)
-          .then(res => {
-            if (res.user) {
-              // IF LOGGED IN
-              console.log('LOGGED IN');
-            }
-          })
-          .catch(err => {
-            if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
-              this.errors.email = 'Password or email address is wrong.';
-              this.errors.password = ' ';
-            }
+        fire.auth().signInWithEmailAndPassword(email, password).then(res => {
+          if (res.user) {
+            // IF LOGGED IN
+            this.$router.push('/');
+          }
+        }).catch(err => {
+          if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+            this.errors.email = 'Password or email address is wrong.';
+            this.errors.password = ' ';
+          }
 
-            if (err.code === 'auth/invalid-email') {
-              this.errors.email = 'Pleas use a valid e-mail address.';
-            }
-          });
+          if (err.code === 'auth/invalid-email') {
+            this.errors.email = 'Pleas use a valid e-mail address.';
+          }
+        });
       }
+      /* ========== */
       
+      /* === REGISTER === */
       if (this.formType === 'register') {
         const email = this.registerData.email;
         const password = this.registerData.password;
 
-        fire.auth().createUserWithEmailAndPassword(email, password)
-          .then(res => console.log(res))
-          .catch(err => {
-            if (err.code === 'auth/email-already-in-use') {
-              this.errors.email = err.message;
-            }
-          });
+        fire.auth().createUserWithEmailAndPassword(email, password).then(res => {
+          console.log(res) 
+        }).catch(err => {
+          if (err.code === 'auth/email-already-in-use') {
+            this.errors.email = err.message;
+          }
+        });
       }
+      /* ========== */
     },
 
     validUsername () {

@@ -1,14 +1,18 @@
+/* === PACKAGES === */
 import Vue from 'vue';
 import Router from 'vue-router';
+import { fire } from '@/firebase/firebase';
+/* ========== */
 
 /* === PAGES === */
 import Authentication from '@/views/Authentication';
 import Quizes from '@/views/Quizes';
 /* ========== */
 
-Vue.use(Router)
+Vue.use(Router);
 
-export default new Router({
+/* === ROUTES === */
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -25,8 +29,26 @@ export default new Router({
       component: Authentication,
       meta: {
         header: false,
-        requiresAuth: true
+        requiresAuth: false
       }
     },
   ]
-})
+});
+/* ========== */
+
+/* === CHECK IF ROUTE NEED AUTHENTICATION === */
+router.beforeEach((to, from, next) => {
+  const currentUser = fire.auth().currentUser;
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !currentUser) {
+    next('/login');
+  } else if (requiresAuth && currentUser) {
+    next();
+  } else {
+    next();
+  }
+});
+/* ========== */
+
+export default router;
