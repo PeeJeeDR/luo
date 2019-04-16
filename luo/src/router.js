@@ -15,15 +15,17 @@ export default new Router({
     { 
       path: '/', 
       component: Quizes,
-      props: {
-        header: true
+      meta: {
+        header: true,
+        requiresAuth: true
       }
     },
     { 
       path: '/login', 
       component: Authentication,
-      props: {
-        header: false
+      meta: {
+        header: false,
+        requiresAuth: true
       }
     },
   ]

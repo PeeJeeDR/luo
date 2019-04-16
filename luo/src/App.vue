@@ -1,7 +1,7 @@
 <template>
   <div id='app'>
     <!-- MAIN HEADER -->
-    <main-header />
+    <main-header v-if='$route.meta.header'/>
 
     <!-- SIDE BAR (TOGGLED BY MAIN HEADER) -->
     <sidebar />

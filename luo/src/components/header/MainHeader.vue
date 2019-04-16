@@ -1,5 +1,5 @@
 <template>
-  <header :class='open ? "open" : "hide"'>
+  <header>
     <div class='wrapper flex direction-col justify-between default-vp'>
       <hamburger class='hamburger' @click='$store.dispatch("Sidebar/openSidebar")'/>
       <h2>Title</h2>
@@ -14,10 +14,7 @@ import hamburger from '@/assets/icons/Hamburger.svg';
 export default {
   name: 'MainHeader',
   components: { hamburger },
-  props: ['render'],
-  computed: {
-    ...mapState('Header', ['open'])
-  }
+  props: ['render']
 }
 </script>
 
@@ -41,6 +38,10 @@ header {
     width: 2rem;
     height: 2rem;
     fill: $snow;
+  }
+
+  h2 {
+    color: $snow;
   }
 }
 </style>

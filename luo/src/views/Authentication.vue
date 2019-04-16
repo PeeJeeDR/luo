@@ -92,9 +92,6 @@ export default {
       password: ''
     }
   }),
-  beforeMount () {
-    this.$store.dispatch('Header/hideHeader');
-  },
   methods: {
     loginClick () {
       this.formType = 'login';
@@ -122,6 +119,7 @@ export default {
           .then(res => {
             if (res.user) {
               // IF LOGGED IN
+              console.log('LOGGED IN');
             }
           })
           .catch(err => {
