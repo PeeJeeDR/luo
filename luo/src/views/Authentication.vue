@@ -1,5 +1,5 @@
 <template>
-  <div class='authentication page wrapper flex justify-between align-center direction-col'>
+  <div class='authentication page wrapper flex justify-start align-center direction-col'>
     <img :src='logo' alt='Logo of Luo.'>
 
     <div class="form-container flex direction-col align-center">
@@ -173,6 +173,7 @@ export default {
   }
 
   .tabs button {
+    padding-top: 4rem;
     background: none;
     border: none;
     width: 4rem;
@@ -227,10 +228,11 @@ export default {
   }
 
   .skip {
+    position: absolute;
     color: $pinky;
     font-weight: bold;
     font-size: $ned;
-    margin-bottom: 4rem;
+    bottom: 5rem;
   }
 }
 </style>
