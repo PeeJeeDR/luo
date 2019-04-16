@@ -1,0 +1,22 @@
+.default-input {
+  margin-top: 1rem;
+  display: block;
+  height: 30px;
+  width: 100%;
+  background-color: $mr-grey;
+  border: none;
+  border-radius: $smallRadius;
+  padding: 1.4rem 1rem;
+  font-weight: bold;
+  font-size: $ned;
+  color: $texty;
+  outline: none;
+
+  &.error {
+    background-color: rgb(255, 217, 219);
+  }
+  
+  ::placeholder {
+    color: $clouds;
+  }
+}

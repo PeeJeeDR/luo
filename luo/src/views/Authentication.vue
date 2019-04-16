@@ -1,26 +1,60 @@
 <template>
-  <div class='authentication page wrapper flex justify-around align-center direction-col'>
+  <div class='authentication page wrapper flex justify-between align-center direction-col'>
     <img :src='logo' alt='Logo of Luo.'>
 
     <div class="form-container flex direction-col align-center">
       <div class="tabs">
-        <button :class='formType === "login" && "active"' @click='formType = "login"'>Login</button>
-        <button :class='formType === "register" && "active"' @click='formType = "register"'>Register</button>
+        <button :class='formType === "login" && "active"' @click='loginClick'>Login</button>
+        <button :class='formType === "register" && "active"' @click='registerClick'>Register</button>
         <hr :class='formType'>
       </div>
 
       <form @submit.prevent='onFormSubmit'>
+        <!-- === LOGIN === -->
         <div v-if='formType === "login"'>
-          <default-input type='text' :placeholder='"Username"' v-model='loginData.username'/>
-          <default-input type='password' :placeholder='"Password"' v-model='loginData.password'/>
+          <input 
+            class='default-input' 
+            type='text' 
+            v-model='loginData.email'
+            placeholder='E-mail'
+          >
+          <input 
+            class='default-input' 
+            type='password' 
+            v-model='loginData.password'
+            placeholder='Password'
+          >
         </div>
+        <!-- ========== -->
 
+        <!-- === REGISTER === -->
         <div v-if='formType === "register"'>
-          <default-input type='text' :placeholder='"Username"' v-model='registerData.username'/>
-          <default-input type='email' :placeholder='"E-mail"' v-model='registerData.email'/>
-          <default-input type='password' :placeholder='"Password"' v-model='registerData.password'/>
-          <default-input type='password' :placeholder='"Repeat password"' v-model='registerData.repeatedPassword'/>
+          <input 
+            class='default-input' 
+            type='text' 
+            v-model='registerData.username'
+            placeholder='Username'
+          >
+          <input 
+            class='default-input' 
+            type='text' 
+            v-model='registerData.email'
+            placeholder='E-mail'
+          >
+          <input 
+            class='default-input' 
+            type='password' 
+            v-model='registerData.password'
+            placeholder='Password'
+          >
+          <input 
+            class='default-input' 
+            type='password' 
+            v-model='registerData.repeatedPassword'
+            placeholder='Repeat password'
+          >
         </div>
+        <!-- ========== -->
 
         <default-button :content='"Login"'/>
         <p>Forgot password?</p>
@@ -34,17 +68,16 @@
 <script>
 import { fire } from '@/firebase/firebase';
 import logo from '@/assets/img/Logo@2x.png';
-import DefaultInput from '@/components/form/DefaultInput';
 import DefaultButton from '@/components/buttons/DefaultButton';
 
 export default {
   name: 'Authentication',
-  components: { DefaultInput, DefaultButton },
+  components: { DefaultButton },
   data: () => ({
     logo,
     formType: 'login',
     loginData: {
-      username: '',
+      email: '',
       password: ''
     },
     registerData: {
@@ -52,23 +85,68 @@ export default {
       email: '',
       password: '',
       repeatedPassword: ''
+    },
+    errors: {
+      username: '',
+      email: '',
+      password: ''
     }
   }),
   beforeMount () {
     this.$store.dispatch('Header/hideHeader');
   },
   methods: {
+    loginClick () {
+      this.formType = 'login';
+      this.resetData();
+    },
+
+    registerClick () {
+      this.formType = 'register';
+      this.resetData();
+    },
+
+    resetData () {
+      this.errors = {};
+
+      for (var key in this.loginData) delete this.loginData[key];
+      for (var key in this.registerData) delete this.registerData[key];
+    },
+
     onFormSubmit () {
       if (this.formType === 'login') {
-        console.log(this.loginData);
+        const email = this.loginData.email;
+        const password = this.loginData.password;
+
+        fire.auth().signInWithEmailAndPassword(email, password)
+          .then(res => {
+            if (res.user) {
+              // IF LOGGED IN
+            }
+          })
+          .catch(err => {
+            if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+              this.errors.email = 'Password or email address is wrong.';
+              this.errors.password = ' ';
+            }
+
+            if (err.code === 'auth/invalid-email') {
+              this.errors.email = 'Pleas use a valid e-mail address.';
+            }
+          });
       }
       
       if (this.formType === 'register') {
         const email = this.registerData.email;
         const password = this.registerData.password;
-        fire.auth().createUserWithEmailAndPassword(email, password).catch(err => {
-          console.log('auth error', err);
-        });
+
+        fire.auth().createUserWithEmailAndPassword(email, password)
+          .then(res => console.log(res))
+          .catch(err => {
+            if (err.code === 'auth/email-already-in-use') {
+              this.errors.email = err.message;
+            }
+          });
       }
     },
 
@@ -91,6 +169,7 @@ export default {
 .authentication {
   img {
     width: 4rem;
+    margin-top: 4rem;
   }
 
   .tabs button {
@@ -151,6 +230,7 @@ export default {
     color: $pinky;
     font-weight: bold;
     font-size: $ned;
+    margin-bottom: 4rem;
   }
 }
 </style>
