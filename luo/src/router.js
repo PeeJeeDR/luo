@@ -26,7 +26,7 @@ const router = new Router({
       }
     },
     { 
-      path: '/login', 
+      path: '/authentication', 
       component: Authentication,
       name: 'authentication',
       meta: {
@@ -42,18 +42,18 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const currentUser = fire.auth().currentUser;
 
-  if (to.name === 'authentication') {
-    console.log('SIGN OUT');
-    fire.auth().signOut();
-  }
+  // SIGN OUT USER WHEN HE ROUTES TO AUTHENTICATION
+  to.name === 'authentication' && fire.auth().signOut();
 
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
   if (requiresAuth && !currentUser) {
-    next('/login');
-  } else if (requiresAuth && currentUser) {
+    next('/authentication');
+  } 
+  else if (requiresAuth && currentUser) {
     next();
-  } else {
+  } 
+  else {
     next();
   }
 });
