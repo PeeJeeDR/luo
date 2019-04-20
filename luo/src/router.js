@@ -17,6 +17,14 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     { 
+      path: '*', 
+      component: Authentication,
+      meta: {
+        header: false,
+        requiresAuth: false
+      }
+    },
+    { 
       path: '/', 
       component: Quizes,
       meta: {
@@ -36,9 +44,12 @@ const router = new Router({
 });
 /* ========== */
 
-/* === CHECK IF ROUTE NEED AUTHENTICATION === */
+/* === CHECK IF ROUTE NEEDS AUTHENTICATION === */
 router.beforeEach((to, from, next) => {
   const currentUser = fire.auth().currentUser;
+
+  console.log('current user', currentUser);
+
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
   if (requiresAuth && !currentUser) {

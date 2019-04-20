@@ -56,12 +56,12 @@
         </div>
         <!-- ========== -->
 
+        <p class='error'>{{ error }}</p>
         <default-button :content='"Login"'/>
         <p>Forgot password?</p>
+        <p class='skip'>Skip login</p>
       </form>
     </div>
-
-    <p class='skip'>Skip login</p>
   </div>
 </template>
 
@@ -86,11 +86,7 @@ export default {
       password: '',
       repeatedPassword: ''
     },
-    errors: {
-      username: '',
-      email: '',
-      password: ''
-    }
+    error: ''
   }),
   methods: {
     loginClick () {
@@ -107,6 +103,7 @@ export default {
       for (var key in this.loginData) delete this.loginData[key];
       for (var key in this.registerData) delete this.registerData[key];
       for (var key in this.errors) delete this.errors[key];
+      this.error = '';
     },
 
     onFormSubmit () {
@@ -121,13 +118,13 @@ export default {
             this.$router.push('/');
           }
         }).catch(err => {
+          console.log('login err', err);
           if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
-            this.errors.email = 'Password or email address is wrong.';
-            this.errors.password = ' ';
+            this.error = 'Password or email address is wrong.';
           }
 
           if (err.code === 'auth/invalid-email') {
-            this.errors.email = 'Pleas use a valid e-mail address.';
+            this.error = 'Pleas use a valid e-mail address.';
           }
         });
       }
@@ -141,8 +138,10 @@ export default {
         fire.auth().createUserWithEmailAndPassword(email, password).then(res => {
           console.log(res) 
         }).catch(err => {
+          console.log('register error', err);
           if (err.code === 'auth/email-already-in-use') {
-            this.errors.email = err.message;
+            console.log('email error');
+            this.error = err.message;
           }
         });
       }
@@ -167,8 +166,8 @@ export default {
 <style lang='scss' scoped>
 .authentication {
   img {
+    padding-top: 4rem;
     width: 4rem;
-    margin-top: 4rem;
   }
 
   .tabs button {
@@ -212,6 +211,11 @@ export default {
     form {
       padding-top: 2rem;
 
+      p.error {
+        color: $lava;
+        height: 1rem;
+      }
+
       .default-button {
         margin-top: 3rem;
       }
@@ -224,14 +228,15 @@ export default {
         color: $pinky;
       }
     }
-  }
 
-  .skip {
-    position: absolute;
-    color: $pinky;
-    font-weight: bold;
-    font-size: $ned;
-    bottom: 5rem;
+    .skip {
+      color: $pinky;
+      font-weight: bold;
+      font-size: $ned;
+      bottom: 5rem;
+      padding-top: 3rem;
+      padding-bottom: 4rem;
+    }
   }
 }
 </style>
