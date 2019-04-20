@@ -134,16 +134,27 @@ export default {
       if (this.formType === 'register') {
         const email = this.registerData.email;
         const password = this.registerData.password;
+        const repeated = this.registerData.repeatedPassword;
 
-        fire.auth().createUserWithEmailAndPassword(email, password).then(res => {
-          console.log(res) 
-        }).catch(err => {
-          console.log('register error', err);
-          if (err.code === 'auth/email-already-in-use') {
-            console.log('email error');
-            this.error = err.message;
-          }
-        });
+        // ONLY IF PASSWORD IS SAME AS REPEATED PASSWORD
+        if (password === repeated) {
+          fire.auth().createUserWithEmailAndPassword(email, password).then((res) => {
+            console.log('register succes');
+
+            // this.$router.push('/');
+          }).catch(err => {
+            console.log('register error', err);
+            if (err.code === 'auth/email-already-in-use') {
+              console.log('email error');
+              this.error = err.message;
+            }
+          });
+        }
+
+        // IF PASSWORD IS NOT THE SAME AS REPEATED PASSWORD
+        if (password !== repeated) {
+          this.error = "Passwords doesn't match"
+        }
       }
       /* ========== */
     },
