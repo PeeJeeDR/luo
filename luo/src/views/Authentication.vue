@@ -14,7 +14,7 @@
         <div v-if='formType === "login"'>
           <input 
             class='default-input' 
-            type='text' 
+            type='email' 
             v-model='loginData.email'
             placeholder='E-mail'
           >
@@ -37,7 +37,7 @@
           >
           <input 
             class='default-input' 
-            type='text' 
+            type='email' 
             v-model='registerData.email'
             placeholder='E-mail'
           >
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { fire } from '@/firebase/firebase';
+import { fire, db } from '@/firebase/firebase';
 import logo from '@/assets/img/Logo@2x.png';
 import DefaultButton from '@/components/buttons/DefaultButton';
 
@@ -91,18 +91,18 @@ export default {
   methods: {
     loginClick () {
       this.formType = 'login';
-      this.resetData();
+      this.resetForm();
     },
 
     registerClick () {
       this.formType = 'register';
-      this.resetData();
+      this.resetForm();
     },
 
-    resetData () {
-      for (var key in this.loginData) delete this.loginData[key];
-      for (var key in this.registerData) delete this.registerData[key];
-      for (var key in this.errors) delete this.errors[key];
+    resetForm () {
+      for (let key in this.loginData) delete this.loginData[key];
+      for (let key in this.registerData) delete this.registerData[key];
+      for (let key in this.errors) delete this.errors[key];
       this.error = '';
     },
 
@@ -121,12 +121,8 @@ export default {
           const password = this.loginData.password;
 
           fire.auth().signInWithEmailAndPassword(email, password).then(res => {
-            if (res.user) {
-              // IF LOGGED IN
-              this.$router.push('/');
-            }
+            res.user && this.$router.push('/');
           }).catch(err => {
-            console.log('login err', err);
             if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
               this.error = 'Password or email address is wrong.';
             }
@@ -140,32 +136,38 @@ export default {
       
         /* === REGISTER === */
         if (this.formType === 'register') {
+          const username = this.registerData.username;
           const email = this.registerData.email;
           const password = this.registerData.password;
           const repeated = this.registerData.repeatedPassword;
 
           // IF PASSWORD IS SAME AS REPEATED PASSWORD
-          if (password === repeated) {
+          if (password === repeated && validUsername) {
             this.error = '';
 
             fire.auth().createUserWithEmailAndPassword(email, password).then(res => {
-              this.$router.push('/');
               
-              if (res.user) {
-                res.user.updateProfile({
-                  displayName: this.registerData.username
+              console.log('user res', res.user);
+              
+              res.user && res.user.updateProfile({ displayName: username }).then(() => {
+                db.collection('users').doc(res.user.uid).set({
+                  username: res.user.displayName,
+                  email: res.user.email,
+                  emailVerified: res.user.emailVerified
+                }).then(function() {
+                  
+                }).catch(function(error) {
+                  console.log('error', error);
                 });
-              }
-            }).catch(err => {
-              console.log('register error', err);
+              });
 
+              this.$router.push('/');
+            }).catch(err => {
               if (err.code === 'auth/email-already-in-use') {
-                console.log('email error');
                 this.error = err.message;
               }
 
               if (err.code === 'auth/argument-error') {
-                console.log('email error');
                 this.error = 'Please use a valid e-mail address.'
               }
             });
@@ -181,14 +183,13 @@ export default {
     },
 
     validUsername () {
-      // CHECK IF USER NOT EXISTS
+      return true;
     },
 
     validEmail (email) {
       const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       
       if (!(reg.test(String(email).toLowerCase()))) {
-        console.log('email not valid');
         this.error = 'Please use a valid e-mail address.';
         return false;
       }
@@ -198,7 +199,6 @@ export default {
 
     validPassword (password) {
       if (password.length <= 6) {
-        console.log('password not valid');
         this.error = 'Password must be longer than 6 characters.';
         return false;
       }
