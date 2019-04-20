@@ -17,16 +17,9 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     { 
-      path: '*', 
-      component: Authentication,
-      meta: {
-        header: false,
-        requiresAuth: false
-      }
-    },
-    { 
       path: '/', 
       component: Quizes,
+      name: 'quizzes',
       meta: {
         header: true,
         requiresAuth: true
@@ -35,6 +28,7 @@ const router = new Router({
     { 
       path: '/login', 
       component: Authentication,
+      name: 'authentication',
       meta: {
         header: false,
         requiresAuth: false
@@ -48,7 +42,10 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const currentUser = fire.auth().currentUser;
 
-  console.log('current user', currentUser);
+  if (to.name === 'authentication') {
+    console.log('SIGN OUT');
+    fire.auth().signOut();
+  }
 
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 

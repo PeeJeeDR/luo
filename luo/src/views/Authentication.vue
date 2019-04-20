@@ -107,68 +107,100 @@ export default {
     },
 
     onFormSubmit () {
-      /* === LOGIN === */
-      if (this.formType === 'login') {
-        const email = this.loginData.email;
-        const password = this.loginData.password;
+      // VALIDATIONS
+      this.error = '';
 
-        fire.auth().signInWithEmailAndPassword(email, password).then(res => {
-          if (res.user) {
-            // IF LOGGED IN
-            this.$router.push('/');
-          }
-        }).catch(err => {
-          console.log('login err', err);
-          if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
-            this.error = 'Password or email address is wrong.';
-          }
+      console.log('register', this.registerData);
 
-          if (err.code === 'auth/invalid-email') {
-            this.error = 'Pleas use a valid e-mail address.';
-          }
-        });
-      }
-      /* ========== */
-      
-      /* === REGISTER === */
-      if (this.formType === 'register') {
-        const email = this.registerData.email;
-        const password = this.registerData.password;
-        const repeated = this.registerData.repeatedPassword;
+      const validPassword = this.validPassword(this.formType === 'login' ? this.loginData.password : this.registerData.password);
+      const validEmail = this.validEmail(this.formType === 'login' ? this.loginData.email : this.registerData.email);
 
-        // ONLY IF PASSWORD IS SAME AS REPEATED PASSWORD
-        if (password === repeated) {
-          fire.auth().createUserWithEmailAndPassword(email, password).then((res) => {
-            console.log('register succes');
+      if (validEmail && validPassword) {
+        /* === LOGIN === */
+        if (this.formType === 'login') {
+          const email = this.loginData.email;
+          const password = this.loginData.password;
 
-            // this.$router.push('/');
+          fire.auth().signInWithEmailAndPassword(email, password).then(res => {
+            if (res.user) {
+              // IF LOGGED IN
+              this.$router.push('/');
+            }
           }).catch(err => {
-            console.log('register error', err);
-            if (err.code === 'auth/email-already-in-use') {
-              console.log('email error');
-              this.error = err.message;
+            console.log('login err', err);
+            if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+              this.error = 'Password or email address is wrong.';
+            }
+
+            if (err.code === 'auth/invalid-email') {
+              this.error = 'Pleas use a valid e-mail address.';
             }
           });
         }
+        /* ========== */
+      
+        /* === REGISTER === */
+        if (this.formType === 'register') {
+          const email = this.registerData.email;
+          const password = this.registerData.password;
+          const repeated = this.registerData.repeatedPassword;
 
-        // IF PASSWORD IS NOT THE SAME AS REPEATED PASSWORD
-        if (password !== repeated) {
-          this.error = "Passwords doesn't match"
+          // IF PASSWORD IS SAME AS REPEATED PASSWORD
+          if (password === repeated) {
+            this.error = '';
+
+            fire.auth().createUserWithEmailAndPassword(email, password).then((res) => {
+              console.log('register succes');
+
+              // this.$router.push('/');
+            }).catch(err => {
+              console.log('register error', err);
+
+              if (err.code === 'auth/email-already-in-use') {
+                console.log('email error');
+                this.error = err.message;
+              }
+
+              if (err.code === 'auth/argument-error') {
+                console.log('email error');
+                this.error = 'Please use a valid e-mail address.'
+              }
+            });
+          }
+
+          // IF PASSWORD IS NOT THE SAME AS REPEATED PASSWORD
+          if (password !== repeated) {
+            this.error = "Passwords doesn't match."
+          }
         }
+        /* ========== */
       }
-      /* ========== */
     },
 
     validUsername () {
       // CHECK IF USER NOT EXISTS
     },
 
-    validEmail () {
-      // CHECK IF EMAIL IS VALID
+    validEmail (email) {
+      const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      
+      if (!(reg.test(String(email).toLowerCase()))) {
+        console.log('email not valid');
+        this.error = 'Please use a valid e-mail address.';
+        return false;
+      }
+
+      return reg.test(String(email).toLowerCase());
     },
 
-    validPassword () {
-      // CHECK IF PASSWORDS ARE THE SAME
+    validPassword (password) {
+      if (password.length <= 6) {
+        console.log('password not valid');
+        this.error = 'Password must be longer than 6 characters.';
+        return false;
+      }
+
+      return true;
     }
   }
 }
