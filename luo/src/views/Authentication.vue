@@ -110,8 +110,7 @@ export default {
       // VALIDATIONS
       this.error = '';
 
-      console.log('register', this.registerData);
-
+      const validUsername = this.validUsername(this.registerData.username);
       const validPassword = this.validPassword(this.formType === 'login' ? this.loginData.password : this.registerData.password);
       const validEmail = this.validEmail(this.formType === 'login' ? this.loginData.email : this.registerData.email);
 
@@ -149,10 +148,14 @@ export default {
           if (password === repeated) {
             this.error = '';
 
-            fire.auth().createUserWithEmailAndPassword(email, password).then((res) => {
-              console.log('register succes');
-
-              // this.$router.push('/');
+            fire.auth().createUserWithEmailAndPassword(email, password).then(res => {
+              this.$router.push('/');
+              
+              if (res.user) {
+                res.user.updateProfile({
+                  displayName: this.registerData.username
+                });
+              }
             }).catch(err => {
               console.log('register error', err);
 

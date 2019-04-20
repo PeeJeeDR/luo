@@ -6,7 +6,7 @@ import { fire } from '@/firebase/firebase';
 
 /* === PAGES === */
 import Authentication from '@/views/Authentication';
-import Quizes from '@/views/Quizes';
+import Quizzes from '@/views/Quizzes';
 /* ========== */
 
 Vue.use(Router);
@@ -18,7 +18,7 @@ const router = new Router({
   routes: [
     { 
       path: '/', 
-      component: Quizes,
+      component: Quizzes,
       name: 'quizzes',
       meta: {
         header: true,
@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
   const currentUser = fire.auth().currentUser;
 
   // SIGN OUT USER WHEN HE ROUTES TO AUTHENTICATION
-  to.name === 'authentication' && fire.auth().signOut();
+  // to.name === 'authentication' && fire.auth().signOut();
 
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
