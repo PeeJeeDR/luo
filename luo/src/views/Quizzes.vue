@@ -1,12 +1,18 @@
 <template>
   <div>
-    <h1>Quizes</h1>
+    <quiz-overview />
   </div>
 </template>
 
 <script>
+import QuizOverview from '@/components/quizzes/QuizOverview';
+
 export default {
-  name: 'Quizzes'
+  name: 'Quizzes',
+  components: { QuizOverview },
+  beforeCreate () {
+    this.$store.dispatch('Quizzes/fetchQuizzes');
+  }
 }
 </script>
 

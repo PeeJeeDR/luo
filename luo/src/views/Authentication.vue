@@ -147,17 +147,22 @@ export default {
 
             fire.auth().createUserWithEmailAndPassword(email, password).then(res => {
               
-              console.log('user res', res.user);
-              
-              res.user && res.user.updateProfile({ displayName: username }).then(() => {
+              console.log('Registered user', res.user);
+
+              res.user && res.user.updateProfile({ 
+                displayName: username,
+                photoURL: undefined, // DEFAULT AVATAR
+              }).then(() => {
                 db.collection('users').doc(res.user.uid).set({
                   username: res.user.displayName,
                   email: res.user.email,
-                  emailVerified: res.user.emailVerified
-                }).then(function() {
-                  
-                }).catch(function(error) {
-                  console.log('error', error);
+                  emailVerified: res.user.emailVerified,
+                  quizzes: [],
+                  reputation: 0,
+                  likedQuizzes: [],
+                  badges: []
+                }).catch(err => {
+                  console.log('error', err);
                 });
               });
 
@@ -198,7 +203,7 @@ export default {
     },
 
     validPassword (password) {
-      if (password.length <= 6) {
+      if (password && password.length <= 6) {
         this.error = 'Password must be longer than 6 characters.';
         return false;
       }

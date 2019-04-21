@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class='wrapper flex direction-col justify-between default-vp'>
+    <div class='wrapper flex justify-between align-center default-vp'>
       <hamburger class='hamburger' @click='$store.dispatch("Sidebar/openSidebar")'/>
       <h2>Title</h2>
     </div>
@@ -24,7 +24,7 @@ header {
   border-bottom-left-radius: $largeRadius;
   border-bottom-right-radius: $largeRadius;
   transition: $easy;
-  height: 10rem;
+  height: 5rem;
 
   &.hide {
     margin-top: -10rem;
