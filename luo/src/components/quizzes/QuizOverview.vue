@@ -21,6 +21,7 @@ export default {
 
 <style lang='scss' scoped>
 .quiz-overview {
-  
+  width: 94%;
+  margin: 0 auto;
 }
 </style>

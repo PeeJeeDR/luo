@@ -25,6 +25,8 @@ header {
   border-bottom-right-radius: $largeRadius;
   transition: $easy;
   height: 5rem;
+  position: sticky;
+  top: 0;
 
   &.hide {
     margin-top: -10rem;

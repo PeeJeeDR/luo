@@ -9,15 +9,27 @@
 .heading {
   color: $pinky;
 
-  &.h--medium {
-    font-size: 1rem;
+  &.dark {
+    color: $texty;
   }
 
-  &.h--small {
-    font-size: 0.5rem;
+  &.h--medium {
+    font-size: 1rem;
   }
 }
 
 .paragraph {
   color: $texty;
+
+  &.lighter {
+    color: $mist;
+  }
+
+  &.bold {
+    font-weight: bold;
+  }
+
+  &.p--small {
+    font-size: 0.7rem;
+  }
 }
