@@ -14,6 +14,7 @@
     "register-service-worker": "^1.6.2",
     "sass-loader": "^7.1.0",
     "vue": "^2.6.6",
+    "vue-ripple-directive": "^2.0.1",
     "vue-router": "^3.0.1",
     "vue-svg-loader": "^0.12.0",
     "vuex": "^3.0.1"

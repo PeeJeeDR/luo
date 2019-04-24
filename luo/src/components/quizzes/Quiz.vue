@@ -4,21 +4,30 @@
       <img :src='Sample' alt='sample image.'>
     </div>
 
-    <div class='content-container'>
-      <h4 class='heading h--medium dark'>
-        {{ data.title.charAt(0).toUpperCase() + data.title.substr(1) }}
-      </h4>
-      <hr>
-      <p class='paragraph p--small lighter bold'>{{ data.description }}</p>
+    <div class='content-container flex justify-between'>
+      <div>
+        <h4 class='heading h--medium dark'>
+          {{ data.title.charAt(0).toUpperCase() + data.title.substr(1) }}
+        </h4>
+        <hr>
+        <p class='paragraph p--small lighter bold'>{{ data.description }}</p>
+      </div>
+
+      <square-button class='play'>
+        <controller />
+      </square-button>
     </div>
   </div>
 </template>
 
 <script>
 import Sample from '@/assets/img/sample.jpg';
+import SquareButton from '@/components/buttons/SquareButton';
+import Controller from '@/assets/icons/Controller.svg';
 
 export default {
   name: 'Quiz',
+  components: { SquareButton, Controller },
   props: ['data'],
   data: () => ({
     Sample
@@ -56,6 +65,17 @@ export default {
 
     p {
       margin-top: 0.6rem;
+    }
+
+    .play {
+      margin: 1rem -1.5rem -2rem 0;
+      
+      svg {
+        fill: $snow;
+        transform: rotate(-45deg);
+        width: 2.5rem;
+        margin-left: -1rem;
+      }
     }
   }
 }
