@@ -13,7 +13,7 @@ export default {
 .default-button {
   @include gradient;
   @include defaultShadow;
-  border-radius: $largeRadius;
+  border-radius: $smallRadius;
   color: $snow;
   padding: 1rem;
   width: 100%;
