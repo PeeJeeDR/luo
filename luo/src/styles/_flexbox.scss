@@ -136,6 +136,7 @@
 
 // WRAP
 .flex-wrap { @include flex-wrap(wrap) }
+.flex-nowrap { @include flex-wrap(nowrap) }
 
 // JUSTIFY-CONTENT
 .justify-start { @include justify-content(flex-start) }

@@ -22,5 +22,10 @@ export default {
   border: none;
   border-radius: 1rem;
   transform: rotate(45deg);
+  color: $snow;
+
+  svg {
+    fill: $snow;
+  }
 }
 </style>

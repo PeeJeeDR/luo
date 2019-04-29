@@ -7,6 +7,7 @@ import { fire } from '@/firebase/firebase';
 /* === PAGES === */
 import Authentication from '@/views/Authentication';
 import Quizzes from '@/views/Quizzes';
+import TestApi from '@/views/TestApi';
 /* ========== */
 
 Vue.use(Router);
@@ -29,6 +30,15 @@ const router = new Router({
       path: '/authentication', 
       component: Authentication,
       name: 'authentication',
+      meta: {
+        header: false,
+        requiresAuth: false
+      }
+    },
+    { 
+      path: '/test', 
+      component: TestApi,
+      name: 'test api',
       meta: {
         header: false,
         requiresAuth: false

@@ -13,6 +13,14 @@
     color: $texty;
   }
 
+  &.bright {
+    color: $snow;
+  }
+
+  &.h--large {
+    font-size: 3rem;
+  }
+
   &.h--medium {
     font-size: 1rem;
   }

@@ -69,9 +69,8 @@ export default {
 
     .play {
       margin: 1rem -1.5rem -2rem 0;
-      
+
       svg {
-        fill: $snow;
         transform: rotate(-45deg);
         width: 2.5rem;
         margin-left: -1rem;

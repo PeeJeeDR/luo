@@ -12,6 +12,7 @@
 
 <script>
 import { mapState } from 'vuex';
+
 export default {
   name: 'Sidebar',
   computed: {
@@ -26,17 +27,20 @@ export default {
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
     transition: $easy;
+    height: 100% !important;
   }
 
   .overlay {
     background-color: $coal;
     opacity: 0.5;
+    z-index: 2;
   }
 
   .bar {
     background-color: $snow;
     width: 10rem;
     overflow: hidden;
+    z-index: 2;
   }
 
   &.closed {
