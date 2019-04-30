@@ -1,6 +1,6 @@
 <template>
   <div :class='`sidebar ${ open ? "open" : "closed" }`'>
-    <div class='overlay' @click='$store.dispatch("Sidebar/closeSidebar")'></div>
+    <div class='overlay' @click='closeSidebar'></div>
 
     <div class='bar'>
       <header>
@@ -12,11 +12,18 @@
 
 <script>
 import { mapState } from 'vuex';
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 export default {
   name: 'Sidebar',
   computed: {
     ...mapState('Sidebar', ['open'])
+  },
+  methods: {
+    closeSidebar () {
+      enableBodyScroll(document.getElementsByTagName('body')[0]);
+      this.$store.dispatch("Sidebar/closeSidebar");
+    }
   }
 }
 </script>
@@ -24,10 +31,9 @@ export default {
 <style lang='scss' scoped>
 .sidebar {
   .overlay, .bar {
-    position: absolute;
+    position: fixed;
     top: 0; bottom: 0; left: 0; right: 0;
     transition: $easy;
-    height: 100% !important;
   }
 
   .overlay {

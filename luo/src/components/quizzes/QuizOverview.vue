@@ -23,5 +23,6 @@ export default {
 .quiz-overview {
   width: 94%;
   margin: 0 auto;
+  padding-bottom: 5rem;
 }
 </style>

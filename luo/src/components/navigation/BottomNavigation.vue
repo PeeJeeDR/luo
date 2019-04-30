@@ -28,7 +28,7 @@ export default {
   // background-color: $mr-grey;
   background-color: $snow;
   bottom: 0;
-  position: sticky;
+  position: fixed;
   margin: auto;
   width: 100%;
   height: auto;

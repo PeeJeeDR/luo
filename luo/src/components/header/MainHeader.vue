@@ -1,20 +1,27 @@
 <template>
   <header>
     <div class='wrapper flex justify-between align-center default-vp'>
-      <hamburger class='hamburger' @click='$store.dispatch("Sidebar/openSidebar")'/>
+      <hamburger class='hamburger' @click='openSidebar'/>
       <h2>Title</h2>
     </div>
   </header>
 </template>
 
 <script>
+import { disableBodyScroll } from 'body-scroll-lock';
 import { mapState } from 'vuex';
 import hamburger from '@/assets/icons/Hamburger.svg';
 
 export default {
   name: 'MainHeader',
   components: { hamburger },
-  props: ['render']
+  props: ['render'],
+  methods: {
+    openSidebar () {
+      disableBodyScroll(document.getElementsByTagName('body')[0]);
+      this.$store.dispatch("Sidebar/openSidebar");
+    }
+  }
 }
 </script>
 
@@ -27,6 +34,7 @@ header {
   height: 5rem;
   position: sticky;
   top: 0;
+  z-index: 2;
 
   &.hide {
     margin-top: -10rem;
