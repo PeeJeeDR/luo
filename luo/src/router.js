@@ -44,6 +44,12 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    {
+      path: '*',
+      beforeEnter: (to, from, next) => {
+        next('/')
+      }
+    }
   ]
 });
 /* ========== */

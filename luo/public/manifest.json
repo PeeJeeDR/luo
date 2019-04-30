@@ -1,6 +1,6 @@
 {
-  "name": "luo",
-  "short_name": "luo",
+  "name": "Luo",
+  "short_name": "Luo",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
@@ -14,7 +14,7 @@
     }
   ],
   "start_url": "./index.html",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#000000",
   "theme_color": "#4DBA87"
 }
