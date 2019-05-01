@@ -1,5 +1,5 @@
 <template>
-  <button class='default-button'>{{ content }}</button>
+  <button v-ripple class='default-button'>{{ content }}</button>
 </template>
 
 <script>

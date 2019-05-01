@@ -44,7 +44,7 @@ export default {
 
   .bar {
     background-color: $snow;
-    width: 10rem;
+    width: 70%;
     overflow: hidden;
     z-index: 2;
   }

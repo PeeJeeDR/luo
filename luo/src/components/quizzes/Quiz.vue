@@ -30,7 +30,7 @@ export default {
   components: { SquareButton, Controller },
   props: ['data'],
   data: () => ({
-    Sample
+    Sample,
   })
 }
 </script>

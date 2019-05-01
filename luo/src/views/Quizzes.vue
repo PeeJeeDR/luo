@@ -1,7 +1,7 @@
 <template>
   <div>
     <quiz-overview />
-    <!-- <bottom-navigation /> -->
+    <bottom-navigation />
   </div>
 </template>
 
