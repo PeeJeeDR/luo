@@ -52,7 +52,7 @@ export default {
   margin: auto;
   width: 100%;
   height: auto;
-  padding: 1rem 0;
+  padding: 0.6rem 0;
 
   .add {
     width: 3rem;

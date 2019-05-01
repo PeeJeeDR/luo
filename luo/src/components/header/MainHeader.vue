@@ -2,7 +2,7 @@
   <header>
     <div class='wrapper flex justify-between align-center default-vp'>
       <hamburger class='hamburger' @click='openSidebar'/>
-      <h2>Title</h2>
+      <h2>{{ selectedOverview.charAt(0).toUpperCase() + selectedOverview.substr(1) }}</h2>
     </div>
   </header>
 </template>
@@ -16,6 +16,9 @@ export default {
   name: 'MainHeader',
   components: { hamburger },
   props: ['render'],
+  computed: {
+    ...mapState('Navigation', ['selectedOverview'])
+  },
   methods: {
     openSidebar () {
       disableBodyScroll(document.getElementsByTagName('body')[0]);
@@ -31,7 +34,7 @@ header {
   border-bottom-left-radius: $largeRadius;
   border-bottom-right-radius: $largeRadius;
   transition: $easy;
-  height: 5rem;
+  height: 4.5rem;
   position: sticky;
   top: 0;
   z-index: 2;
@@ -52,6 +55,7 @@ header {
 
   h2 {
     color: $snow;
+    font-size: $bran;
   }
 }
 </style>
