@@ -153,3 +153,10 @@
 // FLEX-DIRECTION
 .direction-row { @include flex-direction(row) }
 .direction-col { @include flex-direction(column) }
+
+// CUSTOM
+.flex-center {
+  @include flexbox();
+  @include justify-content(center);
+  @include align-items(center);
+}

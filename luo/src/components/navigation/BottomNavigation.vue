@@ -1,12 +1,12 @@
 <template>
-  <div class='bottom-navigation flex justify-center align-center'>
+  <div class='bottom-navigation flex-center'>
     <div class='icon-container flex'>
-      <div>
-        <New />
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "new" })'>
+        <New :class='selectedOverview === "new" && "active"'/>
       </div>
 
-      <div>
-        <Popular />
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "popular" })'>
+        <Popular :class='selectedOverview === "popular" && "active"'/>
       </div>
     </div>
 
@@ -15,28 +15,31 @@
     </square-button>
 
     <div class='icon-container flex'>
-      <div>
-        <Star />
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "interests" })'>
+        <Star :class='selectedOverview === "interests" && "active"'/>
       </div>
 
-      <div>
-        <Category />
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "category" })'>
+        <Category :class='selectedOverview === "category" && "active"'/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import SquareButton from '@/components/buttons/SquareButton';
 import New from '@/assets/icons/bottom-nav/New.svg';
 import Popular from '@/assets/icons/bottom-nav/Popular.svg';
 import Star from '@/assets/icons/bottom-nav/Star.svg';
 import Category from '@/assets/icons/bottom-nav/Category.svg';
 
-
 export default {
   name: 'BottomNavigation',
   components: { SquareButton, New, Popular, Star, Category },
+  computed: {
+    ...mapState('Navigation', ['selectedOverview'])
+  }
 }
 </script>
 
@@ -52,9 +55,9 @@ export default {
   padding: 1rem 0;
 
   .add {
-    width: 3.5rem;
-    height: 3.5rem;
-    margin: 0 2rem;
+    width: 3rem;
+    height: 3rem;
+    margin: 0 1.5rem;
 
     h3 {
       transform: rotate(45deg);
@@ -63,12 +66,21 @@ export default {
     }
   }
 
+  .icon {
+    margin: 0 0.5rem;
+    width: 3rem;
+    height: 3rem;
+    padding: 0.5rem;
 
-  svg {
-    fill: $dawn;
-    width: 2rem;
-    height: 2rem;
-    margin: 0 1rem;
+    svg {
+      fill: $dawn;
+      width: 100%;
+      transition: $easy;
+
+      &.active {
+        fill: $pinky;
+      }
+    }
   }
 }
 </style>
