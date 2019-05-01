@@ -43,7 +43,8 @@ header {
   border-bottom-right-radius: $largeRadius;
   transition: $easy;
   height: 4.5rem;
-  position: sticky;
+  position: fixed;
+  width: 100%;
   top: 0;
   z-index: 2;
 

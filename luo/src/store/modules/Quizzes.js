@@ -8,8 +8,8 @@ export const Quizzes = {
   },
 
   mutations: {
-    PUSH_QUIZ (state, quiz) {
-      state.quizzes.push(quiz);
+    SAVE_QUIZZES (state, quizzes) {
+      state.quizzes = quizzes;
     },
 
     CLEAR_QUIZES (state) {
@@ -20,14 +20,13 @@ export const Quizzes = {
   actions: {
     fetchQuizzes ({ commit }) {
       db.collection('quizzes').onSnapshot(snap => {
-        snap.docChanges().forEach(change => {
-          if (change.type === 'modified') {
-            commit('CLEAR_QUIZES');
-          }
-        })
+        let quizzes = [];
+
         snap.forEach(doc => {
-          commit('PUSH_QUIZ', doc.data());
+          quizzes.push(doc.data());
         });
+
+        commit('SAVE_QUIZZES', quizzes)
       })
     }
   }
