@@ -1,8 +1,15 @@
 <template>
   <header>
     <div class='wrapper flex justify-between align-center default-vp'>
-      <hamburger class='hamburger' @click='openSidebar'/>
+      <div class='icon'>
+        <hamburger @click='openSidebar'/>
+      </div>
+      
       <h2>{{ selectedOverview.charAt(0).toUpperCase() + selectedOverview.substr(1) }}</h2>
+
+      <div class='icon'>
+        <search />
+      </div>
     </div>
   </header>
 </template>
@@ -11,10 +18,11 @@
 import { disableBodyScroll } from 'body-scroll-lock';
 import { mapState } from 'vuex';
 import hamburger from '@/assets/icons/main-header/Hamburger.svg';
+import Search from '@/assets/icons/main-header/Search.svg';
 
 export default {
   name: 'MainHeader',
-  components: { hamburger },
+  components: { hamburger, Search },
   props: ['render'],
   computed: {
     ...mapState('Navigation', ['selectedOverview'])
@@ -47,10 +55,17 @@ header {
     height: 100%;
   }
 
-  .hamburger {
-    width: 2rem;
-    height: 2rem;
-    fill: $snow;
+  .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    //background-color: red;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: $snow !important;
+      color: $snow;
+    }
   }
 
   h2 {

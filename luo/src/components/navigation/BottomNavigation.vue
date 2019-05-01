@@ -2,11 +2,11 @@
   <div class='bottom-navigation flex-center'>
     <div class='icon-container flex'>
       <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "new" })'>
-        <New :class='selectedOverview === "new" && "active"'/>
+        <new :class='selectedOverview === "new" && "active"'/>
       </div>
 
       <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "popular" })'>
-        <Popular :class='selectedOverview === "popular" && "active"'/>
+        <popular :class='selectedOverview === "popular" && "active"'/>
       </div>
     </div>
 
@@ -16,11 +16,11 @@
 
     <div class='icon-container flex'>
       <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "interests" })'>
-        <Star :class='selectedOverview === "interests" && "active"'/>
+        <star :class='selectedOverview === "interests" && "active"'/>
       </div>
 
       <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "category" })'>
-        <Category :class='selectedOverview === "category" && "active"'/>
+        <category :class='selectedOverview === "category" && "active"'/>
       </div>
     </div>
   </div>
@@ -57,7 +57,7 @@ export default {
   .add {
     width: 3rem;
     height: 3rem;
-    margin: 0 1.5rem;
+    margin: 0 2rem;
 
     h3 {
       transform: rotate(45deg);
@@ -75,6 +75,7 @@ export default {
     svg {
       fill: $dawn;
       width: 100%;
+      height: 100%;
       transition: $easy;
 
       &.active {
