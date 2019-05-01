@@ -13,11 +13,7 @@ export default {
   name: 'Quizzes',
   components: { QuizOverview, BottomNavigation },
   beforeCreate () {
-    this.$store.dispatch('Quizzes/fetchQuizzes');
+    this.$store.dispatch('Quizzes/fetchNewQuizzes');
   }
 }
 </script>
-
-<style lang='scss' scoped>
-
-</style>

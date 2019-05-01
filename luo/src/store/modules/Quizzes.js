@@ -18,8 +18,8 @@ export const Quizzes = {
   },
 
   actions: {
-    fetchQuizzes ({ commit }) {
-      db.collection('quizzes').onSnapshot(snap => {
+    fetchNewQuizzes ({ commit }) {
+      db.collection('quizzes').orderBy('timestamp', 'desc').onSnapshot(snap => {
         let quizzes = [];
 
         snap.forEach(doc => {
@@ -28,6 +28,10 @@ export const Quizzes = {
 
         commit('SAVE_QUIZZES', quizzes)
       })
+    },
+
+    fetchQuizesByCategory () {
+
     }
   }
 }
