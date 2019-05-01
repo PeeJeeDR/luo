@@ -1,6 +1,6 @@
 @mixin gradient {
-  background: rgb(115,38,214) !important;
-  background: linear-gradient(225deg, rgba(115,38,214,1) 0%, rgba(186,66,204,1) 100%) !important;
+  background: $disco !important;
+  background: linear-gradient(225deg, $disco 0%, $pinky 100%) !important;
 }
 
 @mixin defaultShadow {

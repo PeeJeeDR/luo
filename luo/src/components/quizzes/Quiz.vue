@@ -57,10 +57,11 @@ export default {
 
     hr {
       background-color: $pinky;
-      height: 0.4rem;
+      height: 0.25rem;
       width: 3rem;
       margin-top: 0.3rem;
       border: none;
+      border-radius: 10rem;
     }
 
     p {

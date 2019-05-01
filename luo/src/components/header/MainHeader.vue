@@ -10,7 +10,7 @@
 <script>
 import { disableBodyScroll } from 'body-scroll-lock';
 import { mapState } from 'vuex';
-import hamburger from '@/assets/icons/Hamburger.svg';
+import hamburger from '@/assets/icons/main-header/Hamburger.svg';
 
 export default {
   name: 'MainHeader',
