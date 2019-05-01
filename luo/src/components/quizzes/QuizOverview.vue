@@ -3,6 +3,10 @@
     <div v-for='(quiz, i) in quizzes' :key='i'>
       <quiz :data='quiz'/>
     </div>
+
+    <h2 v-if='quizzes.length === 0'>
+      Oops! It looks like there are no quizzes made! Are you the first one? ;-)
+    </h2>
   </div>
 </template>
 
@@ -24,5 +28,12 @@ export default {
   width: 94%;
   margin: 0 auto;
   padding: 4.5rem 0 5rem 0;
+
+  h2 {
+    color: $mist;
+    text-align: center;
+    width: 90%;
+    margin: 4rem auto;
+  }
 }
 </style>
