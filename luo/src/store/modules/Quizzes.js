@@ -19,7 +19,6 @@ export const Quizzes = {
 
   actions: {
     fetchQuizzes ({ commit }) {
-      console.log('fetch');
       db.collection('quizzes').onSnapshot(snap => {
         snap.docChanges().forEach(change => {
           if (change.type === 'modified') {
