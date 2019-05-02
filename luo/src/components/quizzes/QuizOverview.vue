@@ -4,7 +4,7 @@
       <quiz :data='quiz'/>
     </div>
 
-    <h2 v-if='quizzes.length === 0'>
+    <h2 v-if='quizzes.length === 0 && !loading'>
       Oops! It looks like there are no quizzes made! Are you the first one? ;-)
     </h2>
   </div>
@@ -18,7 +18,7 @@ export default {
   name: 'QuizOverview',
   components: { Quiz },
   computed: {
-    ...mapState('Quizzes', ['quizzes'])
+    ...mapState('Quizzes', ['quizzes', 'loading'])
   }
 }
 </script>
@@ -34,6 +34,7 @@ export default {
     text-align: center;
     width: 90%;
     margin: 4rem auto;
+    font-size: $jon;
   }
 }
 </style>
