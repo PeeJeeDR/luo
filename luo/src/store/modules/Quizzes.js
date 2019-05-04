@@ -1,3 +1,4 @@
+import app from '@/settings/app.json';
 import { db } from '@/firebase/firebase';
 
 export const Quizzes = {
@@ -31,23 +32,38 @@ export const Quizzes = {
   },
 
   actions: {
+    /* === FETCH NEW QUIZZES === */
     fetchNewQuizzes ({ commit }) {
       commit('SET_LOADING_ON');
       
       db.collection('quizzes').orderBy('timestamp', 'desc').onSnapshot(snap => {
-        let quizzes = [];
-
-        snap.forEach(doc => {
-          quizzes.push(doc.data());
-        });
-
-        commit('SAVE_QUIZZES', quizzes);
-        commit('SET_LOADING_OFF');
-      })
+        commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
+        setTimeout(() => { commit('SET_LOADING_OFF') }, app.loadDelay);
+      });
     },
+    /* ========== */
 
-    fetchQuizesByCategory () {
+    /* === FETCH POPULAR QUIZZES === */
+    fetchPopularQuizzes ({ commit }) {
+      commit('SET_LOADING_ON');
+      
+      db.collection('quizzes').orderBy('played', 'desc').onSnapshot(snap => {
+        commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
+        setTimeout(() => { commit('SET_LOADING_OFF') }, app.loadDelay);
+      });
+    },
+    /* ========== */
 
+    /* === FETCH QUIZZES BY INTERESTS === */
+    fetchQuizzesByInterests ({ commit }) {
+      console.log('fetch interests');
+    },
+    /* ========== */
+
+    /* === FETCH QUIZZES BY CATEGORY === */
+    fetchQuizesByCategory ({ commit }, payload) {
+      console.log('fetch category');
     }
+    /* ========== */
   }
 }
