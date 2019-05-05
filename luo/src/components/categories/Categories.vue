@@ -1,6 +1,6 @@
 <template>
   <div :class='`categories ${ state }`'>
-    <div class='wrapper'>
+    <div class='wrapper' v-if='!loading'>
       <category v-for='(category, i) in categories' :key='i' :data='category'/>
     </div>
   </div>
@@ -15,7 +15,7 @@ export default {
   components: { Category },
   props: ['state'],
   computed: {
-    ...mapState('Categories', ['categories'])
+    ...mapState('Categories', ['categories', 'loading'])
   }
 }
 </script>

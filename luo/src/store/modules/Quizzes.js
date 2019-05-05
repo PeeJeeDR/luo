@@ -61,7 +61,13 @@ export const Quizzes = {
 
     /* === FETCH QUIZZES BY CATEGORY === */
     fetchQuizesByCategory ({ commit }, payload) {
+      commit('SET_LOADING_ON');
+      commit('Navigation/SET_CATEGORIES_OFF', {}, { root: true });
 
+      db.collection('quizzes').where('categories', 'array-contains', payload.categoryId).onSnapshot(snap => {
+        commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
+        commit('SET_LOADING_OFF');
+      }) 
     }
     /* ========== */
   }

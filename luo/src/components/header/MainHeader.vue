@@ -5,7 +5,7 @@
         <hamburger @click='openSidebar'/>
       </div>
       
-      <h2>{{ selectedOverview.charAt(0).toUpperCase() + selectedOverview.substr(1) }}</h2>
+      <h2>{{ capFirstChar(selectedOverview) }}</h2>
 
       <div class='icon'>
         <search />
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import GlobalMethods from '@/mixins/GlobalMethods';
 import { disableBodyScroll } from 'body-scroll-lock';
 import { mapState } from 'vuex';
 import hamburger from '@/assets/icons/main-header/Hamburger.svg';
@@ -22,6 +23,7 @@ import Search from '@/assets/icons/main-header/Search.svg';
 
 export default {
   name: 'MainHeader',
+  mixins: [GlobalMethods],
   components: { hamburger, Search },
   props: ['render'],
   computed: {
@@ -59,7 +61,6 @@ header {
   .icon {
     width: 1.5rem;
     height: 1.5rem;
-    //background-color: red;
 
     svg {
       width: 100%;

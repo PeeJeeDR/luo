@@ -1,5 +1,7 @@
 <template>
   <div class='bottom-navigation flex-center'>
+
+    <!-- === LEFT === -->
     <div class='icon-container flex'>
       <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "new" })'>
         <new :class='selectedOverview === "new" && "active"'/>
@@ -9,11 +11,15 @@
         <popular :class='selectedOverview === "popular" && "active"'/>
       </div>
     </div>
+    <!-- ========== -->
 
+    <!-- === CENTER === -->
     <square-button class='add'>
       <h3 class='heading h--large bright'>+</h3>
     </square-button>
+    <!-- ========== -->
 
+    <!-- === RIGHT === -->
     <div class='icon-container flex'>
       <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "interests" })'>
         <star :class='selectedOverview === "interests" && "active"'/>
@@ -23,6 +29,8 @@
         <category :class='selectedOverview === "category" && "active"'/>
       </div>
     </div>
+    <!-- ========== -->
+
   </div>
 </template>
 
@@ -58,7 +66,7 @@ export default {
   .add {
     width: 3rem;
     height: 3rem;
-    margin: 0 2rem;
+    margin: 0 1rem;
 
     h3 {
       transform: rotate(45deg);

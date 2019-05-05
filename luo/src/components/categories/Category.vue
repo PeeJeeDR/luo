@@ -1,16 +1,24 @@
 <template>
   <div class='category'>
-    <div v-ripple class='container flex align-center'>
-      <img :src='require(`@/assets/icons/categories/${ data.img }.png`)' alt="">
-      <h4>{{ data.category.charAt(0).toUpperCase() + data.category.substr(1) }}</h4>
+    <div v-ripple class='container flex align-center' @click='atCategoryClick'>
+      <img :src='require(`@/assets/icons/categories/${ data.slug }.png`)' :alt='`${ capFirstChar(data.category) } icon.`'>
+      <h4>{{ capFirstChar(data.category) }}</h4>
     </div>
   </div>
 </template>
 
 <script>
+import GlobalMethods from '@/mixins/GlobalMethods';
+
 export default {
   name: 'Category',
-  props: ['data']
+  mixins: [GlobalMethods],
+  props: ['data'],
+  methods: {
+    atCategoryClick () {
+      this.$store.dispatch('Quizzes/fetchQuizesByCategory', { categoryId: this.data.id });
+    }
+  }
 }
 </script>
 

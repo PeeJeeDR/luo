@@ -27,7 +27,7 @@ export const Navigation = {
   actions: {
     /* === ICON CLICKED IN BOTTOM NAV === */
     onIconClick ({ commit, dispatch, state }, payload) {
-      if (payload.selected !== state.selectedOverview) {
+      if (payload.selected !== state.selectedOverview || ( payload.selected === 'category' && !state.categoriesIsOpen)) {
         commit('SET_CATEGORIES_OFF');
 
         switch (payload.selected) {
