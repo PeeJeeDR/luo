@@ -5,6 +5,7 @@ import Vuex from 'vuex';
 import { Sidebar } from './modules/Sidebar';
 import { Quizzes } from './modules/Quizzes';
 import { Navigation } from './modules/Navigation';
+import { Categories } from './modules/Categories';
 /* ========== */
 
 Vue.use(Vuex);
@@ -13,6 +14,7 @@ export default new Vuex.Store({
   modules: {
     Sidebar,
     Quizzes,
-    Navigation
+    Navigation,
+    Categories
   }
 })

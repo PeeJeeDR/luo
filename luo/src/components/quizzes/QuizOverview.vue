@@ -1,5 +1,7 @@
 <template>
-  <div class='quiz-overview'>
+  <div class='quiz-overview big-wrapper'>
+    <categories :state='categoriesIsOpen ? "open" : "closed"'/>
+
     <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
 
     <div v-for='(quiz, i) in quizzes' :key='i'>
@@ -14,22 +16,34 @@
 
 <script>
 import { mapState } from 'vuex';
-import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
+import MoonLoader from 'vue-spinner/src/MoonLoader';
 import Quiz from '@/components/quizzes/Quiz';
+import Categories from '@/components/categories/Categories';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 export default {
   name: 'QuizOverview',
-  components: { Quiz, MoonLoader },
+  components: { Quiz, MoonLoader, Categories },
   computed: {
-    ...mapState('Quizzes', ['quizzes', 'loading'])
+    ...mapState('Quizzes', ['quizzes', 'loading']),
+    ...mapState('Navigation', ['selectedOverview', 'categoriesIsOpen'])
+  },
+  methods: {
+    shouldRenderCategories () {
+      if (this.categoriesIsOpen) {
+        disableBodyScroll(document.getElementsByTagName('body')[0]);
+      }
+
+      if (!this.categoriesIsOpen) {
+        enableBodyScroll(document.getElementsByTagName('body')[0]);
+      }
+    }
   }
 }
 </script>
 
 <style lang='scss' scoped>
 .quiz-overview {
-  width: 94%;
-  margin: 0 auto;
   padding: 4.5rem 0 5rem 0;
 
   .spinner {

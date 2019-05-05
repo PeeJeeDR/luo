@@ -5,11 +5,8 @@
 </template>
 
 <script>
-import Controller from '@/assets/icons/Controller.svg';
-
 export default {
-  name: 'SquareButton',
-  components: { Controller }
+  name: 'SquareButton'
 }
 </script>
 

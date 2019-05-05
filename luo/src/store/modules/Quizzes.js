@@ -1,4 +1,3 @@
-import app from '@/settings/app.json';
 import { db } from '@/firebase/firebase';
 
 export const Quizzes = {
@@ -38,7 +37,7 @@ export const Quizzes = {
       
       db.collection('quizzes').orderBy('timestamp', 'desc').onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
-        setTimeout(() => { commit('SET_LOADING_OFF') }, app.loadDelay);
+        commit('SET_LOADING_OFF');
       });
     },
     /* ========== */
@@ -49,20 +48,20 @@ export const Quizzes = {
       
       db.collection('quizzes').orderBy('played', 'desc').onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
-        setTimeout(() => { commit('SET_LOADING_OFF') }, app.loadDelay);
+        commit('SET_LOADING_OFF');
       });
     },
     /* ========== */
 
     /* === FETCH QUIZZES BY INTERESTS === */
     fetchQuizzesByInterests ({ commit }) {
-      console.log('fetch interests');
+      
     },
     /* ========== */
 
     /* === FETCH QUIZZES BY CATEGORY === */
     fetchQuizesByCategory ({ commit }, payload) {
-      console.log('fetch category');
+
     }
     /* ========== */
   }

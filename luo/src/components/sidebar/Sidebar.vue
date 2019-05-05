@@ -12,7 +12,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+import { enableBodyScroll } from 'body-scroll-lock';
 
 export default {
   name: 'Sidebar',
@@ -39,14 +39,14 @@ export default {
   .overlay {
     background-color: $coal;
     opacity: 0.5;
-    z-index: 2;
+    z-index: 3;
   }
 
   .bar {
     background-color: $snow;
     width: 70%;
     overflow: hidden;
-    z-index: 2;
+    z-index: 3;
   }
 
   &.closed {

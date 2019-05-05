@@ -23,7 +23,7 @@
 <script>
 import Sample from '@/assets/img/sample.jpg';
 import SquareButton from '@/components/buttons/SquareButton';
-import Controller from '@/assets/icons/Controller.svg';
+import Controller from '@/assets/icons/quizzes/Controller.svg';
 
 export default {
   name: 'Quiz',

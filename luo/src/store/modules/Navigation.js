@@ -2,20 +2,34 @@ export const Navigation = {
   namespaced: true,
 
   state: {
-    selectedOverview: 'new'
+    selectedOverview: 'new',
+    categoriesIsOpen: false
   },
 
   mutations: {
+    /* === SET SELECTED OVERVIEW IN BOTTOM NAV === */
     SET_SELECTED_OVERVIEW (state, selected) {
       state.selectedOverview = selected;
+    },
+    /* ========== */
+
+    /* === TOGGLE CATEGORIES === */
+    SET_CATEGORIES_ON (state) {
+      state.categoriesIsOpen = true;
+    },
+
+    SET_CATEGORIES_OFF (state) {
+      state.categoriesIsOpen = false;
     }
+    /* ========== */
   },
 
   actions: {
+    /* === ICON CLICKED IN BOTTOM NAV === */
     onIconClick ({ commit, dispatch, state }, payload) {
-      console.log(payload.selected);
-
       if (payload.selected !== state.selectedOverview) {
+        commit('SET_CATEGORIES_OFF');
+
         switch (payload.selected) {
           case 'new': 
             dispatch('Quizzes/fetchNewQuizzes', {}, { root: true });
@@ -30,12 +44,14 @@ export const Navigation = {
           break;
 
           case 'category':
-            dispatch('Quizzes/fetchQuizesByCategory', {}, { root: true });
+            commit('SET_CATEGORIES_ON');
+            dispatch('Categories/fetchCategories', {}, { root: true });
           break;
         }
       }
 
       commit('SET_SELECTED_OVERVIEW', payload.selected);
     }
+    /* ========== */
   }
 }

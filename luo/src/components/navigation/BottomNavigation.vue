@@ -53,6 +53,7 @@ export default {
   width: 100%;
   height: auto;
   padding: 0.6rem 0;
+  z-index: 2;
 
   .add {
     width: 3rem;
