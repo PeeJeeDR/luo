@@ -5,7 +5,7 @@
         <hamburger v-if='leftIcon === "hamburger"' @click='openSidebar'/>
       </div>
       
-      <h2>{{ capFirstChar(headerTitle) }}</h2>
+      <h2 v-if='headerTitle'>{{ capFirstChar(headerTitle) }}</h2>
 
       <div class='icon'>
         <search />
@@ -34,9 +34,6 @@ export default {
       disableBodyScroll(document.getElementsByTagName('body')[0]);
       this.$store.dispatch("Sidebar/openSidebar");
     }
-  },
-  mounted () {
-    console.log('left icon', this.leftIcon);
   }
 }
 </script>

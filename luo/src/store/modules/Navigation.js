@@ -56,7 +56,7 @@ export const Navigation = {
     /* ========== */
 
     /* === WHEN PAGE IS LOADED AFTER PAGE TRANSITION === */
-    onPageLoad ({ dispatch, state }) {
+    onOverviewLoad ({ dispatch, state }) {
       dispatch('onIconClick', { selected: state.selectedOverview, isPageLoad: true });
     }
     /* ========== */

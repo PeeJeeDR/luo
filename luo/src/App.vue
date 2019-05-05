@@ -19,10 +19,7 @@ import Sidebar from '@/components/sidebar/Sidebar';
 
 export default {
   name: 'App',
-  components: { MainHeader, Sidebar },
-  beforeCreate () {
-    this.$store.dispatch('Header/onPageLoad', { icon: this.$route.meta.leftIcon });
-  }
+  components: { MainHeader, Sidebar }
 }
 </script>
 

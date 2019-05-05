@@ -67,6 +67,7 @@ export default {
     width: 3rem;
     height: 3rem;
     margin: 0 1rem;
+    animation: bounce 750ms ease-in-out 1s;
 
     h3 {
       transform: rotate(45deg);

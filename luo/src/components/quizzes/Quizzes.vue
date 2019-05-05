@@ -4,8 +4,8 @@
 
     <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
 
-    <div v-for='(quiz, i) in quizzes' :key='i'>
-      <quiz v-if='!loading' :data='quiz'/>
+    <div v-if='!loading'>
+      <quiz v-for='(quiz, i) in quizzes' :key='i' :data='quiz' :index='i'/>
     </div>
 
     <h2 v-if='quizzes.length === 0 && !loading'>

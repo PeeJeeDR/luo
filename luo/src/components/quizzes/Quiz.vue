@@ -1,21 +1,23 @@
 <template>
-  <div class='quiz'>
-    <div class='img-container'>
-      <img :src='Sample' alt='sample image.'>
-    </div>
-
-    <div class='content-container flex justify-between'>
-      <div>
-        <h4 class='heading h--medium dark'>
-          {{ capFirstChar(data.title) }}
-        </h4>
-        <hr>
-        <p class='paragraph p--small lighter bold'>{{ data.description }}</p>
+  <div class='animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`'>
+    <div class='quiz'>
+      <div class='img-container'>
+        <img :src='Sample' alt='sample image.'>
       </div>
 
-      <square-button class='play'>
-        <controller />
-      </square-button>
+      <div class='content-container flex justify-between'>
+        <div>
+          <h4 class='heading h--medium dark'>
+            {{ capFirstChar(data.title) }}
+          </h4>
+          <hr>
+          <p class='paragraph p--small lighter bold'>{{ data.description }}</p>
+        </div>
+
+        <square-button class='play'>
+          <controller />
+        </square-button>
+      </div>
     </div>
   </div>
 </template>
@@ -30,7 +32,7 @@ export default {
   name: 'Quiz',
   mixins: [GlobalMethods],
   components: { SquareButton, Controller },
-  props: ['data'],
+  props: ['data', 'index'],
   data: () => ({
     Sample,
   })
