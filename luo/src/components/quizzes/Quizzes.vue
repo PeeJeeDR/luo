@@ -1,5 +1,5 @@
 <template>
-  <div class='quiz-overview big-wrapper'>
+  <div class='quizzes big-wrapper'>
     <categories :state='categoriesIsOpen ? "open" : "closed"'/>
 
     <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
@@ -22,7 +22,7 @@ import Categories from '@/components/categories/Categories';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 export default {
-  name: 'QuizOverview',
+  name: 'Quizzes',
   components: { Quiz, MoonLoader, Categories },
   computed: {
     ...mapState('Quizzes', ['quizzes', 'loading']),
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.quiz-overview {
+.quizzes {
   padding: 4.5rem 0 5rem 0;
 
   .spinner {

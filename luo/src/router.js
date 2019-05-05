@@ -6,8 +6,9 @@ import { fire } from '@/firebase/firebase';
 
 /* === PAGES === */
 import Authentication from '@/views/Authentication';
-import Quizzes from '@/views/Quizzes';
+import Overview from '@/views/Overview';
 import TestApi from '@/views/TestApi';
+import CreateQuiz from '@/views/CreateQuiz';
 /* ========== */
 
 Vue.use(Router);
@@ -19,29 +20,42 @@ const router = new Router({
   routes: [
     { 
       path: '/', 
-      component: Quizzes,
-      name: 'quizzes',
+      component: Overview,
+      name: 'Quiz overview',
       meta: {
         header: true,
-        requiresAuth: true
+        requiresAuth: false,
+        leftIcon: 'hamburger'
+      }
+    },
+    { 
+      path: '/quizzes/create', 
+      component: CreateQuiz,
+      name: 'Create quiz',
+      meta: {
+        header: true,
+        requiresAuth: true,
+        leftIcon: 'back'
       }
     },
     { 
       path: '/authentication', 
       component: Authentication,
-      name: 'authentication',
+      name: 'Authenticate',
       meta: {
         header: false,
-        requiresAuth: false
+        requiresAuth: false,
+        leftIcon: undefined
       }
     },
     { 
       path: '/test', 
       component: TestApi,
-      name: 'test api',
+      name: 'Test api',
       meta: {
         header: false,
-        requiresAuth: false
+        requiresAuth: true,
+        leftIcon: undefined
       }
     },
     {

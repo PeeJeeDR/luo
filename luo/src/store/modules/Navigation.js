@@ -27,11 +27,12 @@ export const Navigation = {
   actions: {
     /* === ICON CLICKED IN BOTTOM NAV === */
     onIconClick ({ commit, dispatch, state }, payload) {
-      if (payload.selected !== state.selectedOverview || ( payload.selected === 'category' && !state.categoriesIsOpen)) {
+      if ((payload.selected !== state.selectedOverview || ( payload.selected === 'category' && !state.categoriesIsOpen)) || payload.isPageLoad) {
+        commit('Header/SET_HEADER_TITLE', payload.selected, { root: true });
         commit('SET_CATEGORIES_OFF');
 
         switch (payload.selected) {
-          case 'new': 
+          case 'new':
             dispatch('Quizzes/fetchNewQuizzes', {}, { root: true });
           break;
 
@@ -51,6 +52,12 @@ export const Navigation = {
       }
 
       commit('SET_SELECTED_OVERVIEW', payload.selected);
+    },
+    /* ========== */
+
+    /* === WHEN PAGE IS LOADED AFTER PAGE TRANSITION === */
+    onPageLoad ({ dispatch, state }) {
+      dispatch('onIconClick', { selected: state.selectedOverview, isPageLoad: true });
     }
     /* ========== */
   }

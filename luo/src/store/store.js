@@ -6,6 +6,7 @@ import { Sidebar } from './modules/Sidebar';
 import { Quizzes } from './modules/Quizzes';
 import { Navigation } from './modules/Navigation';
 import { Categories } from './modules/Categories';
+import { Header } from './modules/Header';
 /* ========== */
 
 Vue.use(Vuex);
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     Sidebar,
     Quizzes,
     Navigation,
-    Categories
+    Categories,
+    Header
   }
 })

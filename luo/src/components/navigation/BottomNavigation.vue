@@ -3,29 +3,29 @@
 
     <!-- === LEFT === -->
     <div class='icon-container flex'>
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "new" })'>
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "new", isPageLoad: false })'>
         <new :class='selectedOverview === "new" && "active"'/>
       </div>
 
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "popular" })'>
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "popular", isPageLoad: false })'>
         <popular :class='selectedOverview === "popular" && "active"'/>
       </div>
     </div>
     <!-- ========== -->
 
     <!-- === CENTER === -->
-    <square-button class='add'>
+    <square-button class='add' @click.native='$router.push("/quizzes/create"); $store.commit("Header/SET_HEADER_TITLE", "create quiz");'>
       <h3 class='heading h--large bright'>+</h3>
     </square-button>
     <!-- ========== -->
 
     <!-- === RIGHT === -->
     <div class='icon-container flex'>
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "interests" })'>
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "interests", isPageLoad: false })'>
         <star :class='selectedOverview === "interests" && "active"'/>
       </div>
 
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "category" })'>
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "category", isPageLoad: false })'>
         <category :class='selectedOverview === "category" && "active"'/>
       </div>
     </div>

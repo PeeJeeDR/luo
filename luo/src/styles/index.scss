@@ -6,6 +6,7 @@
 
 /* === TRANSITIONS === */
 @import './transitions';
+@import './page-transitions';
 
 /* === SPACINGS === */
 @import './spacings';
@@ -13,11 +14,11 @@
 /* === FLEXBOX === */
 @import './flexbox';
 
-/* === MIXINS === */
-@import './mixins';
-
 /* === TEXT ELEMENTS === */
 @import './text-elements';
 
 /* === INPUT FIELDS === */
 @import './input-fields';
+
+/* === MIXINS === */
+@import './mixins';

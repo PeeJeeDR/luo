@@ -16,6 +16,7 @@ export default {
   props: ['data'],
   methods: {
     atCategoryClick () {
+      this.$store.dispatch('Header/onCategoryClick', { title: this.data.category });
       this.$store.dispatch('Quizzes/fetchQuizesByCategory', { categoryId: this.data.id });
     }
   }

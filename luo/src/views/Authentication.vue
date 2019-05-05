@@ -145,10 +145,7 @@ export default {
           if (password === repeated && validUsername) {
             this.error = '';
 
-            fire.auth().createUserWithEmailAndPassword(email, password).then(res => {
-              
-              console.log('Registered user', res.user);
-
+            fire.auth().createUserWithEmailAndPassword(email, password).then(res => {       
               res.user && res.user.updateProfile({ 
                 displayName: username,
                 photoURL: undefined, // DEFAULT AVATAR

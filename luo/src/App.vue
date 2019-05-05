@@ -7,7 +7,9 @@
     <sidebar />
 
     <!-- ALL PAGES RENDERED IN ROUTER -->
-    <router-view/>
+    <transition name='router-anim' enter-active-class='animated slideInLeft faster' leave-active-class='animated slideOutLeft faster'>
+      <router-view/>
+    </transition>
   </div>
 </template>
 
@@ -17,7 +19,10 @@ import Sidebar from '@/components/sidebar/Sidebar';
 
 export default {
   name: 'App',
-  components: { MainHeader, Sidebar }
+  components: { MainHeader, Sidebar },
+  beforeCreate () {
+    this.$store.dispatch('Header/onPageLoad', { icon: this.$route.meta.leftIcon });
+  }
 }
 </script>
 

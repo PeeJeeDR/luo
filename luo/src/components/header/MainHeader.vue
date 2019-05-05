@@ -2,10 +2,10 @@
   <header>
     <div class='wrapper flex justify-between align-center default-vp'>
       <div class='icon'>
-        <hamburger @click='openSidebar'/>
+        <hamburger v-if='leftIcon === "hamburger"' @click='openSidebar'/>
       </div>
       
-      <h2>{{ capFirstChar(selectedOverview) }}</h2>
+      <h2>{{ capFirstChar(headerTitle) }}</h2>
 
       <div class='icon'>
         <search />
@@ -27,13 +27,16 @@ export default {
   components: { hamburger, Search },
   props: ['render'],
   computed: {
-    ...mapState('Navigation', ['selectedOverview'])
+    ...mapState('Header', ['headerTitle', 'leftIcon'])
   },
   methods: {
     openSidebar () {
       disableBodyScroll(document.getElementsByTagName('body')[0]);
       this.$store.dispatch("Sidebar/openSidebar");
     }
+  },
+  mounted () {
+    console.log('left icon', this.leftIcon);
   }
 }
 </script>
