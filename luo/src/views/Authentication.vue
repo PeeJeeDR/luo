@@ -59,7 +59,7 @@
         <p class='error'>{{ error }}</p>
         <default-button :content='"Login"'/>
         <p>Forgot password?</p>
-        <p class='skip'>Skip login</p>
+        <p class='skip' @click='$router.push("/")'>Skip login</p>
       </form>
     </div>
   </div>
