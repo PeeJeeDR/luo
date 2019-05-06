@@ -14,12 +14,16 @@
 </template>
 
 <script>
+import { fire } from '@/firebase/firebase'; 
 import MainHeader from '@/components/header/MainHeader';
 import Sidebar from '@/components/sidebar/Sidebar';
 
 export default {
   name: 'App',
-  components: { MainHeader, Sidebar }
+  components: { MainHeader, Sidebar }, 
+  created () {
+    // fire.auth().signOut()
+  }
 }
 </script>
 

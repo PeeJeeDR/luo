@@ -14,7 +14,7 @@
     <!-- ========== -->
 
     <!-- === CENTER === -->
-    <square-button class='add' @click.native='$router.push("/quizzes/create"); $store.commit("Header/SET_HEADER_TITLE", "create quiz");'>
+    <square-button :disabled='fire.auth().currentUser !== null ? false : true' class='add' @click.native='$router.push("/quizzes/create"); $store.commit("Header/SET_HEADER_TITLE", "create quiz");'>
       <h3 class='heading h--large bright'>+</h3>
     </square-button>
     <!-- ========== -->
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { fire } from '@/firebase/firebase'; 
 import { mapState } from 'vuex';
 import SquareButton from '@/components/buttons/SquareButton';
 import New from '@/assets/icons/bottom-nav/New.svg';
@@ -45,8 +46,14 @@ import Category from '@/assets/icons/bottom-nav/Category.svg';
 export default {
   name: 'BottomNavigation',
   components: { SquareButton, New, Popular, Star, Category },
+  data: () => ({
+    fire
+  }),
   computed: {
     ...mapState('Navigation', ['selectedOverview'])
+  },
+  mounted () {
+    console.log(fire.auth().currentUser);
   }
 }
 </script>
@@ -67,7 +74,6 @@ export default {
     width: 3rem;
     height: 3rem;
     margin: 0 1rem;
-    animation: bounce 750ms ease-in-out 1s;
 
     h3 {
       transform: rotate(45deg);

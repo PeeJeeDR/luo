@@ -73,7 +73,7 @@ router.beforeEach((to, from, next) => {
   const currentUser = fire.auth().currentUser;
 
   // SIGN OUT USER WHEN HE ROUTES TO AUTHENTICATION
-  to.name === 'authentication' && fire.auth().signOut();
+  to.name === 'Authenticate' && fire.auth().signOut();
 
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 

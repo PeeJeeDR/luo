@@ -1,18 +1,18 @@
 <template>
-  <button v-ripple class='square-button'>
+  <button :disabled='disabled' v-ripple :class='`square-button ${ disabled ? "disabled" : "active" }`'>
     <slot />
   </button>
 </template>
 
 <script>
 export default {
-  name: 'SquareButton'
+  name: 'SquareButton',
+  props: ['disabled']
 }
 </script>
 
 <style lang='scss' scoped>
 .square-button {
-  @include gradient;
   width: 5rem;
   height: 5rem;
   padding: 1rem;
@@ -20,6 +20,14 @@ export default {
   border-radius: 1rem;
   transform: rotate(45deg);
   color: $snow;
+
+  &.active {
+    @include gradient;
+  }
+
+  &.disabled {
+    background-color: $dawn;
+  }
 
   svg {
     fill: $snow;
