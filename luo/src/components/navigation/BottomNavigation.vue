@@ -15,7 +15,7 @@
 
     <!-- === CENTER === -->
     <square-button :disabled='fire.auth().currentUser !== null ? false : true' class='add' @click.native='$router.push("/quizzes/create"); $store.commit("Header/SET_HEADER_TITLE", "create quiz");'>
-      <h3 class='heading h--large bright'>+</h3>
+      <big-heading>+</big-heading>
     </square-button>
     <!-- ========== -->
 
@@ -42,10 +42,11 @@ import New from '@/assets/icons/bottom-nav/New.svg';
 import Popular from '@/assets/icons/bottom-nav/Popular.svg';
 import Star from '@/assets/icons/bottom-nav/Star.svg';
 import Category from '@/assets/icons/bottom-nav/Category.svg';
+import BigHeading from '@/components/headings/BigHeading';
 
 export default {
   name: 'BottomNavigation',
-  components: { SquareButton, New, Popular, Star, Category },
+  components: { SquareButton, New, Popular, Star, Category, BigHeading },
   data: () => ({
     fire
   }),
@@ -75,9 +76,9 @@ export default {
     height: 3rem;
     margin: 0 1rem;
 
-    h3 {
+    .big-heading {
       transform: rotate(45deg);
-      margin: -1.5rem;
+      margin: -1rem;
       font-weight: lighter;
     }
   }

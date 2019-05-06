@@ -6,38 +6,16 @@
   font-weight: bold;
 }
 
-.heading {
-  color: $pinky;
+@mixin defaultHeaderColors {
+  &.primary {
+    color: $pinky;
+  }
 
   &.dark {
     color: $texty;
   }
 
-  &.bright {
+  &.light {
     color: $snow;
-  }
-
-  &.h--large {
-    font-size: 3rem;
-  }
-
-  &.h--medium {
-    font-size: 1rem;
-  }
-}
-
-.paragraph {
-  color: $texty;
-
-  &.lighter {
-    color: $mist;
-  }
-
-  &.bold {
-    font-weight: bold;
-  }
-
-  &.p--small {
-    font-size: 0.7rem;
   }
 }
