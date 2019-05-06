@@ -7,7 +7,7 @@
     <sidebar />
 
     <!-- ALL PAGES RENDERED IN ROUTER -->
-    <transition name='router-anim' enter-active-class='animated slideInLeft faster' leave-active-class='animated slideOutLeft faster'>
+    <transition name='router-anim' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
       <router-view/>
     </transition>
   </div>
