@@ -7,6 +7,7 @@ export const Modals = {
   },
 
   mutations: {
+    /* === MODAL === */
     OPEN_MODAL (state) {
       state.modal = true;
     },
@@ -14,18 +15,21 @@ export const Modals = {
     CLOSE_MODAL (state) {
       state.modal = false;
     },
+    /* ========== */
 
+    /* === OVERLAY === */
     OPEN_OVERLAY (state) {
       state.overlay = true;
     },
 
     CLOSE_OVERLAY (state) {
       state.overlay = false;
-    },
+    }
+    /* ========== */
   },
 
   actions: {
-    onOverlayClick ({ commit }) {
+    closeModal ({ commit }) {
       commit('CLOSE_MODAL');
       commit('CLOSE_OVERLAY');
     },

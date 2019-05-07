@@ -2,7 +2,11 @@
   <div class='create-quiz page big-wrapper flex direction-col justify-between align-center'>
     <create-quiz-modal v-if='modal'/>
     
-    <create />
+    <create v-if='questions.length === 0'/>
+
+    <div v-for='(question, i) in questions' :key='i'>
+      <p>{{  question }}</p>
+    </div>
 
     <default-button :content='"create question"' @click.native='$store.dispatch("Modals/onCreateClick")'/>
   </div>
@@ -18,7 +22,8 @@ export default {
   name: 'CreateQuiz',
   components: { DefaultButton, CreateQuizModal, Create },
   computed: {
-    ...mapState('Modals', ['modal'])
+    ...mapState('Modals', ['modal']),
+    ...mapState('CreateQuiz', ['questions'])
   },
   created () {
     this.$store.dispatch('Header/onPageLoad', { title: 'create quiz', leftIcon: 'back' });

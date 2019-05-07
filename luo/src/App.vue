@@ -1,7 +1,7 @@
 <template>
   <div id='app'>
      <!-- OVERLAY THAT RENDERS WHEN MODAL IS OPEN -->
-    <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/onOverlayClick")'></div>
+    <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModal")'></div>
 
     <!-- MAIN HEADER -->
     <main-header v-if='$route.meta.header'/>

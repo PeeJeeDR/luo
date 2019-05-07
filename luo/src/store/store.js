@@ -8,6 +8,7 @@ import { Navigation } from './modules/Navigation';
 import { Categories } from './modules/Categories';
 import { Header } from './modules/Header';
 import { Modals } from './modules/Modals';
+import { CreateQuiz } from './modules/CreateQuiz';
 /* ========== */
 
 Vue.use(Vuex);
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     Navigation,
     Categories,
     Header,
-    Modals
+    Modals,
+    CreateQuiz
   }
 })
