@@ -8,7 +8,8 @@
       <h2 v-if='headerTitle'>{{ capFirstChar(headerTitle) }}</h2>
 
       <div class='icon'>
-        <search />
+        <search v-if='rightIcon === "search"'/>
+        <save v-if='rightIcon === "save"' @click='$store.dispatch("Quizzes/postNewQuiz")'/>
       </div>
     </div>
   </header>
@@ -20,14 +21,15 @@ import { disableBodyScroll } from 'body-scroll-lock';
 import { mapState } from 'vuex';
 import hamburger from '@/assets/icons/main-header/Hamburger.svg';
 import Search from '@/assets/icons/main-header/Search.svg';
+import Save from '@/assets/icons/main-header/Save.svg';
 
 export default {
   name: 'MainHeader',
   mixins: [GlobalMethods],
-  components: { hamburger, Search },
+  components: { hamburger, Search, Save },
   props: ['render'],
   computed: {
-    ...mapState('Header', ['headerTitle', 'leftIcon'])
+    ...mapState('Header', ['headerTitle', 'leftIcon', 'rightIcon'])
   },
   methods: {
     openSidebar () {

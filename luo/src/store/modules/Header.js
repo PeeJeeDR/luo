@@ -33,6 +33,7 @@ export const Header = {
     onPageLoad ({ commit }, payload) {
       commit('SET_HEADER_TITLE', payload.title);
       commit('SET_LEFT_ICON', payload.leftIcon);
+      commit('SET_RIGHT_ICON', payload.rightIcon);
     }
   }
 }

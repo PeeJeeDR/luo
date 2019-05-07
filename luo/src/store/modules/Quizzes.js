@@ -68,6 +68,21 @@ export const Quizzes = {
         commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
         commit('SET_LOADING_OFF');
       }) 
+    },
+    /* ========== */
+
+    /* === POST NEW QUIZ === */
+    postNewQuiz ({ dispatch, rootState }) {
+      const quiz = {
+        title: 'TEST',
+        questions: rootState.CreateQuiz.questions
+      }
+
+      console.log('quiz', quiz);
+      db.collection('quizzes').add(quiz).then(res => {
+        console.log('res', res);
+        dispatch('fetchNewQuizzes');
+      }).catch(() => {});
     }
     /* ========== */
   }

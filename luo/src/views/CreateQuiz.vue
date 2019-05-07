@@ -5,7 +5,7 @@
     <create v-if='questions.length === 0'/>
 
     <div v-for='(question, i) in questions' :key='i'>
-      <p>{{  question }}</p>
+      <p>{{ question }}</p>
     </div>
 
     <default-button :content='"create question"' @click.native='$store.dispatch("Modals/onCreateClick")'/>
@@ -26,7 +26,11 @@ export default {
     ...mapState('CreateQuiz', ['questions'])
   },
   created () {
-    this.$store.dispatch('Header/onPageLoad', { title: 'create quiz', leftIcon: 'back' });
+    this.$store.dispatch('Header/onPageLoad', { 
+      title: 'create quiz', 
+      leftIcon: 'back',
+      rightIcon: 'save'
+    });
   }
 }
 </script>
