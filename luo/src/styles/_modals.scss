@@ -1,0 +1,13 @@
+.default-modal {
+  position: absolute;
+  background-color: $snow;
+  width: 100%;
+  z-index: 5;
+  border-radius: $smallRadius;
+  padding: 2rem;
+  overflow: hidden;
+
+  form {
+    padding-top: 1rem;
+  }
+}

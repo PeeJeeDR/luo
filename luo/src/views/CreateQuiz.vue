@@ -1,6 +1,8 @@
 <template>
   <div class='create-quiz page big-wrapper flex direction-col justify-between align-center'>
-    <create-quiz-modal v-if='modal'/>
+    <create-question-modal v-if='questionModal'/>
+    <quiz-options-modal v-if='quizOptionsModal'/>
+
     
     <create v-if='questions.length === 0'/>
 
@@ -8,21 +10,22 @@
       <p>{{ question }}</p>
     </div>
 
-    <default-button :content='"create question"' @click.native='$store.dispatch("Modals/onCreateClick")'/>
+    <default-button :content='"create question"' @click.native='$store.dispatch("Modals/openQuestionModal")'/>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Create from '@/assets/icons/quizzes/Create.svg';
 import DefaultButton from '@/components/buttons/DefaultButton';
-import CreateQuizModal from '@/components/modals/CreateQuizModal';
-import { mapState } from 'vuex';
+import CreateQuestionModal from '@/components/modals/CreateQuestionModal';
+import QuizOptionsModal from '@/components/modals/QuizOptionsModal';
 
 export default {
   name: 'CreateQuiz',
-  components: { DefaultButton, CreateQuizModal, Create },
+  components: { Create, DefaultButton, CreateQuestionModal, QuizOptionsModal },
   computed: {
-    ...mapState('Modals', ['modal']),
+    ...mapState('Modals', ['questionModal', 'quizOptionsModal']),
     ...mapState('CreateQuiz', ['questions'])
   },
   created () {

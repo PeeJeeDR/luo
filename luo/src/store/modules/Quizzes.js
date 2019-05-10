@@ -1,4 +1,5 @@
 import { db } from '@/firebase/firebase';
+import moment from 'moment';
 
 export const Quizzes = {
   namespaced: true,
@@ -35,7 +36,7 @@ export const Quizzes = {
     fetchNewQuizzes ({ commit }) {
       commit('SET_LOADING_ON');
       
-      db.collection('quizzes').orderBy('timestamp', 'desc').onSnapshot(snap => {
+      db.collection('quizzes').orderBy('created', 'desc').onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
         commit('SET_LOADING_OFF');
       });
@@ -72,17 +73,23 @@ export const Quizzes = {
     /* ========== */
 
     /* === POST NEW QUIZ === */
-    postNewQuiz ({ dispatch, rootState }) {
-      const quiz = {
-        title: 'TEST',
-        questions: rootState.CreateQuiz.questions
-      }
+    postNewQuiz ({ dispatch, rootState }, payload) {
+      const questions = rootState.CreateQuiz.questions;
 
-      console.log('quiz', quiz);
-      db.collection('quizzes').add(quiz).then(res => {
-        console.log('res', res);
-        dispatch('fetchNewQuizzes');
-      }).catch(() => {});
+      if (questions.length > 0) {
+        const quiz = {
+          title: payload.title,
+          description: payload.description,
+          public: payload.public,
+          created: moment().format(),
+          questions
+        }
+  
+        db.collection('quizzes').add(quiz).then(res => {
+          console.log('res', res);
+          dispatch('fetchNewQuizzes');
+        }).catch(() => {});
+      }
     }
     /* ========== */
   }

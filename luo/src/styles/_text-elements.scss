@@ -1,21 +1,81 @@
-.error-span {
-  font-size: $sansa;
-  color: $lava;
-  padding-left: 0.5rem;
-  margin-top: 1rem;
-  font-weight: bold;
+/* === FONT SIZES === */
+$jon: 2rem;
+$khaleesi: 1.5rem;
+$khal-drogo: 1.3rem;
+$bran: 1rem;
+$ned: 0.8rem;
+$sansa: 0.6rem;
+/* ========== */
+
+
+
+/* === FONT FAMILIES === */
+$montserrat: 'Montserrat', sans-serif;
+/* ========== */
+
+
+
+/* === HEADING === */
+.heading {
+  font-family: $montserrat;
+  color: $texty;
+
+  &.h--xl {
+    font-size: $jon;
+  }
+
+  &.h--l {
+    font-size: $khaleesi
+  }
+
+  &.h--xxm {
+    font-size: $khal-drogo;
+  }
+
+  &.h--xm {
+    font-size: $bran;
+  }
+
+  &.h--m {
+    font-size: $ned;
+  }
+
+  &.h--s {
+    font-size: $sansa;
+  }
+
+  &.h--weight {
+    &-light {
+      font-weight: lighter;
+    }
+
+    &-bold {
+      font-weight: bold;
+    }
+  }
+
+  &.h--color {
+    &-primary {
+      color: $pinky;
+    }
+
+    &-dark {
+      color: $texty;
+    }
+
+    &-light {
+      color: $snow;
+    }
+  }
+
+  &.h--align {
+    &-left {
+      text-align: left;
+    }
+
+    &-center {
+      text-align: center;
+    }
+  }
 }
-
-@mixin defaultHeaderColors {
-  &.primary {
-    color: $pinky;
-  }
-
-  &.dark {
-    color: $texty;
-  }
-
-  &.light {
-    color: $snow;
-  }
-}
+/* ========== */

@@ -12,6 +12,11 @@
   color: $texty;
   outline: none;
 
+  &.textarea {
+    height: 100%;
+    padding: 1rem 1rem 2rem 1rem;
+  }
+
   &.error {
     background-color: rgb(255, 217, 219);
   }
