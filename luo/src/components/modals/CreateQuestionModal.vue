@@ -20,7 +20,13 @@
 
       <div class='image-container'>
         <div class='icons flex justify-between'>
-          <gallery />
+          <input 
+            type='file' 
+            ref='img' 
+            style='display: none' 
+            @change='(e) => { $store.dispatch("Storage/uploadFile", { file: e.target.files[0] }) }'>
+
+          <gallery @click='$refs.img.click()'/>
           <volume />
         </div>
       </div>
@@ -63,13 +69,14 @@ export default {
   name: 'CreateQuestionModal',
   components: { Gallery, Volume, CheckMark, SubmitAndCancel, Carousel, Slide },
   data: () => ({
+    Sample,
     nbrOfAnswers: 1,
     selectedAnswer: 0,
     question: '',
     answers: [],
-    Sample,
     imgSelected: false,
-    currentSlide: 0
+    currentSlide: 0,
+    selectedImg: undefined,
   }),
   beforeDestroy () {
     this.$store.dispatch('Modals/closeModals');
