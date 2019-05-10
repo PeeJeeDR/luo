@@ -1,7 +1,9 @@
 <template>
   <div class='create-quiz page big-wrapper flex direction-col justify-between align-center'>
-    <create-question-modal v-if='questionModal'/>
-    <quiz-options-modal v-if='quizOptionsModal'/>
+    <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
+      <create-question-modal v-if='questionModal'/>
+      <quiz-options-modal v-if='quizOptionsModal'/>
+    </transition>
 
     
     <create v-if='questions.length === 0'/>

@@ -5,6 +5,7 @@
     <div class='bar'>
       <header>
         <h1>PROFILE</h1>
+        <button @click='$router.push("/authentication")'>AUTH</button>
       </header>
     </div>
   </div>

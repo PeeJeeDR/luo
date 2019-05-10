@@ -1,7 +1,7 @@
 <template>
   <div class='submit-and-cancel flex justify-end'>
     <button type='button' @click='$emit("oncancel")'>Cancel</button>
-    <button type='submit'>Submit</button>
+    <button type='submit' @click='$emit("onsubmit")'>Submit</button>
   </div>
 </template>
 

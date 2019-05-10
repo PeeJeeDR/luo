@@ -1,13 +1,38 @@
 <template>
-  <div class='create-question-modal default-modal'>
-    <div class='top-content'>
-      <img v-if='imgSelected' :src='Sample' alt="">
-    </div>
+  <carousel 
+    :per-page='1' 
+    class='create-question-modal default-modal' 
+    :paginationEnabled='false' 
+    :adjustableHeight='true'
+    :navigateTo='currentSlide'
+  >
+    <!-- === QUESTION === -->
+    <slide data-index='0'>
+      <h3 class='heading h--xxm h--color-primary'>What is your question?</h3>
+      <input type='text' class='default-input' placeholder='Question' v-model='question'>
+      <submit-and-cancel @onsubmit='nextSlide' @oncancel='$store.dispatch("Modals/closeModals")'/>
+    </slide>
+    <!-- ========== -->
 
-    <div class='bottom-content'>
+    <!-- === ADD ASSETS === -->
+    <slide>
+      <h3 class='heading h--xxm h--color-primary'>Add image and/or audio?</h3>
+
+      <div class='image-container'>
+        <div class='icons flex justify-between'>
+          <gallery />
+          <volume />
+        </div>
+      </div>
+
+      <submit-and-cancel @onsubmit='nextSlide' @oncancel='$store.dispatch("Modals/closeModals")'/>
+    </slide>
+    <!-- ========== -->
+
+    <slide data-index='1'>
       <h3 class='heading h--xxm h--color-primary'>Question 1</h3>
       <form @submit.prevent='onFormSubmit'>
-        <input type='text' class='default-input' placeholder='Question title'  v-model='question'>
+        <input type='text' class='default-input' placeholder='Question'  v-model='question'>
 
         <div class='answers' @keydown.tab='addAnswer'>
           <!-- === SINGLE ANSWER === -->
@@ -22,30 +47,38 @@
 
         <submit-and-cancel @oncancel='$store.dispatch("Modals/closeModals")'/>
       </form>
-    </div>
-  </div>
+    </slide>
+  </carousel>
 </template>
 
 <script>
+import { Carousel, Slide } from 'vue-carousel';
+import Gallery from '@/assets/icons/quizzes/Gallery.svg';
+import Volume from '@/assets/icons/quizzes/Volume.svg';
 import Sample from '@/assets/img/sample.jpg';
 import CheckMark from '@/components/buttons/CheckMark';
 import SubmitAndCancel from '@/components/buttons/SubmitAndCancel';
 
 export default {
   name: 'CreateQuestionModal',
-  components: { CheckMark, SubmitAndCancel },
+  components: { Gallery, Volume, CheckMark, SubmitAndCancel, Carousel, Slide },
   data: () => ({
     nbrOfAnswers: 1,
     selectedAnswer: 0,
     question: '',
     answers: [],
     Sample,
-    imgSelected: false
+    imgSelected: false,
+    currentSlide: 0
   }),
   beforeDestroy () {
     this.$store.dispatch('Modals/closeModals');
   },
   methods: {
+    nextSlide () {
+      this.currentSlide += 1;
+    },
+
     addAnswer () {
       this.answers.push({
         id: this.answers.length,

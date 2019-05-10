@@ -1,7 +1,9 @@
 <template>
   <div id='app'>
     <!-- OVERLAY THAT RENDERS WHEN MODAL IS OPEN -->
-    <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModals")'></div>
+    <transition name='fade-overlay'>
+      <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModals")'></div>
+    </transition>
 
     <!-- MAIN HEADER -->
     <main-header v-if='$route.meta.header'/>
@@ -10,7 +12,7 @@
     <sidebar />
 
     <!-- ALL PAGES RENDERED IN ROUTER -->
-    <transition name='router-anim' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
+    <transition  enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
       <router-view/>
     </transition>
   </div>
@@ -43,6 +45,18 @@ export default {
     background-color: #000;
     top: 0; bottom: 0; left: 0; right: 0;
     margin-top: -10rem;
+  }
+
+  .fade-overlay-enter-active {
+    transition: $easy;
+  }
+
+  .fade-overlay-leave-active {
+    transition: all 150ms ease-in-out 500ms;
+  }
+
+  .fade-overlay-enter, .fade-overlay-leave-to {
+    opacity: 0;
   }
 }
 </style>
