@@ -82,6 +82,10 @@ export const Quizzes = {
           description: payload.description,
           public: payload.public,
           created: moment().format(),
+          reports: [],
+          categories: [],
+          played: 0,
+          likes: 0,
           questions
         }
   

@@ -1,27 +1,33 @@
 <template>
   <div class='create-question-modal default-modal'>
-    <h3 class='heading h--xxm h--color-primary'>Question 1</h3>
+    <div class='top-content'>
+      <img v-if='imgSelected' :src='Sample' alt="">
+    </div>
 
-    <form @submit.prevent='onFormSubmit'>
-      <input type='text' class='default-input' placeholder='Question title'  v-model='question'>
+    <div class='bottom-content'>
+      <h3 class='heading h--xxm h--color-primary'>Question 1</h3>
+      <form @submit.prevent='onFormSubmit'>
+        <input type='text' class='default-input' placeholder='Question title'  v-model='question'>
 
-      <div class='answers'>
-        <!-- === SINGLE ANSWER === -->
-        <div class='answer flex align-center' v-for='(answer, i) in answers' :key='i'>
-          <check-mark @click.native='setCorrect(i)' :checked='answer.correct'/>
-          <input v-model='answer.answer' type='text' class='default-input' :placeholder='`Answer ${ i }`'>
+        <div class='answers' @keydown.tab='addAnswer'>
+          <!-- === SINGLE ANSWER === -->
+          <div class='answer flex align-center' v-for='(answer, i) in answers' :key='i'>
+            <check-mark @click.native='setCorrect(i)' :checked='answer.correct'/>
+            <input v-model='answer.answer' type='text' class='default-input' :placeholder='`Answer ${ i }`'>
+          </div>
+          <!-- ========== -->
+
+          <h2 class='heading h--m h--align-center h--color-primary' @click='addAnswer' v-if='answers.length < 4'>Add answer</h2>
         </div>
-        <!-- ========== -->
 
-        <h2 class='heading h--m h--align-center h--color-primary' @click='addAnswer' v-if='answers.length < 4'>Add answer</h2>
-      </div>
-
-      <submit-and-cancel @oncancel='$store.dispatch("Modals/closeModals")'/>
-    </form>
+        <submit-and-cancel @oncancel='$store.dispatch("Modals/closeModals")'/>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+import Sample from '@/assets/img/sample.jpg';
 import CheckMark from '@/components/buttons/CheckMark';
 import SubmitAndCancel from '@/components/buttons/SubmitAndCancel';
 
@@ -32,7 +38,9 @@ export default {
     nbrOfAnswers: 1,
     selectedAnswer: 0,
     question: '',
-    answers: []
+    answers: [],
+    Sample,
+    imgSelected: false
   }),
   beforeDestroy () {
     this.$store.dispatch('Modals/closeModals');

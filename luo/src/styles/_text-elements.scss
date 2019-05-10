@@ -7,13 +7,9 @@ $ned: 0.8rem;
 $sansa: 0.6rem;
 /* ========== */
 
-
-
 /* === FONT FAMILIES === */
 $montserrat: 'Montserrat', sans-serif;
 /* ========== */
-
-
 
 /* === HEADING === */
 .heading {
@@ -75,6 +71,43 @@ $montserrat: 'Montserrat', sans-serif;
 
     &-center {
       text-align: center;
+    }
+  }
+}
+/* ========== */
+
+/* === PARAGRAPH === */
+.paragraph {
+  font-family: $montserrat;
+  color: $texty;
+
+  &.p--xm {
+    font-size: $bran;
+  }
+
+  &.p--m {
+    font-size: $ned;
+  }
+
+  &.p--s {
+    font-size: $sansa;
+  }
+
+  &.p--color {
+    &-primary {
+      color: $pinky;
+    }
+
+    &-dark {
+      color: $texty;
+    }
+
+    &-lighter {
+      color: $storm;
+    }
+
+    &-light {
+      color: $snow;
     }
   }
 }

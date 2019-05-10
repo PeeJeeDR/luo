@@ -4,8 +4,23 @@
   width: 100%;
   z-index: 5;
   border-radius: $smallRadius;
-  padding: 2rem;
   overflow: hidden;
+
+  .top-content {
+    height: 5rem;
+    width: 100%;
+    background-color: $mr-grey;
+  }
+
+  .bottom-content {
+    padding: 2rem;
+  }
+
+  img {
+    width: 100%;
+    height: 10rem;
+    object-fit: cover;
+  }
 
   form {
     padding-top: 1rem;

@@ -7,11 +7,9 @@
 
       <div class='content-container flex justify-between'>
         <div>
-          <h4 class='heading h--medium dark'>
-            {{ capFirstChar(data.title) }}
-          </h4>
+          <h4 class='heading h--xm'>{{ capFirstChar(data.title) }}</h4>
           <hr>
-          <p class='paragraph p--small lighter bold'>{{ data.description }}</p>
+          <p class='paragraph p--m p--color-lighter'>{{ data.description }}</p>
         </div>
 
         <square-button class='play'>
@@ -58,6 +56,7 @@ export default {
 
   .content-container {
     padding: 0.8rem 0.8rem;
+    position: relative;
 
     hr {
       background-color: $pinky;
@@ -70,10 +69,14 @@ export default {
 
     p {
       margin-top: 0.6rem;
+      padding-right: 6rem;
     }
 
     .play {
-      margin: 1rem -1.5rem -2rem 0;
+      margin: 1rem -0.8rem -1.2rem 0;
+      bottom: 0;
+      right: 0;
+      position: absolute !important;
 
       svg {
         transform: rotate(-45deg);

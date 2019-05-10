@@ -1,6 +1,6 @@
 <template>
   <div id='app'>
-     <!-- OVERLAY THAT RENDERS WHEN MODAL IS OPEN -->
+    <!-- OVERLAY THAT RENDERS WHEN MODAL IS OPEN -->
     <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModals")'></div>
 
     <!-- MAIN HEADER -->
