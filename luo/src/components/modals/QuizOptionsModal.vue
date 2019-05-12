@@ -11,7 +11,7 @@
         <h2 class='heading h--m'>Make quiz public</h2>
       </div>
      
-      <submit-and-cancel @oncancel='$store.dispatch("Modals/closeModals")'/>
+      <submit-and-cancel @onsubmit='onFormSubmit' @oncancel='$store.dispatch("Modals/closeModals")'/>
     </form>
   </div>
 </template>
@@ -34,6 +34,7 @@ export default {
     },
 
     async onFormSubmit () {
+      console.log('post');
       await this.$store.dispatch('Quizzes/postNewQuiz', {
         title: this.title,
         description: this.description,
@@ -49,6 +50,8 @@ export default {
 
 <style lang='scss' scoped>
 .quiz-options-modal {
+  padding: 2rem;
+
   .public {
     padding-top: 1rem;
   }

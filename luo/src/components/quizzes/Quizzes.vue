@@ -45,6 +45,7 @@ export default {
 <style lang='scss' scoped>
 .quizzes {
   padding: 4.5rem 0 5rem 0;
+  height: 100%;
   
   .spinner {
     margin-top: 5rem;

@@ -1,22 +1,23 @@
 <template>
-  <div class='question flex'>
-    <img v-if='data.imgUrl' :src='data.imgUrl' alt='Question image.'>
+  <div class='question'>
+    <div class='flex'>
+      <img v-if='data.imgUrl' :src='data.imgUrl' alt='Question image.'>
 
-    <div class='content' :style='data.imgUrl !== undefined ? "padding-left: 1rem;" : "padding: 0"'>
-      <h4 class='heading h--m'>{{ number + 1 }}. {{ data.question }}</h4>
-      <hr>
+      <div class='content' :style='data.imgUrl !== "" ? "padding-left: 1rem;" : "padding: 0"'>
+        <h4 class='heading h--m'>{{ number + 1 }}. {{ data.question }}</h4>
+        <hr>
 
-      <div class='answers'>
-        <p class='paragraph p--m p--weight-bold'>{{ data.answers.length }} answers</p>
-        <ul>
-          <li v-for='(answer, i) in data.answers' :key='i'>
-            <p :class='`paragraph p--m ${ answer.correct && "correct" }`' >{{ answer.answer }}</p>
-          </li>
-        </ul>
+        <div class='answers'>
+          <p class='paragraph p--m p--weight-bold'>{{ data.answers.length }} answers</p>
+          <ul>
+            <li v-for='(answer, i) in data.answers' :key='i'>
+              <p :class='`paragraph p--m ${ answer.correct && "correct" }`' >{{ answer.answer }}</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-
-    <audio v-if='data.audioUrl' :src='data.audioUrl'></audio>
+    <audio v-if='data.audioUrl' :src='data.audioUrl' controls></audio>
   </div>
 </template>
 
@@ -59,6 +60,11 @@ export default {
         }
       }
     }
+  }
+
+  audio {
+    margin-top: 1.5rem;
+    width: 100%;
   }
 }
 </style>

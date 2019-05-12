@@ -5,6 +5,7 @@
     :paginationEnabled='false' 
     :adjustableHeight='true'
     :navigateTo='currentSlide'
+    @page-change='slideChanged'
   >
     <!-- === QUESTION === -->
     <slide data-index='0'>
@@ -19,7 +20,7 @@
       <h3 class='heading h--xxm h--color-primary'>Add image and/or audio?</h3>
 
       <div class='image-container'>
-        <img v-if='selectedImgURL !== undefined' :src='selectedImgURL' alt='img'>
+        <img v-if='selectedImgURL !== ""' :src='selectedImgURL' alt='img'>
 
         <div class='icons flex justify-center align-end'>
           <input 
@@ -36,23 +37,27 @@
             @change='onAudioSelect'
           >
 
-          <div :class='`icon flex-center ${ selectedImgURL !== undefined && "active" }`' @click='$refs.img.click()'>
+          <div :class='`icon flex-center ${ selectedImgURL !== "" && "active" }`' @click='$refs.img.click()'>
             <gallery/>
           </div>
 
-          <div :class='`icon flex-center ${ selectedAudioURL !== undefined && "active" }`' @click='$refs.audio.click()'>
+          <div :class='`icon flex-center ${ selectedAudioURL !== "" && "active" }`' @click='$refs.audio.click()'>
             <volume />
           </div>
         </div>
       </div>
 
-      <pre id='json'></pre>
-
-      <audio v-if='selectedAudioURL !== undefined' controls>
+      <audio v-if='selectedAudioURL !== ""' controls>
         <source :src='selectedAudioURL'>
       </audio>
 
-      <submit-and-cancel @onsubmit='nextSlide' @oncancel='$store.dispatch("Modals/closeModals")'/>
+      <div class='flex align-center justify-between'>
+        <div class='back flex-center' @click='prevSlide' v-ripple>
+          <back />
+        </div>
+        
+        <submit-and-cancel @onsubmit='nextSlide' @oncancel='$store.dispatch("Modals/closeModals")'/>
+      </div>
     </slide>
     <!-- ========== -->
 
@@ -73,7 +78,13 @@
           <h2 class='heading h--m h--align-center h--color-primary' @click='addAnswer' v-if='answers.length < 4'>Add answer</h2>
         </div>
 
-        <submit-and-cancel @onsubmit='onAnswerFillSubmit' @oncancel='$store.dispatch("Modals/closeModals")'/>
+        <div class='flex align-center justify-between'>
+          <div class='back flex-center' @click='prevSlide' v-ripple>
+            <back />
+          </div>
+          
+          <submit-and-cancel @onsubmit='onAnswerFillSubmit' @oncancel='$store.dispatch("Modals/closeModals")'/>
+        </div>
       </form>
     </slide>
     <!-- ========== -->
@@ -87,18 +98,19 @@ import Volume from '@/assets/icons/quizzes/Volume.svg';
 import Sample from '@/assets/img/sample.jpg';
 import CheckMark from '@/components/buttons/CheckMark';
 import SubmitAndCancel from '@/components/buttons/SubmitAndCancel';
+import Back from '@/assets/icons/main-header/Back.svg';
 
 export default {
   name: 'CreateQuestionModal',
-  components: { Gallery, Volume, CheckMark, SubmitAndCancel, Carousel, Slide },
+  components: { Gallery, Volume, CheckMark, SubmitAndCancel, Carousel, Slide, Back },
   data: () => ({
     Sample,
     question: '',
     answers: [],
     selectedCorrectAnswer: false,
     currentSlide: 0,
-    selectedImgURL: undefined,
-    selectedAudioURL: undefined,
+    selectedImgURL: '',
+    selectedAudioURL: '',
     answersFilled: false
   }),
   created () {
@@ -113,6 +125,14 @@ export default {
     this.$store.dispatch('Modals/closeModals');
   },
   methods: {
+    slideChanged (slide) {
+      this.currentSlide = slide;
+    },
+
+    prevSlide () {
+      this.currentSlide = this.currentSlide - 1;
+    },
+
     nextSlide () {
       this.currentSlide += 1;
     },
@@ -120,17 +140,12 @@ export default {
     onImgSelect (e) {
       if (e.target.files[0] && e.target.files[0].type.includes('image')) {
         this.selectedImgURL = URL.createObjectURL(e.target.files[0]);
-        console.log('img', this.selectedImgURL);
       }
     },
 
     onAudioSelect (e) {
-      
-
-      if (e.target.files[0]) {
-        document.getElementById('json').innerHTML = JSON.stringify(e.target.files[0]);
+      if (e.target.files[0] && !e.target.files[0].type.includes('image')) {
         this.selectedAudioURL = URL.createObjectURL(e.target.files[0]);
-        console.log('audio', this.selectedAudioURL);
       }
     },
 
@@ -193,6 +208,18 @@ export default {
     input {
       margin: 0;
     }
+  }
+}
+
+.back {
+  height: auto;
+  margin-top: 3rem;
+  padding: 1rem;
+  border-radius: 20rem;
+
+  svg {
+    width: 1rem;
+    fill: $pinky;
   }
 }
 </style>

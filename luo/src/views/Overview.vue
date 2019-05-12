@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <quizzes class='overview'/>
+  <div class='overview'>
+    <quizzes />
   </div>
 </template>
 
@@ -21,4 +21,11 @@ export default {
   }
 }
 </script>
+
+<style lang='scss' scoped>
+.overview {
+  height: 100%;
+}
+</style>
+
 
