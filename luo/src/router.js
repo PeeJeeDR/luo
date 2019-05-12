@@ -24,6 +24,7 @@ const router = new Router({
       name: 'Quiz overview',
       meta: {
         header: true,
+        bottomNav: true,
         requiresAuth: false,
         leftIcon: 'hamburger'
       }
@@ -34,6 +35,7 @@ const router = new Router({
       name: 'Create quiz',
       meta: {
         header: true,
+        bottomNav: false,
         requiresAuth: true,
         leftIcon: 'back'
       }
@@ -44,6 +46,7 @@ const router = new Router({
       name: 'Authenticate',
       meta: {
         header: false,
+        bottomNav: false,
         requiresAuth: false,
         leftIcon: undefined
       }
@@ -54,6 +57,7 @@ const router = new Router({
       name: 'Test api',
       meta: {
         header: false,
+        bottomNav: false,
         requiresAuth: true,
         leftIcon: undefined
       }

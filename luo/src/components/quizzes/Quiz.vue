@@ -55,17 +55,8 @@ export default {
   }
 
   .content-container {
-    padding: 0.8rem 0.8rem;
+    padding: 0.8rem;
     position: relative;
-
-    hr {
-      background-color: $pinky;
-      height: 0.25rem;
-      width: 3rem;
-      margin-top: 0.3rem;
-      border: none;
-      border-radius: 10rem;
-    }
 
     p {
       margin-top: 0.6rem;

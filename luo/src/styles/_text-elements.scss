@@ -93,6 +93,16 @@ $montserrat: 'Montserrat', sans-serif;
     font-size: $sansa;
   }
 
+  &.p--weight {
+    &-light {
+      font-weight: lighter;
+    }
+
+    &-bold {
+      font-weight: bold;
+    }
+  }
+
   &.p--color {
     &-primary {
       color: $pinky;

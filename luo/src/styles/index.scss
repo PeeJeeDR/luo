@@ -14,8 +14,14 @@
 /* === FLEXBOX === */
 @import './flexbox';
 
+/* === UTILS === */
+@import './utils';
+
 /* === TEXT ELEMENTS === */
 @import './text-elements';
+
+/* === MIXINS === */
+@import './mixins';
 
 /* === INPUT FIELDS === */
 @import './input-fields';
@@ -25,6 +31,3 @@
 
 /* === MODALS === */
 @import './modals';
-
-/* === MIXINS === */
-@import './mixins';

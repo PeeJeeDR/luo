@@ -5,6 +5,11 @@
       <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModals")'></div>
     </transition>
 
+    <!-- BOTTOM NAVIGATION -->
+    <transition mode='out-in' enter-active-class='animated slideInUp faster' leave-active-class='animated slideOutDown faster'>
+      <bottom-navigation v-if='$route.meta.bottomNav'/>
+    </transition>
+
     <!-- MAIN HEADER -->
     <main-header v-if='$route.meta.header'/>
 
@@ -12,7 +17,7 @@
     <sidebar />
 
     <!-- ALL PAGES RENDERED IN ROUTER -->
-    <transition  enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
+    <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
       <router-view/>
     </transition>
   </div>
@@ -23,10 +28,12 @@ import { fire } from '@/firebase/firebase';
 import MainHeader from '@/components/header/MainHeader';
 import Sidebar from '@/components/sidebar/Sidebar';
 import { mapState } from 'vuex';
+import BottomNavigation from '@/components/navigation/BottomNavigation';
+
 
 export default {
   name: 'App',
-  components: { MainHeader, Sidebar }, 
+  components: { MainHeader, Sidebar, BottomNavigation }, 
   computed: {
     ...mapState('Modals', ['overlay'])
   }

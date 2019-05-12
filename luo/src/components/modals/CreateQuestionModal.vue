@@ -15,45 +15,68 @@
     <!-- ========== -->
 
     <!-- === ADD ASSETS === -->
-    <slide>
+    <slide data-index='0'>
       <h3 class='heading h--xxm h--color-primary'>Add image and/or audio?</h3>
 
       <div class='image-container'>
-        <div class='icons flex justify-between'>
+        <img v-if='selectedImgURL !== undefined' :src='selectedImgURL' alt='img'>
+
+        <div class='icons flex justify-center align-end'>
           <input 
             type='file' 
             ref='img' 
             style='display: none' 
-            @change='(e) => { $store.dispatch("Storage/uploadFile", { file: e.target.files[0] }) }'>
+            @change='onImgSelect'
+          >
 
-          <gallery @click='$refs.img.click()'/>
-          <volume />
+          <input 
+            type='file'
+            ref='audio'
+            style='display: none'
+            @change='onAudioSelect'
+          >
+
+          <div :class='`icon flex-center ${ selectedImgURL !== undefined && "active" }`' @click='$refs.img.click()'>
+            <gallery/>
+          </div>
+
+          <div :class='`icon flex-center ${ selectedAudioURL !== undefined && "active" }`' @click='$refs.audio.click()'>
+            <volume />
+          </div>
         </div>
       </div>
+
+      <pre id='json'></pre>
+
+      <audio v-if='selectedAudioURL !== undefined' controls>
+        <source :src='selectedAudioURL'>
+      </audio>
 
       <submit-and-cancel @onsubmit='nextSlide' @oncancel='$store.dispatch("Modals/closeModals")'/>
     </slide>
     <!-- ========== -->
 
-    <slide data-index='1'>
-      <h3 class='heading h--xxm h--color-primary'>Question 1</h3>
-      <form @submit.prevent='onFormSubmit'>
-        <input type='text' class='default-input' placeholder='Question'  v-model='question'>
+    <!-- === ANSWERS === -->
+    <slide data-index='2'>
+      <h3 class='heading h--xxm h--color-primary'>{{ answersFilled ? "Which one is correct?" : "Add your answers" }}</h3>
 
+      <form @submit.prevent>
         <div class='answers' @keydown.tab='addAnswer'>
+
           <!-- === SINGLE ANSWER === -->
           <div class='answer flex align-center' v-for='(answer, i) in answers' :key='i'>
-            <check-mark @click.native='setCorrect(i)' :checked='answer.correct'/>
-            <input v-model='answer.answer' type='text' class='default-input' :placeholder='`Answer ${ i }`'>
+            <check-mark v-if='answersFilled' @click.native='setCorrect(i)' :checked='answer.correct'/>
+            <input v-model='answer.answer' type='text' class='default-input' :placeholder='`Answer ${ i + 1 }`'>
           </div>
           <!-- ========== -->
 
           <h2 class='heading h--m h--align-center h--color-primary' @click='addAnswer' v-if='answers.length < 4'>Add answer</h2>
         </div>
 
-        <submit-and-cancel @oncancel='$store.dispatch("Modals/closeModals")'/>
+        <submit-and-cancel @onsubmit='onAnswerFillSubmit' @oncancel='$store.dispatch("Modals/closeModals")'/>
       </form>
     </slide>
+    <!-- ========== -->
   </carousel>
 </template>
 
@@ -70,14 +93,22 @@ export default {
   components: { Gallery, Volume, CheckMark, SubmitAndCancel, Carousel, Slide },
   data: () => ({
     Sample,
-    nbrOfAnswers: 1,
-    selectedAnswer: 0,
     question: '',
     answers: [],
-    imgSelected: false,
+    selectedCorrectAnswer: false,
     currentSlide: 0,
-    selectedImg: undefined,
+    selectedImgURL: undefined,
+    selectedAudioURL: undefined,
+    answersFilled: false
   }),
+  created () {
+    this.answers.push({
+      id: this.answers.length,
+      answer: '',
+      correct: false,
+      type: 'text'
+    });
+  },
   beforeDestroy () {
     this.$store.dispatch('Modals/closeModals');
   },
@@ -86,24 +117,56 @@ export default {
       this.currentSlide += 1;
     },
 
+    onImgSelect (e) {
+      if (e.target.files[0] && e.target.files[0].type.includes('image')) {
+        this.selectedImgURL = URL.createObjectURL(e.target.files[0]);
+        console.log('img', this.selectedImgURL);
+      }
+    },
+
+    onAudioSelect (e) {
+      
+
+      if (e.target.files[0]) {
+        document.getElementById('json').innerHTML = JSON.stringify(e.target.files[0]);
+        this.selectedAudioURL = URL.createObjectURL(e.target.files[0]);
+        console.log('audio', this.selectedAudioURL);
+      }
+    },
+
     addAnswer () {
-      this.answers.push({
-        id: this.answers.length,
-        answer: '',
-        correct: false,
-        type: 'text'
-      });
+      if (this.answers.length < 4) {
+        this.answers.push({
+          id: this.answers.length,
+          answer: '',
+          correct: false,
+          type: 'text'
+        });
+      }
+    },
+
+    onAnswerFillSubmit () {
+      if (this.answersFilled && this.selectedCorrectAnswer) {
+        this.onFormSubmit();
+      }
+
+      if (!this.answersFilled) {
+        this.answersFilled = true;
+      }
     },
 
     setCorrect (i) {
       this.answers.map(answer => answer.correct = false);
       this.answers[i].correct = true;
+      this.selectedCorrectAnswer = true;
     },
 
     onFormSubmit () {
       this.$store.dispatch('CreateQuiz/onQuestionFormSubmit', {
         question: this.question,
-        answers: this.answers
+        answers: this.answers,
+        imgUrl: this.selectedImgURL,
+        audioUrl: this.selectedAudioURL
       });
 
       this.$store.dispatch('Modals/closeModals');
@@ -117,8 +180,8 @@ export default {
 
 <style lang='scss' scoped>
 .create-question-modal .answers {
-  padding: 1rem 0;
   width: 100%;
+  overflow: scroll;
 
   .answer {
     margin-bottom: 1rem;

@@ -1,7 +1,6 @@
 <template>
-  <div class='page'>
-    <quizzes />
-    <bottom-navigation />
+  <div>
+    <quizzes class='overview'/>
   </div>
 </template>
 
@@ -22,3 +21,4 @@ export default {
   }
 }
 </script>
+
