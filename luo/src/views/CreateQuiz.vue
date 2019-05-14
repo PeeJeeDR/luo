@@ -56,7 +56,7 @@ export default {
   svg {
     fill: $mist;
     width: 5rem;
-    position: absolute;
+    position: fixed;
     margin: 0 auto;
     top: 0; bottom: 0; left: 0; right: 0;
   }

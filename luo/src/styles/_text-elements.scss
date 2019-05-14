@@ -11,6 +11,12 @@ $sansa: 0.6rem;
 $montserrat: 'Montserrat', sans-serif;
 /* ========== */
 
+/* === ERRORS === */
+.error {
+  padding: 0.3rem 0 0 0.2rem;
+}
+/* ========== */
+
 /* === HEADING === */
 .heading {
   font-family: $montserrat;
@@ -118,6 +124,10 @@ $montserrat: 'Montserrat', sans-serif;
 
     &-light {
       color: $snow;
+    }
+
+    &-danger {
+      color: $lava
     }
   }
 }

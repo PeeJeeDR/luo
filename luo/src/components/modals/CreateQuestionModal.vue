@@ -11,6 +11,7 @@
     <slide data-index='0'>
       <h3 class='heading h--xxm h--color-primary'>What is your question?</h3>
       <input type='text' class='default-input' placeholder='Question' v-model='question'>
+      <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error }}</p>
       <submit-and-cancel @onsubmit='nextSlide' @oncancel='$store.dispatch("Modals/closeModals")'/>
     </slide>
     <!-- ========== -->
@@ -23,19 +24,8 @@
         <img v-if='selectedImgURL !== ""' :src='selectedImgURL' alt='img'>
 
         <div class='icons flex justify-center align-end'>
-          <input 
-            type='file' 
-            ref='img' 
-            style='display: none' 
-            @change='onImgSelect'
-          >
-
-          <input 
-            type='file'
-            ref='audio'
-            style='display: none'
-            @change='onAudioSelect'
-          >
+          <input type='file' ref='img' style='display: none' @change='onImgSelect'>
+          <input type='file' ref='audio' style='display: none' @change='onAudioSelect'>
 
           <div :class='`icon flex-center ${ selectedImgURL !== "" && "active" }`' @click='$refs.img.click()'>
             <gallery/>
@@ -71,7 +61,7 @@
           <!-- === SINGLE ANSWER === -->
           <div class='answer flex align-center' v-for='(answer, i) in answers' :key='i'>
             <check-mark v-if='answersFilled' @click.native='setCorrect(i)' :checked='answer.correct'/>
-            <input v-model='answer.answer' type='text' class='default-input' :placeholder='`Answer ${ i + 1 }`'>
+            <input autofocus @keydown='deleteAnswerField' v-model='answer.answer' type='text' class='default-input' :placeholder='`Answer ${ i + 1 }`'>
           </div>
           <!-- ========== -->
 
@@ -111,9 +101,12 @@ export default {
     currentSlide: 0,
     selectedImgURL: '',
     selectedAudioURL: '',
-    answersFilled: false
+    answersFilled: false,
+    error: '',
   }),
   created () {
+    this.currentSlide = 0;
+    
     this.answers.push({
       id: this.answers.length,
       answer: '',
@@ -125,6 +118,7 @@ export default {
     this.$store.dispatch('Modals/closeModals');
   },
   methods: {
+    /* === SLIDE METHODS === */
     slideChanged (slide) {
       this.currentSlide = slide;
     },
@@ -136,7 +130,9 @@ export default {
     nextSlide () {
       this.currentSlide += 1;
     },
+    /* ========== */
 
+    /* === FILE UPLOAD === */
     onImgSelect (e) {
       if (e.target.files[0] && e.target.files[0].type.includes('image')) {
         this.selectedImgURL = URL.createObjectURL(e.target.files[0]);
@@ -148,9 +144,11 @@ export default {
         this.selectedAudioURL = URL.createObjectURL(e.target.files[0]);
       }
     },
+    /* ========== */
 
+    /* === ANSWERS BOX === */
     addAnswer () {
-      if (this.answers.length < 4) {
+      if (this.answers.length > 0 && this.answers[this.answers.length - 1].answer !== '' && this.answers.length < 4) {
         this.answers.push({
           id: this.answers.length,
           answer: '',
@@ -160,9 +158,20 @@ export default {
       }
     },
 
+    deleteAnswerField (e) {
+      if (e.keyCode === 8 && (this.answers[this.answers.length - 1].answer === '' && this.answers[0].answer !== '')) {
+        console.log('BACKSPACE!!');
+        this.answers.pop();
+      }
+    },
+
     onAnswerFillSubmit () {
       if (this.answersFilled && this.selectedCorrectAnswer) {
         this.onFormSubmit();
+      }
+
+      if (this.answersFilled && !this.selectedCorrectAnswer) {
+        console.log('no correct selected');
       }
 
       if (!this.answersFilled) {
@@ -175,20 +184,27 @@ export default {
       this.answers[i].correct = true;
       this.selectedCorrectAnswer = true;
     },
+    /* ========== */
 
+    /* === FORM SUBMIT === */
     onFormSubmit () {
-      this.$store.dispatch('CreateQuiz/onQuestionFormSubmit', {
-        question: this.question,
-        answers: this.answers,
-        imgUrl: this.selectedImgURL,
-        audioUrl: this.selectedAudioURL
-      });
+      if (this.question !== '') {
+        this.$store.dispatch('CreateQuiz/onQuestionFormSubmit', {
+          question: this.question,
+          answers: this.answers,
+          imgUrl: this.selectedImgURL,
+          audioUrl: this.selectedAudioURL
+        });
 
-      this.$store.dispatch('Modals/closeModals');
+        this.$store.dispatch('Modals/closeModals');
+      }
+
+      if (this.question === '') {
+        this.currentSlide = 0;
+        this.error = "Please fill in you're question."
+      }
     }
-  },
-  computed: {
-    
+    /* ========== */
   }
 }
 </script>

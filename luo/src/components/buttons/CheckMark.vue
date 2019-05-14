@@ -21,6 +21,7 @@ export default {
   height: 2rem;
   margin: 0 1rem 0 0;
   border-radius: 4rem;
+  position: relative;
 
   &.active {
     background-color: $pinky;

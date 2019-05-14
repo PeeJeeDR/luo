@@ -46,14 +46,9 @@ import Category from '@/assets/icons/bottom-nav/Category.svg';
 export default {
   name: 'BottomNavigation',
   components: { SquareButton, New, Popular, Star, Category },
-  data: () => ({
-    fire
-  }),
+  data: () => ({ fire }),
   computed: {
     ...mapState('Navigation', ['selectedOverview'])
-  },
-  mounted () {
-    console.log(fire.auth().currentUser);
   }
 }
 </script>

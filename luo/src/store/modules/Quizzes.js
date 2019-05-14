@@ -74,6 +74,7 @@ export const Quizzes = {
 
     /* === POST NEW QUIZ === */
     postNewQuiz ({ dispatch, rootState }, payload) {
+      console.log('post', payload);
       const questions = rootState.CreateQuiz.questions;
 
       if (questions.length > 0) {
@@ -83,7 +84,7 @@ export const Quizzes = {
           public: payload.public,
           created: moment().format(),
           reports: [],
-          categories: [],
+          categories: payload.categories,
           played: 0,
           likes: 0,
           questions
