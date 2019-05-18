@@ -17,7 +17,7 @@
     <!-- ========== -->
 
     <!-- === ADD ASSETS === -->
-    <slide data-index='0'>
+    <slide data-index='1'>
       <h3 class='heading h--xxm h--color-primary'>Add image and/or audio?</h3>
 
       <div class='image-container'>
@@ -106,7 +106,7 @@ export default {
   }),
   created () {
     this.currentSlide = 0;
-    
+
     this.answers.push({
       id: this.answers.length,
       answer: '',

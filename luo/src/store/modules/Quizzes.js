@@ -1,4 +1,4 @@
-import { db } from '@/firebase/firebase';
+import { db, storage } from '@/firebase/firebase';
 import moment from 'moment';
 
 export const Quizzes = {
@@ -73,11 +73,29 @@ export const Quizzes = {
     /* ========== */
 
     /* === POST NEW QUIZ === */
-    postNewQuiz ({ dispatch, rootState }, payload) {
+    async postNewQuiz ({ dispatch, state, rootState }, payload) {
       console.log('post', payload);
-      const questions = rootState.CreateQuiz.questions;
 
-      if (questions.length > 0) {
+      const questions = rootState.CreateQuiz.questions;
+      let storageUrl = undefined;
+
+      // SAVE IMAGE TO FIREBASE STORAGE
+      if (payload.img !== undefined) {
+        const name = payload.img.name;
+        const meta = { contentType: payload.img.type }
+
+        await storage.child(name).put(payload.img, meta).then(snap => snap.ref.getDownloadURL()).then(url => {
+          console.log('URL FROM STORAGE', url);
+          storageUrl = url;
+        }).catch(err => {
+          storageUrl = undefined;
+        });
+      }
+
+      console.log('URL BEFORE ASSIGN', storageUrl);
+
+      // CHECK IF THERE IS AT LEAST ONE QUESTION MADE questions.length > 0
+      if (questions.length === 0) {
         const quiz = {
           title: payload.title,
           description: payload.description,
@@ -87,15 +105,19 @@ export const Quizzes = {
           categories: payload.categories,
           played: 0,
           likes: 0,
-          questions
+          imgUrl: storageUrl !== undefined ? storageUrl : 'Hier moet je nog een default zetten.',
+          questions,
         }
   
+        // ADD QUIZ TO FIRESTORE
         db.collection('quizzes').add(quiz).then(res => {
-          console.log('res', res);
+          console.log('QUIZ POSTED');
+
+          // REFETCH QUIZZES
           dispatch('fetchNewQuizzes');
         }).catch(() => {});
       }
-    }
+    },
     /* ========== */
   }
 }

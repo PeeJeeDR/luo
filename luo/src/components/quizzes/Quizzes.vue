@@ -4,7 +4,7 @@
 
     <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
 
-    <div v-if='!loading'>
+    <div class='quizzes-overview' v-if='!loading'>
       <quiz v-for='(quiz, i) in quizzes' :key='i' :data='quiz' :index='i'/>
     </div>
 
@@ -44,11 +44,14 @@ export default {
 
 <style lang='scss' scoped>
 .quizzes {
-  padding: 4.5rem 0 5rem 0;
   height: 100%;
-  
+
   .spinner {
     margin-top: 5rem;
+  }
+
+  .quizzes-overview {
+    padding: 4.5rem 0 5rem 0;
   }
 
   h2 {

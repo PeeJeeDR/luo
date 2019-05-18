@@ -4,21 +4,28 @@
     class='quiz-options-modal default-modal' 
     :paginationEnabled='false' 
     :adjustableHeight='true'
+    :navigateTo='currentSlide'
+    @page-change='slideChanged'
+    :touchDrag='dragStatus'
+    :mouseDrag='dragStatus'
   >
     <!-- === TITLE, DESCRIPTION AND PUBLIC === -->
     <slide data-index='0'>
       <h3 class='heading h--xxm h--color-primary'>Almost done!</h3>
 
-      <form @submit.prevent='onFormSubmit'>
+      <form @submit.prevent='nextSlide'>
         <input type='text' class='default-input' placeholder='Quiz title' v-model='title'>
+        <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error1 }}</p>
+
         <textarea class='default-input textarea' placeholder='Quiz description' v-model='description'></textarea>
+        <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error2 }}</p>
 
         <div class='public flex align-center'>
           <check-mark @click.native='togglePrivate' :checked='public'/>
           <h2 class='heading h--m'>Make quiz public</h2>
         </div>
       
-        <submit-and-cancel @onsubmit='onFormSubmit' @oncancel='$store.dispatch("Modals/closeModals")'/>
+        <submit-and-cancel @oncancel='$store.dispatch("Modals/closeModals")'/>
       </form>
     </slide>
     <!-- ========== -->
@@ -35,7 +42,7 @@
         </div>
       </div>
 
-      <submit-and-cancel @onsubmit='onFormSubmit' @oncancel='$store.dispatch("Modals/closeModals")'/>
+      <submit-and-cancel @onsubmit='nextSlide' @oncancel='$store.dispatch("Modals/closeModals")'/>
     </slide>
     <!-- ========== -->
 
@@ -77,8 +84,13 @@ export default {
     title: '',
     description: '',
     public: false,
+    selectedImg: undefined,
     selectedImgURL: '',
-    selectedCategories: []
+    selectedCategories: [],
+    currentSlide: 0,
+    error1: '',
+    error2: '',
+    dragStatus: false
   }),
   computed: {
     ...mapState('Categories', ['categories'])
@@ -87,6 +99,43 @@ export default {
     this.$store.dispatch('Categories/fetchCategories');
   },
   methods: {
+    /* === SLIDE METHODS === */
+    slideChanged (slide) {
+      this.currentSlide = slide;
+    },
+
+    prevSlide () {
+      this.currentSlide = this.currentSlide - 1;
+    },
+
+    nextSlide () {
+      switch (this.currentSlide) {
+        case 0: 
+          let formValid = true;
+
+          if (this.title === '') {
+            this.error1 = 'You  have to fill in a quiz title.';
+            formValid = false;
+          } 
+
+          if (this.description === '') {
+            this.error2 = 'Fill in a quiz description';
+            formValid = false;
+          }
+
+          if (formValid) {
+            this.dragStatus = true;
+            this.currentSlide += 1;
+          }
+        break;
+
+        case 1: 
+          this.currentSlide += 1;
+        break;
+      }
+    },
+    /* ========== */
+
     /* === TITLE, DESCRIPTION AND PUBLIC === */
     togglePrivate () {
       this.public = !this.public;
@@ -96,6 +145,7 @@ export default {
     /* === ASSETS UPLOAD === */
     onImgSelect (e) {
       if (e.target.files[0] && e.target.files[0].type.includes('image')) {
+        this.selectedImg = e.target.files[0];
         this.selectedImgURL = URL.createObjectURL(e.target.files[0]);
       }
     },
@@ -120,11 +170,13 @@ export default {
         title: this.title,
         description: this.description,
         public: this.public,
-        categories: this.selectedCategories
+        categories: this.selectedCategories,
+        img: this.selectedImg,
+        imgUrl: this.selectedImgURL
       });
 
-      this.$store.dispatch('Modals/closeModals');
-      this.$router.push('/');
+      // this.$store.dispatch('Modals/closeModals');
+      // this.$router.push('/');
     }
     /* ========== */
   }
