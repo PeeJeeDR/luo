@@ -2,7 +2,7 @@
   <div class='animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`'>
     <div class='quiz'>
       <div class='img-container'>
-        <img :src='Sample' alt='sample image.'>
+        <img :src='data.imgUrl !== null ? data.imgUrl : Sample' alt='sample image.'>
       </div>
 
       <div class='content-container flex justify-between'>

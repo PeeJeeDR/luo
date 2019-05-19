@@ -2,15 +2,15 @@
   <header>
     <div class='wrapper flex justify-between align-center default-vp'>
       <div class='icon'>
-        <hamburger v-if='leftIcon === "hamburger"' @click='openSidebar'/>
-        <back v-if='leftIcon === "back"' @click='$router.push("/")'/>
+        <hamburger v-if='meta.leftIcon === "hamburger"' @click='openSidebar'/>
+        <back v-if='meta.leftIcon === "back"' @click='$router.push("/")'/>
       </div>
       
-      <h2 v-if='headerTitle'>{{ capFirstChar(headerTitle) }}</h2>
+      <h2 v-if='meta.title'>{{ capFirstChar(meta.title) }}</h2>
 
       <div class='icon'>
-        <search v-if='rightIcon === "search"'/>
-        <save v-if='rightIcon === "save"' @click='$store.dispatch("Modals/openQuizOptionsModal")'/>
+        <search v-if='meta.rightIcon === "search"'/>
+        <save v-if='meta.rightIcon === "save"' @click='$store.dispatch("Modals/openQuizOptionsModal")'/>
       </div>
     </div>
   </header>
@@ -30,8 +30,13 @@ export default {
   mixins: [GlobalMethods],
   components: { hamburger, Search, Save, Back },
   props: ['render'],
+  data: () => ({
+    leftIcon: undefined,
+    rightIcon: undefined,
+    title: undefined,
+    meta: ''
+  }),
   computed: {
-    ...mapState('Header', ['headerTitle', 'leftIcon', 'rightIcon']),
     ...mapState('CreateQuiz', ['questions'])
   },
   methods: {
@@ -44,6 +49,12 @@ export default {
       if (this.questions.length > 0) {
         // this.$store.dispatch("Quizzes/postNewQuiz");
       }
+    }
+  },
+  watch: {
+    '$route.meta': function () {
+      console.log('META', this.$route.meta.header);
+      this.meta = this.$route.meta.header;
     }
   }
 }

@@ -23,10 +23,15 @@ const router = new Router({
       component: Overview,
       name: 'Quiz overview',
       meta: {
-        header: true,
-        bottomNav: true,
+        header: {
+          enabled: true,
+          leftIcon: 'hamburger',
+          rightIcon: undefined
+        },
+        bottomNav: {
+          enabled: true
+        },
         requiresAuth: false,
-        leftIcon: 'hamburger'
       }
     },
     { 
@@ -34,10 +39,15 @@ const router = new Router({
       component: CreateQuiz,
       name: 'Create quiz',
       meta: {
-        header: true,
-        bottomNav: false,
+        header: {
+          enabled: true,
+          leftIcon: 'back',
+          rightIcon: 'save'
+        },
+        bottomNav: {
+          enabled: false
+        },
         requiresAuth: true,
-        leftIcon: 'back'
       }
     },
     { 
@@ -45,10 +55,15 @@ const router = new Router({
       component: Authentication,
       name: 'Authenticate',
       meta: {
-        header: false,
-        bottomNav: false,
+        header: {
+          enabled: false,
+          leftIcon: undefined,
+          rightIcon: undefined
+        },
+        bottomNav: {
+          enabled: false
+        },
         requiresAuth: false,
-        leftIcon: undefined
       }
     },
     { 
@@ -56,10 +71,15 @@ const router = new Router({
       component: TestApi,
       name: 'Test api',
       meta: {
-        header: false,
-        bottomNav: false,
-        requiresAuth: true,
-        leftIcon: undefined
+        header: {
+          enabled: false,
+          leftIcon: undefined,
+          rightIcon: undefined
+        },
+        bottomNav: {
+          enabled: false
+        },
+        requiresAuth: true
       }
     },
     {

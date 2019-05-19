@@ -29,13 +29,6 @@ export default {
   computed: {
     ...mapState('Modals', ['questionModal', 'quizOptionsModal']),
     ...mapState('CreateQuiz', ['questions'])
-  },
-  created () {
-    this.$store.dispatch('Header/onPageLoad', { 
-      title: 'create quiz', 
-      leftIcon: 'back',
-      rightIcon: 'save'
-    });
   }
 }
 </script>

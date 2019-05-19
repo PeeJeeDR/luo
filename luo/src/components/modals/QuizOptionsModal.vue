@@ -175,8 +175,8 @@ export default {
         imgUrl: this.selectedImgURL
       });
 
-      // this.$store.dispatch('Modals/closeModals');
-      // this.$router.push('/');
+      this.$store.dispatch('Modals/closeModals');
+      this.$router.push('/');
     }
     /* ========== */
   }

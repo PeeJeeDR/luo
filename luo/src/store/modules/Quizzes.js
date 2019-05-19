@@ -95,7 +95,7 @@ export const Quizzes = {
       console.log('URL BEFORE ASSIGN', storageUrl);
 
       // CHECK IF THERE IS AT LEAST ONE QUESTION MADE questions.length > 0
-      if (questions.length === 0) {
+      if (questions.length > 0) {
         const quiz = {
           title: payload.title,
           description: payload.description,
@@ -105,7 +105,7 @@ export const Quizzes = {
           categories: payload.categories,
           played: 0,
           likes: 0,
-          imgUrl: storageUrl !== undefined ? storageUrl : 'Hier moet je nog een default zetten.',
+          imgUrl: storageUrl !== undefined ? storageUrl : null,
           questions,
         }
   

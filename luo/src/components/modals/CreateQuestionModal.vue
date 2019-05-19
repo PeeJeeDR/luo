@@ -96,7 +96,12 @@ export default {
   data: () => ({
     Sample,
     question: '',
-    answers: [],
+    answers: [{
+      id: 0,
+      answer: '',
+      correct: false,
+      type: 'text'
+    }],
     selectedCorrectAnswer: false,
     currentSlide: 0,
     selectedImgURL: '',
@@ -107,12 +112,7 @@ export default {
   created () {
     this.currentSlide = 0;
 
-    this.answers.push({
-      id: this.answers.length,
-      answer: '',
-      correct: false,
-      type: 'text'
-    });
+    console.log('current slide', this.currentSlide);
   },
   beforeDestroy () {
     this.$store.dispatch('Modals/closeModals');

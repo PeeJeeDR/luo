@@ -71,9 +71,9 @@ export default {
 
     h2 {
       transform: rotate(45deg);
-      margin: -1.5rem;
+      margin: -1.4rem;
       font-weight: lighter;
-      font-size: 2.5rem;
+      font-size: 2.4rem;
     }
   }
 

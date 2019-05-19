@@ -7,11 +7,11 @@
 
     <!-- BOTTOM NAVIGATION -->
     <transition mode='out-in' enter-active-class='animated slideInUp faster' leave-active-class='animated slideOutDown faster'>
-      <bottom-navigation v-if='$route.meta.bottomNav'/>
+      <bottom-navigation v-if='$route.meta.bottomNav.enabled'/>
     </transition>
 
     <!-- MAIN HEADER -->
-    <main-header v-if='$route.meta.header'/>
+    <main-header v-if='$route.meta.header.enabled'/>
 
     <!-- SIDE BAR (TOGGLED BY MAIN HEADER) -->
     <sidebar />
@@ -33,7 +33,7 @@ import BottomNavigation from '@/components/navigation/BottomNavigation';
 
 export default {
   name: 'App',
-  components: { MainHeader, Sidebar, BottomNavigation }, 
+  components: { MainHeader, Sidebar, BottomNavigation },
   computed: {
     ...mapState('Modals', ['overlay'])
   }
