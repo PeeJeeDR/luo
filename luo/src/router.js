@@ -7,6 +7,7 @@ import { fire } from '@/firebase/firebase';
 /* === PAGES === */
 import Authentication from '@/views/Authentication';
 import Overview from '@/views/Overview';
+import Profile from '@/views/Profile';
 import TestApi from '@/views/TestApi';
 import CreateQuiz from '@/views/CreateQuiz';
 /* ========== */
@@ -26,6 +27,22 @@ const router = new Router({
         header: {
           enabled: true,
           leftIcon: 'hamburger',
+          rightIcon: undefined
+        },
+        bottomNav: {
+          enabled: true
+        },
+        requiresAuth: false,
+      }
+    },
+    { 
+      path: '/profile', 
+      component: Profile,
+      name: 'Profile',
+      meta: {
+        header: {
+          enabled: true,
+          leftIcon: undefined,
           rightIcon: undefined
         },
         bottomNav: {

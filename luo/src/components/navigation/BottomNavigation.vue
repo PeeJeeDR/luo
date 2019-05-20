@@ -3,30 +3,30 @@
 
     <!-- === LEFT === -->
     <div class='icon-container flex'>
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "new", isPageLoad: false })'>
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "new" })'>
         <new :class='selectedOverview === "new" && "active"'/>
       </div>
 
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "popular", isPageLoad: false })'>
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "popular" })'>
         <popular :class='selectedOverview === "popular" && "active"'/>
       </div>
     </div>
     <!-- ========== -->
 
     <!-- === CENTER === -->
-    <square-button :disabled='fire.auth().currentUser !== null ? false : true' class='add' @click.native='$router.push("/quizzes/create"); $store.commit("Header/SET_HEADER_TITLE", "create quiz");'>
+    <square-button :disabled='fire.auth().currentUser !== null ? false : true' class='add' @click.native='$router.push("/quizzes/create");'>
       <h2>+</h2>
     </square-button>
     <!-- ========== -->
 
     <!-- === RIGHT === -->
     <div class='icon-container flex'>
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "interests", isPageLoad: false })'>
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "interests" })'>
         <star :class='selectedOverview === "interests" && "active"'/>
       </div>
 
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "category", isPageLoad: false })'>
-        <category :class='selectedOverview === "category" && "active"'/>
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "profile" })'>
+        <profile :class='selectedOverview === "profile" && "active"'/>
       </div>
     </div>
     <!-- ========== -->
@@ -41,11 +41,11 @@ import SquareButton from '@/components/buttons/SquareButton';
 import New from '@/assets/icons/bottom-nav/New.svg';
 import Popular from '@/assets/icons/bottom-nav/Popular.svg';
 import Star from '@/assets/icons/bottom-nav/Star.svg';
-import Category from '@/assets/icons/bottom-nav/Category.svg';
+import Profile from '@/assets/icons/bottom-nav/Profile.svg';
 
 export default {
   name: 'BottomNavigation',
-  components: { SquareButton, New, Popular, Star, Category },
+  components: { SquareButton, New, Popular, Star, Profile },
   data: () => ({ fire }),
   computed: {
     ...mapState('Navigation', ['selectedOverview'])

@@ -16,7 +16,7 @@ export default {
   props: ['data'],
   methods: {
     atCategoryClick () {
-      this.$store.dispatch('Header/onCategoryClick', { title: this.data.category });
+      this.$store.dispatch('Sidebar/closeSidebar');
       this.$store.dispatch('Quizzes/fetchQuizesByCategory', { categoryId: this.data.id });
     }
   }
@@ -27,6 +27,8 @@ export default {
 .category {
   margin: 0.5rem 0;
   color: $texty;
+  white-space: nowrap;
+  padding: 0 1rem;
 
   .container {
     padding: 0.5rem;

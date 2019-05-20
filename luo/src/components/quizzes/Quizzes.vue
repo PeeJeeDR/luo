@@ -1,7 +1,5 @@
 <template>
   <div class='quizzes big-wrapper'>
-    <categories :state='categoriesIsOpen ? "open" : "closed"'/>
-
     <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
 
     <div class='quizzes-overview' v-if='!loading'>
@@ -23,21 +21,9 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 export default {
   name: 'Quizzes',
-  components: { Quiz, MoonLoader, Categories },
+  components: { Quiz, MoonLoader },
   computed: {
     ...mapState('Quizzes', ['quizzes', 'loading']),
-    ...mapState('Navigation', ['selectedOverview', 'categoriesIsOpen'])
-  },
-  methods: {
-    shouldRenderCategories () {
-      if (this.categoriesIsOpen) {
-        disableBodyScroll(document.getElementsByTagName('body')[0]);
-      }
-
-      if (!this.categoriesIsOpen) {
-        enableBodyScroll(document.getElementsByTagName('body')[0]);
-      }
-    }
   }
 }
 </script>

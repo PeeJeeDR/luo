@@ -1,9 +1,10 @@
+import router from '../../router';
+
 export const Navigation = {
   namespaced: true,
 
   state: {
     selectedOverview: 'new',
-    categoriesIsOpen: false
   },
 
   mutations: {
@@ -12,52 +13,43 @@ export const Navigation = {
       state.selectedOverview = selected;
     },
     /* ========== */
-
-    /* === TOGGLE CATEGORIES === */
-    SET_CATEGORIES_ON (state) {
-      state.categoriesIsOpen = true;
-    },
-
-    SET_CATEGORIES_OFF (state) {
-      state.categoriesIsOpen = false;
-    }
-    /* ========== */
   },
 
   actions: {
     /* === ICON CLICKED IN BOTTOM NAV === */
     onIconClick ({ commit, dispatch, state }, payload) {
-      if ((payload.selected !== state.selectedOverview || ( payload.selected === 'category' && !state.categoriesIsOpen)) || payload.isPageLoad) {
-        commit('Header/SET_HEADER_TITLE', payload.selected, { root: true });
-        commit('SET_CATEGORIES_OFF');
-
+      if (payload.selected !== state.selectedOverview || payload.selected === 'PAGE_LOAD') {
         switch (payload.selected) {
+          case 'PAGE_LOAD':
           case 'new':
+            router.push('/');
             dispatch('Quizzes/fetchNewQuizzes', {}, { root: true });
           break;
 
           case 'popular': 
+            router.push('/');
             dispatch('Quizzes/fetchPopularQuizzes', {}, { root: true });
           break;
 
           case 'interests':
+            router.push('/');
             dispatch('Quizzes/fetchQuizzesByInterests', {}, { root: true });
           break;
 
-          case 'category':
-            commit('SET_CATEGORIES_ON');
+          case 'profile':
+            router.push('/profile');
             dispatch('Categories/fetchCategories', {}, { root: true });
           break;
         }
       }
 
-      commit('SET_SELECTED_OVERVIEW', payload.selected);
+      commit('SET_SELECTED_OVERVIEW', payload.selected === 'PAGE_LOAD' ? 'new' : payload.selected);
     },
     /* ========== */
 
-    /* === WHEN PAGE IS LOADED AFTER PAGE TRANSITION === */
-    onOverviewLoad ({ dispatch, state }) {
-      dispatch('onIconClick', { selected: state.selectedOverview, isPageLoad: true });
+    /* === WHEN APP LOADS === */
+    onAppLoad ({ dispatch }) {
+      dispatch('onIconClick', { selected: 'PAGE_LOAD' });
     }
     /* ========== */
   }

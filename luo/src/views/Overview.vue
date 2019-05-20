@@ -14,10 +14,6 @@ export default {
   components: { Quizzes, BottomNavigation },
   computed: {
     ...mapState('Navigation', ['selectedOverview'])
-  },
-  created () {
-    this.$store.dispatch('Navigation/onOverviewLoad');
-    this.$store.dispatch('Header/onPageLoad', { title: this.selectedOverview, leftIcon: 'hamburger' });
   }
 }
 </script>

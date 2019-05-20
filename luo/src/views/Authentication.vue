@@ -1,6 +1,6 @@
 <template>
   <div class='authentication page wrapper flex justify-start align-center direction-col'>
-    <img :src='logo' alt='Logo of Luo.'>
+    <img :src='Logo' alt='Logo of Luo.'>
 
     <div class="form-container flex direction-col align-center">
       <div class="tabs">
@@ -67,14 +67,14 @@
 
 <script>
 import { fire, db } from '@/firebase/firebase';
-import logo from '@/assets/img/Logo@2x.png';
+import Logo from '@/assets/img/Logo@2x.png';
 import DefaultButton from '@/components/buttons/DefaultButton';
 
 export default {
   name: 'Authentication',
   components: { DefaultButton },
   data: () => ({
-    logo,
+    Logo,
     formType: 'login',
     loginData: {
       email: '',

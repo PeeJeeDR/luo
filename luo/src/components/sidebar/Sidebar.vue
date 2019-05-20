@@ -4,9 +4,11 @@
 
     <div class='bar'>
       <header>
-        <h1>PROFILE</h1>
+        <img :src='Logo' alt='Logo of Luo.'>
         <button @click='$router.push("/authentication")'>AUTH</button>
       </header>
+
+      <categories />
     </div>
   </div>
 </template>
@@ -14,9 +16,15 @@
 <script>
 import { mapState } from 'vuex';
 import { enableBodyScroll } from 'body-scroll-lock';
+import Logo from '@/assets/img/Logo@2x.png';
+import Categories from '@/components/categories/Categories';
 
 export default {
   name: 'Sidebar',
+  components: { Categories },
+  data: () => ({
+    Logo
+  }),
   computed: {
     ...mapState('Sidebar', ['open'])
   },
@@ -46,8 +54,15 @@ export default {
   .bar {
     background-color: $snow;
     width: 70%;
-    overflow: hidden;
+    overflow: scroll;
     z-index: 3;
+    white-space: nowrap;
+    padding: 2rem 0;
+
+    img {
+      width: 4rem;
+      margin-left: 2rem;
+    }
   }
 
   &.closed {

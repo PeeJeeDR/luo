@@ -24,10 +24,10 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { fire } from '@/firebase/firebase'; 
 import MainHeader from '@/components/header/MainHeader';
 import Sidebar from '@/components/sidebar/Sidebar';
-import { mapState } from 'vuex';
 import BottomNavigation from '@/components/navigation/BottomNavigation';
 
 
@@ -36,6 +36,9 @@ export default {
   components: { MainHeader, Sidebar, BottomNavigation },
   computed: {
     ...mapState('Modals', ['overlay'])
+  },
+  created () {
+    this.$store.dispatch('Navigation/onAppLoad');
   }
 }
 </script>

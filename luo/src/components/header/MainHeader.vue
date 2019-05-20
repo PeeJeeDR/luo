@@ -10,7 +10,7 @@
 
       <div class='icon'>
         <search v-if='meta.rightIcon === "search"'/>
-        <save v-if='meta.rightIcon === "save"' @click='$store.dispatch("Modals/openQuizOptionsModal")'/>
+        <save v-if='meta.rightIcon === "save" && questions.length > 0' @click='openQuizOptionsModal'/>
       </div>
     </div>
   </header>
@@ -36,6 +36,9 @@ export default {
     title: undefined,
     meta: ''
   }),
+  created () {
+    this.meta = this.$route.meta.header;
+  },
   computed: {
     ...mapState('CreateQuiz', ['questions'])
   },
@@ -47,13 +50,12 @@ export default {
 
     openQuizOptionsModal () {
       if (this.questions.length > 0) {
-        // this.$store.dispatch("Quizzes/postNewQuiz");
+        this.$store.dispatch("Quizzes/postNewQuiz");
       }
     }
   },
   watch: {
     '$route.meta': function () {
-      console.log('META', this.$route.meta.header);
       this.meta = this.$route.meta.header;
     }
   }
@@ -87,7 +89,7 @@ header {
     svg {
       width: 100%;
       height: 100%;
-      fill: $snow !important;
+      fill: $snow;
     }
   }
 
