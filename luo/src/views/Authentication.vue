@@ -67,7 +67,7 @@
 
 <script>
 import { fire, db } from '@/firebase/firebase';
-import Logo from '@/assets/img/Logo@2x.png';
+import Logo from '@/assets/img/logo/Logo.png';
 import DefaultButton from '@/components/buttons/DefaultButton';
 
 export default {
@@ -157,7 +157,9 @@ export default {
                   quizzes: [],
                   reputation: 0,
                   likedQuizzes: [],
-                  badges: []
+                  badges: [],
+                  avatar: Math.floor(Math.random() * (12 - 1) + 1),
+                  likes: 0
                 }).catch(err => {
                   console.log('error', err);
                 });
@@ -228,7 +230,7 @@ export default {
     color: $clouds;
     outline: none;
     font-weight: bold;
-    transition: $easy;
+    transition: all $fast ease-in-out;
     font-size: $bran;
 
     &.active {

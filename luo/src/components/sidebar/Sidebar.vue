@@ -8,7 +8,8 @@
         <button @click='$router.push("/authentication")'>AUTH</button>
       </header>
 
-      <categories />
+      <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
+      <categories v-if='!loading'/>
     </div>
   </div>
 </template>
@@ -16,17 +17,22 @@
 <script>
 import { mapState } from 'vuex';
 import { enableBodyScroll } from 'body-scroll-lock';
-import Logo from '@/assets/img/Logo@2x.png';
+import Logo from '@/assets/img/logo/Logo.png';
 import Categories from '@/components/categories/Categories';
+import MoonLoader from 'vue-spinner/src/MoonLoader';
 
 export default {
   name: 'Sidebar',
-  components: { Categories },
+  components: { Categories, MoonLoader },
   data: () => ({
     Logo
   }),
   computed: {
+    ...mapState('Categories', ['loading']),
     ...mapState('Sidebar', ['open'])
+  },
+  created () {
+    this.$store.dispatch('Categories/fetchCategories');
   },
   methods: {
     closeSidebar () {
@@ -42,7 +48,7 @@ export default {
   .overlay, .bar {
     position: fixed;
     top: 0; bottom: 0; left: 0; right: 0;
-    transition: $easy;
+    transition: all $fast ease-in-out;
   }
 
   .overlay {

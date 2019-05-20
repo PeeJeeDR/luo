@@ -87,7 +87,7 @@ export default {
       fill: $dawn;
       width: 100%;
       height: 100%;
-      transition: $easy;
+      transition: all $fast ease-in-out;
 
       &.active {
         fill: $pinky;

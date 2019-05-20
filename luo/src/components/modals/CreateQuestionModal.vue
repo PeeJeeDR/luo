@@ -85,7 +85,7 @@
 import { Carousel, Slide } from 'vue-carousel';
 import Gallery from '@/assets/icons/quizzes/Gallery.svg';
 import Volume from '@/assets/icons/quizzes/Volume.svg';
-import Sample from '@/assets/img/sample.jpg';
+import Sample from '@/assets/img/quiz/sample.jpg';
 import CheckMark from '@/components/buttons/CheckMark';
 import SubmitAndCancel from '@/components/buttons/SubmitAndCancel';
 import Back from '@/assets/icons/main-header/Back.svg';

@@ -21,7 +21,7 @@ export default {
 .categories {
   background-color: $snow;
   z-index: 1;
-  transition: $easy;
+  transition: all $fast ease-in-out;
   padding: 0;
 }
 </style>

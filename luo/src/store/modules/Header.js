@@ -3,7 +3,7 @@ export const Header = {
 
   state: {
     headerTitle: 'new',
-    leftIcon: '',
+    leftIcon: 'hamburger',
     rightIcon: ''
   },
 
@@ -26,10 +26,6 @@ export const Header = {
   },
 
   actions: {
-    onCategoryClick ({ commit }, payload) {
-      commit('SET_HEADER_TITLE', payload.title);
-    },
-
     onPageLoad ({ commit }, payload) {
       commit('SET_HEADER_TITLE', payload.title);
       commit('SET_LEFT_ICON', payload.leftIcon);

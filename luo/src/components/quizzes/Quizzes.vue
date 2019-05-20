@@ -33,7 +33,7 @@ export default {
   height: 100%;
 
   .spinner {
-    margin-top: 5rem;
+    margin-top: 6rem;
   }
 
   .quizzes-overview {

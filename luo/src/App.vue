@@ -30,15 +30,20 @@ import MainHeader from '@/components/header/MainHeader';
 import Sidebar from '@/components/sidebar/Sidebar';
 import BottomNavigation from '@/components/navigation/BottomNavigation';
 
-
 export default {
   name: 'App',
   components: { MainHeader, Sidebar, BottomNavigation },
   computed: {
     ...mapState('Modals', ['overlay'])
   },
-  created () {
-    this.$store.dispatch('Navigation/onAppLoad');
+  watch: {
+    '$route' () {
+      console.log('watch', this.$route.name);
+
+      if (this.$route.name !== 'Profile') {
+        this.$store.dispatch('Navigation/onAppLoad');
+      }
+    }
   }
 }
 </script>
@@ -58,11 +63,11 @@ export default {
   }
 
   .fade-overlay-enter-active {
-    transition: $easy;
+    transition: all $fast ease-in-out;
   }
 
   .fade-overlay-leave-active {
-    transition: all 150ms ease-in-out 500ms;
+    transition: all $fast ease-in-out 500ms;
   }
 
   .fade-overlay-enter, .fade-overlay-leave-to {

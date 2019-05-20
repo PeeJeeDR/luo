@@ -25,9 +25,7 @@ const router = new Router({
       name: 'Quiz overview',
       meta: {
         header: {
-          enabled: true,
-          leftIcon: 'hamburger',
-          rightIcon: undefined
+          enabled: true
         },
         bottomNav: {
           enabled: true
@@ -41,9 +39,7 @@ const router = new Router({
       name: 'Profile',
       meta: {
         header: {
-          enabled: true,
-          leftIcon: undefined,
-          rightIcon: undefined
+          enabled: true
         },
         bottomNav: {
           enabled: true
@@ -57,9 +53,7 @@ const router = new Router({
       name: 'Create quiz',
       meta: {
         header: {
-          enabled: true,
-          leftIcon: 'back',
-          rightIcon: 'save'
+          enabled: true
         },
         bottomNav: {
           enabled: false
@@ -73,9 +67,7 @@ const router = new Router({
       name: 'Authenticate',
       meta: {
         header: {
-          enabled: false,
-          leftIcon: undefined,
-          rightIcon: undefined
+          enabled: false
         },
         bottomNav: {
           enabled: false
@@ -89,9 +81,7 @@ const router = new Router({
       name: 'Test api',
       meta: {
         header: {
-          enabled: false,
-          leftIcon: undefined,
-          rightIcon: undefined
+          enabled: false
         },
         bottomNav: {
           enabled: false
@@ -113,7 +103,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const currentUser = fire.auth().currentUser;
 
-  // SIGN OUT USER WHEN HE ROUTES TO AUTHENTICATION
+  // Sign out user when he routes to /authentication
   to.name === 'Authenticate' && fire.auth().signOut();
 
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);

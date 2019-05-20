@@ -92,8 +92,6 @@ export const Quizzes = {
         });
       }
 
-      console.log('URL BEFORE ASSIGN', storageUrl);
-
       // CHECK IF THERE IS AT LEAST ONE QUESTION MADE questions.length > 0
       if (questions.length > 0) {
         const quiz = {

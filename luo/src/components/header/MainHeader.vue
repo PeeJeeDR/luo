@@ -1,17 +1,21 @@
 <template>
-  <header>
-    <div class='wrapper flex justify-between align-center default-vp'>
-      <div class='icon'>
-        <hamburger v-if='meta.leftIcon === "hamburger"' @click='openSidebar'/>
-        <back v-if='meta.leftIcon === "back"' @click='$router.push("/")'/>
-      </div>
-      
-      <h2 v-if='meta.title'>{{ capFirstChar(meta.title) }}</h2>
+  <header :class='headerTitle'>
+    <div class='wrapper'>
+      <div v-if='headerTitle !== "profile"' class='nav-props flex justify-between align-center'>
+        <div class='icon'>
+          <hamburger v-if='leftIcon === "hamburger"' @click='openSidebar'/>
+          <back v-if='leftIcon === "back"' @click='$router.push("/")'/>
+        </div>
+        
+        <h2 v-if='headerTitle'>{{ capFirstChar(headerTitle) }}</h2>
 
-      <div class='icon'>
-        <search v-if='meta.rightIcon === "search"'/>
-        <save v-if='meta.rightIcon === "save" && questions.length > 0' @click='openQuizOptionsModal'/>
+        <div class='icon'>
+          <search v-if='rightIcon === "search"'/>
+          <save v-if='rightIcon === "save" && questions.length > 0' @click='openQuizOptionsModal'/>
+        </div>
       </div>
+
+      <profile-in-header v-if='headerTitle === "profile"'/>
     </div>
   </header>
 </template>
@@ -20,6 +24,7 @@
 import GlobalMethods from '@/mixins/GlobalMethods';
 import { disableBodyScroll } from 'body-scroll-lock';
 import { mapState } from 'vuex';
+import ProfileInHeader from '@/components/profile/ProfileInHeader';
 import hamburger from '@/assets/icons/main-header/Hamburger.svg';
 import Search from '@/assets/icons/main-header/Search.svg';
 import Save from '@/assets/icons/main-header/Save.svg';
@@ -28,18 +33,10 @@ import Back from '@/assets/icons/main-header/Back.svg';
 export default {
   name: 'MainHeader',
   mixins: [GlobalMethods],
-  components: { hamburger, Search, Save, Back },
+  components: { ProfileInHeader, hamburger, Search, Save, Back },
   props: ['render'],
-  data: () => ({
-    leftIcon: undefined,
-    rightIcon: undefined,
-    title: undefined,
-    meta: ''
-  }),
-  created () {
-    this.meta = this.$route.meta.header;
-  },
   computed: {
+    ...mapState('Header', ['headerTitle', 'leftIcon', 'rightIcon']),
     ...mapState('CreateQuiz', ['questions'])
   },
   methods: {
@@ -53,11 +50,6 @@ export default {
         this.$store.dispatch("Quizzes/postNewQuiz");
       }
     }
-  },
-  watch: {
-    '$route.meta': function () {
-      this.meta = this.$route.meta.header;
-    }
   }
 }
 </script>
@@ -67,19 +59,27 @@ header {
   @include gradient;
   border-bottom-left-radius: $largeRadius;
   border-bottom-right-radius: $largeRadius;
-  transition: $easy;
-  height: 4.5rem;
+  transition: margin $fast ease-in-out, height $fast ease-in-out 100ms;
   position: fixed;
   width: 100%;
   top: 0;
+  height: 4.5rem;
   z-index: 2;
 
   &.hide {
     margin-top: -10rem;
   }
 
+  &.profile {
+    height: 11rem;
+  } 
+
   .wrapper {
     height: 100%;
+
+    .nav-props {
+      height: 100%;
+    }
   }
 
   .icon {

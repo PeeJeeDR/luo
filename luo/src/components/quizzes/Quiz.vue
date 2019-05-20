@@ -22,7 +22,7 @@
 
 <script>
 import GlobalMethods from '@/mixins/GlobalMethods';
-import Sample from '@/assets/img/sample.jpg';
+import Sample from '@/assets/img/quiz/sample.jpg';
 import SquareButton from '@/components/buttons/SquareButton';
 import Controller from '@/assets/icons/quizzes/Controller.svg';
 
