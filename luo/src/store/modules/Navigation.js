@@ -51,13 +51,11 @@ export const Navigation = {
         }
       }
 
-      let selected = payload.selected === 'PAGE_LOAD' ? 'new' : payload.selected;
-
       // Set the selected overview.
-      commit('SET_SELECTED_OVERVIEW', selected);
+      commit('SET_SELECTED_OVERVIEW', payload.selected);
 
       // Set header props on icon click.
-      commit('Header/SET_HEADER_TITLE', selected, { root: true });
+      commit('Header/SET_HEADER_TITLE', payload.selected, { root: true });
     },
     /* ========== */
 

@@ -73,9 +73,7 @@ export const Quizzes = {
     /* ========== */
 
     /* === POST NEW QUIZ === */
-    async postNewQuiz ({ dispatch, state, rootState }, payload) {
-      console.log('post', payload);
-
+    async postNewQuiz ({ dispatch, rootState }, payload) {
       const questions = rootState.CreateQuiz.questions;
       let storageUrl = undefined;
 

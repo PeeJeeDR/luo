@@ -162,6 +162,7 @@ export default {
                   likedQuizzes: [],
                   badges: [],
                   avatar: Math.floor(Math.random() * (12 - 1) + 1),
+                  avatarUrl: null,
                   likes: 0,
                   xp: 0
                 }).catch(err => {

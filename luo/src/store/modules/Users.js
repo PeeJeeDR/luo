@@ -22,9 +22,23 @@ export const Users = {
     fetchUserById ({ state, commit }, payload) {
       if (state.userFromDB === undefined) {
         db.collection('users').doc(payload.id).onSnapshot(snap => {
-          commit('SAVE_USER', snap.data());
+          let result = snap.data();
+          result.id = payload.id;
+          commit('SAVE_USER', result);
         });
       }
+    },
+    /* ========== */
+
+    /* === UPDATE THE AVATAR IMAGE OF THE USER === */
+    updateUserAvatar ({ commit, state }, payload) {
+      db.collection('users').doc(state.userFromDB.id).update({
+        avatarUrl: payload.base64
+      }).then(res => {
+        console.log('res', res);
+      }).catch(err => {
+        console.log('err', err);
+      })
     },
     /* ========== */
 
