@@ -25,7 +25,7 @@
         <star :class='selectedOverview === "interests" && "active"'/>
       </div>
 
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "profile" })'>
+      <div class='icon flex-center' @click='onProfileClick'>
         <profile :class='selectedOverview === "profile" && "active"'/>
       </div>
     </div>
@@ -49,6 +49,19 @@ export default {
   data: () => ({ fire }),
   computed: {
     ...mapState('Navigation', ['selectedOverview'])
+  },
+  methods: {
+    onProfileClick () {
+      if (fire.auth().currentUser !== null) {
+        console.log('first if', fire.auth().currentUser);
+        this.$store.dispatch("Navigation/onIconClick", { selected: "profile" })
+      }
+
+      if (fire.auth().currentUser === null) {
+        console.log('second if', fire.auth().currentUser);
+        this.$router.push('/authentication');
+      }
+    }
   }
 }
 </script>

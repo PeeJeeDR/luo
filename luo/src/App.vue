@@ -36,11 +36,14 @@ export default {
   computed: {
     ...mapState('Modals', ['overlay'])
   },
+  created () {
+    this.$store.dispatch('Users/onAppLoad');
+  },
   watch: {
     '$route' () {
       console.log('watch', this.$route.name);
 
-      if (this.$route.name !== 'Profile') {
+      if (this.$route.name === 'Quiz overview') {
         this.$store.dispatch('Navigation/onAppLoad');
       }
     }
@@ -60,18 +63,6 @@ export default {
     background-color: #000;
     top: 0; bottom: 0; left: 0; right: 0;
     margin-top: -10rem;
-  }
-
-  .fade-overlay-enter-active {
-    transition: all $fast ease-in-out;
-  }
-
-  .fade-overlay-leave-active {
-    transition: all $fast ease-in-out 500ms;
-  }
-
-  .fade-overlay-enter, .fade-overlay-leave-to {
-    opacity: 0;
   }
 }
 </style>

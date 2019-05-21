@@ -15,7 +15,9 @@
         </div>
       </div>
 
-      <profile-in-header v-if='headerTitle === "profile"'/>
+      <transition mode='out-in' name='fade'>
+        <profile-in-header v-if='headerTitle === "profile"'/>
+      </transition>
     </div>
   </header>
 </template>
@@ -65,9 +67,10 @@ header {
   top: 0;
   height: 4.5rem;
   z-index: 2;
+  overflow: hidden;
 
   &.hide {
-    margin-top: -10rem;
+    margin-top: -4.5rem;
   }
 
   &.profile {

@@ -1,33 +1,25 @@
-@keyframes bounce {
+/* === CLASSES === */
+.fade-enter-active {
+  animation: fadeIn 500ms;
+  animation-delay: 300ms;
+  opacity: 0;
+}
+
+.fade-leave-active {
+  // animation: fadeIn 500ms;
+}
+/* ========== */
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
   0% {
-    margin-top: 0px;
-  }
-
-  20% {
-    margin-top: -50px;
-  }
-
-  25% {
-    margin-top: -50px;
-  }
-
-  40% {
-    margin-top: 0px;
-  }
-
-  55% {
-    margin-top: -25px;
-  }
-
-  56% {
-    margin-top: -25px;
-  }
-
-  70% {
-    margin-top: 0px;
+    opacity: 0;
+    margin-left: -100px;
   }
 
   100% {
-    margin-top: 0px;
+    opacity: 1;
+    margin-left: 0px;
   }
 }
+/* ========== */

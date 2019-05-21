@@ -88,6 +88,9 @@ export default {
     },
     error: ''
   }),
+  created () {
+    console.log('auth');
+  },
   methods: {
     loginClick () {
       this.formType = 'login';
@@ -159,7 +162,8 @@ export default {
                   likedQuizzes: [],
                   badges: [],
                   avatar: Math.floor(Math.random() * (12 - 1) + 1),
-                  likes: 0
+                  likes: 0,
+                  xp: 0
                 }).catch(err => {
                   console.log('error', err);
                 });
