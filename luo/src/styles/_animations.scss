@@ -1,17 +1,17 @@
 /* === CLASSES === */
-.fade-enter-active {
-  animation: fadeIn 500ms;
+.fade-in-out-enter-active {
+  animation: fadeInLeft 500ms;
   animation-delay: 300ms;
   opacity: 0;
 }
 
-.fade-leave-active {
+.fade-in-out-leave-active {
   // animation: fadeIn 500ms;
 }
 /* ========== */
 
 /* === ANIMATIONS === */
-@keyframes fadeIn {
+@keyframes fadeInLeft {
   0% {
     opacity: 0;
     margin-left: -100px;
@@ -19,7 +19,7 @@
 
   100% {
     opacity: 1;
-    margin-left: 0px;
+    margin-left: 0
   }
 }
 /* ========== */

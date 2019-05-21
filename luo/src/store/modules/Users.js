@@ -8,7 +8,6 @@ export const Users = {
   },
 
   mutations: {
-    
     SAVE_USER (state, user) {
       state.userFromDB = user;
     },
@@ -20,10 +19,12 @@ export const Users = {
 
   actions: {
     /* === FETCH SINGLE USER FROM FIRESTORE === */
-    fetchUserById ({ commit }, payload) {
-      db.collection('users').doc(payload.id).onSnapshot(snap => {
-        commit('SAVE_USER', snap.data());
-      });
+    fetchUserById ({ state, commit }, payload) {
+      if (state.userFromDB === undefined) {
+        db.collection('users').doc(payload.id).onSnapshot(snap => {
+          commit('SAVE_USER', snap.data());
+        });
+      }
     },
     /* ========== */
 

@@ -35,18 +35,6 @@ export default {
   components: { MainHeader, Sidebar, BottomNavigation },
   computed: {
     ...mapState('Modals', ['overlay'])
-  },
-  created () {
-    this.$store.dispatch('Users/onAppLoad');
-  },
-  watch: {
-    '$route' () {
-      console.log('watch', this.$route.name);
-
-      if (this.$route.name === 'Quiz overview') {
-        this.$store.dispatch('Navigation/onAppLoad');
-      }
-    }
   }
 }
 </script>

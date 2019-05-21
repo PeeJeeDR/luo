@@ -24,6 +24,10 @@ export default {
   components: { Quiz, MoonLoader },
   computed: {
     ...mapState('Quizzes', ['quizzes', 'loading']),
+  },
+  created () {
+    console.log('Quizzes loaded');
+    this.$store.dispatch('Navigation/onAppLoad');
   }
 }
 </script>

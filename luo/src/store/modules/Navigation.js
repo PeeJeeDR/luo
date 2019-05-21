@@ -18,9 +18,8 @@ export const Navigation = {
   actions: {
     /* === ICON CLICKED IN BOTTOM NAV === */
     onIconClick ({ commit, dispatch, state }, payload) {
-      if (payload.selected !== state.selectedOverview || payload.selected === 'PAGE_LOAD') {
+      if (payload.selected !== state.selectedOverview || payload.firstLoad) {
         switch (payload.selected) {
-          case 'PAGE_LOAD':
           case 'new':
             // Open quiz overview.
             router.push('/');
@@ -63,9 +62,8 @@ export const Navigation = {
     /* ========== */
 
     /* === WHEN APP LOADS === */
-    onAppLoad ({ dispatch }) {
-      console.log('APP LOAD');
-      dispatch('onIconClick', { selected: 'PAGE_LOAD' });
+    onAppLoad ({ state, dispatch }) {
+      dispatch('onIconClick', { selected: state.selectedOverview, firstLoad: true });
     }
     /* ========== */
   }

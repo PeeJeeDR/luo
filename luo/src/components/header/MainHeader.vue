@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <transition mode='out-in' name='fade'>
+      <transition name='fade-in-out'>
         <profile-in-header v-if='headerTitle === "profile"'/>
       </transition>
     </div>

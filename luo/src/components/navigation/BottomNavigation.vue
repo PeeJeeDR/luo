@@ -53,12 +53,10 @@ export default {
   methods: {
     onProfileClick () {
       if (fire.auth().currentUser !== null) {
-        console.log('first if', fire.auth().currentUser);
         this.$store.dispatch("Navigation/onIconClick", { selected: "profile" })
       }
 
       if (fire.auth().currentUser === null) {
-        console.log('second if', fire.auth().currentUser);
         this.$router.push('/authentication');
       }
     }

@@ -89,7 +89,7 @@ export default {
     error: ''
   }),
   created () {
-    console.log('auth');
+    this.$store.dispatch('Users/onAppLoad');
   },
   methods: {
     loginClick () {

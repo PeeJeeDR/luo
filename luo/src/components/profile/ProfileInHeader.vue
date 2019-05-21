@@ -1,5 +1,5 @@
 <template>
-  <div class='profile-in-header default-vp flex justify-start align-start'>
+  <div v-if='userFromDB !== undefined' class='profile-in-header default-vp flex justify-start align-start'>
     <img :src='require(`@/assets/img/avatars/${ userFromDB.avatar }.png`)' alt='avatar image.'>
     <div class='stats flex flex-wrap'>
       <stat :title='"name"' :value='userFromDB.username' :color='"light"'/>

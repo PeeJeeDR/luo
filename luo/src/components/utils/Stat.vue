@@ -1,7 +1,7 @@
 <template>
   <div :class='`stat ${ color }`'>
     <p class='paragraph p--m'>{{ title }}</p>
-    <p class='paragraph p--m'>{{ value }}</p>
+    <p class='paragraph p--m p--weight-bold'>{{ value }}</p>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
     }
 
     p:last-child {
-      margin-top: 0.2rem;
+      margin-top: 0.1rem;
       color: $snow;
     }
   }
