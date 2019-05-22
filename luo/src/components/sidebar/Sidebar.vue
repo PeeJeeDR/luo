@@ -67,7 +67,7 @@ export default {
 
     img {
       width: 4rem;
-      margin-left: 2rem;
+      margin-left: 1.5rem;
     }
   }
 
@@ -80,6 +80,10 @@ export default {
     .bar {
       width: 0;
     }
+  }
+
+  .categories {
+    margin-top: 3rem;
   }
 }
 </style>

@@ -65,7 +65,6 @@ export const Quizzes = {
       commit('SET_LOADING_ON');
 
       db.collection('quizzes').where('categories', 'array-contains', payload.categoryId).onSnapshot(snap => {
-        console.log('IN CATEGORY FETCH');
         commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
         commit('SET_LOADING_OFF');
       }) 

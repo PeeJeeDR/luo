@@ -1,5 +1,5 @@
 <template>
-  <div class='category'>
+  <div :class='`category ${ data.id === selected && "selected" }`'>
     <div v-ripple class='container flex align-center' @click='atCategoryClick'>
       <img :src='require(`@/assets/icons/categories/${ data.slug }.png`)' :alt='`${ capFirstChar(data.category) } icon.`'>
       <h4>{{ capFirstChar(data.category) }}</h4>
@@ -13,7 +13,7 @@ import GlobalMethods from '@/mixins/GlobalMethods';
 export default {
   name: 'Category',
   mixins: [GlobalMethods],
-  props: ['data'],
+  props: ['data', 'selected'],
   methods: {
     atCategoryClick () {
       this.$store.dispatch('Sidebar/closeSidebar');
@@ -29,6 +29,12 @@ export default {
   color: $texty;
   white-space: nowrap;
   padding: 0 1rem;
+
+  &.selected {
+    background-color: lighten($pinky, 30%);
+    border-left: 5px solid $pinky;
+    padding: 0 calc(1rem - 5px);
+  }
 
   .container {
     padding: 0.5rem;
