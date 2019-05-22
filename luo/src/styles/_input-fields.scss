@@ -12,6 +12,10 @@
   color: $texty;
   outline: none;
 
+  &:focus {
+    background-color: lighten($pinky, 40%);
+  }
+
   &.textarea {
     height: 100%;
     padding: 1rem 1rem 2rem 1rem;

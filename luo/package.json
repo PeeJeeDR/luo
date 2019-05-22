@@ -18,6 +18,7 @@
     "sass-loader": "^7.1.0",
     "vue": "^2.6.6",
     "vue-carousel": "^0.18.0",
+    "vue-image-upload-resize": "^2.0.4",
     "vue-ripple-directive": "^2.0.1",
     "vue-router": "^3.0.1",
     "vue-spinner": "^1.0.3",

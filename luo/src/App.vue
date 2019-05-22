@@ -1,8 +1,8 @@
 <template>
   <div id='app'>
     <!-- OVERLAY THAT RENDERS WHEN MODAL IS OPEN -->
-    <transition name='fade-overlay'>
-      <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModals")'></div>
+    <transition name='overlay-fade'>
+      <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModal")'></div>
     </transition>
 
     <!-- BOTTOM NAVIGATION -->

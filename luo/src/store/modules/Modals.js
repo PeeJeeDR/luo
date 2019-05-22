@@ -2,27 +2,23 @@ export const Modals = {
   namespaced: true,
 
   state: {
-    questionModal: false,
-    quizOptionsModal: false,
+    modalType: '',
+    modalIsOpen: false,
     overlay: false
   },
 
   mutations: {
     /* === MODALS === */
-    OPEN_QUESTION_MODAL (state) {
-      state.questionModal = true;
+    OPEN_MODAL (state) {
+      state.modalIsOpen = true;
     },
 
-    CLOSE_QUESTION_MODAL (state) {
-      state.questionModal = false;
+    CLOSE_MODAL (state) {
+      state.modalIsOpen = false;
     },
 
-    OPEN_QUIZ_OPTIONS_MODAL (state) {
-      state.quizOptionsModal = true;
-    },
-
-    CLOSE_QUIZ_OPTIONS_MODAL (state) {
-      state.quizOptionsModal = false;
+    SET_MODAL_TYPE (state, type) {
+      state.modalType = type;
     },
     /* ========== */
 
@@ -38,20 +34,16 @@ export const Modals = {
   },
 
   actions: {
-    closeModals ({ commit }) {
-      commit('CLOSE_QUESTION_MODAL');
-      commit('CLOSE_QUIZ_OPTIONS_MODAL');
+    openModal ({ commit }, payload) {
+      commit('OPEN_MODAL');
+      commit('OPEN_OVERLAY');
+      commit('SET_MODAL_TYPE', payload.type)
+    },
+
+    closeModal ({ commit }) {
+      commit('CLOSE_MODAL');
       commit('CLOSE_OVERLAY');
-    },
-
-    openQuestionModal ({ commit }) {
-      commit('OPEN_QUESTION_MODAL');
-      commit('OPEN_OVERLAY');
-    },
-
-    openQuizOptionsModal ({ commit }) {
-      commit('OPEN_QUIZ_OPTIONS_MODAL');
-      commit('OPEN_OVERLAY');
+      commit('SET_MODAL_TYPE', '')
     }
   }
 }

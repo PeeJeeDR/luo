@@ -26,7 +26,12 @@ export default {
     ...mapState('Quizzes', ['quizzes', 'loading']),
   },
   created () {
-    console.log('Quizzes loaded');
+    this.$store.dispatch('Header/onPageLoad', { 
+      title: 'New',
+      leftIcon: 'hamburger',
+      rightIcon: undefined
+    });
+
     this.$store.dispatch('Navigation/onAppLoad');
   }
 }

@@ -1,25 +1,54 @@
 /* === CLASSES === */
+// OVERLAY
+.overlay-fade-enter-active {
+  animation: overlayFadeIn 500ms;
+}
+
+.overlay-fade-leave-active {
+  animation: overlayFadeOut 600ms;
+  animation-delay: 250ms;
+}
+
+// HEADER PROFILE INFO
 .fade-in-out-enter-active {
   animation: fadeInLeft 500ms;
   animation-delay: 300ms;
   opacity: 0;
 }
-
-.fade-in-out-leave-active {
-  // animation: fadeIn 500ms;
-}
 /* ========== */
 
 /* === ANIMATIONS === */
-@keyframes fadeInLeft {
-  0% {
+// OVERLAY
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.5;
+  }
+}
+
+@keyframes overlayFadeOut {
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+// HEADER PROFILE INFO
+/* @keyframes fadeInLeft {
+  from {
     opacity: 0;
     margin-left: -100px;
   }
 
-  100% {
+  to {
     opacity: 1;
     margin-left: 0
   }
-}
+} */
 /* ========== */

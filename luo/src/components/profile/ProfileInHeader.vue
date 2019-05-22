@@ -32,6 +32,9 @@ export default {
   computed: {
     ...mapState('Users', ['userFromDB'])
   },
+  created () {
+    console.log('user', this.userFromDB);
+  },
   methods: {
     onAvatarClick () {
       if (fire.auth().currentUser.uid === this.userFromDB.id) {
@@ -41,8 +44,6 @@ export default {
 
     onImgSelect (e) {
       if (e.target.files[0] && e.target.files[0].type.includes('image')) {
-        this.selectedImgURL = URL.createObjectURL(e.target.files[0]);
-
         image2base64(URL.createObjectURL(e.target.files[0])).then(res => {
           this.$store.dispatch('Users/updateUserAvatar', { base64: res });
         }).catch(() => {});
@@ -64,6 +65,7 @@ export default {
       margin-right: 1.5rem;
       border: 2px solid $snow;
       border-radius: 200rem;
+      object-fit: cover;
     }
 
     button {

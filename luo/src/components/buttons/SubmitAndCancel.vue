@@ -1,30 +1,49 @@
 <template>
-  <div class='submit-and-cancel flex justify-end'>
-    <button type='button' @click='$emit("oncancel")'>Cancel</button>
-    <button type='submit' @click='$emit("onsubmit")'>Submit</button>
+  <div :class='`submit-and-cancel flex ${ includeBack ? "justify-between" : "justify-end" }`'>
+    <div v-if='includeBack' class='left'>
+      <button @click='$emit("onback")'>Back</button>
+    </div>
+    
+    <div class='right'>
+      <button @click='$emit("oncancel")'>Cancel</button>
+      <button @click='$emit("onsubmit")'>Submit</button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SubmitAndCancel'
+  name: 'SubmitAndCancel',
+  props: ['includeBack']
 }
 </script>
 
 <style lang='scss' scoped>
-.submit-and-cancel button {
+.submit-and-cancel {
   padding-top: 3rem;
-  background: none;
-  border: none;
 
-  &:first-child {
-    margin-right: 1rem;
-    color: $mist;
+  button {
+    background: none;
+    border: none;
   }
 
-  &:last-child {
-    color: $pinky;
-    font-weight: bold;
+  .left button {
+    &:first-child {
+      margin-right: 1rem;
+      color: $mist;
+    }
+  }
+
+  .right button {
+    &:first-child {
+      margin-right: 1rem;
+      color: $mist;
+    }
+
+    &:last-child {
+      color: $pinky;
+      font-weight: bold;
+    }
   }
 }
 </style>

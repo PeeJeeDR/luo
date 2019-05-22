@@ -1711,6 +1711,11 @@ bluebird@^3.1.1, bluebird@^3.5.1, bluebird@^3.5.3:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.4.tgz#d6cc661595de30d5b3af5fcedd3c0b3ef6ec5714"
   integrity sha512-FG+nFEZChJrbQ9tIccIfZJBz3J7mLrAhxakAbnrJWn8d7aKOC+LWifa0G+p4ZqKp4y13T7juYvdhq9NzKdsrjw==
 
+blueimp-canvas-to-blob@^3.14.0:
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.14.0.tgz#ea075ffbfb1436607b0c75e951fb1ceb3ca0288e"
+  integrity sha512-i6I2CiX1VR8YwUNYBo+dM8tg89ns4TTHxSpWjaDeHKcYS3yFalpLCwDaY21/EsJMufLy2tnG4j0JN5L8OVNkKQ==
+
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.8"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
@@ -3439,6 +3444,11 @@ execa@^1.0.0:
     p-finally "^1.0.0"
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
+
+exif-js@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/exif-js/-/exif-js-2.3.0.tgz#9d10819bf571f873813e7640241255ab9ce1a814"
+  integrity sha1-nRCBm/Vx+HOBPnZAJBJVq5zhqBQ=
 
 expand-brackets@^2.1.4:
   version "2.1.4"
@@ -8498,6 +8508,15 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"
   integrity sha512-KmvZVtmM26BQOMK1rwUZsrqxEGeKiYSZGA7SNWE6uExx8UX/cj9hq2MRV/wWC3Cq6AoeDGk57rL9YMFRel/q+g==
+
+vue-image-upload-resize@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/vue-image-upload-resize/-/vue-image-upload-resize-2.0.4.tgz#4f26d8faebac105c9bb69b43dba3e37a3589351b"
+  integrity sha512-9pPJw5RhBjWVq4mYj4MgZVnZg5x5kJeMwwW8QcezjGqFb9jV86Pd8AOU32wp4bhADyUOJEfYNicKuDcEFNiGxQ==
+  dependencies:
+    blueimp-canvas-to-blob "^3.14.0"
+    exif-js "^2.3.0"
+    vue "^2.5.17"
 
 vue-loader@^15.6.4:
   version "15.7.0"

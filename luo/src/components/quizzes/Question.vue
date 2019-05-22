@@ -1,9 +1,9 @@
 <template>
   <div class='question'>
     <div class='flex'>
-      <img v-if='data.imgUrl' :src='data.imgUrl' alt='Question image.'>
+      <img v-if='data.questionImg' :src='data.questionImg' alt='Question image.'>
 
-      <div class='content' :style='data.imgUrl !== "" ? "padding-left: 1rem;" : "padding: 0"'>
+      <div class='content' :style='data.questionImg !== "" ? "padding-left: 1rem;" : "padding: 0"'>
         <h4 class='heading h--m'>{{ number + 1 }}. {{ data.question }}</h4>
         <hr>
 

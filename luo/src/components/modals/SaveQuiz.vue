@@ -1,7 +1,7 @@
 <template>
   <carousel 
     :per-page='1' 
-    class='quiz-options-modal default-modal' 
+    class='save-quiz default-modal' 
     :paginationEnabled='false' 
     :adjustableHeight='true'
     :navigateTo='currentSlide'
@@ -77,7 +77,7 @@ import SubmitAndCancel from '@/components/buttons/SubmitAndCancel';
 import Gallery from '@/assets/icons/quizzes/Gallery.svg';
 
 export default {
-  name: 'quizOptionsModal',
+  name: 'SaveQuiz',
   mixins: [GlobalMethods],
   components: { CheckMark, SubmitAndCancel, Carousel, Slide, Gallery, CheckMark },
   data: () => ({
@@ -184,7 +184,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.quiz-options-modal {
+.save-quiz {
   padding: 2rem 0;
 
   .public {

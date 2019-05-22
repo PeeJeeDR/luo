@@ -1,5 +1,7 @@
 <template>
-  <button class='default-button' v-ripple>{{ content }}</button>
+  <button class='default-button' v-ripple>
+    <p class='paragraph p--weight-bold p--color-light p--m'>{{ content }}</p>
+  </button>
 </template>
 
 <script>
@@ -14,14 +16,9 @@ export default {
   @include gradient;
   @include defaultShadow;
   border-radius: $smallRadius;
-  color: $snow;
   padding: 1rem;
   width: 100%;
   border: none;
-  color: $snow;
-  font-size: $bran;
-  font-weight: bold;
-  font-family: $montserrat;
   outline: none;
 }
 </style>

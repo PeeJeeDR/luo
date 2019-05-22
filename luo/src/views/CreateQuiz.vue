@@ -1,8 +1,7 @@
 <template>
   <div class='create-quiz big-wrapper align-center'>
     <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
-      <create-question-modal v-if='questionModal'/>
-      <quiz-options-modal v-if='quizOptionsModal'/>
+      <modal v-if='modalIsOpen'/>
     </transition>
 
     <create v-if='questions.length === 0'/>
@@ -11,7 +10,7 @@
       <question :data='question' :number='i'/>
     </div>
 
-    <default-button :content='"create question"' @click.native='$store.dispatch("Modals/openQuestionModal")'/>
+    <default-button :content='"create question"' @click.native='$store.dispatch("Modals/openModal", { type: "create-question" })'/>
   </div>
 </template>
 
@@ -19,16 +18,22 @@
 import { mapState } from 'vuex';
 import Create from '@/assets/icons/quizzes/Create.svg';
 import DefaultButton from '@/components/buttons/DefaultButton';
-import CreateQuestionModal from '@/components/modals/CreateQuestionModal';
-import QuizOptionsModal from '@/components/modals/QuizOptionsModal';
+import Modal from '@/components/modals/Modal';
 import Question from '@/components/quizzes/Question';
 
 export default {
   name: 'CreateQuiz',
-  components: { Create, DefaultButton, CreateQuestionModal, QuizOptionsModal, Question },
+  components: { Create, DefaultButton, Modal, Question },
   computed: {
-    ...mapState('Modals', ['questionModal', 'quizOptionsModal']),
+    ...mapState('Modals', ['modalIsOpen']),
     ...mapState('CreateQuiz', ['questions'])
+  },
+  created () {
+    this.$store.dispatch('Header/onPageLoad', { 
+      title: 'Create quiz',
+      leftIcon: 'back',
+      rightIcon: 'save'
+    });
   }
 }
 </script>
