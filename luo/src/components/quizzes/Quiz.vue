@@ -2,7 +2,7 @@
   <div class='animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`'>
     <div class='quiz'>
       <div class='img-container'>
-        <img :src='data.imgUrl !== null ? data.imgUrl : Sample' alt='sample image.'>
+        <img :src='data.quizImg !== null ? data.quizImg : Sample' alt='sample image.'>
       </div>
 
       <div class='content-container flex justify-between'>
@@ -33,7 +33,10 @@ export default {
   props: ['data', 'index'],
   data: () => ({
     Sample,
-  })
+  }),
+  created () {
+    console.log('data', this.data);
+  }
 }
 </script>
 

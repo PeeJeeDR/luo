@@ -63,9 +63,9 @@ export const Quizzes = {
     /* === FETCH QUIZZES BY CATEGORY === */
     fetchQuizesByCategory ({ commit }, payload) {
       commit('SET_LOADING_ON');
-      commit('Navigation/SET_CATEGORIES_OFF', {}, { root: true });
 
       db.collection('quizzes').where('categories', 'array-contains', payload.categoryId).onSnapshot(snap => {
+        console.log('IN CATEGORY FETCH');
         commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
         commit('SET_LOADING_OFF');
       }) 
@@ -74,39 +74,26 @@ export const Quizzes = {
 
     /* === POST NEW QUIZ === */
     async postNewQuiz ({ dispatch, rootState }, payload) {
+      console.log('payload', payload);
       const questions = rootState.CreateQuiz.questions;
-      let storageUrl = undefined;
-
-      // SAVE IMAGE TO FIREBASE STORAGE
-      if (payload.img !== undefined) {
-        const name = payload.img.name;
-        const meta = { contentType: payload.img.type }
-
-        await storage.child(name).put(payload.img, meta).then(snap => snap.ref.getDownloadURL()).then(url => {
-          console.log('URL FROM STORAGE', url);
-          storageUrl = url;
-        }).catch(err => {
-          storageUrl = undefined;
-        });
-      }
 
       // CHECK IF THERE IS AT LEAST ONE QUESTION MADE questions.length > 0
       if (questions.length > 0) {
         const quiz = {
           title: payload.title,
           description: payload.description,
-          public: payload.public,
+          public: true,
           created: moment().format(),
           reports: [],
           categories: payload.categories,
           played: 0,
           likes: 0,
-          imgUrl: storageUrl !== undefined ? storageUrl : null,
-          questions,
+          quizImg: payload.quizImg !== undefined ? payload.quizImg : null,
+          questions
         }
   
         // ADD QUIZ TO FIRESTORE
-        db.collection('quizzes').add(quiz).then(res => {
+        db.collection('quizzes').add(quiz).then(() => {
           console.log('QUIZ POSTED');
 
           // REFETCH QUIZZES

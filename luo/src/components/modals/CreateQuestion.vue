@@ -12,20 +12,20 @@
         <section>
           <image-uploader
             style='display: none'
-            :debug="1"
-            :maxWidth="512"
-            :quality="0.7"
-            :autoRotate=true
-            outputFormat="string"
+            :debug='1'
+            :maxWidth='512'
+            :quality='0.7'
+            :autoRotate='true'
+            outputFormat='string'
             :preview='true'
-            capture="environment"
-            accept="image/*"
-            doNotResize="['gif', 'svg']"
-            @input="setImage"
-            @onUpload="startImageResize"
-            @onComplete="endImageResize"
+            capture='environment'
+            accept='image/*'
+            doNotResize='["gif", "svg"]'
+            @input='setImage'
+            @onUpload='startImageResize'
+            @onComplete='endImageResize'
           >
-            <label for="fileInput" ref='img' slot="upload-label"></label>
+            <label for='fileInput' ref='img' slot='upload-label'></label>
           </image-uploader>
 
           <img v-if='formData.questionImg !== ""' :src='formData.questionImg' :alt='"Uploaded file."' @click='$refs.img.click()'>
@@ -65,12 +65,20 @@
 </template>
 
 <script>
+import ModalMixins from '@/mixins/ModalMixins';
 import DefaultButton from '@/components/buttons/DefaultButton';
 import CheckMark from '@/components/buttons/CheckMark';
 import SubmitAndCancel from '@/components/buttons/SubmitAndCancel';
 
 export default {
+  /* === ModalMixins.js ===
+  - selectedSlide (data)
+  - nextSlide (method)
+  - prevSlide (method)
+  ========== */
+
   name: 'CreateQuestion',
+  mixins: [ModalMixins],
   components: { DefaultButton, CheckMark, SubmitAndCancel },
   data: () => ({
     formData: {
@@ -83,7 +91,6 @@ export default {
         type: 'text'
       }]
     },
-    selectedSlide: 0,
     answersFilled: false,
     selectedCorrectAnswer: false,
   }),
@@ -91,25 +98,14 @@ export default {
     /* === IMAGES === */
     setImage (output) {
       this.formData.questionImg = output;
-      console.log('OUTPUT', output);
     },
 
     startImageResize () {
-      console.log('STARTED');
+      // FOR LOADING
     },
 
     endImageResize () {
-      console.log('ENDED');
-    },
-    /* ========== */
-
-    /* === CHANGE SLIDES === */
-    prevSlide () {
-      this.selectedSlide -= 1;
-    },
-
-    nextSlide () {
-      this.selectedSlide += 1;
+      // FOR LOADING
     },
     /* ========== */
 
@@ -167,6 +163,7 @@ export default {
 {
   .answer {
     margin-bottom: 1rem;
+
     input {
       margin: 0;
     }

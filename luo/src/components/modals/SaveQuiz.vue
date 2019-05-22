@@ -1,96 +1,83 @@
 <template>
-  <carousel 
-    :per-page='1' 
-    class='save-quiz default-modal' 
-    :paginationEnabled='false' 
-    :adjustableHeight='true'
-    :navigateTo='currentSlide'
-    @page-change='slideChanged'
-    :touchDrag='dragStatus'
-    :mouseDrag='dragStatus'
-  >
-    <!-- === TITLE, DESCRIPTION AND PUBLIC === -->
-    <slide data-index='0'>
-      <h3 class='heading h--xxm h--color-primary'>Almost done!</h3>
+  <div class='save-quiz'>
+    <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
 
-      <form @submit.prevent='nextSlide'>
-        <input type='text' class='default-input' placeholder='Quiz title' v-model='title'>
-        <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error1 }}</p>
+      <!-- === TITLE DESCRIPTION AND IMAGE === -->
+      <div key='1' v-if='selectedSlide === 0'>
+        <section>
+          <h3 class='title heading h--xm h--color-primary'>Name and description</h3>
+          <input class='default-input' type='text' placeholder='Quiz title' v-model='formData.title'>
+          <textarea class='default-input textarea' placeholder='Quiz description' v-model='formData.description'></textarea>
+        </section>
 
-        <textarea class='default-input textarea' placeholder='Quiz description' v-model='description'></textarea>
-        <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error2 }}</p>
+        <!-- === IMAGE === -->
+        <section>
+          <image-uploader
+            style='display: none'
+            :debug='1'
+            :maxWidth='512'
+            :quality='0.7'
+            :autoRotate='true'
+            outputFormat='string'
+            :preview='true'
+            capture='environment'
+            accept='image/*'
+            doNotResize='["gif", "svg"]'
+            @input='setImage'
+          >
+            <label for='fileInput' ref='img' slot='upload-label'></label>
+          </image-uploader>
 
-        <div class='public flex align-center'>
-          <check-mark @click.native='togglePrivate' :checked='public'/>
-          <h2 class='heading h--m'>Make quiz public</h2>
-        </div>
-      
-        <submit-and-cancel @oncancel='$store.dispatch("Modals/closeModals")'/>
-      </form>
-    </slide>
-    <!-- ========== -->
+          <img v-if='formData.quizImg !== ""' :src='formData.quizImg' :alt='"Uploaded file."' @click='$refs.img.click()'>
+          <default-button v-if='formData.quizImg === ""' :content='"Add quiz image"' @click.native='$refs.img.click()'/>
+        </section>
+        <!-- ========== -->
 
-    <!-- === CATEGORIES === -->
-    <slide data-index='1'>
-      <h3 class='heading h--xxm h--color-primary'>Select categories</h3>
-
-      <div class='categories'>
-        <div class='category flex align-center' v-for='(category, i) in categories' :key='i'>
-          <check-mark @click.native='categorySelect(category.id)' :checked='selectedCategories.includes(category.id)'/>
-          <img :src='require(`@/assets/icons/categories/${ category.slug }.png`)' :alt='`${ capFirstChar(category.category) } icon.`'>
-          <h2 class='heading h--m'>{{ category.category }}</h2>
-        </div>
+        <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide'/>
       </div>
+      <!-- ========== -->
 
-      <submit-and-cancel @onsubmit='nextSlide' @oncancel='$store.dispatch("Modals/closeModals")'/>
-    </slide>
-    <!-- ========== -->
-
-    <!-- === IMAGE UPLOAD === -->
-    <slide data-index='2'>
-      <h3 class='heading h--xxm h--color-primary'>Select a quiz image!</h3>
-
-      <div class='image-container'>
-        <img v-if='selectedImgURL !== ""' :src='selectedImgURL' alt='img'>
-
-        <div class='icons flex justify-center align-end'>
-          <input type='file' ref='img' style='display: none' @change='onImgSelect'>
-
-          <div :class='`icon flex-center ${ selectedImgURL !== "" && "active" }`' @click='$refs.img.click()'>
-            <gallery/>
+      <!-- === CATEGORIES === -->
+      <div key='2' v-if='selectedSlide === 1'>
+        <section>
+          <h3 class='title heading h--xm h--color-primary'>Categories</h3>
+          <div class='categories'>
+            <div class='category flex align-center' v-for='category in categories' :key='category.id' @click='categorySelect(category.id)'>
+              <check-mark :checked='selectedCategories.includes(category.id)'/>
+              <img :src='require(`@/assets/icons/categories/${ category.slug }.png`)' :alt='`${ capFirstChar(category.category) } icon.`'>
+              <h2 class='heading h--m'>{{ category.category }}</h2>
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
 
-      <submit-and-cancel @onsubmit='onFormSubmit' @oncancel='$store.dispatch("Modals/closeModals")'/>
-    </slide>
-    <!-- ========== -->
-  </carousel>
+        <submit-and-cancel :includeBack='true' @onback='prevSlide' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='onFormSubmit'/>
+      </div>
+      <!-- ========== -->
+
+    </transition>
+  </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import { Carousel, Slide } from 'vue-carousel';
 import GlobalMethods from '@/mixins/GlobalMethods';
+import ModalMixins from '@/mixins/ModalMixins';
+import DefaultButton from '@/components/buttons/DefaultButton';
 import CheckMark from '@/components/buttons/CheckMark';
 import SubmitAndCancel from '@/components/buttons/SubmitAndCancel';
-import Gallery from '@/assets/icons/quizzes/Gallery.svg';
 
 export default {
   name: 'SaveQuiz',
-  mixins: [GlobalMethods],
-  components: { CheckMark, SubmitAndCancel, Carousel, Slide, Gallery, CheckMark },
+  mixins: [GlobalMethods, ModalMixins],
+  components: { DefaultButton, CheckMark, SubmitAndCancel },
   data: () => ({
-    title: '',
-    description: '',
-    public: false,
-    selectedImg: undefined,
-    selectedImgURL: '',
-    selectedCategories: [],
-    currentSlide: 0,
-    error1: '',
-    error2: '',
-    dragStatus: false
+    formData: {
+      title: '',
+      description: '',
+      categories: [],
+      quizImg: ''
+    },
+    selectedCategories: []
   }),
   computed: {
     ...mapState('Categories', ['categories'])
@@ -99,55 +86,10 @@ export default {
     this.$store.dispatch('Categories/fetchCategories');
   },
   methods: {
-    /* === SLIDE METHODS === */
-    slideChanged (slide) {
-      this.currentSlide = slide;
-    },
-
-    prevSlide () {
-      this.currentSlide = this.currentSlide - 1;
-    },
-
-    nextSlide () {
-      switch (this.currentSlide) {
-        case 0: 
-          let formValid = true;
-
-          if (this.title === '') {
-            this.error1 = 'You  have to fill in a quiz title.';
-            formValid = false;
-          } 
-
-          if (this.description === '') {
-            this.error2 = 'Fill in a quiz description';
-            formValid = false;
-          }
-
-          if (formValid) {
-            this.dragStatus = true;
-            this.currentSlide += 1;
-          }
-        break;
-
-        case 1: 
-          this.currentSlide += 1;
-        break;
-      }
-    },
-    /* ========== */
-
-    /* === TITLE, DESCRIPTION AND PUBLIC === */
-    togglePrivate () {
-      this.public = !this.public;
-    },
-    /* ========== */
-
-    /* === ASSETS UPLOAD === */
-    onImgSelect (e) {
-      if (e.target.files[0] && e.target.files[0].type.includes('image')) {
-        this.selectedImg = e.target.files[0];
-        this.selectedImgURL = URL.createObjectURL(e.target.files[0]);
-      }
+    /* === IMAGES === */
+    setImage (output) {
+      console.log('OUTPUT', output);
+      this.formData.quizImg = output;
     },
     /* ========== */
 
@@ -163,20 +105,13 @@ export default {
     },
     /* ========== */
 
-    /* === FORM SUBMIT === */
-    async onFormSubmit () {
-      console.log('post');
-      await this.$store.dispatch('Quizzes/postNewQuiz', {
-        title: this.title,
-        description: this.description,
-        public: this.public,
-        categories: this.selectedCategories,
-        img: this.selectedImg,
-        imgUrl: this.selectedImgURL
+    /* === ON FORM SUBMIT === */
+    onFormSubmit () {
+      this.formData.categories = this.selectedCategories;
+      this.$store.dispatch('Quizzes/postNewQuiz', this.formData).then(() => {
+        this.$store.dispatch('Modals/closeModal');
+        this.$router.push('/');
       });
-
-      this.$store.dispatch('Modals/closeModals');
-      this.$router.push('/');
     }
     /* ========== */
   }
@@ -184,23 +119,18 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.save-quiz {
-  padding: 2rem 0;
-
-  .public {
-    padding-top: 1rem;
-  }
-
+.save-quiz
+{
   .categories {
     height: 20rem;
     overflow: scroll;
-    margin: -1rem 0;
 
     .category {
       margin: 1rem 0;
 
       img {
         width: 2rem;
+        height: 100%;
         margin-right: 1rem;
       }
     }

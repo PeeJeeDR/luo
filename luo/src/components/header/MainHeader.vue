@@ -11,7 +11,7 @@
 
         <div class='icon'>
           <search v-if='rightIcon === "search"'/>
-          <save v-if='rightIcon === "save" && questions.length > 0' @click='openQuizOptionsModal'/>
+          <save v-if='rightIcon === "save" && questions.length > -1' @click='openQuizOptionsModal'/>
         </div>
       </div>
 
@@ -48,8 +48,8 @@ export default {
     },
 
     openQuizOptionsModal () {
-      if (this.questions.length > 0) {
-        this.$store.dispatch("Quizzes/postNewQuiz");
+      if (this.questions.length > -1) {
+        this.$store.dispatch('Modals/openModal', { type: 'save-quiz' });
       }
     }
   }
