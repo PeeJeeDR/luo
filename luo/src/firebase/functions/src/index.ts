@@ -11,7 +11,7 @@ export const onQuizPost = functions.firestore.document(`users/{userId}`).onUpdat
       return null;
     }
 
-    return change.after.ref.update({ numberOfQuizzes: after.quizzesMade.length });
+    return change.after.ref.update({ numberOfQuizzesMade: after.quizzesMade.length });
   }
 
   return null;

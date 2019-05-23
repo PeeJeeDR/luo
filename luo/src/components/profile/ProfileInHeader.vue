@@ -9,7 +9,7 @@
     <div class='stats flex flex-wrap'>
       <stat :title='"name"' :value='userFromDB.username' :color='"light"'/>
       <stat :title='"likes"' :value='userFromDB.likes' :color='"light"'/>
-      <stat :title='"Quizzes made"' :value='userFromDB.quizzes.length' :color='"light"'/>
+      <stat :title='"Quizzes made"' :value='userFromDB.numberOfQuizzesMade' :color='"light"'/>
       <stat :title='"Quizzed played"' :value='0' :color='"light"'/>
       <stat :title='"Reputation"' :value='userFromDB.reputation' :color='"light"'/>
     </div>
