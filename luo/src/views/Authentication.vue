@@ -57,7 +57,7 @@
         <!-- ========== -->
 
         <p class='error'>{{ error }}</p>
-        <default-button :content='"Login"'/>
+        <default-button :content='formType === "login" ? "Login" : "Register"'/>
         <p>Forgot password?</p>
         <p class='skip' @click='$router.push("/")'>Skip login</p>
       </form>
@@ -157,7 +157,8 @@ export default {
                   username: res.user.displayName,
                   email: res.user.email,
                   emailVerified: res.user.emailVerified,
-                  quizzes: [],
+                  quizzesMade: [],
+                  quizzesPlayed: [],
                   reputation: 0,
                   likedQuizzes: [],
                   badges: [],

@@ -31,7 +31,7 @@ export const Users = {
     /* ========== */
 
     /* === UPDATE THE AVATAR IMAGE OF THE USER === */
-    updateUserAvatar ({ commit, state }, payload) {
+    updateUserAvatar ({ state }, payload) {
       db.collection('users').doc(state.userFromDB.id).update({
         avatarUrl: payload.base64
       }).then(res => {
@@ -41,6 +41,10 @@ export const Users = {
       })
     },
     /* ========== */
+
+    postQuizId ({  }) {
+      
+    },
 
     /* === EXECUTE WHEN THE APP LOADS === */
     onAppLoad ({ commit }) {

@@ -2,7 +2,7 @@
   <div v-ripple class='animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`' @click='animatePress = true' @animationend='animatePress = false'>
     <div class='quiz' :class='animatePress ? "animate" : ""'>
       <div class='img-container'>
-        <img :src='data.quizImg !== null ? data.quizImg : Sample' alt='sample image.'>
+        <img :src='data.quizImg !== "" ? data.quizImg : Sample' alt='sample image.'>
       </div>
 
       <div class='content-container flex justify-between'>
@@ -29,7 +29,7 @@ export default {
     animatePress: false
   }),
   created () {
-    console.log('data', this.data);
+    console.log('quiz', this.data);
   }
 }
 </script>

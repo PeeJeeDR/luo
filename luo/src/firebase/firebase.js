@@ -8,4 +8,4 @@ const fire = firebase.initializeApp(firebaseConfig);
 const storage = fire.storage().ref();
 const db = fire.firestore();
 
-export { fire, storage, db };
+export { firebase, fire, storage, db };

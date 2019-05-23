@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <transition name='fade-in-out'>
+      <transition name='fade-from-left'>
         <profile-in-header v-if='headerTitle === "profile"'/>
       </transition>
     </div>
@@ -100,5 +100,26 @@ header {
     color: $snow;
     font-size: $bran;
   }
+
+
+  // HEADER PROFILE INFO
+  .fade-from-left-enter-active {
+    animation: fadeInLeft 500ms;
+    animation-delay: 300ms;
+    opacity: 0;
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      margin-left: -100px;
+    }
+
+    to {
+      opacity: 1;
+      margin-left: 0
+    }
+  }
+  /* ========== */
 }
 </style>

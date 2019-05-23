@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import { fire } from '@/firebase/firebase';
 import { mapState } from 'vuex';
 import GlobalMethods from '@/mixins/GlobalMethods';
 import ModalMixins from '@/mixins/ModalMixins';
@@ -108,6 +109,8 @@ export default {
     /* === ON FORM SUBMIT === */
     onFormSubmit () {
       this.formData.categories = this.selectedCategories;
+      this.formData.userId = fire.auth().currentUser.uid;
+
       this.$store.dispatch('Quizzes/postNewQuiz', this.formData).then(() => {
         this.$store.dispatch('Modals/closeModal');
         this.$router.push('/');

@@ -31,9 +31,13 @@ export default {
   padding: 0 1rem;
 
   &.selected {
-    background-color: lighten($pinky, 30%);
+    background-color: lighten($pinky, 40%);
     border-left: 5px solid $pinky;
     padding: 0 calc(1rem - 5px);
+
+    h4 {
+      color: $pinky !important;
+    }
   }
 
   .container {

@@ -9,13 +9,6 @@
   animation-delay: 250ms;
 }
 
-// HEADER PROFILE INFO
-.fade-in-out-enter-active {
-  animation: fadeInLeft 500ms;
-  animation-delay: 300ms;
-  opacity: 0;
-}
-/* ========== */
 
 /* === ANIMATIONS === */
 // OVERLAY
@@ -38,17 +31,3 @@
     opacity: 0;
   }
 }
-
-// HEADER PROFILE INFO
-/* @keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    margin-left: -100px;
-  }
-
-  to {
-    opacity: 1;
-    margin-left: 0
-  }
-} */
-/* ========== */

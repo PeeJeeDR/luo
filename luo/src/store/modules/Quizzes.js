@@ -1,4 +1,4 @@
-import { db, storage } from '@/firebase/firebase';
+import { firebase, db, storage } from '@/firebase/firebase';
 import moment from 'moment';
 
 export const Quizzes = {
@@ -86,14 +86,24 @@ export const Quizzes = {
           reports: [],
           categories: payload.categories,
           played: 0,
+          playedBy: [],
+          createdBy: payload.userId,
           likes: 0,
           quizImg: payload.quizImg !== undefined ? payload.quizImg : null,
           questions
         }
   
         // ADD QUIZ TO FIRESTORE
-        db.collection('quizzes').add(quiz).then(() => {
-          console.log('QUIZ POSTED');
+        db.collection('quizzes').add(quiz).then(res => {
+
+          // ADD QUIZ ID TO USER QUIZZES MADE ARRAY
+          db.collection('users').doc(payload.userId).update({
+            quizzesMade: firebase.firestore.FieldValue.arrayUnion(res.id)
+          }).then(() => {
+            console.log('QUIZ ID ADDED TO USER QUIZZESMADE ARRAY');
+          }).catch(err => {
+            console.log('ERROR WHILE POSTING QUIZ ID IN QUIZZESMADE ARRAY', err);
+          });
 
           // REFETCH QUIZZES
           dispatch('fetchNewQuizzes');
