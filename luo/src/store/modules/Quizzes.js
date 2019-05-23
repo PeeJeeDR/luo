@@ -77,7 +77,7 @@ export const Quizzes = {
       const questions = rootState.CreateQuiz.questions;
 
       // CHECK IF THERE IS AT LEAST ONE QUESTION MADE questions.length > 0
-      if (questions.length > 0) {
+      if (questions.length === 0) {
         const quiz = {
           title: payload.title,
           description: payload.description,
