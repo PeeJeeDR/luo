@@ -1,7 +1,7 @@
 <template>
   <div v-if='userFromDB !== undefined' class='profile-in-header default-vp flex justify-start align-start'>
     <div class='img-container' @click='onAvatarClick'>
-      <input type='file' ref='img' style='display: none' @change='onImgSelect'>
+      <input type='file' ref='img' accept='image/*' style='display: none' @change='onImgSelect'>
       <img :src='userFromDB.avatarUrl !== null ? "data:image/jpeg;base64," + userFromDB.avatarUrl : require(`@/assets/img/avatars/${ userFromDB.avatar }.png`)' alt='avatar image.'>
       <button v-if='fire.auth().currentUser.uid === userFromDB.id' class='flex-center'><edit /></button>
     </div>
@@ -31,9 +31,6 @@ export default {
   }),
   computed: {
     ...mapState('Users', ['userFromDB'])
-  },
-  created () {
-    console.log('user', this.userFromDB);
   },
   methods: {
     onAvatarClick () {

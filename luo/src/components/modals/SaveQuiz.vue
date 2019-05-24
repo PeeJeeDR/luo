@@ -33,7 +33,7 @@
         </section>
         <!-- ========== -->
 
-        <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide'/>
+        <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide("quiz-1-2")'/>
       </div>
       <!-- ========== -->
 

@@ -1,3 +1,81 @@
 {
-  "loadDelay": 200
+  "loadDelay": 200,
+  "categories": [
+    {
+      "category": "art",
+      "slug": "art"
+    },
+    {
+      "category": "history",
+      "slug": "history"
+    },
+    {
+      "category": "nature",
+      "slug": "nature"
+    },
+    {
+      "category": "culture",
+      "slug": "culture"
+    },
+    {
+      "category": "media",
+      "slug": "media"
+    },
+    {
+      "category": "health",
+      "slug": "health"
+    },
+    {
+      "category": "brands",
+      "slug": "brands"
+    },
+    {
+      "category": "politics",
+      "slug": "politics"
+    },
+    {
+      "category": "sports",
+      "slug": "sports"
+    },
+    {
+      "category": "architecture",
+      "slug": "architecture"
+    },
+    {
+      "category": "geography",
+      "slug": "geography"
+    },
+    {
+      "category": "fashion",
+      "slug": "fashion"
+    },
+    {
+      "category": "language",
+      "slug": "language"
+    },
+    {
+      "category": "traffic & vehicles",
+      "slug": "traffic"
+    },
+    {
+      "category": "technology",
+      "slug": "technology"
+    },
+    {
+      "category": "animals",
+      "slug": "animals"
+    },
+    {
+      "category": "food & drinks",
+      "slug": "food"
+    },
+    {
+      "category": "science",
+      "slug": "science"
+    },
+    {
+      "category": "photography",
+      "slug": "photography"
+    }
+  ]
 }

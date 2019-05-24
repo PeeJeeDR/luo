@@ -6,7 +6,7 @@
       <quiz v-for='(quiz, i) in quizzes' :key='i' :data='quiz' :index='i'/>
     </div>
 
-    <h2 v-if='quizzes.length === 0 && !loading'>
+    <h2 v-if='quizzes.length === 0 && !loading' class='big-wrapper heading h--l h--color-mist h--align-center'>
       Oops! It looks like there are no quizzes made! Are you the first one? ;-)
     </h2>
   </div>
@@ -47,14 +47,6 @@ export default {
 
   .quizzes-overview {
     padding: 4.5rem 0 5rem 0;
-  }
-
-  h2 {
-    color: $mist;
-    text-align: center;
-    width: 90%;
-    margin: 4rem auto;
-    font-size: $khaleesi;
   }
 }
 </style>

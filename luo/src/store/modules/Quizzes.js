@@ -67,7 +67,7 @@ export const Quizzes = {
     /* === FETCH POPULAR QUIZZES === */
     fetchPopularQuizzes ({ commit }) {
       commit('SET_LOADING_ON');
-      
+
       db.collection('quizzes').orderBy('played', 'desc').onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
         commit('SET_LOADING_OFF');
@@ -94,7 +94,9 @@ export const Quizzes = {
 
     /* === FETCH QUIZZES BY CATEGORY === */
     fetchQuizzesByUserId ({ commit }, payload) {
-      db.collection('quizzes').where('createdBy', '==', payload.userId).get().then(snap => {
+      console.log('FETCH QUIZZES BY USER ID');
+      
+      db.collection('quizzes').where('createdBy', '==', payload.userId).onSnapshot().then(snap => {
         commit('SAVE_RECENT_QUIZZES_BY_USER', snap.docs.map(doc => doc.data()));
       });
     },

@@ -21,6 +21,10 @@ export default {
           this.error = '';
           this.selectedSlide += 1;
         break;
+
+        case 'quiz-1-2': 
+          this.selectedSlide += 1;
+        break;
       }
     }
     /* ========== */

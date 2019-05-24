@@ -32,6 +32,7 @@ export const Categories = {
       commit('SET_LOADING_ON');
 
       db.collection('categories').orderBy('category', 'asc').onSnapshot(snap => {
+        console.log('SNAP COLLECT CATEGORIES', snap);
         const mapped = snap.docs.map(doc => {
           const copy = doc.data();
           copy.id = doc.id;

@@ -23,7 +23,8 @@ export const Users = {
       if (state.userFromDB === undefined) {
         db.collection('users').doc(payload.userId).onSnapshot(snap => {
           let result = snap.data();
-          result.id = payload.id;
+          console.log('SNAP RESULT', result);
+          result.id = payload.userId;
           commit('SAVE_USER', result);
         });
       }
