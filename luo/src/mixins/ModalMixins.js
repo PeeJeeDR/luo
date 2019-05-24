@@ -1,7 +1,8 @@
 export default {
   data: () => ({
     selectedSlide: 0,
-    error: ''
+    error: '',
+    error1: ''
   }),
   methods: {
     /* === CHANGE SLIDES === */
@@ -23,7 +24,27 @@ export default {
         break;
 
         case 'quiz-1-2': 
-          this.selectedSlide += 1;
+          if (this.formData.title.trim() !== '' && this.formData.description.trim() !== '') {
+            this.error = '';
+            this.error1 = '';
+            this.selectedSlide += 1;
+          }
+
+          if (this.formData.title.trim() === '') {
+            this.formData.title = '';
+            this.error = 'You have to fill in a title.';
+          }
+          else {
+            this.error = '';
+          }
+
+          if (this.formData.description.trim() === '') {
+            this.formData.description = '';
+            this.error1 = 'You have to fill in a description.';
+          }
+          else {
+            this.error1 = '';
+          }
         break;
       }
     }

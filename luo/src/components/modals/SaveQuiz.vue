@@ -7,7 +7,9 @@
         <section>
           <h3 class='title heading h--xm h--color-primary'>Name and description</h3>
           <input class='default-input' type='text' placeholder='Quiz title' v-model='formData.title'>
+          <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error }}</p>
           <textarea class='default-input textarea' placeholder='Quiz description' v-model='formData.description'></textarea>
+          <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error1 }}</p>
         </section>
 
         <!-- === IMAGE === -->
@@ -49,6 +51,8 @@
             </div>
           </div>
         </section>
+
+        <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error }}</p>
 
         <submit-and-cancel :includeBack='true' @onback='prevSlide' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='onFormSubmit'/>
       </div>
@@ -108,6 +112,15 @@ export default {
 
     /* === ON FORM SUBMIT === */
     onFormSubmit () {
+      if (this.selectedCategories.length === 0) {
+        console.log('FORM SUBMUT IN IF');
+        this.error = 'Select at least one category.';
+        return;
+      }
+
+      console.log('FORM SUBMUT OUT IF');
+
+      this.error = '';
       this.formData.categories = this.selectedCategories;
       this.formData.userId = fire.auth().currentUser.uid;
 

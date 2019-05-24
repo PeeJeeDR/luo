@@ -1,4 +1,4 @@
-import { firebase, db, storage } from '@/firebase/firebase';
+import { firebase, db } from '@/firebase/firebase';
 import moment from 'moment';
 
 export const Quizzes = {
@@ -107,8 +107,8 @@ export const Quizzes = {
       // CHECK IF THERE IS AT LEAST ONE QUESTION MADE questions.length > 0
       if (questions.length > 0) {
         const quiz = {
-          title: payload.title,
-          description: payload.description,
+          title: payload.title.charAt(0).toUpperCase() + payload.title.substr(1),
+          description: payload.description.charAt(0).toUpperCase() + payload.description.substr(1) + '.',
           public: true,
           created: moment().format(),
           reports: [],
