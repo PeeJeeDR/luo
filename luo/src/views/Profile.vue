@@ -1,5 +1,5 @@
 <template>
-  <div class='profile wrapper'>
+  <div class='profile big-wrapper'>
     <recent-quizzes />
   </div>
 </template>
@@ -13,7 +13,8 @@ export default {
   components: { RecentQuizzes },
   created () {
     this.$store.dispatch('Navigation/onAppLoad');
-    this.$store.dispatch('Users/fetchUserById', { id: fire.auth().currentUser.uid });
+    this.$store.dispatch('Users/fetchUserById', { userId: fire.auth().currentUser.uid });
+    this.$store.dispatch('Quizzes/fetchQuizzesByUserId', { userId: fire.auth().currentUser.uid });
   }
 }
 </script>

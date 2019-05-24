@@ -20,13 +20,10 @@ export const Users = {
   actions: {
     /* === FETCH SINGLE USER FROM FIRESTORE === */
     fetchUserById ({ state, commit }, payload) {
-      console.log('STATE', state.userFromDB);
-      console.log('PAYLOAD', payload);
       if (state.userFromDB === undefined) {
-        db.collection('users').doc(payload.id).onSnapshot(snap => {
+        db.collection('users').doc(payload.userId).onSnapshot(snap => {
           let result = snap.data();
           result.id = payload.id;
-          console.log('RESULT', result);
           commit('SAVE_USER', result);
         });
       }

@@ -27,10 +27,7 @@ export default {
   data: () => ({
     Sample,
     animatePress: false
-  }),
-  created () {
-    console.log('quiz', this.data);
-  }
+  })
 }
 </script>
 

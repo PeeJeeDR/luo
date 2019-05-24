@@ -6,6 +6,8 @@ export const Quizzes = {
 
   state: {
     quizzes: [],
+    quizzesRecentByUser: [],
+    quizzesPopularByUser: [],
     loading: false
   },
 
@@ -17,6 +19,25 @@ export const Quizzes = {
 
     CLEAR_QUIZES (state) {
       state.quizzes = [];
+    },
+    /* ========== */
+
+    /* === SAVE RECENT QUIZZES BY USER === */
+    SAVE_RECENT_QUIZZES_BY_USER (state, quizzes) {
+      state.quizzesRecentByUser = quizzes;
+    },
+    /* ========== */
+
+    /* === SAVE POPULAR QUIZZES BY USER === */
+    SAVE_POPULAR_QUIZZES_BY_USER (state, quizzes) {
+      state.quizzesPopularByUser = quizzes;
+    },
+    /* ========== */
+
+    /* === CLEAR POPULAR AND RECENT QUIZZES OF USER === */
+    CLEAR_QUIZZES_BY_USER (state) {
+      state.quizzesRecentByUser = [];
+      state.quizzesPopularByUser = [];
     },
     /* ========== */
 
@@ -71,13 +92,20 @@ export const Quizzes = {
     },
     /* ========== */
 
+    /* === FETCH QUIZZES BY CATEGORY === */
+    fetchQuizzesByUserId ({ commit }, payload) {
+      db.collection('quizzes').where('createdBy', '==', payload.userId).get().then(snap => {
+        commit('SAVE_RECENT_QUIZZES_BY_USER', snap.docs.map(doc => doc.data()));
+      });
+    },
+    /* ========== */
+
     /* === POST NEW QUIZ === */
     async postNewQuiz ({ dispatch, rootState }, payload) {
-      console.log('payload', payload);
       const questions = rootState.CreateQuiz.questions;
 
       // CHECK IF THERE IS AT LEAST ONE QUESTION MADE questions.length > 0
-      if (questions.length === 0) {
+      if (questions.length > 0) {
         const quiz = {
           title: payload.title,
           description: payload.description,
