@@ -6,9 +6,18 @@ export const Quizzes = {
 
   state: {
     quizzes: [],
-    quizzesRecentByUser: [],
-    quizzesPopularByUser: [],
+    quizzesByUser: [],
     loading: false
+  },
+
+  getters: {
+    getRecentQuizzes (state) {
+      return [...state.quizzesByUser].sort((a, b) => moment(b.created) - moment(a.created)).splice(0, 3);
+    },
+
+    getPopularQuizzes (state) {
+      return [...state.quizzesByUser].sort((a, b) => moment(b.played) - moment(a.played)).splice(0, 3);
+    }
   },
 
   mutations: {
@@ -22,22 +31,13 @@ export const Quizzes = {
     },
     /* ========== */
 
-    /* === SAVE RECENT QUIZZES BY USER === */
-    SAVE_RECENT_QUIZZES_BY_USER (state, quizzes) {
-      state.quizzesRecentByUser = quizzes;
+    /* === SAVE QUIZZES BY USER === */
+    SAVE_QUIZZES_BY_USER (state, quizzes) {
+      state.quizzesByUser = quizzes;
     },
-    /* ========== */
 
-    /* === SAVE POPULAR QUIZZES BY USER === */
-    SAVE_POPULAR_QUIZZES_BY_USER (state, quizzes) {
-      state.quizzesPopularByUser = quizzes;
-    },
-    /* ========== */
-
-    /* === CLEAR POPULAR AND RECENT QUIZZES OF USER === */
     CLEAR_QUIZZES_BY_USER (state) {
-      state.quizzesRecentByUser = [];
-      state.quizzesPopularByUser = [];
+      state.quizzesByUser = [];
     },
     /* ========== */
 
@@ -94,10 +94,8 @@ export const Quizzes = {
 
     /* === FETCH QUIZZES BY CATEGORY === */
     fetchQuizzesByUserId ({ commit }, payload) {
-      console.log('FETCH QUIZZES BY USER ID');
-      
-      db.collection('quizzes').where('createdBy', '==', payload.userId).onSnapshot().then(snap => {
-        commit('SAVE_RECENT_QUIZZES_BY_USER', snap.docs.map(doc => doc.data()));
+      db.collection('quizzes').where('createdBy', '==', payload.userId).onSnapshot(snap => {
+        commit('SAVE_QUIZZES_BY_USER', snap.docs.map(doc => doc.data()));
       });
     },
     /* ========== */

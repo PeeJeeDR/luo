@@ -1,9 +1,9 @@
 <template>
   <div class='profile big-wrapper'>
-    <recent-quizzes v-if='quizzesRecentByUser.length > 0' :quizzes='quizzesRecentByUser'/>
-    <popular-quizzes v-if='quizzesRecentByUser.length > 0' :quizzes='quizzesRecentByUser'/>
+    <recent-quizzes v-if='quizzesByUser.length > 0'/>
+    <popular-quizzes v-if='quizzesByUser.length > 0'/>
 
-    <h2 class='big-wrapper heading h--l h--color-mist h--align-center'>
+    <h2 v-if='quizzesByUser.length === 0' class='big-wrapper heading h--l h--color-mist h--align-center'>
       It looks like you haven't made any quizzes yet, Go make one!
     </h2>
   </div>
@@ -19,7 +19,7 @@ export default {
   name: 'Profile',
   components: { RecentQuizzes, PopularQuizzes },
   computed: {
-    ...mapState('Quizzes', ['quizzesRecentByUser'])
+    ...mapState('Quizzes', ['quizzesByUser'])
   },
   created () {
     this.$store.dispatch('Navigation/onAppLoad');
@@ -32,7 +32,7 @@ export default {
 <style lang='scss' scoped>
 .profile
 {
-  padding-top: 12rem;
+  padding: 10rem 0 5rem 0;
 
   h2 {
     margin-top: 5rem !important;
