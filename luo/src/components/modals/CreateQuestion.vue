@@ -7,6 +7,7 @@
         <section>
           <h3 class='title heading h--xm h--color-primary'>What is your question?</h3>
           <input class='default-input' type='text' placeholder='Question' v-model='formData.question'>
+          <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error }}</p>
         </section>
 
         <section>
@@ -32,7 +33,7 @@
           <default-button v-if='formData.questionImg === ""' :content='"Add question image"' @click.native='$refs.img.click()'/>
         </section>
 
-        <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide'/>
+        <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide("question-1-2")'/>
       </div>
       <!-- ========== -->
 
@@ -45,6 +46,8 @@
             <check-mark v-if='answersFilled' @click.native='setAnswerCorrect(answer.id)' :checked='answer.correct'/>
             <input @keydown='deleteAnswerField' class='default-input' v-model='answer.answer' type='text' :placeholder='`Answer ${ answer.id + 1 }`'>
           </div>
+
+          <p style='margin-top: -1rem;' class='paragraph p--s p--color-danger p--weight-bold error'>{{ error }}</p>
 
           <h2 
             v-if='formData.answers.length < 4'
@@ -92,7 +95,7 @@ export default {
       }]
     },
     answersFilled: false,
-    selectedCorrectAnswer: false,
+    selectedCorrectAnswer: false
   }),
   methods: {
     /* === IMAGES === */
@@ -111,7 +114,13 @@ export default {
 
     /* === ANSWERS === */
     addAnswer () {
-      if (this.formData.answers.length > 0 && this.formData.answers[this.formData.answers.length - 1].answer !== '' && this.formData.answers.length < 4) {
+      if (this.formData.answers.length > 0 && this.formData.answers.length < 4) {
+        if (this.formData.answers[this.formData.answers.length - 1].answer.trim() === '') { 
+          this.error = 'Make sure you filled in the previous answer.'
+          return
+        }
+
+        this.error = '';
         this.formData.answers.push({
           id: this.formData.answers.length,
           answer: '',
@@ -129,10 +138,20 @@ export default {
     },
 
     checkAnswersSubmit () {
+      // SWITCH TO SELECT CORRECT MODE
       if (!this.selectedCorrectAnswer) {
+        let collected = this.formData.answers.filter(answer => answer.answer.trim() === '');
+
+        if (collected.length > 0) {
+          this.error = 'Make sure you filled in every answer.';
+          return;
+        }
+
+        this.error = '';
         this.answersFilled = true;
       }
 
+      // SUBMIT AFTER SELECTING A CORRECT ANSWER
       if (this.selectedCorrectAnswer) {
         this.onFormSubmit();
       }
@@ -170,7 +189,7 @@ export default {
   }
 
   .add-answer {
-    margin-top: 1rem;
+    margin-top: 2rem;
 
     &.disabled {
       color: $mist;

@@ -11,7 +11,7 @@
 
         <div class='icon'>
           <search v-if='rightIcon === "search"'/>
-          <save v-if='rightIcon === "save" && questions.length > -1' @click='openQuizOptionsModal'/>
+          <save v-if='rightIcon === "save" && questions.length > 0' @click='openQuizOptionsModal'/>
         </div>
       </div>
 
