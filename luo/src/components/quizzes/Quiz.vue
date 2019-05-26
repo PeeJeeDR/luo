@@ -1,5 +1,5 @@
 <template>
-  <div v-ripple class='animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`' @click='animatePress = true' @animationend='animatePress = false'>
+  <div v-ripple class='animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`' @click='onQuizClick' @animationend='animatePress = false'>
     <div class='quiz' :class='animatePress ? "animate" : ""'>
       <div class='img-container'>
         <img :src='data.quizImg !== "" ? data.quizImg : Sample' alt='sample image.'>
@@ -27,7 +27,13 @@ export default {
   data: () => ({
     Sample,
     animatePress: false
-  })
+  }),
+  methods: {
+    onQuizClick () {
+      this.animatePress = true;
+      this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
+    }
+  }
 }
 </script>
 

@@ -1,5 +1,9 @@
 <template>
   <div class='quizzes big-wrapper'>
+    <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
+      <modal v-if='modalIsOpen'/>
+    </transition>
+
     <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
 
     <div class='quizzes-overview' v-if='!loading'>
@@ -15,15 +19,17 @@
 <script>
 import { mapState } from 'vuex';
 import MoonLoader from 'vue-spinner/src/MoonLoader';
+import Modal from '@/components/modals/Modal';
 import Quiz from '@/components/quizzes/Quiz';
 import Categories from '@/components/categories/Categories';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 export default {
   name: 'Quizzes',
-  components: { Quiz, MoonLoader },
+  components: { Modal, Quiz, MoonLoader },
   computed: {
     ...mapState('Quizzes', ['quizzes', 'loading']),
+    ...mapState('Modals', ['modalIsOpen']),
   },
   created () {
     this.$store.dispatch('Header/onPageLoad', { 

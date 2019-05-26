@@ -31,6 +31,7 @@ export default {
 
   svg {
     fill: $snow;
+    transform: rotate(-45deg);
   }
 }
 </style>
