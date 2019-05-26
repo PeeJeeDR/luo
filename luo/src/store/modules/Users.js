@@ -34,11 +34,7 @@ export const Users = {
     updateUserAvatar ({ state }, payload) {
       db.collection('users').doc(state.userFromDB.id).update({
         avatarUrl: payload.base64
-      }).then(res => {
-        console.log('res', res);
-      }).catch(err => {
-        console.log('err', err);
-      })
+      }).then(() => {}).catch(() => {})
     },
     /* ========== */
 
