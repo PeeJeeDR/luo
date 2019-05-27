@@ -2,7 +2,7 @@
   <div :class='`category ${ data.id === selected && "selected" }`'>
     <div v-ripple class='container flex align-center' @click='atCategoryClick'>
       <img :src='require(`@/assets/icons/categories/${ data.slug }.png`)' :alt='`${ capFirstChar(data.category) } icon.`'>
-      <h4>{{ capFirstChar(data.category) }}</h4>
+      <h4 class='heading h--m'>{{ capFirstChar(data.category) }}</h4>
     </div>
   </div>
 </template>
@@ -44,7 +44,7 @@ export default {
     padding: 0.5rem;
 
     img {
-      width: 2.5rem;
+      width: 2rem;
     }
 
     h4 {

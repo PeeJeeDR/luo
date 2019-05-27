@@ -4,6 +4,8 @@ export const PlayQuiz = {
   state: {
     playingQuiz: undefined,
     quizIsPlaying: false,
+    quizCompleted: false,
+    inputEnabled: true,
     evaluation: 'none',
     xp: 0
   },
@@ -21,6 +23,21 @@ export const PlayQuiz = {
     },
     SET_PLAYING_STATE_OFF (state) {
       state.quizIsPlaying = false;
+    },
+    SET_QUIZ_COMPLETED_ON (state) {
+      state.quizCompleted = true;
+    },
+    SET_QUIZ_COMPLETED_OFF (state) {
+      state.quizCompleted = false;
+    },
+    /* ========== */
+
+    /* === INPUT STATE === */
+    ENABLE_INPUT (state) {
+      state.inputEnabled = true;
+    },
+    DISABLE_INPUT (state) {
+      state.inputEnabled = false;
     },
     /* ========== */
 
@@ -48,21 +65,43 @@ export const PlayQuiz = {
     /* === WHEN PLAYER STOPS PLAYING QUIZ === */
     stopQuiz ({ commit }) {
       commit('SET_PLAYING_STATE_OFF');
+      commit('SET_QUIZ_COMPLETED_OFF');
+      commit('ENABLE_INPUT');
       commit('SET_EVALUATION_NONE');
     },
     /* ========== */
 
     /* === ON ANSWER PRESS === */
-    onCorrectAnswer ({ commit }) {
-      commit('SET_EVALUATION_CORRECT');
-    },
-    onWrongAnswer ({ commit }) {
-      commit('SET_EVALUATION_WRONG');
+    onAnswerClick ({ commit }, payload) {
+      if (payload.type === 'correct') {
+        commit('SET_EVALUATION_CORRECT');
+      }
+      
+      if (payload.type === 'wrong') {
+        commit('SET_EVALUATION_WRONG');
+      }
+
+      commit('DISABLE_INPUT');
     },
     /* ========== */
 
     /* === WHEN NEW QUESTION LOADS === */
     onNewQuestionLoad ({ commit }) {
+      commit('SET_EVALUATION_NONE');
+    },
+    /* ========== */
+
+    /* === WHEN THE QUIZ HAS BEEN COMPLETED === */
+    quizCompleted ({ commit }) {
+      commit('SET_QUIZ_COMPLETED_ON');
+    },
+    /* ========== */
+
+    /* === WHEN THE QUIZ HAS BEEN ENDED === */
+    onQuizEnd ({ commit }) {
+      commit('SET_PLAYING_STATE_OFF');
+      commit('SET_QUIZ_COMPLETED_OFF');
+      commit('ENABLE_INPUT');
       commit('SET_EVALUATION_NONE');
     }
     /* ========== */

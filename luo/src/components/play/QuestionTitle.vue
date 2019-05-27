@@ -19,8 +19,8 @@ export default {
 <style lang='scss' scoped>
 .question-title
 {
-  .number {
-    margin-bottom: 0.5rem;
+  h2 {
+    margin-top: 0.5rem;
   }
 }
 </style>

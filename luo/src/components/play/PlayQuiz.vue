@@ -1,10 +1,11 @@
 <template>
   <div :class='`play-quiz ${ evaluation }`'>
     
-    <div class='progress'></div>
+    <div v-if='!quizCompleted' class='progress'></div>
 
     <transition mode='out-in' enter-active-class='animated jackInTheBox ' leave-active-class='animated rotateOutUpRight faster'>
-      <multiple-choise-box v-if='showBox' :questions='playingQuiz.questions'/>
+      <quiz-end key='0' v-if='quizCompleted'/>
+      <multiple-choise-box key='1' v-if='showBox && !quizCompleted' :inputEnabled='inputEnabled' :questions='playingQuiz.questions'/>
     </transition>
   </div>
 </template>
@@ -12,23 +13,21 @@
 <script>
 import { mapState } from 'vuex';
 import MultipleChoiseBox from '@/components/play/MultipleChoiseBox';
+import QuizEnd from '@/components/play/QuizEnd';
 
 export default {
   name: 'PlayQuiz',
-  components: { MultipleChoiseBox },
+  components: { MultipleChoiseBox, QuizEnd },
   data: () => ({ 
     showBox: false
   }),
   computed: {
-    ...mapState('PlayQuiz', ['playingQuiz', 'evaluation'])
+    ...mapState('PlayQuiz', ['playingQuiz', 'quizCompleted', 'evaluation', 'inputEnabled'])
   },
   created () {
-    console.log('PLAYING QUIZ', this.playingQuiz);
-
     setTimeout(() => {
       this.showBox = true;
     }, 600);
-    
   }
 }
 </script>
