@@ -1,0 +1,35 @@
+.correct {
+  &.answer-button {
+    background-color: $yeah;
+
+    p {
+      color: $snow;
+    }
+  }
+
+  &.question-title h2 {
+    color: $yeah !important;
+  }
+
+  &.main-header {
+    background: $yeah !important;
+  }
+}
+
+.wrong {
+  &.answer-button {
+    background-color: $auwch;
+
+    p {
+      color: $snow;
+    }
+  }
+
+  &.question-title h2 {
+    color: $auwch !important;
+  }
+
+  &.main-header {
+    background: $auwch !important;
+  }
+}

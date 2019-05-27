@@ -1,10 +1,11 @@
 <template>
-  <header :class='headerTitle'>
+  <header :class='`main-header ${ headerTitle } ${ quizIsPlaying && evaluation }`'>
     <div class='wrapper'>
       <div v-if='headerTitle !== "profile"' class='nav-props flex justify-between align-center'>
         <div class='icon'>
           <hamburger v-if='leftIcon === "hamburger"' @click='openSidebar'/>
           <back v-if='leftIcon === "back"' @click='$router.push("/")'/>
+          <close v-if='leftIcon === "close"' @click='exitPlayQuiz'/>
         </div>
         
         <h2 v-if='headerTitle'>{{ capFirstChar(headerTitle) }}</h2>
@@ -31,26 +32,38 @@ import hamburger from '@/assets/icons/main-header/Hamburger.svg';
 import Search from '@/assets/icons/main-header/Search.svg';
 import Save from '@/assets/icons/main-header/Save.svg';
 import Back from '@/assets/icons/main-header/Back.svg';
+import Close from '@/assets/icons/main-header/Close.svg';
 
 export default {
   name: 'MainHeader',
   mixins: [GlobalMethods],
-  components: { ProfileInHeader, hamburger, Search, Save, Back },
+  components: { ProfileInHeader, hamburger, Search, Save, Back, Close },
   props: ['render'],
   computed: {
     ...mapState('Header', ['headerTitle', 'leftIcon', 'rightIcon']),
-    ...mapState('CreateQuiz', ['questions'])
+    ...mapState('CreateQuiz', ['questions']),
+    ...mapState('Modals', ['modalIsOpen']),
+    ...mapState('PlayQuiz', ['quizIsPlaying', 'evaluation'])
   },
   methods: {
     openSidebar () {
       disableBodyScroll(document.getElementsByTagName('body')[0]);
-      this.$store.dispatch("Sidebar/openSidebar");
+
+      setTimeout(() => {
+        this.$store.dispatch('Sidebar/openSidebar');
+      }, this.modalIsOpen ? 500 : 0);
+
+      this.$store.dispatch('Modals/closeModal');
     },
 
     openQuizOptionsModal () {
       if (this.questions.length > -1) {
         this.$store.dispatch('Modals/openModal', { type: 'save-quiz' });
       }
+    },
+
+    exitPlayQuiz () {
+      this.$store.dispatch('PlayQuiz/stopQuiz');
     }
   }
 }
@@ -66,7 +79,7 @@ header {
   width: 100%;
   top: 0;
   height: 4.5rem;
-  z-index: 2;
+  z-index: 4;
   overflow: hidden;
 
   &.hide {

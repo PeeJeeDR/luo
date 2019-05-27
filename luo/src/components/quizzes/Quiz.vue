@@ -31,7 +31,12 @@ export default {
   methods: {
     onQuizClick () {
       this.animatePress = true;
-      this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
+
+      this.$store.dispatch('Quizzes/fetchQuizById', { id: this.data.id }).then(() => {
+        this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
+      }).catch(err => {
+        console.log('Someting went wrong.');
+      });
     }
   }
 }

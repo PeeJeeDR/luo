@@ -49,19 +49,18 @@ export default {
     position: fixed;
     top: 0; bottom: 0; left: 0; right: 0;
     transition: all $fast ease-in-out;
+    z-index: 5;
   }
 
   .overlay {
     background-color: $coal;
     opacity: 0.5;
-    z-index: 3;
   }
 
   .bar {
     background-color: $snow;
     width: 70%;
     overflow: scroll;
-    z-index: 3;
     white-space: nowrap;
     padding: 2rem 0;
 

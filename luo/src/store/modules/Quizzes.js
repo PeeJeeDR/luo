@@ -7,6 +7,7 @@ export const Quizzes = {
   state: {
     quizzes: [],
     quizzesByUser: [],
+    quizById: undefined,
     loading: false
   },
 
@@ -25,19 +26,18 @@ export const Quizzes = {
     SAVE_QUIZZES (state, quizzes) {
       state.quizzes = quizzes;
     },
+    /* ========== */
 
-    CLEAR_QUIZES (state) {
-      state.quizzes = [];
+    /* === SAVE QUIZ BY ID === */
+    SAVE_QUIZ_BY_ID (state, quiz) {
+      console.log('IN COMMIT', quiz);
+      state.quizById = quiz;
     },
     /* ========== */
 
     /* === SAVE QUIZZES BY USER === */
     SAVE_QUIZZES_BY_USER (state, quizzes) {
       state.quizzesByUser = quizzes;
-    },
-
-    CLEAR_QUIZZES_BY_USER (state) {
-      state.quizzesByUser = [];
     },
     /* ========== */
 
@@ -58,7 +58,11 @@ export const Quizzes = {
       commit('SET_LOADING_ON');
       
       db.collection('quizzes').orderBy('created', 'desc').onSnapshot(snap => {
-        commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
+        commit('SAVE_QUIZZES', snap.docs.map(doc => {
+          let result = doc.data();
+          result.id = doc.id;
+          return result;
+        }));
         commit('SET_LOADING_OFF');
       });
     },
@@ -69,7 +73,11 @@ export const Quizzes = {
       commit('SET_LOADING_ON');
 
       db.collection('quizzes').orderBy('played', 'desc').onSnapshot(snap => {
-        commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
+        commit('SAVE_QUIZZES', snap.docs.map(doc => {
+          let result = doc.data();
+          result.id = doc.id;
+          return result;
+        }));
         commit('SET_LOADING_OFF');
       });
     },
@@ -86,16 +94,34 @@ export const Quizzes = {
       commit('SET_LOADING_ON');
 
       db.collection('quizzes').where('categories', 'array-contains', payload.categoryId).onSnapshot(snap => {
-        commit('SAVE_QUIZZES', snap.docs.map(doc => doc.data()));
+        commit('SAVE_QUIZZES', snap.docs.map(doc => {
+          let result = doc.data();
+          result.id = doc.id;
+          return result;
+        }));
         commit('SET_LOADING_OFF');
       }) 
     },
     /* ========== */
 
-    /* === FETCH QUIZZES BY CATEGORY === */
+    /* === FETCH QUIZ BY ID === */
+    fetchQuizById ({ commit }, payload) {
+      db.collection('quizzes').doc(payload.id).onSnapshot(doc => {
+        let result = doc.data();
+        result.id = doc.id;
+        commit('SAVE_QUIZ_BY_ID', result);
+      });
+    },
+    /* ========== */
+
+    /* === FETCH QUIZZES BY USER ID === */
     fetchQuizzesByUserId ({ commit }, payload) {
       db.collection('quizzes').where('createdBy', '==', payload.userId).onSnapshot(snap => {
-        commit('SAVE_QUIZZES_BY_USER', snap.docs.map(doc => doc.data()));
+        commit('SAVE_QUIZZES_BY_USER', snap.docs.map(doc => {
+          let result = doc.data();
+          result.id = doc.id;
+          return result;
+        }));
       });
     },
     /* ========== */

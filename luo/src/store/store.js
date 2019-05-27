@@ -9,8 +9,8 @@ import { Categories } from './modules/Categories';
 import { Header } from './modules/Header';
 import { Modals } from './modules/Modals';
 import { CreateQuiz } from './modules/CreateQuiz';
-import { Storage } from './modules/Storage';
 import { Users } from './modules/Users';
+import { PlayQuiz } from './modules/PlayQuiz';
 /* ========== */
 
 Vue.use(Vuex);
@@ -24,7 +24,7 @@ export default new Vuex.Store({
     Header,
     Modals,
     CreateQuiz,
-    Storage,
-    Users
+    Users,
+    PlayQuiz
   }
 })

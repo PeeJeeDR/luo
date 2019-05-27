@@ -1,5 +1,5 @@
 <template>
-  <div class='quiz-info'>
+  <div class='quiz-info' v-if='quizById !== undefined'>
     <img :src='Sample' alt='Header image'>
 
     <div class="info-container flex align-start">
@@ -9,26 +9,26 @@
         <div class='stat'>
           <div class='flex-center'>
             <questions />
-            <p class='paragraph p--m p--color-lighter'>18</p>
+            <p class='paragraph p--m p--color-lighter'>{{ quizById.questions.length }}</p>
           </div>
         </div>
         <div class='stat'>
           <div class='flex-center'>
             <likes />
-            <p class='paragraph p--m p--color-lighter'>200.3K</p>
+            <p class='paragraph p--m p--color-lighter'>{{ quizById.likes }}</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class='content'>
-      <h4 class='heading h--xm'>{{ capFirstChar("Quiz title") }}</h4>
+      <h4 class='heading h--xm'>{{ quizById.title }}</h4>
       <hr>
-      <p class='paragraph p--m p--color-lighter'>Omschrijving van de quiz</p>
+      <p class='paragraph p--m p--color-lighter'>{{ quizById.description }}</p>
     </div>
 
     <div class='flex justify-end'>
-      <square-button>
+      <square-button @click.native='playQuiz'>
         <controller />
       </square-button>
     </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import GlobalMethods from '@/mixins/GlobalMethods';
+import { mapState } from 'vuex';
 import Sample from '@/assets/img/quiz/sample.jpg';
 import ProfileAvatar from '@/components/avatar/ProfileAvatar';
 import Questions from '@/assets/icons/quizzes/Questions.svg';
@@ -46,11 +46,30 @@ import Controller from '@/assets/icons/quizzes/Controller.svg';
 
 export default {
   name: 'QuizInfo',
-  mixins: [GlobalMethods],
   components: { ProfileAvatar, Questions, Likes, SquareButton, Controller },
   data: () => ({
     Sample
-  })
+  }),
+  computed: {
+    ...mapState('Quizzes', ['quizById'])
+  },
+  methods: {
+    playQuiz () {
+      // Save the selected quiz in the store.
+      this.$store.dispatch('PlayQuiz/onPlayButtonClick', { quiz: this.quizById }).then(() => {
+
+        // Close info modam.
+        this.$store.dispatch('Modals/closeModal');
+
+        // Set header content.
+        this.$store.dispatch('Header/onPageLoad', {
+          title: '',
+          leftIcon: 'close',
+          rightIcon: ''
+        })
+      });
+    }
+  }
 }
 </script>
 

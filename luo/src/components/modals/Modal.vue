@@ -31,6 +31,7 @@ export default {
 <style lang='scss'>
 .modal
 {
+  @include subtileShadow;
   position: fixed;
   z-index: 30;
   margin: auto;
