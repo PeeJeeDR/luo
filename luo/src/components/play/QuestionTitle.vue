@@ -1,6 +1,5 @@
 <template>
   <div :class='`question-title ${ evaluation }`'>
-    <p class='number paragraph p--m p--color-almost-light'>{{ currentQuestion }}/{{ questions.length }}</p>
     <h2 class='heading h--xxm h--color-primary'>{{ questions[currentQuestion].question }}</h2>
   </div>
 </template>

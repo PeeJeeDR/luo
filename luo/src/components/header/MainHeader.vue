@@ -2,7 +2,7 @@
   <header :class='`main-header ${ headerTitle } ${ quizIsPlaying && evaluation }`'>
     <div class='wrapper'>
       <div v-if='headerTitle !== "profile"' class='nav-props flex justify-between align-center'>
-        <div class='icon'>
+        <div :class='`icon ${ leftIcon }`'>
           <hamburger v-if='leftIcon === "hamburger"' @click='openSidebar'/>
           <back v-if='leftIcon === "back"' @click='$router.push("/")'/>
           <close v-if='leftIcon === "close"' @click='exitPlayQuiz'/>
@@ -10,7 +10,7 @@
         
         <h2 v-if='headerTitle'>{{ capFirstChar(headerTitle) }}</h2>
 
-        <div class='icon'>
+        <div :class='`icon ${ rightIcon }`'>
           <search v-if='rightIcon === "search"'/>
           <save v-if='rightIcon === "save" && questions.length > 0' @click='openQuizOptionsModal'/>
         </div>
@@ -106,6 +106,10 @@ header {
       width: 100%;
       height: 100%;
       fill: $snow;
+    }
+
+    &.close {
+      width: 1rem;
     }
   }
 

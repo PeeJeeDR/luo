@@ -1,5 +1,5 @@
 <template>
-  <div class='play-quiz'>
+  <div :class='`play-quiz ${ evaluation }`'>
     
     <div class='progress'></div>
 
@@ -20,11 +20,11 @@ export default {
     showBox: false
   }),
   computed: {
-    ...mapState('PlayQuiz', ['playingQuiz'])
+    ...mapState('PlayQuiz', ['playingQuiz', 'evaluation'])
   },
   created () {
     console.log('PLAYING QUIZ', this.playingQuiz);
-    
+
     setTimeout(() => {
       this.showBox = true;
     }, 600);

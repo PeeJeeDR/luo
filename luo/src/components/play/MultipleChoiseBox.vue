@@ -8,10 +8,10 @@
 
         <div class='answers flex direction-col'>
           <answer-button 
-            v-for='(answer, i) in questions[0].answers' 
-            :key='i' 
+            v-for='answer in questions[0].answers' 
+            :key='answer.id' 
             :content='answer.answer' 
-            :selectedAnswer='selectedAnswer'
+            :evaluation='returnEvaluation(answer.id)'
             @click.native='onAnswerClick(answer)'
           />
         </div>
@@ -31,20 +31,38 @@ export default {
   components: { AnswerButton, QuestionTitle },
   data: () => ({ 
     Sample,
-    selectedAnswer: undefined
+    correctAnswerId: undefined,
+    wrongAnswerId: undefined
   }),
   methods: {
     onAnswerClick (answer) {
       console.log('ANSWER', answer);
-      this.selectedAnswer = answer.id;
 
       if (answer.correct) {
+        this.correctAnswerId = answer.id;
+        this.wrongAnswerId = undefined;
         this.$store.dispatch('PlayQuiz/onCorrectAnswer');
       }
 
       if (!answer.correct) {
+        this.correctAnswerId = undefined;
+        this.wrongAnswerId = answer.id;
         this.$store.dispatch('PlayQuiz/onWrongAnswer');
       } 
+    },
+
+    returnEvaluation (answerId) {
+      console.log('EXE');
+
+      if (this.correctAnswerId === answerId) {
+        return 'correct';
+      }
+
+      if (this.wrongAnswerId === answerId) {
+        return 'wrong';
+      }
+
+      return 'none';
     }
   }
 }
