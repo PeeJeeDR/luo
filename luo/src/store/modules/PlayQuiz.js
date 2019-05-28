@@ -10,7 +10,6 @@ export const PlayQuiz = {
     inputEnabled: true,
     xp: 0,
     correctAnswers: 0,
-    userAnswers: [] // ANTWOORDEN IN PUSHEN MET CORRECT OR FALSE.
   },
 
   mutations: {
@@ -49,8 +48,13 @@ export const PlayQuiz = {
       state.correctAnswers += 1;
     },
     RESET_CORRECT_ANSWERS (state) {
-      console.log('RESET CORRECT ANSWERS');
       state.correctAnswers = 0;
+    },
+    /* ========== */
+
+    /* === SET CLICKED ANSWER === */
+    SET_CLICKED_ANSWER (state, payload) {
+      state.playingQuiz.questions[payload.currentQuestion].answers[payload.clickedAnswerId].clicked = true;
     }
     /* ========== */
   },
@@ -74,6 +78,10 @@ export const PlayQuiz = {
 
     /* === ON ANSWER PRESS === */
     onAnswerClick ({ commit }, payload) {
+      if (payload.type === 'alter') {
+        commit('SET_CLICKED_ANSWER', payload);
+      }
+
       if (payload.type === 'correct') {
         commit('ADD_CORRECT_ANSWER');
       }
@@ -93,7 +101,6 @@ export const PlayQuiz = {
       commit('SET_QUIZ_COMPLETED_ON');
 
       if (state.playingQuiz.createdBy !== fire.auth().currentUser.uid) {
-        console.log('IS NOT CURRENT USER');
         dispatch('Quizzes/addQuizPlay', { quiz: state.playingQuiz }, { root: true });
       }
     },

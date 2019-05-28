@@ -8,29 +8,33 @@
         </h4>
       </div>
 
-      <div v-if='!reviewEnabled' class='end'>
-        <div class='content wrapper flex direction-col align-center'>
-          <h2 v-if='correctAnswers === playingQuiz.questions.length' class='heading h--xxm h--color-primary'>Congratulations!</h2>
-          <h2 v-if='correctAnswers !== playingQuiz.questions.length' class='heading h--xxm h--color-primary'>You made it!</h2>
+      <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
+        <div key='0' v-if='!reviewEnabled' class='end'>
+          <div class='content wrapper flex direction-col align-center'>
+            <h2 v-if='correctAnswers === playingQuiz.questions.length' class='heading h--xxm h--color-primary'>Congratulations!</h2>
+            <h2 v-if='correctAnswers !== playingQuiz.questions.length' class='heading h--xxm h--color-primary'>You made it!</h2>
 
-          <div class='awards flex-center'> 
-            <div class='sphere-outer'></div>
-            <div class='sphere-inner'></div>
+            <div class='awards flex-center'> 
+              <div class='sphere-outer'></div>
+              <div class='sphere-inner'></div>
 
-            <div class='icon flex-center'>
-              <award-gold v-if='correctAnswers === playingQuiz.questions.length'/>
-              <flag v-if='correctAnswers !== playingQuiz.questions.length'/>
+              <div class='icon flex-center'>
+                <award-gold v-if='correctAnswers === playingQuiz.questions.length'/>
+                <flag v-if='correctAnswers !== playingQuiz.questions.length'/>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div v-if='reviewEnabled' class='reviews'>
-        <h1>Review</h1>
-      </div>
+        <div v-if='reviewEnabled' key='1' class='review'>
+          <review-answers :quiz='playingQuiz'/>
+        </div>
+        
+      </transition>
       
       <div class='button-container'>
-        <p @click='onReviewClick' class='paragraph p--weight-bold p--xm p--color-almost-light'>Review answers</p>
+        <p v-if='!reviewEnabled' @click='onReviewClick' class='paragraph p--weight-bold p--xm p--color-almost-light'>Review answers</p>
+        <p v-if='reviewEnabled' @click='onBackClick' class='paragraph p--weight-bold p--xm p--color-almost-light'>Back</p>
         <default-button :content='"continue"' @click.native='$store.dispatch("PlayQuiz/onQuizEnd")'/>
       </div>
     </div>
@@ -39,15 +43,16 @@
 
 <script>
 import { mapState } from 'vuex';
+import ReviewAnswers from '@/components/play/ReviewAnswers';
 import DefaultButton from '@/components/buttons/DefaultButton';
 import AwardGold from '@/assets/icons/quizzes/AwardGold.svg';
 import Flag from '@/assets/icons/quizzes/Flag.svg';
 
 export default {
   name: 'QuizEnd',
-  components: { DefaultButton, AwardGold, Flag },
+  components: { ReviewAnswers, DefaultButton, AwardGold, Flag },
   data: () => ({
-    reviewEnabled: false
+    reviewEnabled: true
   }),
   computed: {
     ...mapState('PlayQuiz', ['correctAnswers', 'playingQuiz'])
@@ -55,6 +60,10 @@ export default {
   methods: {
     onReviewClick () {
       this.reviewEnabled = true;
+    },
+
+    onBackClick () {
+      this.reviewEnabled = false;
     }
   }
 }
@@ -79,10 +88,12 @@ export default {
 
   .end,
   .review {
-    height: 40%;
+    overflow: scroll;
   }
 
   .end {
+    height: 75%;
+
     h2 {
       margin-top: 2rem;
     }
@@ -116,6 +127,11 @@ export default {
         }
       }
     }
+  }
+
+  .review {
+    height: 70%;
+    margin-top: 5%;
   }
 
   .button-container {

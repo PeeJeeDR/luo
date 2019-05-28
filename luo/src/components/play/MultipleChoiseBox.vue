@@ -1,14 +1,14 @@
 <template>
-  <div class='multiple-choise-box big-wrapper' v-if='questions[currentAnswer] !== undefined'>
+  <div class='multiple-choise-box big-wrapper' v-if='questions[currentQuestion] !== undefined'>
     <div class='box flex direction-col'>
-      <img :src='Sample' alt='Sample image'>
+      <img :src='questions[currentQuestion].questionImg !== "" ? questions[currentQuestion].questionImg : Sample' alt='Sample image'>
 
       <div class='content wrapper flex direction-col justify-between'>
-        <question-title :currentQuestion='currentAnswer' :questions='questions'/>
+        <question-title :currentQuestion='currentQuestion' :questions='questions'/>
 
         <div class='answers flex direction-col'>
           <answer-button 
-            v-for='(answer, i) in questions[currentAnswer].answers' 
+            v-for='(answer, i) in questions[currentQuestion].answers' 
             :key='answer.id' 
             :content='answer.answer' 
             :evaluation='returnEvaluation(i, answer.correct)'
@@ -31,13 +31,26 @@ export default {
   props: ['questions', 'inputEnabled'],
   data: () => ({ 
     Sample,
-    currentAnswer: 0,
+    currentQuestion: 0,
     clickedButton: undefined,
     showAnswer: false
   }),
   methods: {
     onAnswerClick (answer, clickedButton) {
       this.clickedButton = clickedButton;
+
+/*       let question = {
+        question: this.questions[this.currentQuestion].question,
+        answers: this.questions[this.currentQuestion].answers
+      }
+
+      question.answers[answer.id].clicked = 'hehehe???'; */
+
+      this.$store.dispatch('PlayQuiz/onAnswerClick', { 
+        type: 'alter', 
+        currentQuestion: this.currentQuestion,
+        clickedAnswerId: answer.id
+      })
 
       if (answer.correct) {
         this.$store.dispatch('PlayQuiz/onAnswerClick', { type: 'correct' });
@@ -49,15 +62,15 @@ export default {
       }
         
       setTimeout(() => {
-        this.currentAnswer += 1;
+        this.currentQuestion += 1;
         this.clickedButton = undefined;
         this.showAnswer = false;
 
-        if (this.currentAnswer !== this.questions.length) {
+        if (this.currentQuestion !== this.questions.length) {
           this.$store.dispatch('PlayQuiz/onNewQuestionLoad');
         }
         
-        if (this.currentAnswer === this.questions.length) {
+        if (this.currentQuestion === this.questions.length) {
           this.$store.dispatch('PlayQuiz/quizCompleted');
         }
       }, 1000);
