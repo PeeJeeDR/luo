@@ -8,11 +8,11 @@
 
         <div class='answers flex direction-col'>
           <answer-button 
-            v-for='answer in questions[currentAnswer].answers' 
+            v-for='(answer, i) in questions[currentAnswer].answers' 
             :key='answer.id' 
             :content='answer.answer' 
-            :evaluation='returnEvaluation(answer.id, answer.correct)'
-            @click.native='inputEnabled && onAnswerClick(answer)'
+            :evaluation='returnEvaluation(i, answer.correct)'
+            @click.native='inputEnabled && onAnswerClick(answer, i)'
           />
         </div>
       </div>
@@ -32,25 +32,26 @@ export default {
   data: () => ({ 
     Sample,
     currentAnswer: 0,
-    correctAnswerId: undefined,
-    wrongAnswerId: undefined
+    clickedButton: undefined,
+    showAnswer: false
   }),
   methods: {
-    onAnswerClick (answer) {
+    onAnswerClick (answer, clickedButton) {
+      this.clickedButton = clickedButton;
+
       if (answer.correct) {
-        this.correctAnswerId = answer.id;
-        this.wrongAnswerId = undefined;
         this.$store.dispatch('PlayQuiz/onAnswerClick', { type: 'correct' });
       }
 
       if (!answer.correct) {
-        this.correctAnswerId = undefined;
-        this.wrongAnswerId = answer.id;
+        this.showAnswer = true;
         this.$store.dispatch('PlayQuiz/onAnswerClick', { type: 'wrong' });
       }
         
       setTimeout(() => {
         this.currentAnswer += 1;
+        this.clickedButton = undefined;
+        this.showAnswer = false;
 
         if (this.currentAnswer !== this.questions.length) {
           this.$store.dispatch('PlayQuiz/onNewQuestionLoad');
@@ -62,13 +63,17 @@ export default {
       }, 700);
     },
 
-    returnEvaluation (answerId, answerCorrect) {
-      if (this.correctAnswerId === answerId && answerCorrect) {
+    returnEvaluation (buttonId, answerCorrect) {
+      if (buttonId === this.clickedButton && answerCorrect) {
         return 'correct';
       }
 
-      if (this.wrongAnswerId === answerId && !answerCorrect) {
+      if (buttonId === this.clickedButton && !answerCorrect) {
         return 'wrong';
+      }
+
+      if (answerCorrect && this.showAnswer) {
+        return 'correct';
       }
 
       return 'none';
