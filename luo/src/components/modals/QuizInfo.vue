@@ -1,6 +1,6 @@
 <template>
   <div class='quiz-info' v-if='quizById !== undefined'>
-    <img :src='Sample' alt='Header image'>
+    <img :src='quizById.quizImg !== null && quizById.quizImg' alt='Header image.'>
 
     <div class="info-container flex align-start">
       <profile-avatar :img='userFromDB'/>

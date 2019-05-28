@@ -79,7 +79,7 @@ export const Quizzes = {
     fetchPopularQuizzes ({ commit }) {
       commit('SET_LOADING_ON');
 
-      db.collection('quizzes').orderBy('played', 'desc').onSnapshot(snap => {
+      db.collection('quizzes').orderBy('plays', 'desc').onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -137,8 +137,11 @@ export const Quizzes = {
 
     /* === FETCH QUIZZES PLAYED BY USER ID === */
     fetchQuizzesPlayedByUserId ({ commit }, payload) {
-      db.collection('quizzes').where('createdBy', '==', payload.userId).onSnapshot(snap => {
-        commit('SAVE_QUIZZES_MADE_BY_USER', snap.docs.map(doc => {
+      console.log('PAYLOAD ID', payload.userId);
+
+      db.collection('quizzes').where('playedBy', 'array-contains', payload.userId).onSnapshot(snap => {
+        console.log('SNAP FETCH PLAYED', snap.docs);
+        commit('SAVE_QUIZZES_PLAYED_BY_USER', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
           return result;
@@ -160,7 +163,9 @@ export const Quizzes = {
           public: true,
           created: moment().format(),
           reports: [],
+          plays: 0,
           playedBy: [],
+          likes: 0,
           likedBy: [],
           createdBy: userId,
           quizImg: quizImg !== undefined ? quizImg : null,
@@ -179,9 +184,12 @@ export const Quizzes = {
 
     /* === WHEN THE QUIZ IS COMPLETED WE NEED TO INCREMENT THE PLAYS ON THAT QUIZ === */
     async addQuizPlay ({ dispatch }, payload) {
-      db.collection('quizzes').doc(payload.quizId).update({
+      await db.collection('quizzes').doc(payload.quiz.id).update({
         playedBy: firebase.firestore.FieldValue.arrayUnion(fire.auth().currentUser.uid)
-      })
+      });
+
+      // Refetch quizzes.
+      dispatch('fetchNewQuizzes');
     }
     /* ========== */
   }

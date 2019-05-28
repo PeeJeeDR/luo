@@ -79,7 +79,7 @@ export const PlayQuiz = {
 
       if (state.playingQuiz.createdBy !== fire.auth().currentUser.uid) {
         console.log('IS NOT CURRENT USER');
-        dispatch('Quizzes/addQuizPlay', { quizId: state.playingQuiz.id }, { root: true });
+        dispatch('Quizzes/addQuizPlay', { quiz: state.playingQuiz }, { root: true });
       }
       else {
         console.log('IS CURRENT USER');
