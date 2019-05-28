@@ -8,7 +8,8 @@ export const PlayQuiz = {
     quizIsPlaying: false,
     quizCompleted: false,
     inputEnabled: true,
-    xp: 0
+    xp: 0,
+    correctAnswers: 0,
   },
 
   mutations: {
@@ -41,6 +42,15 @@ export const PlayQuiz = {
       state.inputEnabled = false;
     },
     /* ========== */
+
+    /* === ADD CORRECT OR WRONG ANSWER === */
+    ADD_CORRECT_ANSWER (state) {
+      state.correctAnswers += 1;
+    },
+    RESET_CORRECT_ANSWERS (state) {
+      state.correctAnswers = 0;
+    }
+    /* ========== */
   },
 
   actions: {
@@ -61,6 +71,10 @@ export const PlayQuiz = {
 
     /* === ON ANSWER PRESS === */
     onAnswerClick ({ commit }, payload) {
+      if (payload.type === 'correct') {
+        commit('ADD_CORRECT_ANSWER');
+      }
+
       commit('DISABLE_INPUT');
     },
     /* ========== */
@@ -74,18 +88,11 @@ export const PlayQuiz = {
     /* === WHEN THE QUIZ HAS BEEN COMPLETED === */
     quizCompleted ({ commit, dispatch, state }) {
       commit('SET_QUIZ_COMPLETED_ON');
-      console.log('COMPLETE', state.playingQuiz);
-      console.log('CURRENT USER ID', fire.auth().currentUser.uid);
 
       if (state.playingQuiz.createdBy !== fire.auth().currentUser.uid) {
         console.log('IS NOT CURRENT USER');
         dispatch('Quizzes/addQuizPlay', { quiz: state.playingQuiz }, { root: true });
       }
-      else {
-        console.log('IS CURRENT USER');
-      }
-
-      
     },
     /* ========== */
 
@@ -94,6 +101,7 @@ export const PlayQuiz = {
       commit('SET_PLAYING_STATE_OFF');
       commit('SET_QUIZ_COMPLETED_OFF');
       commit('ENABLE_INPUT');
+      commit('RESET_CORRECT_ANSWERS');
     }
     /* ========== */
   }

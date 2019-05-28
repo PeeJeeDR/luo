@@ -60,7 +60,7 @@ export default {
         if (this.currentAnswer === this.questions.length) {
           this.$store.dispatch('PlayQuiz/quizCompleted');
         }
-      }, 700);
+      }, 1000);
     },
 
     returnEvaluation (buttonId, answerCorrect) {

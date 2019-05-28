@@ -4,6 +4,7 @@
 
       <div class='content wrapper flex direction-col align-center justify-center'>
         <h2>You finished this quiz!</h2>
+        <h4>Score: {{ correctAnswers }}/{{ playingQuiz.questions.length }}</h4>
 
         <default-button :content='"continue"' @click.native='$store.dispatch("PlayQuiz/onQuizEnd")'/>
       </div>
@@ -13,10 +14,14 @@
 
 <script>
 import DefaultButton from '@/components/buttons/DefaultButton';
+import { mapState } from 'vuex';
 
 export default {
   name: 'QuizEnd',
-  components: { DefaultButton }
+  components: { DefaultButton },
+  computed: {
+    ...mapState('PlayQuiz', ['correctAnswers', 'playingQuiz'])
+  }
 }
 </script>
 
