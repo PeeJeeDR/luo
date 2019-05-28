@@ -286,7 +286,7 @@ export default {
       font-weight: bold;
       font-size: $ned;
       bottom: 5rem;
-      padding-top: 3rem;
+      margin-top: 3rem;
       padding-bottom: 4rem;
     }
   }

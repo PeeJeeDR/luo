@@ -10,6 +10,7 @@ export const PlayQuiz = {
     inputEnabled: true,
     xp: 0,
     correctAnswers: 0,
+    userAnswers: [] // ANTWOORDEN IN PUSHEN MET CORRECT OR FALSE.
   },
 
   mutations: {
@@ -48,6 +49,7 @@ export const PlayQuiz = {
       state.correctAnswers += 1;
     },
     RESET_CORRECT_ANSWERS (state) {
+      console.log('RESET CORRECT ANSWERS');
       state.correctAnswers = 0;
     }
     /* ========== */
@@ -66,6 +68,7 @@ export const PlayQuiz = {
       commit('SET_PLAYING_STATE_OFF');
       commit('SET_QUIZ_COMPLETED_OFF');
       commit('ENABLE_INPUT');
+      commit('RESET_CORRECT_ANSWERS');
     },
     /* ========== */
 
