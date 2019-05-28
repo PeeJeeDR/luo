@@ -11,7 +11,7 @@
             v-for='answer in questions[currentAnswer].answers' 
             :key='answer.id' 
             :content='answer.answer' 
-            :evaluation='returnEvaluation(answer.id)'
+            :evaluation='returnEvaluation(answer.id, answer.correct)'
             @click.native='inputEnabled && onAnswerClick(answer)'
           />
         </div>
@@ -41,29 +41,33 @@ export default {
         this.correctAnswerId = answer.id;
         this.wrongAnswerId = undefined;
         this.$store.dispatch('PlayQuiz/onAnswerClick', { type: 'correct' });
-
-        setTimeout(() => {
-          this.currentAnswer += 1;
-
-          if (this.currentAnswer === this.questions.length) {
-            this.$store.dispatch('PlayQuiz/quizCompleted');
-          }
-        }, 500);
       }
 
       if (!answer.correct) {
         this.correctAnswerId = undefined;
         this.wrongAnswerId = answer.id;
         this.$store.dispatch('PlayQuiz/onAnswerClick', { type: 'wrong' });
-      } 
+      }
+        
+      setTimeout(() => {
+        this.currentAnswer += 1;
+
+        if (this.currentAnswer !== this.questions.length) {
+          this.$store.dispatch('PlayQuiz/onNewQuestionLoad');
+        }
+        
+        if (this.currentAnswer === this.questions.length) {
+          this.$store.dispatch('PlayQuiz/quizCompleted');
+        }
+      }, 700);
     },
 
-    returnEvaluation (answerId) {
-      if (this.correctAnswerId === answerId) {
+    returnEvaluation (answerId, answerCorrect) {
+      if (this.correctAnswerId === answerId && answerCorrect) {
         return 'correct';
       }
 
-      if (this.wrongAnswerId === answerId) {
+      if (this.wrongAnswerId === answerId && !answerCorrect) {
         return 'wrong';
       }
 

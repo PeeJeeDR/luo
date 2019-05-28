@@ -1,3 +1,5 @@
+import { fire } from '@/firebase/firebase';
+
 export const PlayQuiz = {
   namespaced: true,
 
@@ -6,7 +8,6 @@ export const PlayQuiz = {
     quizIsPlaying: false,
     quizCompleted: false,
     inputEnabled: true,
-    evaluation: 'none',
     xp: 0
   },
 
@@ -40,18 +41,6 @@ export const PlayQuiz = {
       state.inputEnabled = false;
     },
     /* ========== */
-
-    /* === SET QUIZ TO BE PLAYED === */
-    SET_EVALUATION_NONE (state) {
-      state.evaluation = 'none';
-    },
-    SET_EVALUATION_CORRECT (state) {
-      state.evaluation = 'correct';
-    },
-    SET_EVALUATION_WRONG (state) {
-      state.evaluation = 'wrong';
-    },
-    /* ========== */
   },
 
   actions: {
@@ -67,33 +56,36 @@ export const PlayQuiz = {
       commit('SET_PLAYING_STATE_OFF');
       commit('SET_QUIZ_COMPLETED_OFF');
       commit('ENABLE_INPUT');
-      commit('SET_EVALUATION_NONE');
     },
     /* ========== */
 
     /* === ON ANSWER PRESS === */
     onAnswerClick ({ commit }, payload) {
-      if (payload.type === 'correct') {
-        commit('SET_EVALUATION_CORRECT');
-      }
-      
-      if (payload.type === 'wrong') {
-        commit('SET_EVALUATION_WRONG');
-      }
-
       commit('DISABLE_INPUT');
     },
     /* ========== */
 
     /* === WHEN NEW QUESTION LOADS === */
     onNewQuestionLoad ({ commit }) {
-      commit('SET_EVALUATION_NONE');
+      commit('ENABLE_INPUT');
     },
     /* ========== */
 
     /* === WHEN THE QUIZ HAS BEEN COMPLETED === */
-    quizCompleted ({ commit }) {
+    quizCompleted ({ commit, dispatch, state }) {
       commit('SET_QUIZ_COMPLETED_ON');
+      console.log('COMPLETE', state.playingQuiz);
+      console.log('CURRENT USER ID', fire.auth().currentUser.uid);
+
+      if (state.playingQuiz.createdBy !== fire.auth().currentUser.uid) {
+        console.log('IS NOT CURRENT USER');
+        dispatch('Quizzes/addQuizPlay', { quizId: state.playingQuiz.id }, { root: true });
+      }
+      else {
+        console.log('IS CURRENT USER');
+      }
+
+      
     },
     /* ========== */
 
@@ -102,7 +94,6 @@ export const PlayQuiz = {
       commit('SET_PLAYING_STATE_OFF');
       commit('SET_QUIZ_COMPLETED_OFF');
       commit('ENABLE_INPUT');
-      commit('SET_EVALUATION_NONE');
     }
     /* ========== */
   }

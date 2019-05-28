@@ -165,5 +165,20 @@ export const Quizzes = {
       }
     },
     /* ========== */
+
+    /* === WHEN THE QUIZ IS COMPLETED WE NEED TO INCREMENT THE PLAYS ON THAT QUIZ === */
+    addQuizPlay ({ dispatch }, payload) {
+      console.log('INCREMENT');
+      const increment = firebase.firestore.FieldValue.increment(1);
+
+      db.collection('quizzes').doc(payload.quizId).update({
+        played: increment
+      }).then((res) => {
+        console.log('INCREMENT SUCCESSFULLY', res);
+      }).catch((err) => {
+        console.log('INCREMENT FAILED', err);
+      })
+    }
+    /* ========== */
   }
 }
