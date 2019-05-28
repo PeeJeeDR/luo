@@ -16,10 +16,7 @@ import DefaultButton from '@/components/buttons/DefaultButton';
 
 export default {
   name: 'QuizEnd',
-  components: { DefaultButton },
-  created () {
-    console.log('CREATED');
-  }
+  components: { DefaultButton }
 }
 </script>
 

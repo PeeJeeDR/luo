@@ -3,7 +3,7 @@
     <img :src='Sample' alt='Header image'>
 
     <div class="info-container flex align-start">
-      <profile-avatar :img='Sample'/>
+      <profile-avatar :img='userFromDB'/>
 
       <div class="stats flex justify-end">
         <div class='stat'>
@@ -51,7 +51,8 @@ export default {
     Sample
   }),
   computed: {
-    ...mapState('Quizzes', ['quizById'])
+    ...mapState('Quizzes', ['quizById']),
+    ...mapState('Users', ['userFromDB'])
   },
   methods: {
     playQuiz () {

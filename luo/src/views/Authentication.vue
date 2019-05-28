@@ -157,17 +157,10 @@ export default {
                   username: res.user.displayName,
                   email: res.user.email,
                   emailVerified: res.user.emailVerified,
-                  numberOfQuizzesMade: 0,
-                  numberOfQuizzesPlayed: 0,
-                  numberOfLikedQuizzes: 0,
-                  quizzesMade: [],
-                  quizzesPlayed: [],
-                  likedQuizzes: [],
                   reputation: 0,
                   badges: [],
                   avatar: Math.floor(Math.random() * (12 - 1) + 1),
                   avatarUrl: null,
-                  likes: 0,
                   xp: 0
                 }).catch(err => {
                   console.log('error', err);

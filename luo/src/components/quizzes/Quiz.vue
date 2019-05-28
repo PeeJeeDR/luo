@@ -29,14 +29,12 @@ export default {
     animatePress: false
   }),
   methods: {
-    onQuizClick () {
+    async onQuizClick () {
       this.animatePress = true;
 
-      this.$store.dispatch('Quizzes/fetchQuizById', { id: this.data.id }).then(() => {
-        this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
-      }).catch(err => {
-        console.log('Someting went wrong.');
-      });
+      await this.$store.dispatch('Quizzes/fetchQuizById', { id: this.data.id });
+
+      this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
     }
   }
 }
