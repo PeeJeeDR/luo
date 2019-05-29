@@ -17,7 +17,6 @@ export const Notifications = {
 
   actions: {
     setNotification ({ commit }, payload) {
-      console.log('SET NOTIFICATION', payload.message);
       commit('SET_NOTIFICATION', payload.message);
 
       setTimeout(() => {

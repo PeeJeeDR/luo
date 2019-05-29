@@ -1,5 +1,5 @@
 <template>
-  <button :disabled='disabled' v-ripple :class='`square-button ${ disabled ? "disabled" : "active" }`'>
+  <button v-ripple :class='`square-button ${ extraClass }`'>
     <slot />
   </button>
 </template>
@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'SquareButton',
-  props: ['disabled']
+  props: ['extraClass']
 }
 </script>
 
@@ -21,7 +21,7 @@ export default {
   transform: rotate(45deg);
   color: $snow;
 
-  &.active {
+  &.enabled {
     @include gradient;
   }
 

@@ -31,7 +31,6 @@ export const Quizzes = {
 
     /* === SAVE QUIZ BY ID === */
     SAVE_QUIZ_BY_ID (state, quiz) {
-      console.log('IN COMMIT', quiz);
       state.quizById = quiz;
     },
     /* ========== */
@@ -137,10 +136,7 @@ export const Quizzes = {
 
     /* === FETCH QUIZZES PLAYED BY USER ID === */
     fetchQuizzesPlayedByUserId ({ commit }, payload) {
-      console.log('PAYLOAD ID', payload.userId);
-
       db.collection('quizzes').where('playedBy', 'array-contains', payload.userId).onSnapshot(snap => {
-        console.log('SNAP FETCH PLAYED', snap.docs);
         commit('SAVE_QUIZZES_PLAYED_BY_USER', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -174,7 +170,11 @@ export const Quizzes = {
         }
   
         // Add quiz to firestore.
-        await db.collection('quizzes').add(quiz).then(() => {}).catch(() => {});
+        await db.collection('quizzes').add(quiz).then(() => {
+          dispatch('Notifications/setNotification', { message: 'Quize made successfully!' }, { root: true });
+        }).catch(() => {
+          dispatch('Notifications/setNotification', { message: 'Something went wrong while creating a quiz. Please try again later.' }, { root: true });
+        });
 
         // Refetch quizzes.
         dispatch('fetchNewQuizzes');
@@ -186,6 +186,17 @@ export const Quizzes = {
     async addQuizPlay ({ dispatch }, payload) {
       await db.collection('quizzes').doc(payload.quiz.id).update({
         playedBy: firebase.firestore.FieldValue.arrayUnion(payload.id)
+      });
+
+      // Refetch quizzes.
+      dispatch('fetchNewQuizzes');
+    },
+    /* ========== */
+
+    /* === WHEN THE USER LIKES A QUIZ === */
+    async likeQuiz ({ dispatch }, payload) {
+      await db.collection('quizzes').doc(payload.quiz.id).update({
+        likedBy: firebase.firestore.FieldValue.arrayUnion(payload.id)
       });
 
       // Refetch quizzes.

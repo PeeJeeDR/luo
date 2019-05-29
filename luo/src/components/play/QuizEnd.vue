@@ -14,7 +14,7 @@
             <h2 v-if='correctAnswers === playingQuiz.questions.length' class='heading h--xxm h--color-primary'>Congratulations!</h2>
             <h2 v-if='correctAnswers !== playingQuiz.questions.length' class='heading h--xxm h--color-primary'>You made it!</h2>
 
-            <div class='awards flex-center'> 
+            <div class='award flex-center'> 
               <div class='sphere-outer'></div>
               <div class='sphere-inner'></div>
 
@@ -23,13 +23,21 @@
                 <flag v-if='correctAnswers !== playingQuiz.questions.length'/>
               </div>
             </div>
+
+            <div 
+              v-if='fire.auth().currentUser !== null'
+              @click='onLikeClick' 
+              :class='`likes flex-center ${ likeClass } ${ animateLikeButton && likeClass === "selected" && "animated bounceIn fast" }`' 
+              @animationend='animateLikeButton = false'
+            >
+              <likes />
+            </div>
           </div>
         </div>
 
         <div v-if='reviewEnabled' key='1' class='review'>
           <review-answers :quiz='playingQuiz'/>
         </div>
-        
       </transition>
       
       <div class='button-container'>
@@ -42,17 +50,22 @@
 </template>
 
 <script>
+import { fire } from '@/firebase/firebase';
 import { mapState } from 'vuex';
 import ReviewAnswers from '@/components/play/ReviewAnswers';
 import DefaultButton from '@/components/buttons/DefaultButton';
 import AwardGold from '@/assets/icons/quizzes/AwardGold.svg';
+import Likes from '@/assets/icons/quizzes/Likes.svg';
 import Flag from '@/assets/icons/quizzes/Flag.svg';
 
 export default {
   name: 'QuizEnd',
-  components: { ReviewAnswers, DefaultButton, AwardGold, Flag },
+  components: { ReviewAnswers, DefaultButton, AwardGold, Likes, Flag },
   data: () => ({
-    reviewEnabled: false
+    fire,
+    reviewEnabled: false,
+    likeClass: 'unselected',
+    animateLikeButton: false
   }),
   computed: {
     ...mapState('PlayQuiz', ['correctAnswers', 'playingQuiz'])
@@ -64,6 +77,18 @@ export default {
 
     onBackClick () {
       this.reviewEnabled = false;
+    },
+
+    onLikeClick () {
+      if (this.likeClass === 'unselected') {
+        this.$store.dispatch('Quizzes/likeQuiz', { 
+          quiz: this.playingQuiz,
+          id: fire.auth().currentUser.uid
+        });
+      }
+
+      this.animateLikeButton = true;
+      this.likeClass = this.likeClass === 'unselected' ? 'selected' : 'unselected';
     }
   }
 }
@@ -98,32 +123,61 @@ export default {
       margin-top: 2rem;
     }
 
-    .awards {
+    .award {
       position: relative;
-      margin-top: 11rem;
+      margin-top: 10rem;
 
       .sphere-outer,
       .sphere-inner {
         background-color: $pinky;
-        width: 13rem;
-        height: 13rem;
+        width: 11rem;
+        height: 11rem;
         position: absolute;
         border-radius: 200rem;
         opacity: 0.2;
       }
 
       .sphere-outer {
-        width: 18rem;
-        height: 18rem;
+        width: 16rem;
+        height: 16rem;
       }
 
       .icon {
         position: absolute;
 
         svg {
-          width: 8rem;
-          height: 8rem;
+          width: 6rem;
+          height: 6rem;
           z-index: 2;
+        }
+      }
+    }
+
+    .likes {
+      margin-top: 10rem;
+      padding: 0.8rem;
+      border: 2px solid;
+      border-radius: 200rem;
+
+      svg {
+        width: 1.8rem;
+        height: 1.8rem;
+      }
+
+      &.unselected {
+        border-color: $pinky;
+
+        svg {
+          fill: $pinky;
+        }
+      }
+
+      &.selected {
+        background-color: $pinky;
+        border-color: $pinky;
+
+        svg {
+          fill: $snow;
         }
       }
     }

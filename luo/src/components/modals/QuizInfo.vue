@@ -1,6 +1,7 @@
 <template>
   <div class='quiz-info' v-if='quizById !== undefined'>
-    <img :src='quizById.quizImg !== null && quizById.quizImg' alt='Header image.'>
+    
+    <img :src='quizById.quizImg !== "" ? quizById.quizImg : Sample' alt='Header image.'>
 
     <div class="info-container flex align-start">
       <profile-avatar :img='userFromDB'/>
@@ -28,7 +29,7 @@
     </div>
 
     <div class='flex justify-end'>
-      <square-button @click.native='playQuiz'>
+      <square-button @click.native='playQuiz' :extraClass='"enabled"'>
         <controller />
       </square-button>
     </div>
