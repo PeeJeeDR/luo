@@ -11,6 +11,7 @@ import { Modals } from './modules/Modals';
 import { CreateQuiz } from './modules/CreateQuiz';
 import { Users } from './modules/Users';
 import { PlayQuiz } from './modules/PlayQuiz';
+import { Notifications } from './modules/Notifications';
 /* ========== */
 
 Vue.use(Vuex);
@@ -25,6 +26,7 @@ export default new Vuex.Store({
     Modals,
     CreateQuiz,
     Users,
-    PlayQuiz
+    PlayQuiz,
+    Notifications
   }
 })

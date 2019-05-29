@@ -14,7 +14,7 @@
     <!-- ========== -->
 
     <!-- === CENTER === -->
-    <square-button :disabled='fire.auth().currentUser !== null ? false : true' class='add' @click.native='$router.push("/quizzes/create");'>
+    <square-button class='add' :extraClass='fire.auth().currentUser !== null ? "enabled" : "disabled"' @click.native='onAddQuizClick'>
       <h2>+</h2>
     </square-button>
     <!-- ========== -->
@@ -58,6 +58,16 @@ export default {
 
       if (fire.auth().currentUser === null) {
         this.$router.push('/authentication');
+      }
+    },
+
+    onAddQuizClick () {
+      if (fire.auth().currentUser !== null) {
+        this.$router.push('/quizzes/create');
+      }
+      
+      if (fire.auth().currentUser === null) {
+        this.$store.dispatch('Notifications/setNotification', { message: 'You need to be logged in to create quizzes.' })
       }
     }
   }

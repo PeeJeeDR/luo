@@ -1,5 +1,9 @@
 <template>
   <div id='app'>
+    <transition mode='out-in' enter-active-class='animated fadeIn faster' leave-active-class='animated fadeOut faster'>
+      <default-notification v-if='notification !== ""'/>
+    </transition>
+
     <!-- OVERLAY THAT RENDERS WHEN MODAL IS OPEN -->
     <transition name='overlay-fade'>
       <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModal")'></div>
@@ -26,26 +30,23 @@
 <script>
 import { mapState } from 'vuex';
 import { fire } from '@/firebase/firebase'; 
+import DefaultNotification from '@/components/notifications/DefaultNotification';
 import MainHeader from '@/components/header/MainHeader';
 import Sidebar from '@/components/sidebar/Sidebar';
 import BottomNavigation from '@/components/navigation/BottomNavigation';
 
 export default {
   name: 'App',
-  components: { MainHeader, Sidebar, BottomNavigation },
+  components: { DefaultNotification, MainHeader, Sidebar, BottomNavigation },
   computed: {
-    ...mapState('Modals', ['overlay'])
+    ...mapState('Modals', ['overlay']),
+    ...mapState('Notifications', ['notification'])
   },
   created () {
-    console.log('CURRENT USER', fire.auth().currentUser);
-
+    // Set localstore session id to user that are not logged in.
     if (fire.auth().currentUser === null && !localStorage.sessionId) {
       localStorage.sessionId = [...Array(28)].map(i=>(~~(Math.random()*36)).toString(36)).join('');
     } 
-
-    if (fire.auth().currentUser) {
-
-    }
   }
 }
 </script>
