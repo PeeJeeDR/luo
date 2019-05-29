@@ -59,7 +59,7 @@
         <p class='error'>{{ error }}</p>
         <default-button :content='formType === "login" ? "Login" : "Register"'/>
         <p>Forgot password?</p>
-        <p class='skip' @click='$router.push("/")'>Skip login</p>
+        <p class='skip' @click='onSkipClick'>Skip login</p>
       </form>
     </div>
   </div>
@@ -102,6 +102,11 @@ export default {
       this.resetForm();
     },
 
+    onSkipClick () {
+      this.$store.dispatch('Notifications/setNotification', { message: 'You are in guest mode. Restricted to only play quizzes.' });
+      this.$router.push('/');
+    },
+
     resetForm () {
       for (let key in this.loginData) delete this.loginData[key];
       for (let key in this.registerData) delete this.registerData[key];
@@ -124,7 +129,10 @@ export default {
           const password = this.loginData.password;
 
           fire.auth().signInWithEmailAndPassword(email, password).then(res => {
-            res.user && this.$router.push('/');
+            if (res.user) {
+              this.$store.dispatch('Notifications/setNotification', { message: 'You are logged in successfully.' });
+              this.$router.push('/');
+            }
           }).catch(err => {
             if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
               this.error = 'Password or email address is wrong.';
@@ -167,6 +175,7 @@ export default {
                 });
               });
 
+              this.$store.dispatch('Notifications/setNotification', { message: 'You are registered successfully.' });
               this.$router.push('/');
             }).catch(err => {
               if (err.code === 'auth/email-already-in-use') {

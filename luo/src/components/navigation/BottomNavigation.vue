@@ -67,7 +67,7 @@ export default {
       }
       
       if (fire.auth().currentUser === null) {
-        this.$store.dispatch('Notifications/setNotification', { message: 'You need to be logged in to create quizzes.' })
+        this.$store.dispatch('Notifications/setNotification', { message: 'You need to be logged in to create quizzes.' });
       }
     }
   }

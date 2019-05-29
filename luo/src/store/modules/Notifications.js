@@ -22,7 +22,7 @@ export const Notifications = {
 
       setTimeout(() => {
         commit('CLEAR_NOTIFICATION');
-      }, 3000)
+      }, 3500)
     }
   }
 }

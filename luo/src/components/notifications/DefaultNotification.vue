@@ -1,12 +1,17 @@
 <template>
-  <div class='default-notification flex-center'>
-    <p class='paragraph p--m p--weight-bold p--color-light'>You need to be logged in to add quizzes.</p>
+  <div class='default-notification flex-center wrapper'>
+    <p class='paragraph p--m p--weight-bold p--color-light'>{{ notification }}</p>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'DefaultNotification',
+  computed: {
+    ...mapState('Notifications', ['notification'])
+  }
 }
 </script>
 
