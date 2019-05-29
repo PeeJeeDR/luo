@@ -35,6 +35,17 @@ export default {
   components: { MainHeader, Sidebar, BottomNavigation },
   computed: {
     ...mapState('Modals', ['overlay'])
+  },
+  created () {
+    console.log('CURRENT USER', fire.auth().currentUser);
+
+    if (fire.auth().currentUser === null && !localStorage.sessionId) {
+      localStorage.sessionId = [...Array(28)].map(i=>(~~(Math.random()*36)).toString(36)).join('');
+    } 
+
+    if (fire.auth().currentUser) {
+
+    }
   }
 }
 </script>

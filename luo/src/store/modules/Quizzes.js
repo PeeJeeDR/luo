@@ -185,7 +185,7 @@ export const Quizzes = {
     /* === WHEN THE QUIZ IS COMPLETED WE NEED TO INCREMENT THE PLAYS ON THAT QUIZ === */
     async addQuizPlay ({ dispatch }, payload) {
       await db.collection('quizzes').doc(payload.quiz.id).update({
-        playedBy: firebase.firestore.FieldValue.arrayUnion(fire.auth().currentUser.uid)
+        playedBy: firebase.firestore.FieldValue.arrayUnion(payload.id)
       });
 
       // Refetch quizzes.

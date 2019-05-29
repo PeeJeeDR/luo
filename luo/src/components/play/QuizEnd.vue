@@ -52,7 +52,7 @@ export default {
   name: 'QuizEnd',
   components: { ReviewAnswers, DefaultButton, AwardGold, Flag },
   data: () => ({
-    reviewEnabled: true
+    reviewEnabled: false
   }),
   computed: {
     ...mapState('PlayQuiz', ['correctAnswers', 'playingQuiz'])

@@ -100,8 +100,12 @@ export const PlayQuiz = {
     quizCompleted ({ commit, dispatch, state }) {
       commit('SET_QUIZ_COMPLETED_ON');
 
-      if (state.playingQuiz.createdBy !== fire.auth().currentUser.uid) {
-        dispatch('Quizzes/addQuizPlay', { quiz: state.playingQuiz }, { root: true });
+      if (fire.auth().currentUser === null && localStorage.sessionId !== null) {
+        dispatch('Quizzes/addQuizPlay', { quiz: state.playingQuiz, id: localStorage.sessionId }, { root: true });
+      }
+
+      if (fire.auth().currentUser !== null && state.playingQuiz.createdBy !== fire.auth().currentUser.uid) {
+        dispatch('Quizzes/addQuizPlay', { quiz: state.playingQuiz, id: fire.auth().currentUser.uid }, { root: true });
       }
     },
     /* ========== */
