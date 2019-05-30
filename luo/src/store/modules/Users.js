@@ -8,25 +8,24 @@ export const Users = {
   },
 
   mutations: {
+    /* === USER === */
     SAVE_USER (state, user) {
       state.userFromDB = user;
     },
-    
     CLEAR_USER (state) {
       state.userFromDB = undefined;
     }
+    /* ========== */
   },
 
   actions: {
     /* === FETCH SINGLE USER FROM FIRESTORE === */
-    fetchUserById ({ state, commit }, payload) {
-      if (state.userFromDB === undefined) {
-        db.collection('users').doc(payload.userId).onSnapshot(snap => {
-          let result = snap.data();
-          result.id = payload.userId;
-          commit('SAVE_USER', result);
-        });
-      }
+    fetchUserById ({ commit }, payload) {
+      db.collection('users').doc(payload.userId).get().then(snap => {
+        let result = snap.data();
+        result.id = payload.userId;
+        commit('SAVE_USER', result);
+      });
     },
     /* ========== */
 

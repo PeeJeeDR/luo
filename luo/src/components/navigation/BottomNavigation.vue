@@ -14,7 +14,7 @@
     <!-- ========== -->
 
     <!-- === CENTER === -->
-    <square-button class='add' :extraClass='fire.auth().currentUser !== null ? "enabled" : "disabled"' @click.native='onAddQuizClick'>
+    <square-button class='add' :extraClass='fire.auth().currentUser !== null ? "enabled add" : "disabled add"' @click.native='onAddQuizClick'>
       <h2>+</h2>
     </square-button>
     <!-- ========== -->

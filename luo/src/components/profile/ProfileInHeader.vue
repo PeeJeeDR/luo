@@ -11,7 +11,6 @@
       <stat :title='"Likes"' :value='userFromDB.likes' :color='"light"'/>
       <stat :title='"Quizzes made"' :value='quizzesMadeByUser.length' :color='"light"'/>
       <stat :title='"Quizzed played"' :value='quizzesPlayedByUser.length' :color='"light"'/>
-      <stat :title='"Reputation"' :value='userFromDB.reputation' :color='"light"'/>
     </div>
   </div>
 </template>

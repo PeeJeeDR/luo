@@ -33,7 +33,7 @@ export default {
 <style lang='scss' scoped>
 .profile
 {
-  padding: 10rem 0 5rem 0;
+  padding: 7.5rem 0 5rem 0;
 
   h2 {
     margin-top: 5rem !important;

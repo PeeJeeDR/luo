@@ -87,7 +87,7 @@ header {
   }
 
   &.profile {
-    height: 11rem;
+    height: 9rem;
   } 
 
   .wrapper {

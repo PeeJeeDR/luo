@@ -21,6 +21,12 @@ export default {
   transform: rotate(45deg);
   color: $snow;
 
+
+  &.add {
+    min-width: 3rem;
+    min-height: 3rem;
+  }
+
   &.enabled {
     @include gradient;
   }
