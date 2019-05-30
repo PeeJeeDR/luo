@@ -1,5 +1,7 @@
 <template>
-  <button :class='`answer-button ${ evaluation }`'>
+  <button 
+    @click='animate = true' 
+    :class='`answer-button animated ${ evaluation } ${ animate && evaluation === "correct" && "bounceIn faster" } ${ animate && evaluation === "wrong" && "shake fast" }`' @animationend='animate = false'>
     <p class='paragraph p--weight-bold'>{{ content }}</p>
   </button>
 </template>
@@ -9,7 +11,10 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'AnswerButton',
-  props: ['content', 'evaluation']
+  props: ['content', 'evaluation'],
+  data: () => ({
+    animate: false
+  })
 }
 </script>
 

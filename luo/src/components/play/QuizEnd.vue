@@ -70,6 +70,9 @@ export default {
   computed: {
     ...mapState('PlayQuiz', ['correctAnswers', 'playingQuiz'])
   },
+  created () {
+    this.checkLikeStatus();
+  },
   methods: {
     onReviewClick () {
       this.reviewEnabled = true;
@@ -87,8 +90,30 @@ export default {
         });
       }
 
+      if (this.likeClass === 'selected') {
+        this.$store.dispatch('Quizzes/unlikeQuiz', { 
+          quiz: this.playingQuiz,
+          id: fire.auth().currentUser.uid
+        });
+      }
+
       this.animateLikeButton = true;
       this.likeClass = this.likeClass === 'unselected' ? 'selected' : 'unselected';
+    },
+
+    checkLikeStatus () {
+      if (this.playingQuiz.likedBy.includes(fire.auth().currentUser.uid)) {
+        this.likeClass = 'selected';
+      }
+
+      if (!this.playingQuiz.likedBy.includes(fire.auth().currentUser.uid)) {
+        this.likeClass = 'unselected';
+      }
+    }
+  },
+  watch: {
+    playingQuiz () {
+      this.checkLikeStatus();
     }
   }
 }
@@ -134,7 +159,7 @@ export default {
         height: 11rem;
         position: absolute;
         border-radius: 200rem;
-        opacity: 0.2;
+        opacity: 0.15;
       }
 
       .sphere-outer {

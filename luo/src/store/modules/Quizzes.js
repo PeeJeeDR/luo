@@ -69,6 +69,7 @@ export const Quizzes = {
           result.id = doc.id;
           return result;
         }));
+
         commit('SET_LOADING_OFF');
       });
     },
@@ -84,6 +85,7 @@ export const Quizzes = {
           result.id = doc.id;
           return result;
         }));
+
         commit('SET_LOADING_OFF');
       });
     },
@@ -105,6 +107,7 @@ export const Quizzes = {
           result.id = doc.id;
           return result;
         }));
+
         commit('SET_LOADING_OFF');
       }) 
     },
@@ -115,8 +118,14 @@ export const Quizzes = {
       db.collection('quizzes').doc(payload.id).onSnapshot(doc => {
         let result = doc.data();
         result.id = doc.id;
+
+        // Save quiz by id in this state.
         commit('SAVE_QUIZ_BY_ID', result);
 
+        // Save quiz as playing quiz in PlayQuiz state.
+        commit('PlayQuiz/SET_PLAYING_QUIZ', result, { root: true });
+
+        // Fetch user that created the collected quiz.
         dispatch('Users/fetchUserById', { userId: result.createdBy }, { root: true });
       });
     },
@@ -147,7 +156,7 @@ export const Quizzes = {
     /* ========== */
 
     /* === POST NEW QUIZ === */
-    async postNewQuiz ({ dispatch, rootState }, payload) {
+    postNewQuiz ({ dispatch, rootState }, payload) {
       const questions = rootState.CreateQuiz.questions;
       const { title, description, categories, userId, quizImg } = payload;
 
@@ -170,37 +179,36 @@ export const Quizzes = {
         }
   
         // Add quiz to firestore.
-        await db.collection('quizzes').add(quiz).then(() => {
+        db.collection('quizzes').add(quiz).then(() => {
           dispatch('Notifications/setNotification', { message: 'Quize made successfully!' }, { root: true });
         }).catch(() => {
-          dispatch('Notifications/setNotification', { message: 'Something went wrong while creating a quiz. Please try again later.' }, { root: true });
+          dispatch('Notifications/setNotification', { message: 'Something went wrong while creating the quiz. Please try again later.' }, { root: true });
         });
-
-        // Refetch quizzes.
-        dispatch('fetchNewQuizzes');
       }
     },
     /* ========== */
 
     /* === WHEN THE QUIZ IS COMPLETED WE NEED TO INCREMENT THE PLAYS ON THAT QUIZ === */
-    async addQuizPlay ({ dispatch }, payload) {
-      await db.collection('quizzes').doc(payload.quiz.id).update({
+    addQuizPlay ({}, payload) {
+      db.collection('quizzes').doc(payload.quiz.id).update({
         playedBy: firebase.firestore.FieldValue.arrayUnion(payload.id)
       });
-
-      // Refetch quizzes.
-      dispatch('fetchNewQuizzes');
     },
     /* ========== */
 
     /* === WHEN THE USER LIKES A QUIZ === */
-    async likeQuiz ({ dispatch }, payload) {
-      await db.collection('quizzes').doc(payload.quiz.id).update({
+    likeQuiz ({}, payload) {
+      db.collection('quizzes').doc(payload.quiz.id).update({
         likedBy: firebase.firestore.FieldValue.arrayUnion(payload.id)
       });
+    },
+    /* ========== */
 
-      // Refetch quizzes.
-      dispatch('fetchNewQuizzes');
+    /* === WHEN THE USER UNLIKES A QUIZ === */
+    unlikeQuiz ({}, payload) {
+      db.collection('quizzes').doc(payload.quiz.id).update({
+        likedBy: firebase.firestore.FieldValue.arrayRemove(payload.id)
+      });
     }
     /* ========== */
   }
