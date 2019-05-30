@@ -138,12 +138,18 @@ export default {
     },
 
     checkAnswersSubmit () {
-      // SWITCH TO SELECT CORRECT MODE
+      // SWITCH TO SELECT CORRECT ANSWER MODE
       if (!this.selectedCorrectAnswer) {
-        let collected = this.formData.answers.filter(answer => answer.answer.trim() === '');
+        let emptyAnswers = this.formData.answers.filter(answer => answer.answer.trim() === '');
+        let filledAnswers = this.formData.answers.filter(answer => answer.answer.trim() !== '');
 
-        if (collected.length > 0) {
+        if (emptyAnswers.length > 0) {
           this.error = 'Make sure you filled in every answer.';
+          return;
+        }
+
+        if (filledAnswers.length < 2) {
+          this.error = 'Make sure you filled in at least 2 questions';
           return;
         }
 

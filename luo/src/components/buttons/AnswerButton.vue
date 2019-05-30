@@ -23,9 +23,10 @@ export default {
 {
   @include subtileShadow;
   padding: 1.3rem;
-  margin-top: 0.5rem;
   background-color: $snow;
   border-radius: $smallRadius;
   border: none;
+  width: 94%;
+  margin: 0.5rem auto 0 auto;
 }
 </style>

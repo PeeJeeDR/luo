@@ -101,5 +101,12 @@ export default {
   width: 100%;
   height: 100%;
   padding: 0 0 1rem 0;
+
+  .answers {
+    overflow-y: scroll;
+    height: 100%;
+    width: 100%;
+    padding: 0.5rem 0;
+  }
 }
 </style>

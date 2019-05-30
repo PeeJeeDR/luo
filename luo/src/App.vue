@@ -1,29 +1,36 @@
 <template>
   <div id='app'>
+    <!-- NOTIFICATIONS -->
     <transition mode='out-in' enter-active-class='animated fadeIn faster' leave-active-class='animated fadeOut faster'>
       <default-notification v-if='notification !== ""'/>
     </transition>
+    <!-- ========== -->
 
     <!-- OVERLAY THAT RENDERS WHEN MODAL IS OPEN -->
     <transition name='overlay-fade'>
       <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModal")'></div>
     </transition>
+    <!-- ========== -->
 
     <!-- BOTTOM NAVIGATION -->
     <transition mode='out-in' enter-active-class='animated slideInUp faster' leave-active-class='animated slideOutDown faster'>
       <bottom-navigation v-if='$route.meta.bottomNav.enabled'/>
     </transition>
+    <!-- ========== -->
 
     <!-- MAIN HEADER -->
     <main-header v-if='$route.meta.header.enabled'/>
+    <!-- ========== -->
 
     <!-- SIDE BAR (TOGGLED BY MAIN HEADER) -->
     <sidebar />
+    <!-- ========== -->
 
     <!-- ALL PAGES RENDERED IN ROUTER -->
     <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
       <router-view/>
     </transition>
+    <!-- ========== -->
   </div>
 </template>
 
@@ -57,7 +64,7 @@ export default {
   position: relative;
 
   .overlay {
-    z-index: 3;
+    z-index: 5;
     opacity: 0.5;
     position: fixed;
     background-color: #000;
