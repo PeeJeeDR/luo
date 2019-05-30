@@ -138,7 +138,7 @@ export default {
     },
 
     checkAnswersSubmit () {
-      // SWITCH TO SELECT CORRECT ANSWER MODE
+      // Switch to select correct answer screen.
       if (!this.selectedCorrectAnswer) {
         let emptyAnswers = this.formData.answers.filter(answer => answer.answer.trim() === '');
         let filledAnswers = this.formData.answers.filter(answer => answer.answer.trim() !== '');
@@ -149,7 +149,7 @@ export default {
         }
 
         if (filledAnswers.length < 2) {
-          this.error = 'Make sure you filled in at least 2 questions';
+          this.error = 'Make sure you add at least 2 questions.';
           return;
         }
 
@@ -157,7 +157,7 @@ export default {
         this.answersFilled = true;
       }
 
-      // SUBMIT AFTER SELECTING A CORRECT ANSWER
+      // Submit after selecting a correct answer.
       if (this.selectedCorrectAnswer) {
         this.onFormSubmit();
       }

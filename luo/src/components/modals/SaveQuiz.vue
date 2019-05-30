@@ -91,14 +91,13 @@ export default {
     this.$store.dispatch('Categories/fetchCategories');
   },
   methods: {
-    /* === IMAGES === */
+    // Set the quiz image.
     setImage (output) {
       console.log('OUTPUT', output);
       this.formData.quizImg = output;
     },
-    /* ========== */
 
-    /* === CATEGORIES === */
+    // On category select when saving a quiz. It is possible to select multiple categories.
     categorySelect (categoryId) {
       if (this.selectedCategories.includes(categoryId)) {
         let index = this.selectedCategories.indexOf(categoryId);
@@ -108,24 +107,28 @@ export default {
         this.selectedCategories.push(categoryId);
       }
     },
-    /* ========== */
 
-    /* === ON FORM SUBMIT === */
+    // When submitted on the category page. Checks if there is at least one category selected.
     onFormSubmit () {
       if (this.selectedCategories.length === 0) {
-        console.log('FORM SUBMUT IN IF');
         this.error = 'Select at least one category.';
         return;
       }
-
-      console.log('FORM SUBMUT OUT IF');
 
       this.error = '';
       this.formData.categories = this.selectedCategories;
       this.formData.userId = fire.auth().currentUser.uid;
 
+      // Post new quiz.
       this.$store.dispatch('Quizzes/postNewQuiz', this.formData).then(() => {
+
+        // Clear questions array in the store.
+        this.$store.dispatch('CreateQuiz/onNewQuizPost');
+
+        // Close the modal.
         this.$store.dispatch('Modals/closeModal');
+
+        // Route user to the overview page.
         this.$router.push('/');
       });
     }
