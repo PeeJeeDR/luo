@@ -28,13 +28,12 @@ export const Reports = {
 
     // When there has been sumbitten in de report modal.
     postNewReport ({ dispatch }, payload) {
-      console.log('PAYLOAD', payload);
-
       const report = {
         quizId: payload.quizToBeReported.id,
         created: moment().format(),
         reportTypes: payload.selectedReports,
-        reportedQuestion: payload.quizToBeReported.questions[payload.currentQuestion].question
+        reportedQuestion: payload.quizToBeReported.questions[payload.currentQuestion],
+        reportMessage: payload.reportMessage
       }
 
       db.collection('reports').add(report).then(res => {

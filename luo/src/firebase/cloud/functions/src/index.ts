@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 admin.initializeApp();
+const db = admin.firestore();
 
 export const onQuizPlay = functions.firestore.document(`quizzes/{quizId}`).onUpdate(change => {
   const before = change.before.data();
@@ -30,4 +31,25 @@ export const onQuizLike = functions.firestore.document(`quizzes/{quizId}`).onUpd
   }
 
   return null;
+});
+
+export const onNewReport = functions.firestore.document(`reports/{reportId}`).onCreate((snap, context) => {
+  const data = snap.data();
+
+  if (data !== undefined) {
+    const quizId = data.quizId;
+
+    db.collection('reports').where('quizId', '==', quizId).get()
+    .then(snapshot => {
+      return snapshot.size;
+    })
+    .then(reports => {
+      db.collection('quizzes').doc(quizId).update({ reports })
+      .then(res => res)
+      .catch(err => err);
+    })
+    .catch(err => {
+      return err;
+    })
+  }
 });
