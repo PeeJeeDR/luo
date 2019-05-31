@@ -1,7 +1,7 @@
 <template>
   <div class='recent-quizzes'>
     <section-title :title='"Recent quizzes"'/>
-    <quiz v-for='(quiz, i) in getRecentQuizzes' :key='i' :data='quiz' :index='i'/>
+    <quiz v-for='(quiz, i) in getRecentQuizzesByUser' :key='i' :data='quiz' :index='i'/>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   name: 'RecentQuizzes',
   components: { SectionTitle, Quiz },
   computed: {
-    ...mapGetters('Quizzes', ['getRecentQuizzes'])
+    ...mapGetters('Quizzes', ['getRecentQuizzesByUser'])
   }
 }
 </script>

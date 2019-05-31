@@ -1,28 +1,33 @@
 <template>
   <div :class='`play-quiz ${ evaluation }`'>
-    
+    <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
+      <modal v-if='modalIsOpen'/>
+    </transition>
+
     <div v-if='!quizCompleted' class='progress'></div>
 
     <transition mode='out-in' enter-active-class='animated jackInTheBox ' leave-active-class='animated rotateOutUpRight faster'>
       <quiz-end key='0' v-if='quizCompleted'/>
-      <multiple-choise-box key='1' v-if='showBox && !quizCompleted' :inputEnabled='inputEnabled' :questions='playingQuiz.questions'/>
+      <multiple-choise-box key='1' v-if='showBox && !quizCompleted' :inputEnabled='inputEnabled' :quiz='playingQuiz'/>
     </transition>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import Modal from '@/components/modals/Modal';
 import MultipleChoiseBox from '@/components/play/MultipleChoiseBox';
 import QuizEnd from '@/components/play/QuizEnd';
 
 export default {
   name: 'PlayQuiz',
-  components: { MultipleChoiseBox, QuizEnd },
+  components: { Modal, MultipleChoiseBox, QuizEnd },
   data: () => ({ 
     showBox: false
   }),
   computed: {
-    ...mapState('PlayQuiz', ['playingQuiz', 'quizCompleted', 'evaluation', 'inputEnabled'])
+    ...mapState('PlayQuiz', ['playingQuiz', 'quizCompleted', 'evaluation', 'inputEnabled']),
+    ...mapState('Modals', ['modalIsOpen'])
   },
   created () {
     setTimeout(() => {

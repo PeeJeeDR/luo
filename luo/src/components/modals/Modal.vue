@@ -3,6 +3,7 @@
     <create-question v-if='modalType === "create-question"'/>
     <save-quiz v-if='modalType === "save-quiz"'/>
     <quiz-info v-if='modalType === "quiz-info"'/>
+    <reports v-if='modalType === "report"'/>
   </div>
 </template>
 
@@ -10,12 +11,13 @@
 import CreateQuestion from '@/components/modals/CreateQuestion';
 import SaveQuiz from '@/components/modals/SaveQuiz';
 import QuizInfo from '@/components/modals/QuizInfo';
+import Reports from '@/components/modals/Reports';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { mapState } from 'vuex';
 
 export default {
   name: 'Modal',
-  components: { CreateQuestion, SaveQuiz, QuizInfo },
+  components: { CreateQuestion, SaveQuiz, QuizInfo, Reports },
   computed: {
     ...mapState('Modals', ['modalType'])
   },

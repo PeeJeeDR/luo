@@ -1,24 +1,28 @@
 <template>
-  <div class='multiple-choise-box big-wrapper' v-if='questions[currentQuestion] !== undefined'>
+  <div class='multiple-choise-box big-wrapper' v-if='quiz.questions[currentQuestion] !== undefined'>
     <div class='box flex direction-col'>
       <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-50ms' leave-active-class='animated fadeOutLeft faster'>
-        <img :key='currentQuestion' :src='questions[currentQuestion].questionImg !== "" ? questions[currentQuestion].questionImg : Sample' alt='Sample image'>
+        <img :key='currentQuestion' :src='quiz.questions[currentQuestion].questionImg !== "" ? quiz.questions[currentQuestion].questionImg : Sample' alt='Sample image'>
       </transition>
 
       <div class='content wrapper flex direction-col justify-between'>
         <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-100ms' leave-active-class='animated fadeOutLeft faster'>
-          <question-title :key='currentQuestion' :currentQuestion='currentQuestion' :questions='questions'/>
+          <question-title :key='currentQuestion' :currentQuestion='currentQuestion' :questions='quiz.questions'/>
         </transition>
 
         <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-150ms' leave-active-class='animated fadeOutLeft faster'>
-          <div :key='currentQuestion' class='answers flex direction-col'>
-            <answer-button 
-              v-for='(answer, i) in questions[currentQuestion].answers' 
-              :key='answer.id' 
-              :content='answer.answer' 
-              :evaluation='returnEvaluation(i, answer.correct)'
-              @click.native='inputEnabled && onAnswerClick(answer, i)'
-            />
+          <div :key='currentQuestion'>
+            <div class='answers flex direction-col justify-end'>
+              <answer-button 
+                v-for='(answer, i) in quiz.questions[currentQuestion].answers' 
+                :key='answer.id' 
+                :content='answer.answer' 
+                :evaluation='returnEvaluation(i, answer.correct)'
+                @click.native='inputEnabled && onAnswerClick(answer, i)'
+              />
+            </div>
+
+            <p class='report paragraph p--weight-bold p--m p--color-almost-light p--align-center' @click='onReportClick'>Report</p>
           </div>
         </transition>
       </div>
@@ -34,7 +38,7 @@ import QuestionTitle from '@/components/play/QuestionTitle';
 export default {
   name: 'MultipleChoiseBox',
   components: { AnswerButton, QuestionTitle },
-  props: ['questions', 'inputEnabled'],
+  props: ['quiz', 'inputEnabled'],
   data: () => ({ 
     Sample,
     currentQuestion: 0,
@@ -42,6 +46,7 @@ export default {
     showAnswer: false
   }),
   methods: {
+    // When there is clicked on an answer.
     onAnswerClick (answer, clickedButton) {
       this.clickedButton = clickedButton;
 
@@ -60,21 +65,23 @@ export default {
         this.$store.dispatch('PlayQuiz/onAnswerClick', { type: 'wrong' });
       }
         
+      // Go to the next question after a second.
       setTimeout(() => {
         this.currentQuestion += 1;
         this.clickedButton = undefined;
         this.showAnswer = false;
 
-        if (this.currentQuestion !== this.questions.length) {
+        if (this.currentQuestion !== this.quiz.questions.length) {
           this.$store.dispatch('PlayQuiz/onNewQuestionLoad');
         }
         
-        if (this.currentQuestion === this.questions.length) {
+        if (this.currentQuestion === this.quiz.questions.length) {
           this.$store.dispatch('PlayQuiz/quizCompleted');
         }
       }, 1000);
     },
 
+    // Check if answer is correct or wrong.
     returnEvaluation (buttonId, answerCorrect) {
       if (buttonId === this.clickedButton && answerCorrect) {
         return 'correct';
@@ -89,6 +96,16 @@ export default {
       }
 
       return 'none';
+    },
+
+    // When there is clicked on the report button.
+    onReportClick () {
+
+      // Set quiz to be reported in the store.
+      this.$store.dispatch('Reports/onReportClick', { quiz: this.quiz, question: this.currentQuestion });
+
+      // Open report modal.
+      this.$store.dispatch('Modals/openModal', { type: 'report' });
     }
   }
 }
@@ -106,7 +123,7 @@ export default {
     overflow-y: scroll;
     height: 100%;
     width: 100%;
-    padding: 0.5rem 0;
+    padding: 1rem 0 1.2rem 0;
   }
 }
 </style>

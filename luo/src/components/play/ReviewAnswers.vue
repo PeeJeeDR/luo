@@ -76,19 +76,23 @@ export default {
     padding: 1rem;
     border-radius: $smallRadius;
 
+    h3 {
+      color: $texty;
+    }
+
     &.correct {
-      background-color: rgba($yeah, 0.2);
+      // background-color: rgba($yeah, 0.2);
 
       h3 {
-        color: $yeah;
+        // color: $yeah;
       }
     }
 
     &.wrong {
-      background-color: rgba($auwch, 0.2);
+      // background-color: rgba($auwch, 0.2);
 
       h3 {
-        color: $auwch;
+        // color: $auwch;
       }
     }
 

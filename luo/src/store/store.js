@@ -12,6 +12,7 @@ import { CreateQuiz } from './modules/CreateQuiz';
 import { Users } from './modules/Users';
 import { PlayQuiz } from './modules/PlayQuiz';
 import { Notifications } from './modules/Notifications';
+import { Reports } from './modules/Reports';
 /* ========== */
 
 Vue.use(Vuex);
@@ -27,6 +28,7 @@ export default new Vuex.Store({
     CreateQuiz,
     Users,
     PlayQuiz,
-    Notifications
+    Notifications,
+    Reports
   }
 })

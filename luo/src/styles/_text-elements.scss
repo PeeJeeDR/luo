@@ -107,6 +107,12 @@ $montserrat: 'Montserrat', sans-serif;
     font-size: $sansa;
   }
 
+  &.p--align {
+    &-center {
+      text-align: center;
+    }
+  }
+
   &.p--weight {
     &-light {
       font-weight: lighter;

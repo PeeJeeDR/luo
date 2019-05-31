@@ -13,11 +13,11 @@ export const Quizzes = {
   },
 
   getters: {
-    getRecentQuizzes (state) {
+    getRecentQuizzesByUser (state) {
       return [...state.quizzesMadeByUser].sort((a, b) => moment(b.created) - moment(a.created)).splice(0, 3);
     },
 
-    getPopularQuizzes (state) {
+    getPopularQuizzesByUser (state) {
       return [...state.quizzesMadeByUser].sort((a, b) => moment(b.played) - moment(a.played)).splice(0, 3);
     }
   },
@@ -175,7 +175,8 @@ export const Quizzes = {
           createdBy: userId,
           quizImg: quizImg !== undefined ? quizImg : null,
           categories,
-          questions
+          questions,
+          blocked: false
         }
   
         // Add quiz to firestore.

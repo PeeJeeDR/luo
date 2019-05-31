@@ -25,7 +25,7 @@
             </div>
 
             <div 
-              v-if='fire.auth().currentUser !== null'
+              v-if='fire.auth().currentUser !== null && fire.auth().currentUser.uid !== playingQuiz.createdBy'
               @click='onLikeClick' 
               :class='`likes flex-center ${ likeClass } ${ animateLikeButton && likeClass === "selected" && "animated bounceIn fast" }`' 
               @animationend='animateLikeButton = false'

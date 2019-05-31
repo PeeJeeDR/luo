@@ -1,6 +1,6 @@
 <template>
   <div :class='`question-title ${ evaluation }`'>
-    <h2 :key='questions[currentQuestion].question' class='heading h--xxm h--color-primary'>{{ questions[currentQuestion].question }}</h2>
+    <h2 :key='questions[currentQuestion].question' class='heading h--xm h--color-primary'>{{ questions[currentQuestion].question }}</h2>
   </div>
 </template>
 
