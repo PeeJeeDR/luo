@@ -8,7 +8,7 @@
   
     <div class='stats flex flex-wrap'>
       <stat :title='"Name"' :value='userFromDB.username' :color='"light"'/>
-      <stat :title='"Likes"' :value='userFromDB.likes' :color='"light"'/>
+      <stat :title='"Likes"' :value='likesOfUser' :color='"light"'/>
       <stat :title='"Quizzes made"' :value='quizzesMadeByUser.length' :color='"light"'/>
       <stat :title='"Quizzed played"' :value='quizzesPlayedByUser.length' :color='"light"'/>
     </div>
@@ -17,7 +17,7 @@
 
 <script>
 import { fire } from '@/firebase/firebase';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import image2base64 from 'image-to-base64';
 import Edit from '@/assets/icons/quizzes/Edit.svg';
 import Stat from '@/components/utils/Stat';
@@ -30,7 +30,8 @@ export default {
   }),
   computed: {
     ...mapState('Users', ['userFromDB']),
-    ...mapState('Quizzes', ['quizzesMadeByUser', 'quizzesPlayedByUser'])
+    ...mapState('Quizzes', ['quizzesMadeByUser', 'quizzesPlayedByUser']),
+    ...mapGetters('Quizzes', ['likesOfUser'])
   },
   methods: {
     onAvatarClick () {

@@ -19,6 +19,16 @@ export const Quizzes = {
 
     getPopularQuizzesByUser (state) {
       return [...state.quizzesMadeByUser].sort((a, b) => moment(b.played) - moment(a.played)).splice(0, 3);
+    },
+
+    likesOfUser (state) {
+      let likes = 0;
+
+      state.quizzesMadeByUser.forEach(quiz => {
+        likes += quiz.likes;
+      });
+
+      return likes;
     }
   },
 
@@ -134,6 +144,7 @@ export const Quizzes = {
     /* === FETCH QUIZZES MADE BY USER ID === */
     fetchQuizzesMadeByUserId ({ commit }, payload) {
       db.collection('quizzes').where('createdBy', '==', payload.userId).onSnapshot(snap => {
+        console.log('SNAP', snap);
         commit('SAVE_QUIZZES_MADE_BY_USER', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;

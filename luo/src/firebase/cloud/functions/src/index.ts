@@ -33,7 +33,7 @@ export const onQuizLike = functions.firestore.document(`quizzes/{quizId}`).onUpd
   return null;
 });
 
-export const onNewReport = functions.firestore.document(`reports/{reportId}`).onCreate((snap, context) => {
+export const onNewReport = functions.firestore.document(`reports/{reportId}`).onCreate(snap => {
   const data = snap.data();
 
   if (data !== undefined) {
