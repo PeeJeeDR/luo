@@ -1,30 +1,38 @@
 <template>
   <div class='question'>
     <div class='flex'>
-      <img v-if='data.questionImg' :src='data.questionImg' alt='Question image.'>
+      <img v-if='question.questionImg' :src='question.questionImg' alt='Question image.'>
 
-      <div class='content' :style='data.questionImg !== "" ? "padding-left: 1rem;" : "padding: 0"'>
-        <h4 class='heading h--m'>{{ number + 1 }}. {{ data.question }}</h4>
+      <div class='content' :style='question.questionImg !== "" ? "padding-left: 1rem;" : "padding: 0"'>
+        <div class='flex justify-between align-center'>
+          <h4 class='heading h--m'>{{ number + 1 }}. {{ question.question }}</h4>
+          <button @click='deleteQuestion'>DELETE</button>
+        </div>
         <hr>
 
         <div class='answers'>
-          <p class='paragraph p--m p--weight-bold'>{{ data.answers.length }} answers</p>
+          <p class='paragraph p--m p--weight-bold'>{{ question.answers.length }} answers</p>
           <ul>
-            <li v-for='(answer, i) in data.answers' :key='i'>
+            <li v-for='(answer, i) in question.answers' :key='i'>
               <p :class='`paragraph p--m ${ answer.correct && "correct" }`' >{{ answer.answer }}</p>
             </li>
           </ul>
         </div>
       </div>
     </div>
-    <audio v-if='data.audioUrl' :src='data.audioUrl' controls></audio>
+    <audio v-if='question.audioUrl' :src='question.audioUrl' controls></audio>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Question',
-  props: ['data', 'number']
+  props: ['question', 'number'],
+  methods: {
+    deleteQuestion () {
+      this.$store.dispatch('CreateQuiz/onQuestionDelete', { questionId: this.question.id });
+    }
+  }
 }
 </script>
 

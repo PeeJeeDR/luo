@@ -1,4 +1,4 @@
-import { firebase, fire, db } from '@/firebase/firebase';
+import { firebase, db } from '@/firebase/firebase';
 import moment from 'moment';
 
 export const Quizzes = {
@@ -144,7 +144,6 @@ export const Quizzes = {
     /* === FETCH QUIZZES MADE BY USER ID === */
     fetchQuizzesMadeByUserId ({ commit }, payload) {
       db.collection('quizzes').where('createdBy', '==', payload.userId).onSnapshot(snap => {
-        console.log('SNAP', snap);
         commit('SAVE_QUIZZES_MADE_BY_USER', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;

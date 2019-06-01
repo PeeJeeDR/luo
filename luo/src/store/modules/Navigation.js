@@ -36,12 +36,9 @@ export const Navigation = {
             dispatch('Quizzes/fetchPopularQuizzes', {}, { root: true });
           break;
 
-          case 'interests':
+          case 'qr':
             // Open quiz overview.
             router.push('/');
-
-            // Fetch based on interests.
-            dispatch('Quizzes/fetchQuizzesByInterests', {}, { root: true });
           break;
 
           case 'profile':
@@ -55,7 +52,7 @@ export const Navigation = {
       commit('SET_SELECTED_OVERVIEW', payload.selected);
 
       // Set header props on icon click.
-      commit('Header/SET_HEADER_TITLE', payload.selected, { root: true });
+      commit('Header/SET_HEADER_TITLE', payload.selected === 'qr' ? 'QR code scanner' : payload.selected, { root: true });
     },
     /* ========== */
 

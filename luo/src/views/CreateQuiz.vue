@@ -7,7 +7,7 @@
     <create v-if='questions.length === 0'/>
 
     <div v-for='(question, i) in questions' :key='i'>
-      <question :data='question' :number='i'/>
+      <question :question='question' :number='i'/>
     </div>
 
     <default-button :content='"create question"' @click.native='$store.dispatch("Modals/openModal", { type: "create-question" })'/>

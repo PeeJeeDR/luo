@@ -14,6 +14,12 @@ export const CreateQuiz = {
     // Clear the questions array.
     CLEAR_QUESTIONS (state) {
       state.questions = [];
+    },
+
+    // Delete single question.
+    DELETE_SINGLE_QUESTION (state, questionId) {
+      let index = state.questions.map(question => question.id).indexOf(questionId);
+      index > -1 && state.questions.splice(index, 1);
     }
   },
 
@@ -26,6 +32,11 @@ export const CreateQuiz = {
     // Called when there is a new quiz made.
     onNewQuizPost ({ commit }) {
       commit('CLEAR_QUESTIONS');
+    },
+
+    // Called when the user deletes a question while making a quiz.
+    onQuestionDelete ({ commit }, payload) {
+      commit('DELETE_SINGLE_QUESTION', payload.questionId);
     }
   }
 }

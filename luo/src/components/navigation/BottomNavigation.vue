@@ -21,8 +21,8 @@
 
     <!-- === RIGHT === -->
     <div class='icon-container flex'>
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "interests" })'>
-        <star :class='selectedOverview === "interests" && "active"'/>
+      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "qr" })'>
+        <q-r :class='selectedOverview === "qr" && "active"'/>
       </div>
 
       <div class='icon flex-center' @click='onProfileClick'>
@@ -41,11 +41,12 @@ import SquareButton from '@/components/buttons/SquareButton';
 import New from '@/assets/icons/bottom-nav/New.svg';
 import Popular from '@/assets/icons/bottom-nav/Popular.svg';
 import Star from '@/assets/icons/bottom-nav/Star.svg';
+import QR from '@/assets/icons/bottom-nav/QR.svg';
 import Profile from '@/assets/icons/bottom-nav/Profile.svg';
 
 export default {
   name: 'BottomNavigation',
-  components: { SquareButton, New, Popular, Star, Profile },
+  components: { SquareButton, New, Popular, Star, Profile, QR },
   data: () => ({ fire }),
   computed: {
     ...mapState('Navigation', ['selectedOverview'])

@@ -72,6 +72,7 @@ import ModalMixins from '@/mixins/ModalMixins';
 import DefaultButton from '@/components/buttons/DefaultButton';
 import CheckMark from '@/components/buttons/CheckMark';
 import SubmitAndCancel from '@/components/buttons/SubmitAndCancel';
+import { mapState } from 'vuex';
 
 export default {
   /* === ModalMixins.js ===
@@ -97,6 +98,9 @@ export default {
     answersFilled: false,
     selectedCorrectAnswer: false
   }),
+  computed: {
+    ...mapState('CreateQuiz', ['questions'])
+  },
   methods: {
     /* === IMAGES === */
     setImage (output) {
@@ -172,7 +176,7 @@ export default {
 
     /* === ON FORM SUBMIT === */
     onFormSubmit () {
-      console.log('FORM DATA', this.formData);
+      this.formData.id = this.questions.length;
 
       this.$store.dispatch('CreateQuiz/onQuestionFormSubmit', this.formData).then(() => {
         this.$store.dispatch('Modals/closeModal');
