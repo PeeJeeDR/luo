@@ -10,6 +10,15 @@
           <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error }}</p>
           <textarea class='default-input textarea' placeholder='Quiz description' v-model='formData.description'></textarea>
           <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error1 }}</p>
+
+          <div class='public flex align-center' @click='togglePublic'>
+            <check-mark :checked='formData.isPublic'/>
+            <p class='paragraph p--m p--weight-bold p--color-lighter'>Make quiz public</p>
+          </div>
+        </section>
+
+        <section>
+
         </section>
 
         <!-- === IMAGE === -->
@@ -80,7 +89,8 @@ export default {
       title: '',
       description: '',
       categories: [],
-      quizImg: ''
+      quizImg: '',
+      isPublic: true
     },
     selectedCategories: []
   }),
@@ -91,6 +101,11 @@ export default {
     this.$store.dispatch('Categories/fetchCategories');
   },
   methods: {
+    // Toggle public state.
+    togglePublic () {
+      this.formData.isPublic = !this.formData.isPublic;
+    },
+    
     // Set the quiz image.
     setImage (output) {
       console.log('OUTPUT', output);
@@ -140,6 +155,10 @@ export default {
 <style lang='scss' scoped>
 .save-quiz
 {
+  .public {
+    margin-top: 1rem;
+  }
+
   .categories {
     height: 20rem;
     overflow: scroll;

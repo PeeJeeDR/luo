@@ -73,7 +73,7 @@ export const Quizzes = {
     fetchNewQuizzes ({ commit }) {
       commit('SET_LOADING_ON');
       
-      db.collection('quizzes').orderBy('created', 'desc').onSnapshot(snap => {
+      db.collection('quizzes').where('public', '==', true).orderBy('created', 'desc').onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -89,7 +89,7 @@ export const Quizzes = {
     fetchPopularQuizzes ({ commit }) {
       commit('SET_LOADING_ON');
 
-      db.collection('quizzes').orderBy('plays', 'desc').onSnapshot(snap => {
+      db.collection('quizzes').where('public', '==', true).orderBy('plays', 'desc').onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -101,17 +101,14 @@ export const Quizzes = {
     },
     /* ========== */
 
-    /* === FETCH QUIZZES BY INTERESTS === */
-    fetchQuizzesByInterests ({ commit }) {
-      
-    },
-    /* ========== */
-
     /* === FETCH QUIZZES BY CATEGORY === */
     fetchQuizesByCategory ({ commit }, payload) {
       commit('SET_LOADING_ON');
 
-      db.collection('quizzes').where('categories', 'array-contains', payload.categoryId).onSnapshot(snap => {
+      db.collection('quizzes')
+      .where('categories', 'array-contains', payload.categoryId)
+      .where('public', '==', true)
+      .onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -168,14 +165,14 @@ export const Quizzes = {
     /* === POST NEW QUIZ === */
     postNewQuiz ({ dispatch, rootState }, payload) {
       const questions = rootState.CreateQuiz.questions;
-      const { title, description, categories, userId, quizImg } = payload;
+      const { title, description, categories, userId, quizImg, isPublic } = payload;
 
       // Check if there is at least one question made - questions.length > 0
       if (questions.length > 0) {
         const quiz = {
           title: title.charAt(0).toUpperCase() + title.substr(1),
           description: description.charAt(0).toUpperCase() + description.substr(1) + (description.charAt(description.length - 1) === '.' ? '' : '.'),
-          public: true,
+          public: isPublic,
           created: moment().format(),
           reports: [],
           plays: 0,
