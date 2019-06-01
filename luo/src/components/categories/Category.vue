@@ -1,5 +1,5 @@
 <template>
-  <div :class='`category ${ data.id === selected && "selected" }`'>
+  <div :class='`category ${ data.id === selectedCategory && "selected" }`'>
     <div v-ripple class='container flex align-center' @click='atCategoryClick'>
       <img :src='require(`@/assets/icons/categories/${ data.slug }.png`)' :alt='`${ capFirstChar(data.category) } icon.`'>
       <h4 class='heading h--m'>{{ capFirstChar(data.category) }}</h4>
@@ -8,15 +8,21 @@
 </template>
 
 <script>
+import { enableBodyScroll } from 'body-scroll-lock';
 import GlobalMethods from '@/mixins/GlobalMethods';
+import { mapState } from 'vuex';
 
 export default {
   name: 'Category',
   mixins: [GlobalMethods],
-  props: ['data', 'selected'],
+  props: ['data'],
+  computed: {
+    ...mapState('Sidebar', ['selectedCategory'])
+  },
   methods: {
     atCategoryClick () {
-      this.$store.dispatch('Sidebar/closeSidebar');
+      enableBodyScroll(document.getElementsByTagName('body')[0]);
+      this.$store.dispatch('Sidebar/onCategoryClick', { categoryId: this.data.id });
       this.$store.dispatch('Quizzes/fetchQuizesByCategory', { categoryId: this.data.id });
     }
   }

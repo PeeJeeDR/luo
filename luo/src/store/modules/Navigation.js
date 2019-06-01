@@ -1,4 +1,5 @@
 import router from '../../router';
+import { enableBodyScroll } from 'body-scroll-lock';
 
 export const Navigation = {
   namespaced: true,
@@ -18,6 +19,9 @@ export const Navigation = {
   actions: {
     /* === ICON CLICKED IN BOTTOM NAV === */
     onIconClick ({ commit, dispatch, state }, payload) {
+      enableBodyScroll(document.getElementsByTagName('body')[0]);
+      dispatch('Sidebar/onBottomNavigationPress', {}, { root: true });
+
       if (payload.selected !== state.selectedOverview || payload.firstLoad) {
         switch (payload.selected) {
           case 'new':

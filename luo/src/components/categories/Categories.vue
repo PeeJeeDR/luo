@@ -1,6 +1,6 @@
 <template>
   <div class='categories' v-if='!loading'>
-    <category v-for='(category, i) in categories' :key='i' :data='category' :selected='selectedCategoryId' @click.native='onCategorySelect(category.id)'/>
+    <category v-for='(category, i) in categories' :key='i' :data='category'/>
   </div>
 </template>
 
@@ -11,16 +11,8 @@ import Category from '@/components/categories/Category';
 export default {
   name: 'Categories',
   components: { Category },
-  data: () => ({
-    selectedCategoryId: ''
-  }),
   computed: {
     ...mapState('Categories', ['categories', 'loading'])
-  },
-  methods: {
-    onCategorySelect (id) {
-      this.selectedCategoryId = id;
-    }
   }
 }
 </script>
