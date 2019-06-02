@@ -47,8 +47,19 @@ export const Categories = {
     },
 
     // When there is a category suggested.
-    onCategorySuggestion ({ commit }, payload) {
-      console.log('input', payload.input);
+    async onCategorySuggestion ({ dispatch }, payload) {
+      // Post suggestion to firestore and send mail to admin with cloud function.
+      await db.collection('category-suggestions').add({
+        category: payload.input
+      });
+
+      // Close the modal.
+      await dispatch('Modals/closeModal', {}, { root: true });
+
+      // Show notification to the user.
+      dispatch('Notifications/setNotification', { 
+        message: 'Your feedback has been noticed.' 
+      }, { root: true });
     }
   }
 }

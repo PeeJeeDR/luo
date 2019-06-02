@@ -1,8 +1,16 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import * as sgMail from '@sendgrid/mail';
+
+// Firestore database setup.
 admin.initializeApp();
 const db = admin.firestore();
 
+// Sendgrid setup.
+const SENDGRID_API_KEY = functions.config().sendgrid.key;
+sgMail.setApiKey(SENDGRID_API_KEY);
+
+// When a quiz had been played.
 export const onQuizPlay = functions.firestore.document(`quizzes/{quizId}`).onUpdate(change => {
   const before = change.before.data();
   const after = change.after.data();
@@ -18,6 +26,7 @@ export const onQuizPlay = functions.firestore.document(`quizzes/{quizId}`).onUpd
   return null;
 });
 
+// When a quiz has been liked.
 export const onQuizLike = functions.firestore.document(`quizzes/{quizId}`).onUpdate(change => {
   const before = change.before.data();
   const after = change.after.data();
@@ -33,6 +42,7 @@ export const onQuizLike = functions.firestore.document(`quizzes/{quizId}`).onUpd
   return null;
 });
 
+// When a quiz has been reported.
 export const onNewReport = functions.firestore.document(`reports/{reportId}`).onCreate(snap => {
   const data = snap.data();
 
@@ -54,6 +64,17 @@ export const onNewReport = functions.firestore.document(`reports/{reportId}`).on
   }
 });
 
+// When a category has been suggested.
 export const onCategorySuggestion = functions.firestore.document(`category-suggestions/{suggestionId}`).onCreate(snap => {
-  
+  const msg = {
+    to: '<TO EMAIL>',
+    from: '<FROM EMAIL>',
+    templateId: 'd-2e8e9123d5584da8b46b881c09f0f8df'
+  }
+
+  return sgMail.send(msg).then(() => {
+    console.log('Mail sent');
+  }).catch(err => {
+    console.log('ERROR', err);
+  });
 });
