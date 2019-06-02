@@ -5,11 +5,18 @@
     <div class='bar'>
       <header>
         <img :src='Logo' alt='Logo of Luo.'>
-        <button @click='$router.push("/authentication")'>AUTH</button>
       </header>
 
       <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
       <categories v-if='!loading'/>
+
+      <div class='bottom'>
+        <hr>
+        <div v-ripple class='icon flex align-center' @click='onLogoutClick'>
+          <logout />
+          <h4 class='heading h--m h--color-mist'>Logout</h4>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -18,12 +25,13 @@
 import { mapState } from 'vuex';
 import { enableBodyScroll } from 'body-scroll-lock';
 import Logo from '@/assets/img/logo/Logo.png';
+import Logout from '@/assets/icons/sidebar/Logout.svg';
 import Categories from '@/components/categories/Categories';
 import MoonLoader from 'vue-spinner/src/MoonLoader';
 
 export default {
   name: 'Sidebar',
-  components: { Categories, MoonLoader },
+  components: { Categories, MoonLoader, Logout },
   data: () => ({
     Logo
   }),
@@ -38,6 +46,11 @@ export default {
     closeSidebar () {
       enableBodyScroll(document.getElementsByTagName('body')[0]);
       this.$store.dispatch("Sidebar/closeSidebar");
+    },
+
+    onLogoutClick () {
+      this.$router.push('/authentication');
+      this.$store.dispatch('Sidebar/closeSidebar');
     }
   }
 }
@@ -82,7 +95,29 @@ export default {
   }
 
   .categories {
-    margin-top: 3rem;
+    margin-top: 2rem;
+  }
+
+  .bottom {
+    padding: 0 1.5rem;
+
+    hr {
+      background-color: $clouds;
+      height: 1px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .icon {
+      padding: 1rem 0.5rem;
+      color: $mist !important;
+
+      svg {
+        width: 1.8rem;
+        fill: $mist;
+        margin-right: 0.8rem;
+      }
+    }
   }
 }
 </style>
