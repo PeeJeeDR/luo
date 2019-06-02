@@ -9,25 +9,27 @@ export const Categories = {
   },
 
   mutations: {
-    /* === SAVE ALL CATEGORIES === */
+    // Save categories to the store.
     SAVE_CATEGORIES (state, categories) {
       state.categories = categories;
+      state.categories.push({
+        category: 'Suggest category',
+        id: 0,
+        slug: 'add'
+      })
     },
-    /* ========== */
 
-    /* === LOADING === */
+    // Loading state handlers.
     SET_LOADING_ON (state) {
       state.loading = true;
     },
-
     SET_LOADING_OFF (state) {
       state.loading = false;
     }
-    /* ========== */
   },
 
   actions: {
-    /* === FETCH ALL CATEGORIES === */
+    // Fetch all categories in sidebar.
     fetchCategories ({ commit }) {
       commit('SET_LOADING_ON');
 
@@ -42,7 +44,11 @@ export const Categories = {
         commit('SAVE_CATEGORIES', mapped);
         commit('SET_LOADING_OFF');
       });
+    },
+
+    // When there is a category suggested.
+    onCategorySuggestion ({ commit }, payload) {
+      console.log('input', payload.input);
     }
-    /* ========== */
   }
 }

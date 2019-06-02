@@ -1,8 +1,8 @@
 <template>
-  <div :class='`category ${ data.id === selectedCategory && "selected" }`'>
+  <div :class='`category ${ category.id === selectedCategory && "selected" }`'>
     <div v-ripple class='container flex align-center' @click='atCategoryClick'>
-      <img :src='require(`@/assets/icons/categories/${ data.slug }.png`)' :alt='`${ capFirstChar(data.category) } icon.`'>
-      <h4 class='heading h--m'>{{ capFirstChar(data.category) }}</h4>
+      <img :src='require(`@/assets/icons/categories/${ category.slug }.png`)' :name='category.slug' :alt='`${ capFirstChar(category.category) } icon.`'>
+      <h4 class='heading h--m'>{{ capFirstChar(category.category) }}</h4>
     </div>
   </div>
 </template>
@@ -15,15 +15,23 @@ import { mapState } from 'vuex';
 export default {
   name: 'Category',
   mixins: [GlobalMethods],
-  props: ['data'],
+  props: ['category'],
   computed: {
     ...mapState('Sidebar', ['selectedCategory'])
   },
   methods: {
     atCategoryClick () {
       enableBodyScroll(document.getElementsByTagName('body')[0]);
-      this.$store.dispatch('Sidebar/onCategoryClick', { categoryId: this.data.id });
-      this.$store.dispatch('Quizzes/fetchQuizesByCategory', { categoryId: this.data.id });
+
+      if (this.category.slug !== 'add') {
+        this.$store.dispatch('Sidebar/onCategoryClick', { categoryId: this.category.id });
+        this.$store.dispatch('Quizzes/fetchQuizesByCategory', { categoryId: this.category.id });
+      }
+      
+      if (this.category.slug === 'add') {
+        this.$store.dispatch('Sidebar/closeSidebar');
+        this.$store.dispatch('Modals/openModal', { type: 'suggest-category' });
+      }
     }
   }
 }
@@ -51,6 +59,10 @@ export default {
 
     img {
       width: 2rem;
+
+      &[name='add'] {
+        transform: scale(0.7);
+      }
     }
 
     h4 {

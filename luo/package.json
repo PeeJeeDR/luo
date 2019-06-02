@@ -17,7 +17,6 @@
     "register-service-worker": "^1.6.2",
     "sass-loader": "^7.1.0",
     "vue": "^2.6.6",
-    "vue-circle-progress": "^0.0.2",
     "vue-image-upload-resize": "^2.0.4",
     "vue-ripple-directive": "^2.0.1",
     "vue-router": "^3.0.1",

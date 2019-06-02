@@ -53,3 +53,7 @@ export const onNewReport = functions.firestore.document(`reports/{reportId}`).on
     })
   }
 });
+
+export const onCategorySuggestion = functions.firestore.document(`category-suggestions/{suggestionId}`).onCreate(snap => {
+  
+});

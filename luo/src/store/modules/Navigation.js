@@ -19,7 +19,10 @@ export const Navigation = {
   actions: {
     /* === ICON CLICKED IN BOTTOM NAV === */
     onIconClick ({ commit, dispatch, state }, payload) {
+      // Enable scrolling on the document.
       enableBodyScroll(document.getElementsByTagName('body')[0]);
+
+      // Reset selected category in the sidebar.
       dispatch('Sidebar/onBottomNavigationPress', {}, { root: true });
 
       if (payload.selected !== state.selectedOverview || payload.firstLoad) {

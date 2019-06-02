@@ -40,13 +40,12 @@ import { mapState } from 'vuex';
 import SquareButton from '@/components/buttons/SquareButton';
 import New from '@/assets/icons/bottom-nav/New.svg';
 import Popular from '@/assets/icons/bottom-nav/Popular.svg';
-import Star from '@/assets/icons/bottom-nav/Star.svg';
 import QR from '@/assets/icons/bottom-nav/QR.svg';
 import Profile from '@/assets/icons/bottom-nav/Profile.svg';
 
 export default {
   name: 'BottomNavigation',
-  components: { SquareButton, New, Popular, Star, Profile, QR },
+  components: { SquareButton, New, Popular, Profile, QR },
   data: () => ({ fire }),
   computed: {
     ...mapState('Navigation', ['selectedOverview'])
