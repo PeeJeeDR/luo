@@ -19,7 +19,7 @@
       <div key='1' v-if='scanIsOpen' class='scanner'>
         <qrcode-stream 
           @decode='onDecode'
-          :camera='"rear"'
+          :camera='"auto"'
         ></qrcode-stream>
       </div>
     </transition>
@@ -48,6 +48,7 @@ export default {
     },
 
     async onDecode (decodedString) {
+      console.log('DECODED', decodedString);
       // Close the scanner.
       await this.$store.dispatch('Modals/closeModal');
       

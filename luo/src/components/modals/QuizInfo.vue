@@ -5,7 +5,7 @@
         <img key='0' v-if='!showQR' :src='quizById.quizImg !== "" ? quizById.quizImg : Sample' :alt='`Header image for the "${ quizById.title } quiz."`'>
 
         <div key='1' v-if='showQR' class='flex-center' style='height: 100%;'>
-          <qrcode value='Hello, World!'></qrcode>
+          <qrcode :value='quizById.id'></qrcode>
         </div>
       </transition>
     </div>
