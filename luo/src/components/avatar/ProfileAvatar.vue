@@ -27,7 +27,7 @@ export default {
     width: 5.5rem;
     height: 5.5rem;
     border-radius: 20rem;
-    margin-top: -3.3rem;
+    margin-top: -3rem;
     border: 5px solid $snow;
   }
 

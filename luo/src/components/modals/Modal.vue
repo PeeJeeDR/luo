@@ -45,7 +45,8 @@ export default {
   background-color: $snow;
   border-radius: $mediumRadius;
   padding: 0 2rem 2rem 2rem;
-  overflow: hidden;
+  max-height: 80%;
+  overflow: scroll;
   top: 5rem;
 
   section {

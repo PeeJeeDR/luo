@@ -1,59 +1,63 @@
 <template>
   <div class='quiz-info' v-if='quizById !== undefined'>
+    <div class='img-container'>
+      <transition mode='out-in' enter-active-class='animated slideInUp faster' leave-active-class='animated slideOutDown faster'>
+        <img key='0' v-if='!showQR' :src='quizById.quizImg !== "" ? quizById.quizImg : Sample' :alt='`Header image for the "${ quizById.title } quiz."`'>
+
+        <div key='1' v-if='showQR' class='flex-center' style='height: 100%;'>
+          <qrcode value='Hello, World!'></qrcode>
+        </div>
+      </transition>
+    </div>
     
-    <img :src='quizById.quizImg !== "" ? quizById.quizImg : Sample' :alt='`Header image for the "${ quizById.title } quiz."`'>
+    <profile-avatar v-if='!showQR' :img='userFromDB'/>
 
-    <div class="info-container flex align-start">
-      <profile-avatar :img='userFromDB'/>
-
-      <div class="stats flex justify-end">
-        <div class='stat'>
-          <div class='flex-center'>
-            <questions />
-            <p class='paragraph p--m p--color-lighter'>{{ quizById.questions.length }}</p>
-          </div>
-        </div>
-        <div class='stat'>
-          <div class='flex-center'>
-            <likes />
-            <p class='paragraph p--m p--color-lighter'>{{ quizById.likes }}</p>
-          </div>
-        </div>
-      </div>
+    <div :class='`over-image flex justify-end ${ showQR && "qr-is-open" }`'>
+      <button v-ripple @click='showQR = !showQR'>
+        <h2 class='heading h--s h--color-primary'>SHOW QR CODE</h2>
+      </button>
     </div>
 
     <div class='content'>
       <h4 class='heading h--xm'>{{ quizById.title }}</h4>
       <hr>
       <p class='paragraph p--m p--color-lighter'>{{ quizById.description }}</p>
+    
+      <div class='stats flex align-center'>
+        <stat :title='"Likes"' :value='quizById.likes' :align='"center"' :color='"primary"'/>
+        <stat :title='"Questions"' :value='quizById.questions.length' :align='"center"' :color='"primary"'/>
+      </div>
     </div>
 
-    <div class='flex justify-end'>
-      <square-button @click.native='playQuiz' :extraClass='"enabled"'>
-        <controller />
-      </square-button>
-    </div>
+    <button v-ripple class='play flex-center' @click='playQuiz'>
+      <h4 class='heading h--m h--color-light'>Play quiz!</h4>
+    </button>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import Qrcode from '@chenfengyuan/vue-qrcode';
 import Sample from '@/assets/img/quiz/sample.jpg';
 import ProfileAvatar from '@/components/avatar/ProfileAvatar';
-import Questions from '@/assets/icons/quizzes/Questions.svg';
-import Likes from '@/assets/icons/quizzes/Likes.svg';
-import SquareButton from '@/components/buttons/SquareButton';
-import Controller from '@/assets/icons/quizzes/Controller.svg';
+import Stat from '@/components/utils/Stat';
 
 export default {
   name: 'QuizInfo',
-  components: { ProfileAvatar, Questions, Likes, SquareButton, Controller },
+  components: { ProfileAvatar, Qrcode, Stat },
   data: () => ({
-    Sample
+    Sample,
+    animatePlay: false,
+    showQR: false
   }),
   computed: {
     ...mapState('Quizzes', ['quizById']),
     ...mapState('Users', ['userFromDB'])
+  },
+  created () {
+    setTimeout(() => {
+      this.animatePlay = true;
+    }, 1000)
   },
   methods: {
     playQuiz () {
@@ -74,52 +78,71 @@ export default {
 <style lang='scss' scoped>
 .quiz-info
 {
-  img {
-    width: calc(100% + 4rem);
-    margin-left: -2rem;
-    border-bottom-left-radius: $largeRadius;
-    border-bottom-right-radius: $largeRadius;
+  .profile-avatar {
+    width: 0;
   }
 
-  .info-container {
+  .img-container {
+    @include subtileShadow;
+    height: 10rem;
+    margin-left: -2rem;
+    width: calc(100% + 4rem);
+    border-bottom-left-radius: $largeRadius;
+    border-bottom-right-radius: $largeRadius;
+    overflow: hidden;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  .over-image {
+    margin-top: -2rem;
     width: 100%;
 
-    .stats {
-      margin-top: -1.5rem;
-      width: 100%;
+    button {
+      padding: 1rem;
+      margin: -0.5rem -1rem 0 0;
+      border-radius: $smallRadius;
+      background: none;
+      border: none;
+    }
 
-      .stat {
-        @include subtileShadow;
-        background-color: $snow;
-        width: auto;
-        padding: 0.5rem 1rem;
-        border-radius: $smallRadius;
-        display: inline-block;
+    &.qr-is-open {
+      margin-top: 0.75rem;
+    }
 
-        &:first-child {
-          margin-right: 1rem;
-        }
-
-        svg {
-          width: 1.3rem;
-          margin-right: 1rem;
-          fill: $pinky;
-        }
-      }
+    .qr-container {
+      @include subtileShadow;
+      padding: 0.5rem;
+      overflow: hidden;
+      background-color: $snow;
+      border-radius: 25rem;
     }
   }
 
   .content {
-    padding: 1.5rem 0.5rem;
+    padding: 2.5rem 0.5rem;
 
     p {
       margin-top: 0.6rem;
     }
+
+    .stats {
+      margin-top: 1.5rem;
+
+      .stat {
+        margin-right: 2rem;
+      }
+    }
   }
 
-  .square-button {
-    margin: 0 -2rem -2.5rem 0;
-    transform: scale(1.2) rotate(45deg);
+  .play {
+    @include gradient;
+    width: calc(100% + 4rem);
+    height: 4rem;
+    margin: 1rem 0 -2rem -2rem;
+    border: none;
   }
 }
 </style>
