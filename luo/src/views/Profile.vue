@@ -5,11 +5,10 @@
       <modal v-if='modalIsOpen'/>
     </transition>
 
-    <!-- === RECENT QUIZZES === -->
-    <recent-quizzes v-if='quizzesMadeByUser.length > 0'/>
-
-    <!-- === POPULAR QUIZZES === -->
-    <popular-quizzes v-if='quizzesMadeByUser.length > 0'/>
+    <section-title :title='"Quizzes made"'/>
+    <div v-for='quiz, i in quizzesMadeByUser' :key='i'>
+      <quiz :quiz='quiz' :index='i'/>
+    </div>
 
     <!-- === IF THERE ARE NO QUIZZES === -->
     <h2 v-if='quizzesMadeByUser.length === 0' class='big-wrapper heading h--l h--color-mist h--align-center'>
@@ -22,12 +21,12 @@
 import { mapState } from 'vuex';
 import { fire } from '@/firebase/firebase';
 import Modal from '@/components/modals/Modal';
-import RecentQuizzes from '@/components/profile/RecentQuizzes';
-import PopularQuizzes from '@/components/profile/PopularQuizzes';
+import Quiz from '@/components/quizzes/Quiz';
+import SectionTitle from '@/components/titles/SectionTitle';
 
 export default {
   name: 'Profile',
-  components: { RecentQuizzes, PopularQuizzes, Modal },
+  components: { Modal, Quiz, SectionTitle },
   computed: {
     ...mapState('Quizzes', ['quizzesMadeByUser']),
     ...mapState('Modals', ['modalIsOpen'])

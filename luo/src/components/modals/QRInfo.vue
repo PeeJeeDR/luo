@@ -47,8 +47,15 @@ export default {
       this.$store.dispatch('Modals/closeModal');
     },
 
-    onDecode (decodedString) {
-      console.log('STRING', decodedString);
+    async onDecode (decodedString) {
+      // Close the scanner.
+      await this.$store.dispatch('Modals/closeModal');
+      
+      // Fetch quiz by id.
+      await this.$store.dispatch('Quizzes/fetchQuizById', { id: decodedString });
+
+      // Show the collected quiz in the quiz info modal.
+      this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
     }
   }
 }

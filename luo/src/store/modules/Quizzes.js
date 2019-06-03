@@ -13,14 +13,6 @@ export const Quizzes = {
   },
 
   getters: {
-    getRecentQuizzesByUser (state) {
-      return [...state.quizzesMadeByUser].sort((a, b) => moment(b.created) - moment(a.created)).splice(0, 3);
-    },
-
-    getPopularQuizzesByUser (state) {
-      return [...state.quizzesMadeByUser].sort((a, b) => moment(b.played) - moment(a.played)).splice(0, 3);
-    },
-
     likesOfUser (state) {
       let likes = 0;
 

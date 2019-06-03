@@ -30,10 +30,13 @@ export default {
   }),
   methods: {
     async onQuizClick () {
+      // Animation.
       this.animatePress = true;
 
+      // Fetch quiz by id.
       await this.$store.dispatch('Quizzes/fetchQuizById', { id: this.quiz.id });
 
+      // Show the collected quiz in the quiz info modal.
       this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
     }
   }
