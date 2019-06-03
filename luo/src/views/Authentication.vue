@@ -90,6 +90,9 @@ export default {
   }),
   created () {
     this.$store.dispatch('Users/onAppLoad');
+
+    // Reset some variables in the store.
+    this.$store.dispatch('Quizzes/onAuthLoad');
   },
   methods: {
     loginClick () {

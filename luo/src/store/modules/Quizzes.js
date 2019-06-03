@@ -30,20 +30,32 @@ export const Quizzes = {
     SAVE_QUIZZES (state, quizzes) {
       state.quizzes = quizzes;
     },
+    CLEAR_QUIZZES (state) {
+      state.quizzes = [];
+    },
 
     // Save single quiz by id.
     SAVE_QUIZ_BY_ID (state, quiz) {
       state.quizById = quiz;
+    },
+    CLEAR_QUIZ_BY_ID (state) {
+      state.quizById = undefined;
     },
 
     // Save quizzes made by user.
     SAVE_QUIZZES_MADE_BY_USER (state, quizzes) {
       state.quizzesMadeByUser = quizzes;
     },
+    CLEAR_QUIZZES_MADE_BY_USER (state) {
+      state.quizzesMadeByUser = [];
+    },
 
     // Save the quizzes played by user.
     SAVE_QUIZZES_PLAYED_BY_USER (state, quizzes) {
       state.quizzesPlayedByUser = quizzes;
+    },
+    CLEAR_QUIZZES_PLAYED_BY_USER (state) {
+      state.quizzesPlayedByUser = [];
     },
 
     // Loading state.
@@ -205,6 +217,14 @@ export const Quizzes = {
       db.collection('quizzes').doc(payload.quiz.id).update({
         likedBy: firebase.firestore.FieldValue.arrayRemove(payload.id)
       });
+    },
+
+    // Reset some variables on auth load.
+    onAuthLoad ({ commit }) {
+      commit('CLEAR_QUIZZES');
+      commit('CLEAR_QUIZ_BY_ID');
+      commit('CLEAR_QUIZZES_MADE_BY_USER');
+      commit('CLEAR_QUIZZES_PLAYED_BY_USER');
     }
   }
 }
