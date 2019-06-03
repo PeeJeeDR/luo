@@ -10,11 +10,14 @@
       </transition>
     </div>
     
-    <profile-avatar v-if='!showQR' :img='userFromDB'/>
+    
 
-    <div :class='`over-image flex justify-end ${ showQR && "qr-is-open" }`'>
-      <button v-ripple @click='showQR = !showQR'>
-        <h2 class='heading h--s h--color-primary'>SHOW QR CODE</h2>
+    <div :class='`over-image flex justify-between align-center ${ showQR && "qr-is-open" }`'>
+      <div>
+        <profile-avatar v-if='!showQR' :img='userFromDB'/>
+      </div>
+      <button @click='showQR = !showQR' class='flex-center'>
+        <h2 class='heading h--m h--color-primary'>{{ !showQR ? "SHOW QR CODE" : "HIDE QR CODE" }}</h2>
       </button>
     </div>
 
@@ -30,7 +33,7 @@
     </div>
 
     <button v-ripple class='play flex-center' @click='playQuiz'>
-      <h4 class='heading h--m h--color-light'>Play quiz!</h4>
+      <h4 class='heading h--xm h--color-light'>Play quiz!</h4>
     </button>
   </div>
 </template>
@@ -47,7 +50,6 @@ export default {
   components: { ProfileAvatar, Qrcode, Stat },
   data: () => ({
     Sample,
-    animatePlay: false,
     showQR: false
   }),
   computed: {
@@ -57,7 +59,7 @@ export default {
   created () {
     setTimeout(() => {
       this.animatePlay = true;
-    }, 1000)
+    }, 250)
   },
   methods: {
     playQuiz () {
@@ -97,19 +99,17 @@ export default {
   }
 
   .over-image {
-    margin-top: -2rem;
+    margin-top: -3rem;
     width: 100%;
+    height: 5.5rem;
 
     button {
       padding: 1rem;
-      margin: -0.5rem -1rem 0 0;
+      margin: -0.5rem -1rem -3.5rem 0;
       border-radius: $smallRadius;
       background: none;
       border: none;
-    }
-
-    &.qr-is-open {
-      margin-top: 0.75rem;
+      justify-self: flex-end;
     }
 
     .qr-container {
@@ -122,7 +122,7 @@ export default {
   }
 
   .content {
-    padding: 2.5rem 0.5rem;
+    padding: 0.5rem;
 
     p {
       margin-top: 0.6rem;

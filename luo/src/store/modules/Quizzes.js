@@ -101,6 +101,7 @@ export const Quizzes = {
       db.collection('quizzes')
       .where('categories', 'array-contains', payload.categoryId)
       .where('public', '==', true)
+      .where('isQRQuiz', '==', false)
       .onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
