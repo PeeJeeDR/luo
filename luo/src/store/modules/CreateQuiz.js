@@ -2,7 +2,8 @@ export const CreateQuiz = {
   namespaced: true,
 
   state: {
-    questions: []
+    questions: [],
+    isQRQuiz: false
   },
 
   mutations: {
@@ -14,6 +15,14 @@ export const CreateQuiz = {
     // Clear the questions array.
     CLEAR_QUESTIONS (state) {
       state.questions = [];
+    },
+
+    // Set QR code status.
+    ENABLE_QR_QUIZ (state) {
+      state.isQRQuiz = true;
+    },
+    DISABLE_QR_QUIZ (state) {
+      state.isQRQuiz = false;
     },
 
     // Delete single question.
@@ -37,6 +46,15 @@ export const CreateQuiz = {
     // Called when the user deletes a question while making a quiz.
     onQuestionDelete ({ commit }, payload) {
       commit('DELETE_SINGLE_QUESTION', payload.questionId);
+    },
+
+    onNormalQuizCreate ({ commit }) {
+      commit('DISABLE_QR_QUIZ');
+    },
+
+    // When the user selected make QR code quiz from the modal.
+    onQRQuizCreate ({ commit }) {
+      commit('ENABLE_QR_QUIZ');
     }
   }
 }

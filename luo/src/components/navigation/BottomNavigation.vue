@@ -21,7 +21,7 @@
 
     <!-- === RIGHT === -->
     <div class='icon-container flex'>
-      <div class='icon flex-center' @click='onIconClick("qr")'>
+      <div class='icon flex-center' @click='onQRCodeClick'>
         <q-r :class='selectedOverview === "qr" && "active"'/>
       </div>
 
@@ -53,7 +53,11 @@ export default {
   methods: {
     onIconClick (selected) {
       window.scrollTo(0,0);
-      this.$store.dispatch('Navigation/onIconClick', { selected })
+      this.$store.dispatch('Navigation/onIconClick', { selected });
+    },
+
+    onQRCodeClick () {
+      this.$store.dispatch('Modals/openModal', { type: 'qr' });
     },
 
     onProfileClick () {
@@ -67,6 +71,8 @@ export default {
     },
 
     onAddQuizClick () {
+      this.$store.dispatch('CreateQuiz/onNormalQuizCreate');
+      
       if (fire.auth().currentUser !== null) {
         this.$router.push('/quizzes/create');
       }

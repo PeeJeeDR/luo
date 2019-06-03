@@ -2,14 +2,14 @@
   <div v-ripple class='animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`' @click='onQuizClick' @animationend='animatePress = false'>
     <div class='quiz' :class='animatePress ? "animate" : ""'>
       <div class='img-container'>
-        <img :src='data.quizImg !== "" ? data.quizImg : Sample' alt='sample image.'>
+        <img :src='quiz.quizImg !== "" ? quiz.quizImg : Sample' :alt='`Header image of the "${ quiz.title }" quiz.`'>
       </div>
 
       <div class='content-container flex justify-between'>
         <div>
-          <h4 class='heading h--xm'>{{ capFirstChar(data.title) }}</h4>
+          <h4 class='heading h--xm'>{{ capFirstChar(quiz.title) }}</h4>
           <hr>
-          <p class='paragraph p--m p--color-lighter'>{{ data.description }}</p>
+          <p class='paragraph p--m p--color-lighter'>{{ quiz.description }}</p>
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@ import Sample from '@/assets/img/quiz/sample.jpg';
 export default {
   name: 'Quiz',
   mixins: [GlobalMethods],
-  props: ['data', 'index'],
+  props: ['quiz', 'index'],
   data: () => ({
     Sample,
     animatePress: false
@@ -32,7 +32,7 @@ export default {
     async onQuizClick () {
       this.animatePress = true;
 
-      await this.$store.dispatch('Quizzes/fetchQuizById', { id: this.data.id });
+      await this.$store.dispatch('Quizzes/fetchQuizById', { id: this.quiz.id });
 
       this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
     }

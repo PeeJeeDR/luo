@@ -1,7 +1,7 @@
 <template>
   <div class='quiz-info' v-if='quizById !== undefined'>
     
-    <img :src='quizById.quizImg !== "" ? quizById.quizImg : Sample' alt='Header image.'>
+    <img :src='quizById.quizImg !== "" ? quizById.quizImg : Sample' :alt='`Header image for the "${ quizById.title } quiz."`'>
 
     <div class="info-container flex align-start">
       <profile-avatar :img='userFromDB'/>

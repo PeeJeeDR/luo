@@ -73,7 +73,11 @@ export const Quizzes = {
     fetchNewQuizzes ({ commit }) {
       commit('SET_LOADING_ON');
       
-      db.collection('quizzes').where('public', '==', true).orderBy('created', 'desc').onSnapshot(snap => {
+      db.collection('quizzes')
+      .where('public', '==', true)
+      .where('isQRQuiz', '==', false)
+      .orderBy('created', 'desc')
+      .onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -89,7 +93,11 @@ export const Quizzes = {
     fetchPopularQuizzes ({ commit }) {
       commit('SET_LOADING_ON');
 
-      db.collection('quizzes').where('public', '==', true).orderBy('plays', 'desc').onSnapshot(snap => {
+      db.collection('quizzes')
+      .where('public', '==', true)
+      .where('isQRQuiz', '==', false)
+      .orderBy('plays', 'desc')
+      .onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -183,7 +191,8 @@ export const Quizzes = {
           quizImg: quizImg !== undefined ? quizImg : null,
           categories,
           questions,
-          blocked: false
+          blocked: false,
+          isQRQuiz: rootState.CreateQuiz.isQRQuiz
         }
   
         // Add quiz to firestore.

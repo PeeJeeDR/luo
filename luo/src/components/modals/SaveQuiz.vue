@@ -11,7 +11,7 @@
           <textarea class='default-input textarea' placeholder='Quiz description' v-model='formData.description'></textarea>
           <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error1 }}</p>
 
-          <div class='public flex align-center' @click='togglePublic'>
+          <div v-if='!isQRQuiz' class='public flex align-center' @click='togglePublic'>
             <check-mark :checked='formData.isPublic'/>
             <p class='paragraph p--m p--weight-bold p--color-lighter'>Make quiz public</p>
           </div>
@@ -39,7 +39,7 @@
             <label for='fileInput' ref='img' slot='upload-label'></label>
           </image-uploader>
 
-          <img v-if='formData.quizImg !== ""' :src='formData.quizImg' :alt='"Uploaded file."' @click='$refs.img.click()'>
+          <img v-if='formData.quizImg !== ""' :src='formData.quizImg' alt='Uploaded file.' @click='$refs.img.click()'>
           <default-button v-if='formData.quizImg === ""' :content='"Add quiz image"' @click.native='$refs.img.click()'/>
         </section>
         <!-- ========== -->
@@ -95,7 +95,8 @@ export default {
     selectedCategories: []
   }),
   computed: {
-    ...mapState('Categories', ['categories'])
+    ...mapState('Categories', ['categories']),
+    ...mapState('CreateQuiz', ['isQRQuiz'])
   },
   created () {
     this.$store.dispatch('Categories/fetchCategories');

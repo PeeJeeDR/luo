@@ -3,7 +3,7 @@
     <div class='overlay' @click='closeSidebar'></div>
 
     <div class='bar'>
-      <header>
+      <header class='flex align-end'>
         <img :src='Logo' alt='Logo of Luo.'>
       </header>
 
@@ -84,10 +84,10 @@ export default {
     width: 70%;
     overflow: scroll;
     white-space: nowrap;
-    padding: 2rem 0;
+    padding: 2rem 0 1rem 0;
 
     img {
-      width: 4rem;
+      width: 2rem;
       margin-left: 1.5rem;
     }
   }

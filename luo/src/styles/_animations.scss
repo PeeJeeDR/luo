@@ -1,16 +1,14 @@
-/* === CLASSES === */
-// OVERLAY
-.overlay-fade-enter-active {
+// Classes.
+.half-fade-enter-active {
   animation: overlayFadeIn 500ms;
 }
 
-.overlay-fade-leave-active {
+.half-fade-leave-active {
   animation: overlayFadeOut 600ms;
   animation-delay: 250ms;
 }
 
-/* === ANIMATIONS === */
-// OVERLAY
+// Animations.
 @keyframes overlayFadeIn {
   from {
     opacity: 0;

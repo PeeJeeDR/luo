@@ -7,7 +7,7 @@
     <!-- ========== -->
 
     <!-- OVERLAY THAT RENDERS WHEN MODAL IS OPEN -->
-    <transition name='overlay-fade'>
+    <transition name='half-fade'>
       <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModal")'></div>
     </transition>
     <!-- ========== -->

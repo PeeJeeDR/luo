@@ -26,11 +26,11 @@ export default {
   components: { Create, DefaultButton, Modal, Question },
   computed: {
     ...mapState('Modals', ['modalIsOpen']),
-    ...mapState('CreateQuiz', ['questions'])
+    ...mapState('CreateQuiz', ['questions', 'isQRQuiz'])
   },
   created () {
     this.$store.dispatch('Header/onPageLoad', { 
-      title: 'Create quiz',
+      title: this.isQRQuiz ? 'Create QR code quiz' : 'Create quiz',
       leftIcon: 'back',
       rightIcon: 'save'
     });

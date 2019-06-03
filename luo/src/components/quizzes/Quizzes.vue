@@ -11,7 +11,7 @@
 
       <!-- === QUIZ OVERVIEW === -->
       <div class='quizzes-overview page-small-header' v-if='!loading'>
-        <quiz v-for='(quiz, i) in quizzes' :key='i' :data='quiz' :index='i'/>
+        <quiz v-for='(quiz, i) in quizzes' :key='i' :quiz='quiz' :index='i'/>
       </div>
 
       <!-- === INFO TEXT WHEN THERE ARE NO QUIZZES FOUND === -->

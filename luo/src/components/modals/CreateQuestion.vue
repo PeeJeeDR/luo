@@ -29,7 +29,7 @@
             <label for='fileInput' ref='img' slot='upload-label'></label>
           </image-uploader>
 
-          <img v-if='formData.questionImg !== ""' :src='formData.questionImg' :alt='"Uploaded file."' @click='$refs.img.click()'>
+          <img v-if='formData.questionImg !== ""' :src='formData.questionImg' alt='Uploaded file.' @click='$refs.img.click()'>
           <default-button v-if='formData.questionImg === ""' :content='"Add question image"' @click.native='$refs.img.click()'/>
         </section>
 
