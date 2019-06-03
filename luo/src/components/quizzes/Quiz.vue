@@ -7,7 +7,10 @@
 
       <div class='content-container flex justify-between'>
         <div>
-          <h4 class='heading h--xm'>{{ capFirstChar(quiz.title) }}</h4>
+          <div class='title flex align-center justify-between'>
+            <h4 class='heading h--xm'>{{ capFirstChar(quiz.title) }}</h4>
+            <q-r />
+          </div>
           <hr>
           <p class='paragraph p--m p--color-lighter'>{{ quiz.description }}</p>
         </div>
@@ -19,10 +22,12 @@
 <script>
 import GlobalMethods from '@/mixins/GlobalMethods';
 import Sample from '@/assets/img/quiz/sample.jpg';
+import QR from '@/assets/icons/bottom-nav/QR.svg';
 
 export default {
   name: 'Quiz',
   mixins: [GlobalMethods],
+  components: { QR },
   props: ['quiz', 'index'],
   data: () => ({
     Sample,
@@ -63,6 +68,17 @@ export default {
   .content-container {
     padding: 0.8rem;
     position: relative;
+
+    .title {
+      h4 {
+        width: calc(100% - 2.5rem);
+      }
+
+      svg {
+        width: 1.5rem;
+        fill: $pinky;
+      }
+    }
 
     p {
       margin-top: 0.6rem;

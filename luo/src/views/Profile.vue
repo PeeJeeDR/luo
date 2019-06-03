@@ -5,8 +5,9 @@
       <modal v-if='modalIsOpen'/>
     </transition>
 
-    <section-title :title='"Quizzes made"'/>
-    <div v-for='quiz, i in quizzesMadeByUser' :key='i'>
+    <!-- === QUIZZES MADE BY THE USER === -->
+    <section-title v-if='quizzesMadeByUser.length > 0' :title='"Quizzes made"'/>
+    <div v-for='(quiz, i) in quizzesMadeByUser' :key='i'>
       <quiz :quiz='quiz' :index='i'/>
     </div>
 

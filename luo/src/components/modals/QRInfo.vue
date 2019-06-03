@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from 'vue-qrcode-reader'
+import { QrcodeStream } from 'vue-qrcode-reader'
 import DefaultButton from '@/components/buttons/DefaultButton';
 
 export default {
   name: 'QRInfo',
-  components: { DefaultButton, QrcodeStream, QrcodeDropZone, QrcodeCapture },
+  components: { DefaultButton, QrcodeStream },
   data: () => ({
     scanIsOpen: false
   }),

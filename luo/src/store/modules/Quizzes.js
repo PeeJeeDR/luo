@@ -13,6 +13,7 @@ export const Quizzes = {
   },
 
   getters: {
+    // Return the total likes of a user.
     likesOfUser (state) {
       let likes = 0;
 
@@ -25,43 +26,37 @@ export const Quizzes = {
   },
 
   mutations: {
-    /* === QUIZES === */
+    // Save all collected quizzes.
     SAVE_QUIZZES (state, quizzes) {
       state.quizzes = quizzes;
     },
-    /* ========== */
 
-    /* === SAVE QUIZ BY ID === */
+    // Save single quiz by id.
     SAVE_QUIZ_BY_ID (state, quiz) {
       state.quizById = quiz;
     },
-    /* ========== */
 
-    /* === SAVE QUIZZES MADE BY USER === */
+    // Save quizzes made by user.
     SAVE_QUIZZES_MADE_BY_USER (state, quizzes) {
       state.quizzesMadeByUser = quizzes;
     },
-    /* ========== */
 
-    /* === SAVE QUIZZES PLAYED BY USER === */
+    // Save the quizzes played by user.
     SAVE_QUIZZES_PLAYED_BY_USER (state, quizzes) {
       state.quizzesPlayedByUser = quizzes;
     },
-    /* ========== */
 
-    /* === LOADING === */
+    // Loading state.
     SET_LOADING_ON (state) {
       state.loading = true;
     },
-
     SET_LOADING_OFF (state) {
       state.loading = false;
     }
-    /* ========== */
   },
 
   actions: {
-    /* === FETCH NEW QUIZZES === */
+    // Fetch new quizzes.
     fetchNewQuizzes ({ commit }) {
       commit('SET_LOADING_ON');
       
@@ -79,9 +74,8 @@ export const Quizzes = {
         commit('SET_LOADING_OFF');
       });
     },
-    /* ========== */
 
-    /* === FETCH POPULAR QUIZZES === */
+    // Fetch popular quizzes.
     fetchPopularQuizzes ({ commit }) {
       commit('SET_LOADING_ON');
 
@@ -99,9 +93,8 @@ export const Quizzes = {
         commit('SET_LOADING_OFF');
       });
     },
-    /* ========== */
 
-    /* === FETCH QUIZZES BY CATEGORY === */
+    // Fetch quizzes by  category.
     fetchQuizesByCategory ({ commit }, payload) {
       commit('SET_LOADING_ON');
 
@@ -118,9 +111,8 @@ export const Quizzes = {
         commit('SET_LOADING_OFF');
       }) 
     },
-    /* ========== */
 
-    /* === FETCH QUIZ BY ID === */
+    // Fetch quizzes by id.
     fetchQuizById ({ commit, dispatch }, payload) {
       db.collection('quizzes').doc(payload.id).onSnapshot(doc => {
         let result = doc.data();
@@ -136,9 +128,8 @@ export const Quizzes = {
         dispatch('Users/fetchUserById', { userId: result.createdBy }, { root: true });
       });
     },
-    /* ========== */
 
-    /* === FETCH QUIZZES MADE BY USER ID === */
+    // Fetch quizzes made by user id.
     fetchQuizzesMadeByUserId ({ commit }, payload) {
       db.collection('quizzes').where('createdBy', '==', payload.userId).onSnapshot(snap => {
         commit('SAVE_QUIZZES_MADE_BY_USER', snap.docs.map(doc => {
@@ -148,9 +139,8 @@ export const Quizzes = {
         }));
       });
     },
-    /* ========== */
 
-    /* === FETCH QUIZZES PLAYED BY USER ID === */
+    // Fetch quizzes played by user id.
     fetchQuizzesPlayedByUserId ({ commit }, payload) {
       db.collection('quizzes').where('playedBy', 'array-contains', payload.userId).onSnapshot(snap => {
         commit('SAVE_QUIZZES_PLAYED_BY_USER', snap.docs.map(doc => {
@@ -160,9 +150,8 @@ export const Quizzes = {
         }));
       });
     },
-    /* ========== */
 
-    /* === POST NEW QUIZ === */
+    // Post a new quiz.
     postNewQuiz ({ dispatch, rootState }, payload) {
       const questions = rootState.CreateQuiz.questions;
       const { title, description, categories, userId, quizImg, isPublic } = payload;
@@ -195,30 +184,26 @@ export const Quizzes = {
         });
       }
     },
-    /* ========== */
 
-    /* === WHEN THE QUIZ IS COMPLETED WE NEED TO INCREMENT THE PLAYS ON THAT QUIZ === */
+    // Increment plays when a quiz has been played.
     addQuizPlay ({}, payload) {
       db.collection('quizzes').doc(payload.quiz.id).update({
         playedBy: firebase.firestore.FieldValue.arrayUnion(payload.id)
       });
     },
-    /* ========== */
 
-    /* === WHEN THE USER LIKES A QUIZ === */
+    // When a user presses the like button.
     likeQuiz ({}, payload) {
       db.collection('quizzes').doc(payload.quiz.id).update({
         likedBy: firebase.firestore.FieldValue.arrayUnion(payload.id)
       });
     },
-    /* ========== */
 
-    /* === WHEN THE USER UNLIKES A QUIZ === */
+    // When a user again presses the like button.
     unlikeQuiz ({}, payload) {
       db.collection('quizzes').doc(payload.quiz.id).update({
         likedBy: firebase.firestore.FieldValue.arrayRemove(payload.id)
       });
     }
-    /* ========== */
   }
 }

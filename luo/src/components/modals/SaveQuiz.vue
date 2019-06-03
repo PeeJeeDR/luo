@@ -109,7 +109,6 @@ export default {
     
     // Set the quiz image.
     setImage (output) {
-      console.log('OUTPUT', output);
       this.formData.quizImg = output;
     },
 
