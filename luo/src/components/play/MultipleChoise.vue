@@ -50,6 +50,10 @@ export default {
     onAnswerClick (answer, clickedButton) {
       this.clickedButton = clickedButton;
 
+      this.$store.dispatch('PlayQuiz/onNewQuestion', {
+        currentQuestion: this.currentQuestion,
+      });
+
       this.$store.dispatch('PlayQuiz/onAnswerClick', { 
         type: 'alter', 
         currentQuestion: this.currentQuestion,

@@ -12,7 +12,7 @@
           </button>
 
           <div class='progress'>
-            <div class='bar flex-center'></div>
+            <div class='bar flex-center' :style='getWidth()'></div>
             <div class='background'></div>
           </div>
         </div>
@@ -38,7 +38,7 @@ export default {
   name: 'PlayQuiz',
   components: { QuizEnd, MultipleChoise, Close },
   computed: {
-    ...mapState('PlayQuiz', ['playingQuiz', 'inputEnabled', 'quizCompleted'])
+    ...mapState('PlayQuiz', ['playingQuiz', 'inputEnabled', 'quizCompleted', 'currentAnswer'])
   },
   data: () => ({ 
     showBox: false
@@ -51,6 +51,14 @@ export default {
     setTimeout(() => {
       this.showBox = true;
     }, 1);
+  },
+  methods: {
+    getWidth () {
+      let currentAnswer = this.currentAnswer + 1;
+      let totalQuestions = this.playingQuiz.questions.length;
+
+      return `width: ${ (100 / totalQuestions) * currentAnswer }%;`
+    }
   }
 }
 </script>
@@ -96,7 +104,6 @@ export default {
         .bar {
           position: absolute;
           background-color: $pinky;
-          width: 60%;
           transition: all $fast ease-in-out;
         }
 

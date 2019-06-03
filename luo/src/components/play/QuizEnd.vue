@@ -1,48 +1,57 @@
 <template>
-  <div class='quiz-end big-wrapper flex direction-col justify-between'>
+  <div class='quiz-end big-wrapper'>
+    
+    <div class='notch flex-center'>
+      <h4 class='heading h--m h--color-light'>
+        Score: {{ correctAnswers }}/{{ playingQuiz.questions.length }}
+      </h4>
+    </div>
 
-    <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
-      <!-- === TITLE, SVG AND LIKE BUTTON === -->
-      <div key='0' v-if='!reviewEnabled' class='title-svg-and-like flex direction-col align-center justify-center'>
-        <!-- === TITLE === -->
-        <div>
-          <h2 v-if='correctAnswers === playingQuiz.questions.length' class='heading h--xxm h--color-primary'>Congratulations!</h2>
-          <h2 v-if='correctAnswers !== playingQuiz.questions.length' class='heading h--xxm h--color-primary'>You made it!</h2>
-        </div>
+    <div class='container flex direction-col justify-between'>
+      <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
+        <!-- === TITLE, SVG AND LIKE BUTTON === -->
+        <div key='0' v-if='!reviewEnabled' class='title-svg-and-like flex direction-col align-center justify-center'>
+          <!-- === TITLE === -->
+          <div>
+            <h2 v-if='correctAnswers === playingQuiz.questions.length' class='heading h--xxm h--color-primary'>Congratulations!</h2>
+            <h2 v-if='correctAnswers !== playingQuiz.questions.length' class='heading h--xxm h--color-primary'>You made it!</h2>
+          </div>
 
-        <!-- === SVG === -->
-        <div class='award flex-center'>
-          <div class='sphere-outer'></div>
-          <div class='sphere-inner'></div>
+          <!-- === SVG === -->
+          <div class='award flex-center'>
+            <div class='sphere-outer'></div>
+            <div class='sphere-inner'></div>
 
-          <div class='icon flex-center'>
-            <award-gold v-if='correctAnswers === playingQuiz.questions.length'/>
-            <flag v-if='correctAnswers !== playingQuiz.questions.length'/>
+            <div class='icon flex-center'>
+              <award-gold v-if='correctAnswers === playingQuiz.questions.length'/>
+              <flag v-if='correctAnswers !== playingQuiz.questions.length'/>
+            </div>
+          </div>
+
+          <!-- === LIKE BUTTON === -->
+          <div 
+            :class='`likes flex-center ${ likeClass } ${ animateLikeButton && likeClass === "selected" && "animated bounceIn fast" }`' 
+            v-if='fire.auth().currentUser !== null && fire.auth().currentUser.uid !== playingQuiz.createdBy'
+            @click='onLikeClick' 
+            @animationend='animateLikeButton = false'
+          >
+            <likes />
           </div>
         </div>
 
-        <!-- === LIKE BUTTON === -->
-        <div 
-          :class='`likes flex-center ${ likeClass } ${ animateLikeButton && likeClass === "selected" && "animated bounceIn fast" }`' 
-          v-if='fire.auth().currentUser !== null && fire.auth().currentUser.uid !== playingQuiz.createdBy'
-          @click='onLikeClick' 
-          @animationend='animateLikeButton = false'
-        >
-          <likes />
+        <!-- === REVIEW SCREEN === -->
+        <div key='1' v-if='reviewEnabled' class='review flex align-start'>
+          <review-answers :quiz='playingQuiz'/>
         </div>
-      </div>
+      </transition>
+    
 
-      <!-- === REVIEW SCREEN === -->
-      <div key='1' v-if='reviewEnabled' class='review flex align-start'>
-        <review-answers :quiz='playingQuiz'/>
+      <!-- === BUTTON CONTAINER === -->
+      <div class='button-container flex direction-col align-center '>
+        <p v-if='!reviewEnabled' @click='onReviewClick' class='paragraph p--weight-bold p--xm p--color-almost-light'>Review answers</p>
+        <p v-if='reviewEnabled' @click='onBackClick' class='paragraph p--weight-bold p--xm p--color-almost-light'>Back</p>
+        <default-button :content='"continue"' @click.native='onContinueClick'/>
       </div>
-    </transition>
-
-    <!-- === BUTTON CONTAINER === -->
-    <div class='button-container flex direction-col align-center '>
-      <p v-if='!reviewEnabled' @click='onReviewClick' class='paragraph p--weight-bold p--xm p--color-almost-light'>Review answers</p>
-      <p v-if='reviewEnabled' @click='onBackClick' class='paragraph p--weight-bold p--xm p--color-almost-light'>Back</p>
-      <default-button :content='"continue"' @click.native='onContinueClick'/>
     </div>
   </div>
 </template>
@@ -113,7 +122,7 @@ export default {
 
     async onContinueClick () {
       await this.$store.dispatch('PlayQuiz/onQuizEnd');
-      this.$router.push('/');
+      this.$router.back();
     }
   },
   watch: {
@@ -127,9 +136,19 @@ export default {
 <style lang='scss' scoped>
 .quiz-end
 {
-  padding: 3rem 0;
   height: 100%;
-  overflow: scroll;
+
+  .notch h4 {
+    background-color: $pinky;
+    padding: 0.8rem 1.2rem;
+    border-bottom-left-radius: $mediumRadius;
+    border-bottom-right-radius: $mediumRadius;
+  }
+
+  .container {
+    height: calc(100% - 3rem);
+    padding: 3rem 0;
+  }
 
   .title-svg-and-like {
     .award {

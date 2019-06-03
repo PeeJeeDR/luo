@@ -9,6 +9,7 @@ export const PlayQuiz = {
     inputEnabled: true,
     xp: 0,
     correctAnswers: 0,
+    currentAnswer: 0
   },
 
   mutations: {
@@ -48,8 +49,12 @@ export const PlayQuiz = {
     /* === SET CLICKED ANSWER === */
     SET_CLICKED_ANSWER (state, payload) {
       state.playingQuiz.questions[payload.currentQuestion].answers[payload.clickedAnswerId].clicked = true;
-    }
+    },
     /* ========== */
+
+    SET_CURRENT_ANSWER (state, payload) {
+      state.currentAnswer = payload.currentQuestion;
+    }
   },
 
   actions: {
@@ -80,6 +85,10 @@ export const PlayQuiz = {
       commit('DISABLE_INPUT');
     },
     /* ========== */
+
+    onNewQuestion ({ commit }, payload) {
+      commit('SET_CURRENT_ANSWER', payload);
+    },
 
     /* === WHEN NEW QUESTION LOADS === */
     onNewQuestionLoad ({ commit }) {
