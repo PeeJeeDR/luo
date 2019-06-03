@@ -1,19 +1,18 @@
 # luo
 
-## Project setup
+### Project setup
 Install all the project dependencies.
 
 ```
 yarn install
 ```
-Make a .env file.
+Make a .env file and fill in the provided firebase credentials.
 
 ```
 cp .env.example .env
 ```
-And fill in the provided firebase credentials.
 
-Run the application
+### Run the application
 ```
 yarn serve
 ```

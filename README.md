@@ -13,3 +13,6 @@ Ik ga de volgende technologieën gebruiken om mijn eindwerk te ontwikkelen.
 - Vuex
 - Vue router
 - Firebase
+
+## Project setup
+Deze kan je terug vinden in de `/luo` directory.
