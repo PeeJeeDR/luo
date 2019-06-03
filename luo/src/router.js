@@ -10,6 +10,7 @@ import Overview from '@/views/Overview';
 import Profile from '@/views/Profile';
 import TestApi from '@/views/TestApi';
 import CreateQuiz from '@/views/CreateQuiz';
+import PlayQuiz from '@/views/PlayQuiz';
 /* ========== */
 
 Vue.use(Router);
@@ -59,6 +60,20 @@ const router = new Router({
           enabled: false
         },
         requiresAuth: true,
+      }
+    },
+    { 
+      path: '/play/quiz', 
+      component: PlayQuiz,
+      name: 'Play quiz',
+      meta: {
+        header: {
+          enabled: false
+        },
+        bottomNav: {
+          enabled: false
+        },
+        requiresAuth: false,
       }
     },
     { 

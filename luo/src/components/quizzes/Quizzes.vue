@@ -1,8 +1,5 @@
 <template>
   <div class='quizzes'>
-    <!-- === PLAY QUIZ === -->
-    <play-quiz v-if='quizIsPlaying'/>
-
     <div class='big-wrapper'>
       <!-- === LOADER === -->
       <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
@@ -13,7 +10,7 @@
       </transition>
 
       <!-- === QUIZ OVERVIEW === -->
-      <div class='quizzes-overview' v-if='!loading'>
+      <div class='quizzes-overview page-small-header' v-if='!loading'>
         <quiz v-for='(quiz, i) in quizzes' :key='i' :data='quiz' :index='i'/>
       </div>
 
@@ -32,34 +29,22 @@ import MoonLoader from 'vue-spinner/src/MoonLoader';
 import Modal from '@/components/modals/Modal';
 import Quiz from '@/components/quizzes/Quiz';
 import Categories from '@/components/categories/Categories';
-import PlayQuiz from '@/components/play/PlayQuiz';
 
 export default {
   name: 'Quizzes',
-  components: { Modal, Quiz, MoonLoader, PlayQuiz },
+  components: { Modal, Quiz, MoonLoader },
   computed: {
     ...mapState('Quizzes', ['quizzes', 'loading']),
-    ...mapState('Modals', ['modalIsOpen']),
-    ...mapState('PlayQuiz', ['quizIsPlaying'])
+    ...mapState('Modals', ['modalIsOpen'])
   },
   created () {
-    this.handleHeader();
-  },
-  methods: {
-    handleHeader () {
-      this.$store.dispatch('Header/onPageLoad', { 
-        title: 'New',
-        leftIcon: 'hamburger',
-        rightIcon: undefined
-      });
+    this.$store.dispatch('Header/onPageLoad', { 
+      title: 'New',
+      leftIcon: 'hamburger',
+      rightIcon: undefined
+    });
 
-      this.$store.dispatch('Navigation/onAppLoad');
-    }
-  },
-  watch: {
-    quizIsPlaying () {
-      this.handleHeader();
-    }
+    this.$store.dispatch('Navigation/onAppLoad');
   }
 }
 </script>
@@ -70,10 +55,6 @@ export default {
 
   .spinner {
     margin-top: 6rem;
-  }
-
-  .quizzes-overview {
-    padding: 4.5rem 0 5rem 0;
   }
 }
 </style>

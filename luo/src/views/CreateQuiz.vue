@@ -1,5 +1,5 @@
 <template>
-  <div class='create-quiz big-wrapper align-center'>
+  <div class='create-quiz big-wrapper align-center page-small-header'>
     <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
       <modal v-if='modalIsOpen'/>
     </transition>
@@ -40,7 +40,6 @@ export default {
 
 <style lang='scss' scoped>
 .create-quiz {
-  padding: 4.5rem 0 5rem 0;
   position: relative;
   height: 100%;
 

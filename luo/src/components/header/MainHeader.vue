@@ -1,11 +1,10 @@
 <template>
-  <header :class='`main-header ${ headerTitle } ${ quizIsPlaying && evaluation }`'>
+  <header :class='`main-header ${ headerTitle }`'>
     <div class='wrapper'>
       <div v-if='headerTitle !== "profile"' class='nav-props flex justify-between align-center'>
         <div :class='`icon ${ leftIcon }`'>
           <hamburger v-if='leftIcon === "hamburger"' @click='openSidebar'/>
           <back v-if='leftIcon === "back"' @click='$router.push("/")'/>
-          <close v-if='leftIcon === "close"' @click='exitPlayQuiz'/>
         </div>
         
         <h2 v-if='headerTitle'>{{ capFirstChar(headerTitle) }}</h2>
@@ -32,18 +31,16 @@ import hamburger from '@/assets/icons/main-header/Hamburger.svg';
 import Search from '@/assets/icons/main-header/Search.svg';
 import Save from '@/assets/icons/main-header/Save.svg';
 import Back from '@/assets/icons/main-header/Back.svg';
-import Close from '@/assets/icons/main-header/Close.svg';
 
 export default {
   name: 'MainHeader',
   mixins: [GlobalMethods],
-  components: { ProfileInHeader, hamburger, Search, Save, Back, Close },
+  components: { ProfileInHeader, hamburger, Search, Save, Back },
   props: ['render'],
   computed: {
     ...mapState('Header', ['headerTitle', 'leftIcon', 'rightIcon']),
     ...mapState('CreateQuiz', ['questions']),
-    ...mapState('Modals', ['modalIsOpen']),
-    ...mapState('PlayQuiz', ['quizIsPlaying', 'evaluation'])
+    ...mapState('Modals', ['modalIsOpen'])
   },
   methods: {
     openSidebar () {
@@ -64,6 +61,7 @@ export default {
 
     exitPlayQuiz () {
       this.$store.dispatch('PlayQuiz/stopQuiz');
+      this.$router.push('/');
     }
   }
 }

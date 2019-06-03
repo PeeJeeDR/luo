@@ -8,24 +8,22 @@ export const Header = {
   },
 
   mutations: {
-    /* === SET TITLE IN MAIN HEADER === */
+    // Set header title/
     SET_HEADER_TITLE (state, title) {
       state.headerTitle = title;
     },
-    /* ========== */
 
-    /* === SET ICONS === */
+    // Set header icons.
     SET_LEFT_ICON (state, icon) {
       state.leftIcon = icon;
     },
-
     SET_RIGHT_ICON (state, icon) {
       state.rightIcon = icon;
     }
-    /* ========== */
   },
 
   actions: {
+    // When a page loads the header is setted.
     onPageLoad ({ commit }, payload) {
       commit('SET_HEADER_TITLE', payload.title === 'qr' ? 'Scan QR code' : payload.title);
       commit('SET_LEFT_ICON', payload.leftIcon);

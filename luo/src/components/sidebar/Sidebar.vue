@@ -12,9 +12,15 @@
 
       <div class='bottom'>
         <hr>
-        <div v-ripple class='icon flex align-center' @click='onLogoutClick'>
+
+        <div v-if='fire.auth().currentUser' v-ripple class='icon flex align-center' @click='onAuthClick'>
           <logout />
           <h4 class='heading h--m h--color-mist'>Logout</h4>
+        </div>
+
+        <div v-if='!fire.auth().currentUser' v-ripple class='icon flex align-center' @click='onAuthClick'>
+          <login />
+          <h4 class='heading h--m h--color-mist'>Login</h4>
         </div>
       </div>
     </div>
@@ -22,18 +28,21 @@
 </template>
 
 <script>
+import { fire } from '@/firebase/firebase';
 import { mapState } from 'vuex';
 import { enableBodyScroll } from 'body-scroll-lock';
 import Logo from '@/assets/img/logo/Logo.png';
 import Logout from '@/assets/icons/sidebar/Logout.svg';
+import Login from '@/assets/icons/sidebar/Login.svg';
 import Categories from '@/components/categories/Categories';
 import MoonLoader from 'vue-spinner/src/MoonLoader';
 
 export default {
   name: 'Sidebar',
-  components: { Categories, MoonLoader, Logout },
+  components: { Categories, MoonLoader, Logout, Login },
   data: () => ({
-    Logo
+    Logo,
+    fire
   }),
   computed: {
     ...mapState('Categories', ['loading']),
@@ -48,7 +57,7 @@ export default {
       this.$store.dispatch("Sidebar/closeSidebar");
     },
 
-    onLogoutClick () {
+    onAuthClick () {
       this.$router.push('/authentication');
       this.$store.dispatch('Sidebar/closeSidebar');
     }

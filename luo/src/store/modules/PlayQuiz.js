@@ -5,7 +5,6 @@ export const PlayQuiz = {
 
   state: {
     playingQuiz: undefined,
-    quizIsPlaying: false,
     quizCompleted: false,
     inputEnabled: true,
     xp: 0,
@@ -20,12 +19,6 @@ export const PlayQuiz = {
     /* ========== */
 
     /* === PLAYING STATE === */
-    SET_PLAYING_STATE_ON (state) {
-      state.quizIsPlaying = true;
-    },
-    SET_PLAYING_STATE_OFF (state) {
-      state.quizIsPlaying = false;
-    },
     SET_QUIZ_COMPLETED_ON (state) {
       state.quizCompleted = true;
     },
@@ -63,13 +56,11 @@ export const PlayQuiz = {
     /* === WHEN PLAY BUTTON HAS CLICKED === */
     onPlayButtonClick ({ commit }, payload) {
       commit('SET_PLAYING_QUIZ', payload.quiz);
-      commit('SET_PLAYING_STATE_ON');
     },
     /* ========== */
 
     /* === WHEN PLAYER STOPS PLAYING QUIZ === */
     stopQuiz ({ commit }) {
-      commit('SET_PLAYING_STATE_OFF');
       commit('SET_QUIZ_COMPLETED_OFF');
       commit('ENABLE_INPUT');
       commit('RESET_CORRECT_ANSWERS');
@@ -112,7 +103,6 @@ export const PlayQuiz = {
 
     /* === WHEN THE QUIZ HAS BEEN ENDED === */
     onQuizEnd ({ commit }) {
-      commit('SET_PLAYING_STATE_OFF');
       commit('SET_QUIZ_COMPLETED_OFF');
       commit('ENABLE_INPUT');
       commit('RESET_CORRECT_ANSWERS');

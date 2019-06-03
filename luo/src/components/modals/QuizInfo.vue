@@ -63,12 +63,8 @@ export default {
         // Close info modam.
         this.$store.dispatch('Modals/closeModal');
 
-        // Set header content.
-        this.$store.dispatch('Header/onPageLoad', {
-          title: '',
-          leftIcon: 'close',
-          rightIcon: ''
-        })
+        // Open play quiz page.
+        this.$router.push('/play/quiz');
       });
     }
   }

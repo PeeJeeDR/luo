@@ -68,11 +68,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import ModalMixins from '@/mixins/ModalMixins';
 import DefaultButton from '@/components/buttons/DefaultButton';
 import CheckMark from '@/components/buttons/CheckMark';
 import SubmitAndCancel from '@/components/buttons/SubmitAndCancel';
-import { mapState } from 'vuex';
 
 export default {
   /* === ModalMixins.js ===

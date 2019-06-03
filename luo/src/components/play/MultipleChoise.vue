@@ -1,20 +1,20 @@
 <template>
-  <div class='multiple-choise-box big-wrapper' v-if='quiz.questions[currentQuestion] !== undefined'>
-    <div class='box flex direction-col'>
+  <div class='multiple-choise' v-if='playingQuiz.questions[currentQuestion] !== undefined'>
+    <div class='flex direction-col'>
       <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-50ms' leave-active-class='animated fadeOutLeft faster'>
-        <img :key='currentQuestion' :src='quiz.questions[currentQuestion].questionImg !== "" ? quiz.questions[currentQuestion].questionImg : Sample' alt='Sample image'>
+        <img :key='currentQuestion' :src='playingQuiz.questions[currentQuestion].questionImg !== "" ? playingQuiz.questions[currentQuestion].questionImg : Sample' alt='Sample image'>
       </transition>
 
       <div class='content wrapper flex direction-col justify-between'>
         <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-100ms' leave-active-class='animated fadeOutLeft faster'>
-          <question-title :key='currentQuestion' :currentQuestion='currentQuestion' :questions='quiz.questions'/>
+          <question-title :key='currentQuestion' :currentQuestion='currentQuestion' :questions='playingQuiz.questions'/>
         </transition>
 
         <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-150ms' leave-active-class='animated fadeOutLeft faster'>
           <div :key='currentQuestion'>
             <div class='answers flex direction-col justify-end'>
               <answer-button 
-                v-for='(answer, i) in quiz.questions[currentQuestion].answers' 
+                v-for='(answer, i) in playingQuiz.questions[currentQuestion].answers' 
                 :key='answer.id' 
                 :content='answer.answer' 
                 :evaluation='returnEvaluation(i, answer.correct)'
@@ -36,9 +36,9 @@ import AnswerButton from '@/components/buttons/AnswerButton';
 import QuestionTitle from '@/components/play/QuestionTitle';
 
 export default {
-  name: 'MultipleChoiseBox',
+  name: 'MultipleChoise',
   components: { AnswerButton, QuestionTitle },
-  props: ['quiz', 'inputEnabled'],
+  props: ['playingQuiz', 'inputEnabled'],
   data: () => ({ 
     Sample,
     currentQuestion: 0,
@@ -71,11 +71,11 @@ export default {
         this.clickedButton = undefined;
         this.showAnswer = false;
 
-        if (this.currentQuestion !== this.quiz.questions.length) {
+        if (this.currentQuestion !== this.playingQuiz.questions.length) {
           this.$store.dispatch('PlayQuiz/onNewQuestionLoad');
         }
         
-        if (this.currentQuestion === this.quiz.questions.length) {
+        if (this.currentQuestion === this.playingQuiz.questions.length) {
           this.$store.dispatch('PlayQuiz/quizCompleted');
         }
       }, 1000);
@@ -102,7 +102,7 @@ export default {
     onReportClick () {
 
       // Set quiz to be reported in the store.
-      this.$store.dispatch('Reports/onReportClick', { quiz: this.quiz, question: this.currentQuestion });
+      this.$store.dispatch('Reports/onReportClick', { quiz: this.playingQuiz, question: this.currentQuestion });
 
       // Open report modal.
       this.$store.dispatch('Modals/openModal', { type: 'report' });
@@ -112,7 +112,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.multiple-choise-box
+.multiple-choise
 {
   position: relative;
   width: 100%;
@@ -122,8 +122,9 @@ export default {
   .answers {
     overflow-y: scroll;
     height: 100%;
-    width: 100%;
+    width: calc(100% + 2rem);
     padding: 1rem 0 1.2rem 0;
+    margin-left: -1rem;
   }
 }
 </style>

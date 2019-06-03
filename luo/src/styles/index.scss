@@ -1,6 +1,10 @@
 /* === GLOBAL VARIABLES === */
 @import './variables';
 
+/* === ANIMATIONS === */
+@import './animations';
+@import './delays';
+
 /* === COLORS === */
 @import './colors';
 
@@ -31,6 +35,3 @@
 
 /* === INPUT FIELDS === */
 @import './input-fields';
-
-/* === ANIMATIONS === */
-@import './animations';

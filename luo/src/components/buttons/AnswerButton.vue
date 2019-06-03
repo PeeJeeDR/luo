@@ -26,7 +26,7 @@ export default {
   background-color: $snow;
   border-radius: $smallRadius;
   border: none;
-  width: 94%;
+  width: calc(100% - 2rem);
   margin: 0.5rem auto 0 auto;
 }
 </style>

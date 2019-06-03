@@ -1,6 +1,8 @@
 <template>
-  <div :class='`question-title ${ evaluation }`'>
-    <h2 :key='questions[currentQuestion].question' class='heading h--xm h--color-primary'>{{ questions[currentQuestion].question }}</h2>
+  <div class='question-title'>
+    <h2 :key='questions[currentQuestion].question' class='heading h--xm h--color-primary'>
+      {{ questions[currentQuestion].question }}
+    </h2>
   </div>
 </template>
 
@@ -9,10 +11,7 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'QuestionTitle',
-  props: ['currentQuestion', 'questions'],
-  computed: {
-    ...mapState('PlayQuiz', ['evaluation'])
-  }
+  props: ['currentQuestion', 'questions']
 }
 </script>
 

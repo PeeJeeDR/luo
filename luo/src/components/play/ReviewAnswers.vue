@@ -67,37 +67,20 @@ export default {
 <style lang='scss' scoped>
 .review-answers
 {
-  ol {
-    list-style-position: inside;
-  }
+  height: 95%;
+  overflow: scroll;
 
   .question {
-    margin-top: 2rem;
-    padding: 1rem;
+    padding: 1rem 0;
     border-radius: $smallRadius;
 
     h3 {
       color: $texty;
     }
 
-    &.correct {
-      // background-color: rgba($yeah, 0.2);
-
-      h3 {
-        // color: $yeah;
-      }
-    }
-
-    &.wrong {
-      // background-color: rgba($auwch, 0.2);
-
-      h3 {
-        // color: $auwch;
-      }
-    }
-
     &:first-child {
       margin: 0;
+      padding-top: 0;
     }
 
     .answers {

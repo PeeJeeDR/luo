@@ -3,11 +3,11 @@
 
     <!-- === LEFT === -->
     <div class='icon-container flex'>
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "new" })'>
+      <div class='icon flex-center' @click='onIconClick("new")'>
         <new :class='selectedOverview === "new" && "active"'/>
       </div>
 
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "popular" })'>
+      <div class='icon flex-center' @click='onIconClick("popular")'>
         <popular :class='selectedOverview === "popular" && "active"'/>
       </div>
     </div>
@@ -21,7 +21,7 @@
 
     <!-- === RIGHT === -->
     <div class='icon-container flex'>
-      <div class='icon flex-center' @click='$store.dispatch("Navigation/onIconClick", { selected: "qr" })'>
+      <div class='icon flex-center' @click='onIconClick("qr")'>
         <q-r :class='selectedOverview === "qr" && "active"'/>
       </div>
 
@@ -51,6 +51,11 @@ export default {
     ...mapState('Navigation', ['selectedOverview'])
   },
   methods: {
+    onIconClick (selected) {
+      window.scrollTo(0,0);
+      this.$store.dispatch('Navigation/onIconClick', { selected })
+    },
+
     onProfileClick () {
       if (fire.auth().currentUser !== null) {
         this.$store.dispatch("Navigation/onIconClick", { selected: "profile" })
