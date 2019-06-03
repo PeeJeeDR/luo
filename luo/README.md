@@ -1,29 +1,19 @@
 # luo
 
 ## Project setup
+Install all the project dependencies.
+
 ```
 yarn install
 ```
+Make a .env file.
 
-### Compiles and hot-reloads for development
 ```
-yarn run serve
+cp .env.example .env
 ```
+And fill in the provided firebase credentials.
 
-### Compiles and minifies for production
+Run the application
 ```
-yarn run build
+yarn serve
 ```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
