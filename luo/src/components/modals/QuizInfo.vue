@@ -16,7 +16,7 @@
       <div>
         <profile-avatar v-if='!showQR' :img='userFromDB'/>
       </div>
-      <button @click='showQR = !showQR' class='flex-center'>
+      <button v-if='quizById.isQRQuiz && quizById.createdBy === fire.auth().currentUser.uid' @click='showQR = !showQR' class='flex-center'>
         <h2 class='heading h--m h--color-primary'>{{ !showQR ? "SHOW QR CODE" : "HIDE QR CODE" }}</h2>
       </button>
     </div>
@@ -32,34 +32,55 @@
       </div>
     </div>
 
-    <button v-ripple class='play flex-center' @click='playQuiz'>
-      <h4 class='heading h--xm h--color-light'>Play quiz!</h4>
-    </button>
+    <div :class='`button-container flex ${ fire.auth().currentUser.uid !== quizById.createdBy && "not-from-user" }`'>
+      <button 
+        v-ripple 
+        class='play flex-center' 
+        @click='playQuiz'
+      >
+        <h4 class='heading h--xm h--color-light'>Play quiz!</h4>
+      </button>
+
+      <button 
+        v-if='fire.auth().currentUser.uid === quizById.createdBy' 
+        v-ripple 
+        class='edit flex-center' 
+      >
+        <edit />
+      </button>
+
+      <button 
+        v-if='fire.auth().currentUser.uid === quizById.createdBy' 
+        v-ripple 
+        class='delete flex-center' 
+      >
+        <trash />
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
+import { fire } from '@/firebase/firebase';
 import { mapState } from 'vuex';
 import Qrcode from '@chenfengyuan/vue-qrcode';
+import Edit from '@/assets/icons/quizzes/Edit.svg';
+import Trash from '@/assets/icons/quizzes/Trash.svg';
 import Sample from '@/assets/img/quiz/sample.jpg';
 import ProfileAvatar from '@/components/avatar/ProfileAvatar';
 import Stat from '@/components/utils/Stat';
 
 export default {
   name: 'QuizInfo',
-  components: { ProfileAvatar, Qrcode, Stat },
+  components: { ProfileAvatar, Edit, Trash, Qrcode, Stat },
   data: () => ({
     Sample,
-    showQR: false
+    showQR: false,
+    fire
   }),
   computed: {
     ...mapState('Quizzes', ['quizById']),
     ...mapState('Users', ['userFromDB'])
-  },
-  created () {
-    setTimeout(() => {
-      this.animatePlay = true;
-    }, 250)
   },
   methods: {
     playQuiz () {
@@ -137,12 +158,44 @@ export default {
     }
   }
 
-  .play {
-    @include gradient;
+  .button-container {
     width: calc(100% + 4rem);
-    height: 4rem;
-    margin: 1rem 0 -2rem -2rem;
-    border: none;
+    margin: 2rem 0 -2rem -2rem;
+
+    &.not-from-user .play {
+      width: 100%;
+    }
+
+    .play,
+    .edit,
+    .delete {
+      height: 4rem;
+      border: none;
+
+      svg {
+        fill: $snow;
+        width: 40%;
+        height: 40%;
+      }
+    }
+
+    .edit,
+    .delete {
+      width: 20%;
+    }
+
+    .play {
+      @include gradient;
+      width: 60%;
+    }
+
+    .edit {
+      @include gradient-safe;
+    }
+
+    .delete {
+      @include gradient-danger;
+    }
   }
 }
 </style>

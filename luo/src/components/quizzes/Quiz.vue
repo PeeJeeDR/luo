@@ -6,10 +6,10 @@
       </div>
 
       <div class='content-container flex justify-between'>
-        <div>
+        <div class='title-container'>
           <div class='title flex align-center justify-between'>
             <h4 class='heading h--xm'>{{ capFirstChar(quiz.title) }}</h4>
-            <q-r />
+            <q-r v-if='quiz.isQRQuiz'/>
           </div>
           <hr>
           <p class='paragraph p--m p--color-lighter'>{{ quiz.description }}</p>
@@ -69,20 +69,24 @@ export default {
     padding: 0.8rem;
     position: relative;
 
-    .title {
-      h4 {
-        width: calc(100% - 2.5rem);
+    .title-container {
+      width: 100%;
+
+      .title {
+        h4 {
+          width: calc(100% - 2.5rem);
+        }
+
+        svg {
+          width: 1.5rem;
+          fill: $pinky;
+        }
       }
 
-      svg {
-        width: 1.5rem;
-        fill: $pinky;
+      p {
+        margin-top: 0.6rem;
+        padding-right: 6rem;
       }
-    }
-
-    p {
-      margin-top: 0.6rem;
-      padding-right: 6rem;
     }
   }
 

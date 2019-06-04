@@ -2,7 +2,7 @@
   <div class='profile-avatar' v-if='img !== undefined'>
     <img :src='img.avatarUrl !== null ? "data:image/jpeg;base64," + img.avatarUrl : require(`@/assets/img/avatars/${ img.avatar }.png`)' alt='avatar image.'>
 
-    <div class='star-container flex-center'>
+    <div class='star-container flex-center' v-if='false'>
       <star />
     </div>
     
