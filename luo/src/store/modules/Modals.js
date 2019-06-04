@@ -8,29 +8,27 @@ export const Modals = {
   },
 
   mutations: {
-    /* === MODALS === */
+    // Open modal handler.
     OPEN_MODAL (state) {
       state.modalIsOpen = true;
     },
-
     CLOSE_MODAL (state) {
       state.modalIsOpen = false;
     },
 
+    // Set modal type. 
+    // So the modal know which content needs to be rendered.
     SET_MODAL_TYPE (state, type) {
       state.modalType = type;
     },
-    /* ========== */
 
-    /* === OVERLAY === */
+    // Handle overlay.
     OPEN_OVERLAY (state) {
       state.overlay = true;
     },
-
     CLOSE_OVERLAY (state) {
       state.overlay = false;
     }
-    /* ========== */
   },
 
   actions: {

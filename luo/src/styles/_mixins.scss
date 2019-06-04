@@ -3,16 +3,6 @@
   background: linear-gradient(225deg, $disco 0%, $pinky 100%) !important;
 }
 
-@mixin gradient-safe {
-  background: $disco !important;
-  background: linear-gradient(225deg, darken($yeah, 5%) 0%, $yeah 100%) !important;
-}
-
-@mixin gradient-danger {
-  background: $disco !important;
-  background: linear-gradient(225deg, darken($auwch, 5%) 0%, $auwch 100%) !important;
-}
-
 @mixin defaultShadow {
   -webkit-box-shadow: 0px 5px 15px -1px rgba(0,0,0,0.40);
   -moz-box-shadow: 0px 5px 15px -1px rgba(0,0,0,0.40);

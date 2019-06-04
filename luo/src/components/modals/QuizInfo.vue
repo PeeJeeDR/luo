@@ -16,7 +16,9 @@
         <!-- Profile image and show QR code button. -->
         <div :class='`over-image flex justify-between align-center ${ showQR && "qr-is-open" }`'>
           <div>
-            <profile-avatar v-if='!showQR' :img='userFromDB'/>
+            <transition mode='out-in' enter-active-class='animated fadeInDown faster' leave-active-class='animated fadeOut faster'>
+              <profile-avatar v-if='!showQR' :img='userFromDB'/>
+            </transition>
           </div>
           <button v-if='quizById.isQRQuiz && quizById.createdBy === fire.auth().currentUser.uid' @click='showQR = !showQR' class='flex-center'>
             <h2 class='heading h--m h--color-primary'>{{ !showQR ? "SHOW QR CODE" : "HIDE QR CODE" }}</h2>
@@ -49,6 +51,7 @@
             v-if='fire.auth().currentUser.uid === quizById.createdBy' 
             v-ripple 
             class='edit flex-center' 
+            @click='onEditClick'
           >
             <edit />
           </button>
@@ -107,10 +110,7 @@ export default {
   methods: {
     // When the play button has pressed.
     playQuiz () {
-      console.log(this.quizById.isDeleted);
-
       if (!this.quizById.isDeleted) {
-        console.log('NOT DELETED');
         // Save the selected quiz in the store.
         this.$store.dispatch('PlayQuiz/onPlayButtonClick', { quiz: this.quizById }).then(() => {
 
@@ -123,7 +123,6 @@ export default {
       }
 
       if (this.quizById.isDeleted) {
-        console.log('IS DELETED');
         // Close info modam.
         this.$store.dispatch('Modals/closeModal');
 
@@ -132,6 +131,12 @@ export default {
           message: 'This quiz has been deleted.' 
         });
       }
+    },
+
+    // When the edit button has pressed.
+    onEditClick () {
+      // Set edit mode in CreateQuiz.
+      this.$store.dispatch('CreateQuiz/onQuizEdit', { quiz: this.quizById });
     },
 
     // When the delete button has pressed.
@@ -240,7 +245,7 @@ export default {
       border: none;
 
       svg {
-        fill: $snow;
+        fill: $pinky;
         width: 40%;
         height: 40%;
       }
@@ -257,11 +262,14 @@ export default {
     }
 
     .edit {
-      @include gradient-safe;
+      background-color: $snow;
+      border: 1px solid $mr-grey;
     }
 
     .delete {
-      @include gradient-danger;
+      background-color: $snow;
+      border: 1px solid $mr-grey;
+      border-left: none;
     }
   }
 }

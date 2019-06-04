@@ -99,24 +99,31 @@ export default {
     selectedCorrectAnswer: false
   }),
   computed: {
-    ...mapState('CreateQuiz', ['questions'])
+    ...mapState('CreateQuiz', ['questions', 'editMode', 'quizToBeEdited']),
+  },
+  created () {
+    if (this.editMode) {
+      console.log('QUIZ TO BE EDITED', this.quizToBeEdited);
+      // this.formData.question
+    }
   },
   methods: {
-    /* === IMAGES === */
+    // When a image is selected.
     setImage (output) {
       this.formData.questionImg = output;
     },
 
+    // On start of image resize.
     startImageResize () {
       // FOR LOADING
     },
 
+    // On end of image resize.
     endImageResize () {
       // FOR LOADING
     },
-    /* ========== */
 
-    /* === ANSWERS === */
+    // When user adds an answer, a input field has to be added.
     addAnswer () {
       if (this.formData.answers.length > 0 && this.formData.answers.length < 4) {
         if (this.formData.answers[this.formData.answers.length - 1].answer.trim() === '') { 
@@ -134,6 +141,7 @@ export default {
       }
     },
 
+    // Delete answer field.
     deleteAnswerField (e) {
       if (e.keyCode === 8 && (this.formData.answers[this.formData.answers.length - 1].answer === '' && this.formData.answers[0].answer !== '')) {
         console.log('BACKSPACE!!');
@@ -141,6 +149,8 @@ export default {
       }
     },
 
+    // When submitted on add answers screen.
+    // We need to check if all answers are correctly filled.
     checkAnswersSubmit () {
       // Switch to select correct answer screen.
       if (!this.selectedCorrectAnswer) {
@@ -167,14 +177,14 @@ export default {
       }
     },
 
+    // When selecting a correct answer.
     setAnswerCorrect (i) {
       this.formData.answers.map(answer => answer.correct = false);
       this.formData.answers[i].correct = true;
       this.selectedCorrectAnswer = true;
     },
-    /* ========== */
 
-    /* === ON FORM SUBMIT === */
+    // When submitting the form.
     onFormSubmit () {
       this.formData.id = this.questions.length;
 
@@ -182,7 +192,6 @@ export default {
         this.$store.dispatch('Modals/closeModal');
       });
     }
-    /* ========== */
   }
 }
 </script>

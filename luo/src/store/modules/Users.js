@@ -22,7 +22,7 @@ export const Users = {
   actions: {
     /* === FETCH SINGLE USER FROM FIRESTORE === */
     fetchUserById ({ commit }, payload) {
-      db.collection('users').doc(payload.userId).get().then(snap => {
+      db.collection('users').doc(payload.userId).onSnapshot(snap => {
         if (snap.data() !== undefined) {
           let result = snap.data();
           result.id = payload.userId;
@@ -32,7 +32,7 @@ export const Users = {
         if (snap.data() === undefined) {
           router.push('/authentication');
         }
-      });
+      })
     },
     /* ========== */
 

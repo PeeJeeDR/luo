@@ -1,16 +1,22 @@
 <template>
-  <div class='create-quiz big-wrapper align-center page-small-header'>
-    <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
-      <modal v-if='modalIsOpen'/>
-    </transition>
+  <div class='create-quiz align-center page-small-header'>
+    <div class='big-wrapper'>
+      <!-- Modal for creating questions. -->
+      <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
+        <modal v-if='modalIsOpen'/>
+      </transition>
 
-    <create v-if='questions.length === 0'/>
+      <!-- Create icon when there are no questions made. -->
+      <create v-if='shouldIconRender()'/>
 
-    <div v-for='(question, i) in questions' :key='i'>
-      <question :question='question' :number='i'/>
+      <!-- Made questions. -->
+      <div v-for='(question, i) in !editMode ? questions : quizToBeEdited.questions' :key='i'>
+        <question :question='question' :number='i'/>
+      </div>
+
+      <!-- Create question button. -->
+      <default-button :content='"create question"' @click.native='$store.dispatch("Modals/openModal", { type: "create-question" })'/>
     </div>
-
-    <default-button :content='"create question"' @click.native='$store.dispatch("Modals/openModal", { type: "create-question" })'/>
   </div>
 </template>
 
@@ -26,14 +32,28 @@ export default {
   components: { Create, DefaultButton, Modal, Question },
   computed: {
     ...mapState('Modals', ['modalIsOpen']),
-    ...mapState('CreateQuiz', ['questions', 'isQRQuiz'])
+    ...mapState('CreateQuiz', ['questions', 'isQRQuiz', 'editMode', 'quizToBeEdited'])
   },
   created () {
+    // Set header content.
     this.$store.dispatch('Header/onPageLoad', { 
       title: this.isQRQuiz ? 'Create QR code quiz' : 'Create quiz',
       leftIcon: 'back',
       rightIcon: 'save'
     });
+  },
+  methods: {
+    shouldIconRender () {
+      if (!this.editMode && this.questions.length === 0) {
+        return true;
+      } 
+
+      if (this.editMode && this.quizToBeEdited && this.quizToBeEdited.questions.length === 0) {
+        return true;
+      }
+
+      return false;
+    }
   }
 }
 </script>
@@ -42,6 +62,8 @@ export default {
 .create-quiz {
   position: relative;
   height: 100%;
+  overflow: scroll;
+  padding-bottom: 7rem;
 
   .default-button {
     margin: 0 auto;
