@@ -11,7 +11,7 @@
 
         <div :class='`icon ${ rightIcon }`'>
           <search v-if='rightIcon === "search"'/>
-          <save v-if='rightIcon === "save" && questions.length > 0' @click='openQuizOptionsModal'/>
+          <save v-if='shouldRenderSave()' @click='openQuizOptionsModal'/>
         </div>
       </div>
 
@@ -39,7 +39,7 @@ export default {
   props: ['render'],
   computed: {
     ...mapState('Header', ['headerTitle', 'leftIcon', 'rightIcon']),
-    ...mapState('CreateQuiz', ['questions']),
+    ...mapState('CreateQuiz', ['questions', 'quizToBeEdited', 'editMode']),
     ...mapState('Modals', ['modalIsOpen'])
   },
   methods: {
@@ -62,6 +62,20 @@ export default {
     exitPlayQuiz () {
       this.$store.dispatch('PlayQuiz/stopQuiz');
       this.$router.push('/');
+    },
+
+    shouldRenderSave () {
+      if (this.rightIcon === 'save') {
+        if (!this.editMode && this.questions.length > 0) {
+          return true;
+        }
+
+        if (this.editMode && this.quizToBeEdited.questions.length > 0) {
+          return true;
+        }
+      }
+
+      return false;
     }
   }
 }

@@ -99,12 +99,15 @@ export default {
     selectedCorrectAnswer: false
   }),
   computed: {
-    ...mapState('CreateQuiz', ['questions', 'editMode', 'quizToBeEdited']),
+    ...mapState('CreateQuiz', ['questions', 'editMode', 'quizToBeEdited', 'selectedQuestionId', 'isNewQuestion']),
   },
   created () {
-    if (this.editMode) {
-      console.log('QUIZ TO BE EDITED', this.quizToBeEdited);
-      // this.formData.question
+    if (this.editMode && !this.isNewQuestion) {
+      const currentQuestion = this.quizToBeEdited.questions[this.selectedQuestionId];
+
+      this.formData = currentQuestion;
+      this.answersFilled = true;
+      this.selectedCorrectAnswer = true;
     }
   },
   methods: {
@@ -144,7 +147,6 @@ export default {
     // Delete answer field.
     deleteAnswerField (e) {
       if (e.keyCode === 8 && (this.formData.answers[this.formData.answers.length - 1].answer === '' && this.formData.answers[0].answer !== '')) {
-        console.log('BACKSPACE!!');
         this.formData.answers.pop();
       }
     },
@@ -186,11 +188,15 @@ export default {
 
     // When submitting the form.
     onFormSubmit () {
-      this.formData.id = this.questions.length;
+      if (this.editMode) {
+        this.formData.id = this.quizToBeEdited.questions.length;
+      }
 
-      this.$store.dispatch('CreateQuiz/onQuestionFormSubmit', this.formData).then(() => {
-        this.$store.dispatch('Modals/closeModal');
-      });
+      if (!this.editMode) {
+        this.formData.id = this.questions.length;
+      }
+      
+      this.$store.dispatch('CreateQuiz/onQuestionFormSubmit', this.formData);
     }
   }
 }

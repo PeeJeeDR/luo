@@ -8,18 +8,27 @@ export const CreateQuiz = {
     isQRQuiz: false,
     editMode: false,
     quizToBeEdited: undefined,
-    selectedQuestionId: undefined
+    selectedQuestionId: undefined,
+    isNewQuestion: false
   },
 
   mutations: {
-    // Push new question to the store.
+    // Push new question to the store or to the quiz to be edited.
     PUSH_QUESTION (state, question) {
       state.questions.push(question);
+    },
+    PUSH_QUESTION_TO_BE_EDITED (state, question) {
+      state.quizToBeEdited.questions.push(question);
     },
 
     // Clear the questions array.
     CLEAR_QUESTIONS (state) {
       state.questions = [];
+    },
+
+    // Update a question.
+    UPDATE_QUESTION (state, quiz) {
+      state.quizToBeEdited.questions[state.selectedQuestionId] = quiz;
     },
 
     // Set QR code status.
@@ -65,13 +74,38 @@ export const CreateQuiz = {
     },
     RESET_SELECTED_QUESTION_ID (state) {
       state.selectedQuestionId = undefined;
-    }
+    },
+
+    // When the create question button has pressed.
+    ENABLE_IS_NEW_QUESTION (state) {
+      state.isNewQuestion = true;
+    },
+    DISABLE_IS_NEW_QUESTION (state) {
+      state.isNewQuestion = false;
+    } 
   },
 
   actions: {
     // Called when there is a new question made.
-    onQuestionFormSubmit ({ commit }, payload) {
-      commit('PUSH_QUESTION', payload);
+    onQuestionFormSubmit ({ state, commit, dispatch }, payload) {
+      console.log('PAYLOAD', payload);
+
+      if (state.editMode && state.isNewQuestion) {
+        console.log('PUSH NEW QUESTION');
+        commit('PUSH_QUESTION_TO_BE_EDITED', payload);
+      }
+
+      if (state.editMode) {
+        console.log('EDIT QUESTION!');
+        commit('UPDATE_QUESTION', payload);
+      }
+
+      if (!state.editMode) {
+        console.log('CREATE NORMAL QUESTION');
+        commit('PUSH_QUESTION', payload);
+      } 
+      
+      dispatch('Modals/closeModal', {}, { root: true });
     },
 
     // Called when there is a new quiz made.
@@ -112,8 +146,17 @@ export const CreateQuiz = {
     },
 
     // When the user clicked on the edit button of a question in CreateQuiz.
-    onQuestionEdit ({ commit }, payload) {
+    onQuestionEdit ({ commit, dispatch }, payload) {
+      commit('DISABLE_IS_NEW_QUESTION');
       commit('SET_SELECTED_QUESTION_ID', payload.questionId);
-    }
+      dispatch('Modals/openModal', { type: 'create-question' }, { root: true });
+    },
+
+    // When the user clicked on the create new question button in CreateQuiz.
+    // We need to tell the application that the user adds a new question instead of edit.
+    onNewQuestionButton ({ commit, dispatch }) {
+      commit('ENABLE_IS_NEW_QUESTION');
+      dispatch('Modals/openModal', { type: 'create-question' }, { root: true });
+    } 
   }
 }

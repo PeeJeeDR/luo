@@ -15,7 +15,7 @@
       </div>
 
       <!-- Create question button. -->
-      <default-button :content='"create question"' @click.native='$store.dispatch("Modals/openModal", { type: "create-question" })'/>
+      <default-button :content='"create question"' @click.native='onQuestionCreate'/>
     </div>
   </div>
 </template>
@@ -53,6 +53,10 @@ export default {
       }
 
       return false;
+    },
+
+    onQuestionCreate () {
+      this.$store.dispatch('CreateQuiz/onNewQuestionButton');
     }
   }
 }

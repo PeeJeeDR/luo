@@ -96,10 +96,12 @@ export default {
   }),
   computed: {
     ...mapState('Categories', ['categories']),
-    ...mapState('CreateQuiz', ['isQRQuiz'])
+    ...mapState('CreateQuiz', ['isQRQuiz', 'editMode', 'quizToBeEdited'])
   },
   created () {
     this.$store.dispatch('Categories/fetchCategories');
+
+    console.log('QUIZ TO BE EDITED', this.quizToBeEdited);
   },
   methods: {
     // Toggle public state.
