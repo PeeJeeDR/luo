@@ -1,6 +1,6 @@
 <template>
   <div class='multiple-choise' v-if='playingQuiz.questions[currentQuestion] !== undefined'>
-    <div class='flex direction-col'>
+    <div class='parent flex direction-col'>
       <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-50ms' leave-active-class='animated fadeOutLeft faster'>
         <img :key='currentQuestion' :src='playingQuiz.questions[currentQuestion].questionImg !== "" ? playingQuiz.questions[currentQuestion].questionImg : Sample' :alt='`Header image for the "${ playingQuiz.title } quiz."`'>
       </transition>
@@ -123,12 +123,16 @@ export default {
   height: 100%;
   padding: 0 0 1rem 0;
 
+  .parent {
+    height: 100%;
+  }
+
   .answers {
     overflow-y: scroll;
     height: 100%;
     width: calc(100% + 2rem);
     padding: 1rem 0 1.2rem 0;
-    margin-left: -1rem;
+    margin: -2rem 0 0 -1rem;
   }
 }
 </style>

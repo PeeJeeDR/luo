@@ -54,6 +54,9 @@ export const PlayQuiz = {
 
     SET_CURRENT_ANSWER (state, payload) {
       state.currentAnswer = payload.currentQuestion;
+    },
+    RESET_CURRENT_ANSWER (state) {
+      state.currentAnswer = 0;
     }
   },
 
@@ -99,6 +102,7 @@ export const PlayQuiz = {
     /* === WHEN THE QUIZ HAS BEEN COMPLETED === */
     quizCompleted ({ commit, dispatch, state }) {
       commit('SET_QUIZ_COMPLETED_ON');
+      commit('RESET_CURRENT_ANSWER');
 
       if (fire.auth().currentUser === null && localStorage.sessionId !== null) {
         dispatch('Quizzes/addQuizPlay', { quiz: state.playingQuiz, id: localStorage.sessionId }, { root: true });
@@ -112,6 +116,7 @@ export const PlayQuiz = {
 
     /* === WHEN THE QUIZ HAS BEEN ENDED === */
     onQuizEnd ({ commit }) {
+      commit('RESET_CURRENT_ANSWER');
       commit('SET_QUIZ_COMPLETED_OFF');
       commit('ENABLE_INPUT');
       commit('RESET_CORRECT_ANSWERS');

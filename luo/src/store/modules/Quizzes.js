@@ -75,6 +75,7 @@ export const Quizzes = {
       db.collection('quizzes')
       .where('public', '==', true)
       .where('isQRQuiz', '==', false)
+      .where('isDeleted', '==', false)
       .orderBy('created', 'desc')
       .onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
@@ -94,6 +95,7 @@ export const Quizzes = {
       db.collection('quizzes')
       .where('public', '==', true)
       .where('isQRQuiz', '==', false)
+      .where('isDeleted', '==', false)
       .orderBy('plays', 'desc')
       .onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
@@ -114,6 +116,7 @@ export const Quizzes = {
       .where('categories', 'array-contains', payload.categoryId)
       .where('public', '==', true)
       .where('isQRQuiz', '==', false)
+      .where('isDeleted', '==', false)
       .onSnapshot(snap => {
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
@@ -131,20 +134,25 @@ export const Quizzes = {
         let result = doc.data();
         result.id = doc.id;
 
-        // Save quiz by id in this state.
-        commit('SAVE_QUIZ_BY_ID', result);
+        if (!doc.data().isDeleted) {
+          // Save quiz by id in this state.
+          commit('SAVE_QUIZ_BY_ID', result);
 
-        // Save quiz as playing quiz in PlayQuiz state.
-        commit('PlayQuiz/SET_PLAYING_QUIZ', result, { root: true });
+          // Save quiz as playing quiz in PlayQuiz state.
+          commit('PlayQuiz/SET_PLAYING_QUIZ', result, { root: true });
 
-        // Fetch user that created the collected quiz.
-        dispatch('Users/fetchUserById', { userId: result.createdBy }, { root: true });
+          // Fetch user that created the collected quiz.
+          dispatch('Users/fetchUserById', { userId: result.createdBy }, { root: true });
+        }
       });
     },
 
     // Fetch quizzes made by user id.
     fetchQuizzesMadeByUserId ({ commit }, payload) {
-      db.collection('quizzes').where('createdBy', '==', payload.userId).onSnapshot(snap => {
+      db.collection('quizzes')
+      .where('createdBy', '==', payload.userId)
+      .where('isDeleted', '==', false)
+      .onSnapshot(snap => {
         commit('SAVE_QUIZZES_MADE_BY_USER', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -155,7 +163,9 @@ export const Quizzes = {
 
     // Fetch quizzes played by user id.
     fetchQuizzesPlayedByUserId ({ commit }, payload) {
-      db.collection('quizzes').where('playedBy', 'array-contains', payload.userId).onSnapshot(snap => {
+      db.collection('quizzes')
+      .where('playedBy', 'array-contains', payload.userId)
+      .onSnapshot(snap => {
         commit('SAVE_QUIZZES_PLAYED_BY_USER', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -186,7 +196,8 @@ export const Quizzes = {
           categories,
           questions,
           blocked: false,
-          isQRQuiz: rootState.CreateQuiz.isQRQuiz
+          isQRQuiz: rootState.CreateQuiz.isQRQuiz,
+          isDeleted: false
         }
   
         // Add quiz to firestore.
@@ -196,6 +207,13 @@ export const Quizzes = {
           dispatch('Notifications/setNotification', { message: 'Something went wrong while creating the quiz. Please try again later.' }, { root: true });
         });
       }
+    },
+
+    // Delete a specific quiz
+    deleteQuiz ({}, payload) {
+      db.collection('quizzes').doc(payload.quiz.id).update({
+        isDeleted: true
+      });
     },
 
     // Increment plays when a quiz has been played.
