@@ -107,7 +107,10 @@ export default {
   methods: {
     // When the play button has pressed.
     playQuiz () {
+      console.log(this.quizById.isDeleted);
+
       if (!this.quizById.isDeleted) {
+        console.log('NOT DELETED');
         // Save the selected quiz in the store.
         this.$store.dispatch('PlayQuiz/onPlayButtonClick', { quiz: this.quizById }).then(() => {
 
@@ -120,6 +123,7 @@ export default {
       }
 
       if (this.quizById.isDeleted) {
+        console.log('IS DELETED');
         // Close info modam.
         this.$store.dispatch('Modals/closeModal');
 

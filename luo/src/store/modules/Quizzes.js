@@ -134,16 +134,14 @@ export const Quizzes = {
         let result = doc.data();
         result.id = doc.id;
 
-        if (!doc.data().isDeleted) {
-          // Save quiz by id in this state.
-          commit('SAVE_QUIZ_BY_ID', result);
+        // Save quiz by id in this state.
+        commit('SAVE_QUIZ_BY_ID', result);
 
-          // Save quiz as playing quiz in PlayQuiz state.
-          commit('PlayQuiz/SET_PLAYING_QUIZ', result, { root: true });
+        // Save quiz as playing quiz in PlayQuiz state.
+        commit('PlayQuiz/SET_PLAYING_QUIZ', result, { root: true });
 
-          // Fetch user that created the collected quiz.
-          dispatch('Users/fetchUserById', { userId: result.createdBy }, { root: true });
-        }
+        // Fetch user that created the collected quiz.
+        dispatch('Users/fetchUserById', { userId: result.createdBy }, { root: true });
       });
     },
 
