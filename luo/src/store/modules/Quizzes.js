@@ -176,7 +176,7 @@ export const Quizzes = {
     // Post a new quiz.
     postNewQuiz ({ dispatch, rootState }, payload) {
       const questions = rootState.CreateQuiz.questions;
-      const { title, description, categories, userId, quizImg, isPublic } = payload;
+      const { title, description, categories, userId, quizImg, isPublic, quizSample } = payload.quiz;
 
       // Check if there is at least one question made - questions.length > 0
       if (questions.length > 0) {
@@ -191,7 +191,8 @@ export const Quizzes = {
           likes: 0,
           likedBy: [],
           createdBy: userId,
-          quizImg: quizImg !== undefined ? quizImg : null,
+          quizImg,
+          quizSample,
           categories,
           questions,
           blocked: false,

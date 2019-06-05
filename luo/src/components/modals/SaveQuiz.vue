@@ -2,7 +2,7 @@
   <div class='save-quiz'>
     <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
 
-      <!-- === TITLE DESCRIPTION AND IMAGE === -->
+      <!-- Title, description and image. -->
       <div key='1' v-if='selectedSlide === 0'>
         <section>
           <h3 class='title heading h--xm h--color-primary'>Name and description</h3>
@@ -17,11 +17,7 @@
           </div>
         </section>
 
-        <section>
-
-        </section>
-
-        <!-- === IMAGE === -->
+        <!-- Image. -->
         <section>
           <image-uploader
             style='display: none'
@@ -42,19 +38,17 @@
           <img v-if='formData.quizImg !== ""' :src='formData.quizImg' alt='Uploaded file.' @click='$refs.img.click()'>
           <default-button v-if='formData.quizImg === ""' :content='"Add quiz image"' @click.native='$refs.img.click()'/>
         </section>
-        <!-- ========== -->
 
         <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide("quiz-1-2")'/>
       </div>
-      <!-- ========== -->
 
-      <!-- === CATEGORIES === -->
+      <!-- Categories. -->
       <div key='2' v-if='selectedSlide === 1'>
         <section>
           <h3 class='title heading h--xm h--color-primary'>Categories</h3>
           <div class='categories'>
             <div class='category flex align-center' v-for='category in categories' :key='category.id' @click='categorySelect(category.id)'>
-              <check-mark :checked='selectedCategories.includes(category.id) || quizToBeEdited.categories.includes(category.id)'/>
+              <check-mark :checked='selectedCategories.includes(category.id) || (quizToBeEdited !== undefined && quizToBeEdited.categories.includes(category.id))'/>
               <img :src='require(`@/assets/icons/categories/${ category.slug }.png`)' :alt='`${ capFirstChar(category.category) } icon.`'>
               <h2 class='heading h--m'>{{ category.category }}</h2>
             </div>
@@ -65,8 +59,6 @@
 
         <submit-and-cancel :includeBack='true' @onback='prevSlide' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='onFormSubmit'/>
       </div>
-      <!-- ========== -->
-
     </transition>
   </div>
 </template>
@@ -101,7 +93,6 @@ export default {
   created () {
     this.$store.dispatch('Categories/fetchCategories');
 
-    console.log('QUIZ TO BE EDITED', this.quizToBeEdited);
     if (this.editMode) {
       this.formData = this.quizToBeEdited;
     }
@@ -154,6 +145,7 @@ export default {
       }
 
       this.error = '';
+      this.formData.userId = fire.auth().currentUser.uid;
 
       if (!this.editMode) {
         this.formData.categories = this.selectedCategories;
@@ -163,12 +155,28 @@ export default {
         this.formData.categories = this.quizToBeEdited.categories;
       }
 
-      this.formData.userId = fire.auth().currentUser.uid;
+      // Generate random category.
+      let selectedCategories = [];
+
+      this.selectedCategories.forEach(selected => {
+        this.categories.forEach(category => {
+          category.id === selected && selectedCategories.push(category);
+        });
+      });
+
+      const randomNbr = Math.floor(Math.random() * (selectedCategories.length - 0) + 0);
+      const slug = selectedCategories[randomNbr].slug;
+      const quizSample = `${ slug }/${ Math.floor(Math.random() * (3 - 1) + 1) }`;
+
+      if (this.formData.quizImg === '') {
+        this.formData.quizSample = quizSample;
+      }
 
       if (!this.editMode) {
         // Post new quiz.
-        this.$store.dispatch('Quizzes/postNewQuiz', this.formData).then(() => {
-
+        this.$store.dispatch('Quizzes/postNewQuiz', { 
+          quiz: this.formData
+        }).then(() => {
           // Clear questions array in the store.
           this.$store.dispatch('CreateQuiz/onNewQuizPost');
 
@@ -184,7 +192,6 @@ export default {
         this.$store.dispatch('Quizzes/updateQuiz', { quiz: this.formData });
       }
     }
-    /* ========== */
   }
 }
 </script>

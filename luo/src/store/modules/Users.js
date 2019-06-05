@@ -85,6 +85,7 @@ export const Users = {
     // When navigating away from /profile route.
     onProfileDismount ({ commit }) {
       commit('DISABLE_OTHER_USER');
+      commit('CLEAR_QUIZ_USER');
     },
 
     // Clear user when app loads.

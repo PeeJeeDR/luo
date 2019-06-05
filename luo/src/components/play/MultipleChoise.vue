@@ -2,7 +2,7 @@
   <div class='multiple-choise' v-if='playingQuiz.questions[currentQuestion] !== undefined'>
     <div class='parent flex direction-col'>
       <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-50ms' leave-active-class='animated fadeOutLeft faster'>
-        <img :key='currentQuestion' :src='playingQuiz.questions[currentQuestion].questionImg !== "" ? playingQuiz.questions[currentQuestion].questionImg : Sample' :alt='`Header image for the "${ playingQuiz.title } quiz."`'>
+        <img :key='currentQuestion' :src='playingQuiz.questions[currentQuestion].questionImg !== "" ? playingQuiz.questions[currentQuestion].questionImg : require(`@/assets/img/samples/categories/${ playingQuiz.quizSample }.jpg`)' :alt='`Header image for the "${ playingQuiz.title } quiz."`'>
       </transition>
 
       <div class='content wrapper flex direction-col justify-between'>
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import Sample from '@/assets/img/quiz/sample.jpg';
 import AnswerButton from '@/components/buttons/AnswerButton';
 import QuestionTitle from '@/components/play/QuestionTitle';
 
@@ -40,7 +39,6 @@ export default {
   components: { AnswerButton, QuestionTitle },
   props: ['playingQuiz', 'inputEnabled'],
   data: () => ({ 
-    Sample,
     currentQuestion: 0,
     clickedButton: undefined,
     showAnswer: false

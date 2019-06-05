@@ -1,8 +1,8 @@
 <template>
   <div v-ripple class='animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`' @click='onQuizClick' @animationend='animatePress = false'>
-    <div class='quiz' :class='animatePress ? "animate" : ""'>
+    <div class='quiz' :class='animatePress && "animate"'>
       <div class='img-container'>
-        <img :src='quiz.quizImg !== "" ? quiz.quizImg : Sample' :alt='`Header image of the "${ quiz.title }" quiz.`'>
+        <img :src='quiz.quizImg !== "" ? quiz.quizImg : require(`@/assets/img/samples/categories/${ quiz.quizSample }.jpg`)' :alt='`Header image of the "${ quiz.title }" quiz.`'>
       </div>
 
       <div class='content-container flex justify-between'>
@@ -21,7 +21,6 @@
 
 <script>
 import GlobalMethods from '@/mixins/GlobalMethods';
-import Sample from '@/assets/img/quiz/sample.jpg';
 import QR from '@/assets/icons/bottom-nav/QR.svg';
 
 export default {
@@ -30,7 +29,6 @@ export default {
   components: { QR },
   props: ['quiz', 'index'],
   data: () => ({
-    Sample,
     animatePress: false
   }),
   methods: {

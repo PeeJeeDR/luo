@@ -5,7 +5,7 @@
         <!-- Top image and QR code. -->
         <div class='img-container'>
           <transition mode='out-in' enter-active-class='animated slideInUp faster' leave-active-class='animated slideOutDown faster'>
-            <img key='0' v-if='!showQR' :src='quizById.quizImg !== "" ? quizById.quizImg : Sample' :alt='`Header image for the "${ quizById.title } quiz."`'>
+            <img key='0' v-if='!showQR' :src='quizById.quizImg !== "" ? quizById.quizImg : require(`@/assets/img/samples/categories/${ quizById.quizSample }.jpg`)' :alt='`Header image for the "${ quizById.title } quiz."`'>
 
             <div key='1' v-if='showQR' class='flex-center' style='height: 100%;'>
               <qrcode :value='quizById.id'></qrcode>
@@ -89,7 +89,6 @@ import { mapState } from 'vuex';
 import Qrcode from '@chenfengyuan/vue-qrcode';
 import Edit from '@/assets/icons/quizzes/Edit.svg';
 import Trash from '@/assets/icons/quizzes/Trash.svg';
-import Sample from '@/assets/img/quiz/sample.jpg';
 import ProfileAvatar from '@/components/avatar/ProfileAvatar';
 import Stat from '@/components/utils/Stat';
 import DefaultButton from '@/components/buttons/DefaultButton';
@@ -98,7 +97,6 @@ export default {
   name: 'QuizInfo',
   components: { ProfileAvatar, Edit, Trash, Qrcode, Stat, DefaultButton },
   data: () => ({
-    Sample,
     showQR: false,
     fire,
     confirmDelete: false

@@ -57,7 +57,6 @@ export default {
     }
   },
   beforeDestroy () {
-    console.log('Destroy');
     this.$store.dispatch('Users/onProfileDismount');
   }
 }
