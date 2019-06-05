@@ -2,7 +2,7 @@
   <div class='multiple-choise' v-if='playingQuiz.questions[currentQuestion] !== undefined'>
     <div class='parent flex direction-col'>
       <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-50ms' leave-active-class='animated fadeOutLeft faster'>
-        <img :key='currentQuestion' :src='playingQuiz.questions[currentQuestion].questionImg !== "" ? playingQuiz.questions[currentQuestion].questionImg : require(`@/assets/img/samples/categories/${ playingQuiz.quizSample }.jpg`)' :alt='`Header image for the "${ playingQuiz.title } quiz."`'>
+        <img :key='currentQuestion' v-if='playingQuiz.questions[currentQuestion].questionImg !== ""' :src='playingQuiz.questions[currentQuestion].questionImg' :alt='`Header image for the "${ playingQuiz.title } quiz."`'>
       </transition>
 
       <div class='content wrapper flex direction-col justify-between'>
@@ -47,10 +47,6 @@ export default {
     // When there is clicked on an answer.
     onAnswerClick (answer, clickedButton) {
       this.clickedButton = clickedButton;
-
-      this.$store.dispatch('PlayQuiz/onNewQuestion', {
-        currentQuestion: this.currentQuestion,
-      });
 
       this.$store.dispatch('PlayQuiz/onAnswerClick', { 
         type: 'alter', 

@@ -71,10 +71,6 @@ export default {
       width: 100%;
 
       .title {
-        h4 {
-          width: calc(100% - 2.5rem);
-        }
-
         svg {
           width: 1.5rem;
           fill: $pinky;
@@ -83,7 +79,6 @@ export default {
 
       p {
         margin-top: 0.6rem;
-        padding-right: 6rem;
       }
     }
   }

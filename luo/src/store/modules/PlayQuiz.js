@@ -9,74 +9,74 @@ export const PlayQuiz = {
     inputEnabled: true,
     xp: 0,
     correctAnswers: 0,
-    currentAnswer: 0
+    currentQuestion: 0
   },
 
   mutations: {
-    /* === SET QUIZ TO BE PLAYED === */
+    // Set the quiz that has to be played.
     SET_PLAYING_QUIZ (state, quiz) {
       state.playingQuiz = quiz;
     },
-    /* ========== */
 
-    /* === PLAYING STATE === */
+    // Set quiz playing state.
     SET_QUIZ_COMPLETED_ON (state) {
       state.quizCompleted = true;
     },
     SET_QUIZ_COMPLETED_OFF (state) {
       state.quizCompleted = false;
     },
-    /* ========== */
 
-    /* === INPUT STATE === */
+    // Enable and disable input state so the user cant press another button
+    // when going to the next question.
     ENABLE_INPUT (state) {
       state.inputEnabled = true;
     },
     DISABLE_INPUT (state) {
       state.inputEnabled = false;
     },
-    /* ========== */
 
-    /* === ADD CORRECT OR WRONG ANSWER === */
+    // Add correct or wrong answer so we know what the score is.
     ADD_CORRECT_ANSWER (state) {
       state.correctAnswers += 1;
     },
     RESET_CORRECT_ANSWERS (state) {
       state.correctAnswers = 0;
     },
-    /* ========== */
 
-    /* === SET CLICKED ANSWER === */
+    // Set the clicked answer so we now on the quiz review which one was pressed.
     SET_CLICKED_ANSWER (state, payload) {
       state.playingQuiz.questions[payload.currentQuestion].answers[payload.clickedAnswerId].clicked = true;
     },
-    /* ========== */
 
-    SET_CURRENT_ANSWER (state, payload) {
-      state.currentAnswer = payload.currentQuestion;
+    // Set current question so the progress bars knows how long it has to be.
+    SET_CURRENT_QUESTION (state, payload) {
+      state.currentQuestion = payload.currentQuestion + 1;
     },
-    RESET_CURRENT_ANSWER (state) {
-      state.currentAnswer = 0;
+    RESET_CURRENT_QUESTION (state) {
+      state.currentQuestion = 0;
     }
   },
 
   actions: {
-    /* === WHEN PLAY BUTTON HAS CLICKED === */
+    // When the play button has been pressed.
     onPlayButtonClick ({ commit }, payload) {
       commit('SET_PLAYING_QUIZ', payload.quiz);
     },
-    /* ========== */
 
-    /* === WHEN PLAYER STOPS PLAYING QUIZ === */
+    // When the player presses the X icon when playing a quiz.
     stopQuiz ({ commit }) {
       commit('SET_QUIZ_COMPLETED_OFF');
       commit('ENABLE_INPUT');
       commit('RESET_CORRECT_ANSWERS');
     },
-    /* ========== */
 
-    /* === ON ANSWER PRESS === */
+    // When the user presses an answer.
+    // Alter is to change the clicked state.
     onAnswerClick ({ commit }, payload) {
+      if (payload.currentQuestion !== undefined) {
+        commit('SET_CURRENT_QUESTION', payload);
+      }
+      
       if (payload.type === 'alter') {
         commit('SET_CLICKED_ANSWER', payload);
       }
@@ -87,22 +87,16 @@ export const PlayQuiz = {
 
       commit('DISABLE_INPUT');
     },
-    /* ========== */
 
-    onNewQuestion ({ commit }, payload) {
-      commit('SET_CURRENT_ANSWER', payload);
-    },
-
-    /* === WHEN NEW QUESTION LOADS === */
+    // When a new question loads.
     onNewQuestionLoad ({ commit }) {
       commit('ENABLE_INPUT');
     },
-    /* ========== */
 
-    /* === WHEN THE QUIZ HAS BEEN COMPLETED === */
+    // When the quiz completed.
     quizCompleted ({ commit, dispatch, state }) {
       commit('SET_QUIZ_COMPLETED_ON');
-      commit('RESET_CURRENT_ANSWER');
+      commit('RESET_CURRENT_QUESTION');
 
       if (fire.auth().currentUser === null && localStorage.sessionId !== null) {
         dispatch('Quizzes/addQuizPlay', { quiz: state.playingQuiz, id: localStorage.sessionId }, { root: true });
@@ -112,15 +106,13 @@ export const PlayQuiz = {
         dispatch('Quizzes/addQuizPlay', { quiz: state.playingQuiz, id: fire.auth().currentUser.uid }, { root: true });
       }
     },
-    /* ========== */
 
-    /* === WHEN THE QUIZ HAS BEEN ENDED === */
+    // When the continue button has been pressed on the end of a quiz.
     onQuizEnd ({ commit }) {
-      commit('RESET_CURRENT_ANSWER');
+      commit('RESET_CURRENT_QUESTION');
       commit('SET_QUIZ_COMPLETED_OFF');
       commit('ENABLE_INPUT');
       commit('RESET_CORRECT_ANSWERS');
     }
-    /* ========== */
   }
 }

@@ -172,6 +172,10 @@ export default {
         this.formData.quizSample = quizSample;
       }
 
+      if (this.formData.quizImg !== '') {
+        this.formData.quizSample = '';
+      }
+
       if (!this.editMode) {
         // Post new quiz.
         this.$store.dispatch('Quizzes/postNewQuiz', { 

@@ -1,16 +1,18 @@
 <template>
-  <div v-if='user !== undefined' class='profile-in-header default-vp flex justify-start align-start'>
-    <div class='img-container' @click='onAvatarClick'>
-      <input type='file' ref='img' accept='image/*' style='display: none' @change='onImgSelect'>
-      <img :src='user.avatarUrl !== null ? "data:image/jpeg;base64," + user.avatarUrl : require(`@/assets/img/avatars/${ user.avatar }.png`)' alt='Avatar image.'>
-      <button v-if='fire.auth().currentUser.uid === user.id' class='flex-center'><edit /></button>
-    </div>
-  
-    <div class='stats flex flex-wrap'>
-      <stat :title='"Name"' :value='user.username' :color='"light"'/>
-      <stat :title='"Likes"' :value='likesOfUser' :color='"light"'/>
-      <stat :title='"Quizzes made"' :value='quizzesMadeByUser.length' :color='"light"'/>
-      <stat :title='"Quizzed played"' :value='quizzesPlayedByUser.length' :color='"light"'/>
+  <div v-if='user !== undefined' class='profile-in-header default-vp'>
+    <div class='flex justify-start align-start'>
+      <div class='img-container' @click='onAvatarClick'>
+        <input type='file' ref='img' accept='image/*' style='display: none' @change='onImgSelect'>
+        <img :src='user.avatarUrl !== null ? "data:image/jpeg;base64," + user.avatarUrl : require(`@/assets/img/avatars/${ user.avatar }.png`)' alt='Avatar image.'>
+        <button v-if='fire.auth().currentUser.uid === user.id' class='flex-center'><edit /></button>
+      </div>
+    
+      <div class='stats flex flex-wrap'>
+        <stat :title='"Name"' :value='user.username' :color='"light"'/>
+        <stat :title='"Likes"' :value='likesOfUser' :color='"light"'/>
+        <stat :title='"Quizzes made"' :value='quizzesMadeByUser.length' :color='"light"'/>
+        <stat :title='"Quizzes played"' :value='quizzesPlayedByUser.length' :color='"light"'/>
+      </div>
     </div>
   </div>
 </template>

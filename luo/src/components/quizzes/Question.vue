@@ -102,7 +102,8 @@ export default {
     width: 4rem;
 
     button {
-      height: 5rem;
+      min-height: 5rem;
+      height: 50%;
       width: 100%;
       border: none;
       border-left: 1px solid $mr-grey;

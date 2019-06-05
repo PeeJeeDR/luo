@@ -84,6 +84,12 @@ export const Navigation = {
 
       // Go to the profile page.
       router.push('/profile');
+    },
+
+    // When the user presses back in a other profile.
+    onBackClick ({ commit }) {
+      // Set the selected overview.
+      commit('SET_SELECTED_OVERVIEW', 'new');
     }
   }
 }

@@ -38,7 +38,7 @@ export default {
   name: 'PlayQuiz',
   components: { QuizEnd, MultipleChoise, Close },
   computed: {
-    ...mapState('PlayQuiz', ['playingQuiz', 'inputEnabled', 'quizCompleted', 'currentAnswer'])
+    ...mapState('PlayQuiz', ['playingQuiz', 'inputEnabled', 'quizCompleted', 'currentQuestion'])
   },
   data: () => ({ 
     showBox: false
@@ -54,10 +54,10 @@ export default {
   },
   methods: {
     getWidth () {
-      let currentAnswer = this.currentAnswer + 1;
+      let currentQuestion = this.currentQuestion;
       let totalQuestions = this.playingQuiz.questions.length;
 
-      return `width: ${ (100 / totalQuestions) * currentAnswer }%;`
+      return `width: ${ (100 / totalQuestions) * currentQuestion }%;`
     }
   }
 }
@@ -110,7 +110,6 @@ export default {
         .background {
           width: 100%;
           background-color: $mr-grey;
-          
         }
       }
     }

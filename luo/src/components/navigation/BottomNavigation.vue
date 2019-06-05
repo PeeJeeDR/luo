@@ -1,36 +1,46 @@
 <template>
-  <div class='bottom-navigation flex-center'>
+  <div class='bottom-navigation'>
 
-    <!-- === LEFT === -->
-    <div class='icon-container flex'>
-      <div class='icon flex-center' @click='onIconClick("new")'>
-        <new :class='selectedOverview === "new" && "active"'/>
+    <div v-if='!isOtherUser' class='flex-center'>
+      <!-- Left. -->
+      <div class='icon-container flex'>
+        <div class='icon flex-center' @click='onIconClick("new")'>
+          <new :class='selectedOverview === "new" && "active"'/>
+        </div>
+
+        <div class='icon flex-center' @click='onIconClick("popular")'>
+          <popular :class='selectedOverview === "popular" && "active"'/>
+        </div>
       </div>
 
-      <div class='icon flex-center' @click='onIconClick("popular")'>
-        <popular :class='selectedOverview === "popular" && "active"'/>
+      <!-- Center. -->
+      <square-button class='add' :extraClass='fire.auth().currentUser !== null ? "enabled add" : "disabled add"' @click.native='onAddQuizClick'>
+        <h2>+</h2>
+      </square-button>
+
+      <!-- Right. -->
+      <div class='icon-container flex'>
+        <div class='icon flex-center' @click='onQRCodeClick'>
+          <q-r :class='selectedOverview === "qr" && "active"'/>
+        </div>
+
+        <div class='icon flex-center' @click='onProfileClick'>
+          <profile :class='selectedOverview === "profile" && "active"'/>
+        </div>
       </div>
     </div>
-    <!-- ========== -->
 
-    <!-- === CENTER === -->
-    <square-button class='add' :extraClass='fire.auth().currentUser !== null ? "enabled add" : "disabled add"' @click.native='onAddQuizClick'>
-      <h2>+</h2>
-    </square-button>
-    <!-- ========== -->
-
-    <!-- === RIGHT === -->
-    <div class='icon-container flex'>
-      <div class='icon flex-center' @click='onQRCodeClick'>
-        <q-r :class='selectedOverview === "qr" && "active"'/>
+    <div v-if='isOtherUser' class='follow-container flex align-center'>
+      <div class='item flex justify-end'>
+        <div class='back-container flex-center' @click='onBackClick'>
+          <back />
+        </div>
       </div>
 
-      <div class='icon flex-center' @click='onProfileClick'>
-        <profile :class='selectedOverview === "profile" && "active"'/>
+      <div class='item'>
+        <default-button :content='"Follow"'/>
       </div>
     </div>
-    <!-- ========== -->
-
   </div>
 </template>
 
@@ -42,13 +52,16 @@ import New from '@/assets/icons/bottom-nav/New.svg';
 import Popular from '@/assets/icons/bottom-nav/Popular.svg';
 import QR from '@/assets/icons/bottom-nav/QR.svg';
 import Profile from '@/assets/icons/bottom-nav/Profile.svg';
+import DefaultButton from '@/components/buttons/DefaultButton';
+import Back from '@/assets/icons/main-header/Back.svg';
 
 export default {
   name: 'BottomNavigation',
-  components: { SquareButton, New, Popular, Profile, QR },
+  components: { SquareButton, New, Popular, Profile, QR, DefaultButton, Back },
   data: () => ({ fire }),
   computed: {
-    ...mapState('Navigation', ['selectedOverview'])
+    ...mapState('Navigation', ['selectedOverview']),
+    ...mapState('Users', ['isOtherUser'])
   },
   methods: {
     onIconClick (selected) {
@@ -80,6 +93,12 @@ export default {
       if (fire.auth().currentUser === null) {
         this.$store.dispatch('Notifications/setNotification', { message: 'You need to be logged in to create quizzes.' });
       }
+    },
+
+    onBackClick () {
+      this.$store.dispatch('Navigation/onBackClick');
+      this.$store.dispatch('Users/onProfileDismount');
+      this.$router.back();
     }
   }
 }
@@ -124,6 +143,30 @@ export default {
       &.active {
         fill: $pinky;
       }
+    }
+  }
+
+  .follow-container {
+    .item {
+      width: 50%;
+    }
+
+    .back-container {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-right: 9.5rem;
+      border-radius: $largeRadius;
+
+      svg {
+        fill: $mist;
+        width: 60%;
+        height: 60%;
+      }
+    }
+
+    .default-button {
+      width: 15rem;
+      margin-left: -7.5rem;
     }
   }
 }
