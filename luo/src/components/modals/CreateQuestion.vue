@@ -2,7 +2,7 @@
   <div class='create-question'>
     <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
 
-      <!-- === SELECT QUESTION === -->
+      <!-- Make question. -->
       <div key='1' v-if='selectedSlide === 0'>
         <section>
           <h3 class='title heading h--xm h--color-primary'>What is your question?</h3>
@@ -35,16 +35,21 @@
 
         <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide("question-1-2")'/>
       </div>
-      <!-- ========== -->
 
-      <!-- === ADD ANSWERS === -->
+      <!-- Add answers. -->
       <div key='2' v-if='selectedSlide === 1'>
         <section>
           <h3 class='title heading h--xm h--color-primary'>{{ !answersFilled ? 'Add your answers' : 'Which one is correct?' }}</h3>
 
           <div v-for='answer in formData.answers' :key='answer.id' class='answer flex-center'>
             <check-mark v-if='answersFilled' @click.native='setAnswerCorrect(answer.id)' :checked='answer.correct'/>
-            <input @keydown='deleteAnswerField' class='default-input' v-model='answer.answer' type='text' :placeholder='`Answer ${ answer.id + 1 }`'>
+            <input 
+              @keydown='onInputKeyDown' 
+              class='default-input' 
+              v-model='answer.answer' 
+              type='text' 
+              :placeholder='`Answer ${ answer.id + 1 }`'
+            >
           </div>
 
           <p style='margin-top: -1rem;' class='paragraph p--s p--color-danger p--weight-bold error'>{{ error }}</p>
@@ -61,7 +66,6 @@
 
         <submit-and-cancel :includeBack='true' @onback='prevSlide' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='checkAnswersSubmit'/>
       </div>
-      <!-- ========== -->
 
     </transition>
   </div>
@@ -145,9 +149,16 @@ export default {
     },
 
     // Delete answer field.
-    deleteAnswerField (e) {
-      if (e.keyCode === 8 && (this.formData.answers[this.formData.answers.length - 1].answer === '' && this.formData.answers[0].answer !== '')) {
+    onInputKeyDown (e) {
+      const firstAnswer = this.formData.answers[0].answer !== '';
+      const lastAnswer = this.formData.answers[this.formData.answers.length - 1].answer;
+
+      if (e.keyCode === 8 && (lastAnswer === '' && firstAnswer)) {
         this.formData.answers.pop();
+      }
+
+      if (e.keyCode === 9) {
+        this.addAnswer();
       }
     },
 
