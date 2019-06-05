@@ -62,7 +62,7 @@ export default {
 
     onProfileClick () {
       if (fire.auth().currentUser !== null) {
-        this.$store.dispatch("Navigation/onIconClick", { selected: "profile" })
+        this.$store.dispatch('Navigation/onIconClick', { selected: 'profile' })
       }
 
       if (fire.auth().currentUser === null) {

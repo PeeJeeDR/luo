@@ -17,7 +17,7 @@
         <div :class='`over-image flex justify-between align-center ${ showQR && "qr-is-open" }`'>
           <div>
             <transition mode='out-in' enter-active-class='animated fadeInDown faster' leave-active-class='animated fadeOut faster'>
-              <profile-avatar v-if='!showQR' :img='userFromDB'/>
+              <profile-avatar v-if='!showQR' :img='quizUser'/>
             </transition>
           </div>
           <button v-if='quizById.isQRQuiz && quizById.createdBy === fire.auth().currentUser.uid' @click='showQR = !showQR' class='flex-center'>
@@ -105,7 +105,7 @@ export default {
   }),
   computed: {
     ...mapState('Quizzes', ['quizById']),
-    ...mapState('Users', ['userFromDB'])
+    ...mapState('Users', ['quizUser'])
   },
   methods: {
     // When the play button has pressed.

@@ -1,13 +1,13 @@
 <template>
-  <div v-if='userFromDB !== undefined' class='profile-in-header default-vp flex justify-start align-start'>
+  <div v-if='user !== undefined' class='profile-in-header default-vp flex justify-start align-start'>
     <div class='img-container' @click='onAvatarClick'>
       <input type='file' ref='img' accept='image/*' style='display: none' @change='onImgSelect'>
-      <img :src='userFromDB.avatarUrl !== null ? "data:image/jpeg;base64," + userFromDB.avatarUrl : require(`@/assets/img/avatars/${ userFromDB.avatar }.png`)' alt='Avatar image.'>
-      <button v-if='fire.auth().currentUser.uid === userFromDB.id' class='flex-center'><edit /></button>
+      <img :src='user.avatarUrl !== null ? "data:image/jpeg;base64," + user.avatarUrl : require(`@/assets/img/avatars/${ user.avatar }.png`)' alt='Avatar image.'>
+      <button v-if='fire.auth().currentUser.uid === user.id' class='flex-center'><edit /></button>
     </div>
   
     <div class='stats flex flex-wrap'>
-      <stat :title='"Name"' :value='userFromDB.username' :color='"light"'/>
+      <stat :title='"Name"' :value='user.username' :color='"light"'/>
       <stat :title='"Likes"' :value='likesOfUser' :color='"light"'/>
       <stat :title='"Quizzes made"' :value='quizzesMadeByUser.length' :color='"light"'/>
       <stat :title='"Quizzed played"' :value='quizzesPlayedByUser.length' :color='"light"'/>
@@ -29,13 +29,16 @@ export default {
     fire
   }),
   computed: {
-    ...mapState('Users', ['userFromDB']),
+    ...mapState('Users', ['user']),
     ...mapState('Quizzes', ['quizzesMadeByUser', 'quizzesPlayedByUser']),
     ...mapGetters('Quizzes', ['likesOfUser'])
   },
+  created () {
+    console.log('USER', this.user);
+  },
   methods: {
     onAvatarClick () {
-      if (fire.auth().currentUser.uid === this.userFromDB.id) {
+      if (fire.auth().currentUser.uid === this.user.id) {
         this.$refs.img.click();
       }
     },

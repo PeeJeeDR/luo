@@ -40,7 +40,7 @@ export default {
   },
   created () {
     this.$store.dispatch('Navigation/onAppLoad');
-    this.$store.dispatch('Users/fetchUserById', { userId: fire.auth().currentUser.uid });
+    this.$store.dispatch('Users/fetchUserById', { userId: fire.auth().currentUser.uid, type: 'user' });
     this.$store.dispatch('Quizzes/fetchQuizzesMadeByUserId', { userId: fire.auth().currentUser.uid });
     this.$store.dispatch('Quizzes/fetchQuizzesPlayedByUserId', { userId: fire.auth().currentUser.uid });
   }

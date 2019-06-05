@@ -142,7 +142,7 @@ export const Quizzes = {
         commit('PlayQuiz/SET_PLAYING_QUIZ', result, { root: true });
 
         // Fetch user that created the collected quiz.
-        dispatch('Users/fetchUserById', { userId: result.createdBy }, { root: true });
+        dispatch('Users/fetchUserById', { userId: result.createdBy, type: 'quiz-user' }, { root: true });
       });
     },
 

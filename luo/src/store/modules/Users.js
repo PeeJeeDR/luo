@@ -5,28 +5,42 @@ export const Users = {
   namespaced: true,
 
   state: {
-    userFromDB: undefined
+    user: undefined,
+    quizUser: undefined
   },
 
   mutations: {
-    /* === USER === */
+    // Save profile.
     SAVE_USER (state, user) {
-      state.userFromDB = user;
+      state.user = user;
     },
     CLEAR_USER (state) {
-      state.userFromDB = undefined;
+      state.user = undefined;
+    },
+
+    SAVE_QUIZ_USER (state, user) {
+      state.quizUser = user;
+    },
+    CLEAR_QUIZ_USER () {
+      state.quizUser = undefined;
     }
-    /* ========== */
   },
 
   actions: {
-    /* === FETCH SINGLE USER FROM FIRESTORE === */
+    // Fetch user by id.
     fetchUserById ({ commit }, payload) {
       db.collection('users').doc(payload.userId).onSnapshot(snap => {
         if (snap.data() !== undefined) {
           let result = snap.data();
           result.id = payload.userId;
-          commit('SAVE_USER', result);
+
+          if (payload.type === 'user') {
+            commit('SAVE_USER', result);
+          }
+          
+          if (payload.type === 'quiz-user') {
+            commit('SAVE_QUIZ_USER', result);
+          }
         }
 
         if (snap.data() === undefined) {
@@ -34,9 +48,8 @@ export const Users = {
         }
       })
     },
-    /* ========== */
 
-    /* === UPDATE THE AVATAR IMAGE OF THE USER === */
+    // Update thus users avatar.
     updateUserAvatar ({ state, dispatch }, payload) {
       db.collection('users').doc(state.userFromDB.id).update({
         avatarUrl: payload.base64
@@ -49,12 +62,10 @@ export const Users = {
         dispatch('Notifications/setNotification', { message: 'Someting went wrong while updating your profile image.' }, { root: true });
       })
     },
-    /* ========== */
 
-    /* === EXECUTE WHEN THE APP LOADS === */
+    // Clear user when app loads.
     onAppLoad ({ commit }) {
       commit('CLEAR_USER');
     }
-    /* ========== */
   }
 }
