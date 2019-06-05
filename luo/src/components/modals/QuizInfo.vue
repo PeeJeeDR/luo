@@ -17,7 +17,7 @@
         <div :class='`over-image flex justify-between align-center ${ showQR && "qr-is-open" }`'>
           <div>
             <transition mode='out-in' enter-active-class='animated fadeInDown faster' leave-active-class='animated fadeOut faster'>
-              <profile-avatar v-if='!showQR' :img='quizUser'/>
+              <profile-avatar v-if='!showQR' :img='quizUser' @click.native='onAvatarClick'/>
             </transition>
           </div>
           <button v-if='quizById.isQRQuiz && quizById.createdBy === fire.auth().currentUser.uid' @click='showQR = !showQR' class='flex-center'>
@@ -131,6 +131,12 @@ export default {
           message: 'This quiz has been deleted.' 
         });
       }
+    },
+
+    // When the users avatar is clicked.
+    onAvatarClick () {
+      // This will open the profile route and save the user in the Users state.
+      this.$store.dispatch('Navigation/onQuizInfoAvatarClick', { user: this.quizUser });
     },
 
     // When the edit button has pressed.

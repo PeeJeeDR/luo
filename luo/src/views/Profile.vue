@@ -36,13 +36,29 @@ export default {
   components: { MoonLoader, Modal, Quiz, SectionTitle },
   computed: {
     ...mapState('Quizzes', ['quizzesMadeByUser', 'loading']),
-    ...mapState('Modals', ['modalIsOpen'])
+    ...mapState('Modals', ['modalIsOpen']),
+    ...mapState('Users', ['isOtherUser', 'user'])
   },
   created () {
     this.$store.dispatch('Navigation/onAppLoad');
-    this.$store.dispatch('Users/fetchUserById', { userId: fire.auth().currentUser.uid, type: 'user' });
-    this.$store.dispatch('Quizzes/fetchQuizzesMadeByUserId', { userId: fire.auth().currentUser.uid });
-    this.$store.dispatch('Quizzes/fetchQuizzesPlayedByUserId', { userId: fire.auth().currentUser.uid });
+
+    if (!this.isOtherUser) {
+      console.log('IS LOGGED IN USER');
+      this.$store.dispatch('Users/fetchUserById', { userId: fire.auth().currentUser.uid, type: 'user' });
+      this.$store.dispatch('Quizzes/fetchQuizzesMadeByUserId', { userId: fire.auth().currentUser.uid });
+      this.$store.dispatch('Quizzes/fetchQuizzesPlayedByUserId', { userId: fire.auth().currentUser.uid });
+    }
+
+    if (this.isOtherUser) {
+      console.log('IS OTHER USER', this.user);
+      this.$store.dispatch('Users/fetchUserById', { userId: this.user.id, type: 'user' });
+      this.$store.dispatch('Quizzes/fetchQuizzesMadeByUserId', { userId: this.user.id });
+      this.$store.dispatch('Quizzes/fetchQuizzesPlayedByUserId', { userId: this.user.id });
+    }
+  },
+  beforeDestroy () {
+    console.log('Destroy');
+    this.$store.dispatch('Users/onProfileDismount');
   }
 }
 </script>

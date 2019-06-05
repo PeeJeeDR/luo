@@ -6,7 +6,8 @@ export const Users = {
 
   state: {
     user: undefined,
-    quizUser: undefined
+    quizUser: undefined,
+    isOtherUser: false
   },
 
   mutations: {
@@ -18,49 +19,72 @@ export const Users = {
       state.user = undefined;
     },
 
+    // Save quiz profile.
     SAVE_QUIZ_USER (state, user) {
       state.quizUser = user;
     },
-    CLEAR_QUIZ_USER () {
+    CLEAR_QUIZ_USER (state) {
       state.quizUser = undefined;
+    },
+
+    // Tell the application that it has to show a other user.
+    ENABLE_OTHER_USER (state) {
+      state.isOtherUser = true;
+    },
+    DISABLE_OTHER_USER (state) {
+      state.isOtherUser = false;
     }
   },
 
   actions: {
     // Fetch user by id.
-    fetchUserById ({ commit }, payload) {
-      db.collection('users').doc(payload.userId).onSnapshot(snap => {
-        if (snap.data() !== undefined) {
-          let result = snap.data();
-          result.id = payload.userId;
-
-          if (payload.type === 'user') {
-            commit('SAVE_USER', result);
+    fetchUserById ({ commit, state }, payload) {
+      if (!state.isOtherUser) {
+        db.collection('users').doc(payload.userId).onSnapshot(snap => {
+          if (snap.data() !== undefined) {
+            let result = snap.data();
+            result.id = payload.userId;
+  
+            // Save user for personal or other user page.
+            if (payload.type === 'user') {
+              commit('SAVE_USER', result);
+            }
+            
+            // Save user to show in QuizInfo.
+            if (payload.type === 'quiz-user') {
+              commit('SAVE_QUIZ_USER', result);
+            }
           }
-          
-          if (payload.type === 'quiz-user') {
-            commit('SAVE_QUIZ_USER', result);
+  
+          if (snap.data() === undefined) {
+            console.log('REDIRECT');
+            router.push('/authentication');
           }
-        }
-
-        if (snap.data() === undefined) {
-          router.push('/authentication');
-        }
-      })
+        });
+      }
+      
     },
 
     // Update thus users avatar.
     updateUserAvatar ({ state, dispatch }, payload) {
-      db.collection('users').doc(state.userFromDB.id).update({
-        avatarUrl: payload.base64
-      })
+      db.collection('users').doc(state.userFromDB.id).update({ avatarUrl: payload.base64 })
       .then(() => {
         dispatch('Notifications/setNotification', { message: 'You profile image has updated successfully.' }, { root: true });
-        dispatch('fetchUserById', { userId: state.userFromDB.id });
       })
-      .catch(err => {
+      .catch(() => {
         dispatch('Notifications/setNotification', { message: 'Someting went wrong while updating your profile image.' }, { root: true });
       })
+    },
+
+    // Save the user in the store when the avatar is clicked in QuizInfo.
+    onQuizInfoAvatarClick ({ commit }, payload) {
+      commit('SAVE_USER', payload.user);
+      commit('ENABLE_OTHER_USER');
+    },
+
+    // When navigating away from /profile route.
+    onProfileDismount ({ commit }) {
+      commit('DISABLE_OTHER_USER');
     },
 
     // Clear user when app loads.

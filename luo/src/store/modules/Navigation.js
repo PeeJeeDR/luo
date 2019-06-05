@@ -9,16 +9,17 @@ export const Navigation = {
   },
 
   mutations: {
-    /* === SET SELECTED OVERVIEW IN BOTTOM NAV === */
+    // Set selected overview.
     SET_SELECTED_OVERVIEW (state, selected) {
       state.selectedOverview = selected;
     },
-    /* ========== */
   },
 
   actions: {
-    /* === ICON CLICKED IN BOTTOM NAV === */
-    onIconClick ({ commit, dispatch, state }, payload) {
+    // On icon click in the bottom nav.
+    onIconClick ({ commit, dispatch, state, rootState }, payload) {
+      const isOtherUser = rootState.Users.isOtherUser;
+
       // Enable scrolling on the document.
       enableBodyScroll(document.getElementsByTagName('body')[0]);
 
@@ -61,12 +62,28 @@ export const Navigation = {
       // Set header props on icon click.
       commit('Header/SET_HEADER_TITLE', payload.selected === 'qr' ? 'QR code scanner' : payload.selected, { root: true });
     },
-    /* ========== */
 
-    /* === WHEN APP LOADS === */
+    // When te app loads.
     onAppLoad ({ state, dispatch }) {
       dispatch('onIconClick', { selected: state.selectedOverview, firstLoad: true });
+    },
+
+    // When the avatar of the user in QuizInfo has been clicked.
+    onQuizInfoAvatarClick ({ state, commit, dispatch }, payload) {
+      // Save the user in the Users state.
+      dispatch('Users/onQuizInfoAvatarClick', { user: payload.user }, { root: true });
+
+      // Set the selected overview.
+      commit('SET_SELECTED_OVERVIEW', 'profile');
+
+      // Change header style.
+      commit('Header/SET_HEADER_TITLE', state.selectedOverview, { root: true });
+
+      // Close the modal.
+      dispatch('Modals/closeModal', {}, { root: true });
+
+      // Go to the profile page.
+      router.push('/profile');
     }
-    /* ========== */
   }
 }
