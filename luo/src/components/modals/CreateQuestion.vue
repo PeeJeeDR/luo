@@ -188,8 +188,12 @@ export default {
 
     // When submitting the form.
     onFormSubmit () {
-      if (this.editMode) {
+      if (this.editMode && this.isNewQuestion) {
         this.formData.id = this.quizToBeEdited.questions.length;
+      }
+
+      if (this.editMode && !this.isNewQuestion) {
+        this.formData.id = this.selectedQuestionId;
       }
 
       if (!this.editMode) {

@@ -11,7 +11,7 @@
           <textarea class='default-input textarea' placeholder='Quiz description' v-model='formData.description'></textarea>
           <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error1 }}</p>
 
-          <div v-if='!isQRQuiz' class='public flex align-center' @click='togglePublic'>
+          <div v-if='shouldPublicRender()' class='public flex align-center' @click='togglePublic'>
             <check-mark :checked='formData.isPublic'/>
             <p class='paragraph p--m p--weight-bold p--color-lighter'>Make quiz public</p>
           </div>
@@ -54,7 +54,7 @@
           <h3 class='title heading h--xm h--color-primary'>Categories</h3>
           <div class='categories'>
             <div class='category flex align-center' v-for='category in categories' :key='category.id' @click='categorySelect(category.id)'>
-              <check-mark :checked='selectedCategories.includes(category.id)'/>
+              <check-mark :checked='selectedCategories.includes(category.id) || quizToBeEdited.categories.includes(category.id)'/>
               <img :src='require(`@/assets/icons/categories/${ category.slug }.png`)' :alt='`${ capFirstChar(category.category) } icon.`'>
               <h2 class='heading h--m'>{{ category.category }}</h2>
             </div>
@@ -102,11 +102,27 @@ export default {
     this.$store.dispatch('Categories/fetchCategories');
 
     console.log('QUIZ TO BE EDITED', this.quizToBeEdited);
+    if (this.editMode) {
+      this.formData = this.quizToBeEdited;
+    }
   },
   methods: {
     // Toggle public state.
     togglePublic () {
       this.formData.isPublic = !this.formData.isPublic;
+    },
+
+    // Should the public check mark render?
+    shouldPublicRender () {
+      if (this.editMode && !this.quizToBeEdited.isQRQuiz) {
+        return true;
+      }
+
+      if (!this.editMode && !this.isQRQuiz) {
+        return true;
+      }
+
+      return false;
     },
     
     // Set the quiz image.
@@ -127,27 +143,46 @@ export default {
 
     // When submitted on the category page. Checks if there is at least one category selected.
     onFormSubmit () {
-      if (this.selectedCategories.length === 0) {
+      if (!this.editMode && this.selectedCategories.length === 0) {
+        this.error = 'Select at least one category.';
+        return;
+      }
+
+      if (this.editMode && this.quizToBeEdited.categories.length === 0) {
         this.error = 'Select at least one category.';
         return;
       }
 
       this.error = '';
-      this.formData.categories = this.selectedCategories;
+
+      if (!this.editMode) {
+        this.formData.categories = this.selectedCategories;
+      }
+
+      if (this.editMode) {
+        this.formData.categories = this.quizToBeEdited.categories;
+      }
+
       this.formData.userId = fire.auth().currentUser.uid;
 
-      // Post new quiz.
-      this.$store.dispatch('Quizzes/postNewQuiz', this.formData).then(() => {
+      if (!this.editMode) {
+        // Post new quiz.
+        this.$store.dispatch('Quizzes/postNewQuiz', this.formData).then(() => {
 
-        // Clear questions array in the store.
-        this.$store.dispatch('CreateQuiz/onNewQuizPost');
+          // Clear questions array in the store.
+          this.$store.dispatch('CreateQuiz/onNewQuizPost');
 
-        // Close the modal.
-        this.$store.dispatch('Modals/closeModal');
+          // Close the modal.
+          this.$store.dispatch('Modals/closeModal');
 
-        // Route user to the overview page.
-        this.$router.push('/');
-      });
+          // Route user to the overview page.
+          this.$router.push('/');
+        });
+      }
+
+      if (this.editMode) {
+        this.$store.dispatch('Quizzes/updateQuiz', { quiz: this.formData });
+      }
     }
     /* ========== */
   }

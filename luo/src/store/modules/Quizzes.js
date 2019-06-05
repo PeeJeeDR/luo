@@ -1,5 +1,6 @@
 import { firebase, db } from '@/firebase/firebase';
 import moment from 'moment';
+import router from '@/router';
 
 export const Quizzes = {
   namespaced: true,
@@ -199,12 +200,32 @@ export const Quizzes = {
         }
   
         // Add quiz to firestore.
-        db.collection('quizzes').add(quiz).then(() => {
+        db.collection('quizzes').add(quiz)
+        .then(() => {
           dispatch('Notifications/setNotification', { message: 'Quize made successfully!' }, { root: true });
-        }).catch(() => {
+        })
+        .catch(() => {
           dispatch('Notifications/setNotification', { message: 'Something went wrong while creating the quiz. Please try again later.' }, { root: true });
         });
       }
+    },
+
+    updateQuiz ({ dispatch }, payload) {
+      db.collection('quizzes').doc(payload.quiz.id).update(payload.quiz)
+      .then(() => {
+        // Close the modal.
+        dispatch('Modals/closeModal', {}, { root: true });
+
+        // Route back to profile.
+        router.push('/profile');
+
+        // Show notification to the user.
+        dispatch('Notifications/setNotification', { message: 'Quize updated successfully!' }, { root: true });
+      })
+      .catch(() => {
+        // Show notification to the user.
+        dispatch('Notifications/setNotification', { message: 'Something went wrong while updating the quiz. Please try again later.' }, { root: true });
+      });
     },
 
     // Delete a specific quiz
