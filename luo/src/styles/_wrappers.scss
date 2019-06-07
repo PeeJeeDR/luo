@@ -1,9 +1,33 @@
 .wrapper {
-  width: 84% !important;
+  width: 84%;
   margin: 0 auto !important;
+
+  @include tablet {
+    width: $small;
+  }
+
+  @include desktop-small {
+    width: $medium;
+  }
+
+  @include desktop-large {
+    width: $large;
+  }
 }
 
 .big-wrapper {
-  width: 94% !important;
+  width: 94%;
   margin: 0 auto !important;
+
+  @include tablet {
+    width: $small;
+  }
+
+  @include desktop-small {
+    width: $medium;
+  }
+
+  @include desktop-large {
+    width: $large;
+  }
 }

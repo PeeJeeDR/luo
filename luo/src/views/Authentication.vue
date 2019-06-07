@@ -172,7 +172,8 @@ export default {
                   badges: [],
                   avatar: Math.floor(Math.random() * (12 - 1) + 1),
                   avatarUrl: null,
-                  xp: 0
+                  xp: 0,
+                  followers: []
                 }).catch(err => {
                   console.log('error', err);
                 });

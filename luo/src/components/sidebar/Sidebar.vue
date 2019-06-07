@@ -81,10 +81,22 @@ export default {
 
   .bar {
     background-color: $snow;
-    width: 70%;
+    width: 60%;
     overflow: scroll;
     white-space: nowrap;
     padding: 2rem 0 1rem 0;
+
+    @include tablet {
+      width: 250px;
+    }
+
+    @include desktop-small {
+      width: 300px;
+    }
+
+    @include desktop-large {
+      width: 400px;
+    }
 
     img {
       width: 2rem;

@@ -38,7 +38,7 @@
       </div>
 
       <div class='item'>
-        <default-button :content='"Follow"'/>
+        <default-button :content='"Follow"'@click.native='onFollowClick'/>
       </div>
     </div>
   </div>
@@ -99,6 +99,10 @@ export default {
       this.$store.dispatch('Navigation/onBackClick');
       this.$store.dispatch('Users/onProfileDismount');
       this.$router.back();
+    },
+
+    onFollowClick () {
+      this.$store.dispatch('Users/onUserFollow');
     }
   }
 }

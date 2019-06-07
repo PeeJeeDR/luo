@@ -107,6 +107,11 @@ header {
 
     .nav-props {
       height: 100%;
+      margin: 0 auto;
+
+      @include desktop {
+        width: calc(100% - 2rem);
+      }
     }
   }
 

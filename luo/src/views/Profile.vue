@@ -11,8 +11,8 @@
 
       <!-- === QUIZZES MADE BY THE USER === -->
       <section-title v-if='quizzesMadeByUser.length > 0' :title='"Your quizzes"'/>
-      <div v-for='(quiz, i) in quizzesMadeByUser' :key='i'>
-        <quiz :quiz='quiz' :index='i'/>
+      <div class='flex flex-wrap justify-center'>
+        <quiz v-for='(quiz, i) in quizzesMadeByUser' :key='i' :quiz='quiz' :index='i'/>
       </div>
 
       <!-- === IF THERE ARE NO QUIZZES === -->
@@ -68,6 +68,7 @@ export default {
   .spinner {
     margin-top: 3rem;
   }
+
   h2 {
     margin-top: 5rem !important;
   }

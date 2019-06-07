@@ -1,5 +1,5 @@
 <template>
-  <div v-if='user !== undefined' class='profile-in-header default-vp'>
+  <div v-if='user !== undefined' class='profile-in-header'>
     <div class='flex justify-start align-start'>
       <div class='img-container' @click='onAvatarClick'>
         <input type='file' ref='img' accept='image/*' style='display: none' @change='onImgSelect'>
@@ -11,7 +11,7 @@
         <stat :title='"Name"' :value='user.username' :color='"light"'/>
         <stat :title='"Likes"' :value='likesOfUser' :color='"light"'/>
         <stat :title='"Quizzes made"' :value='quizzesMadeByUser.length' :color='"light"'/>
-        <stat :title='"Quizzes played"' :value='quizzesPlayedByUser.length' :color='"light"'/>
+        <stat :title='"followers"' :value='user.followers.length' :color='"light"'/>
       </div>
     </div>
   </div>
@@ -59,6 +59,8 @@ export default {
 <style lang='scss' scoped>
 .profile-in-header
 {
+  padding: 2rem 0;
+  
   .img-container {
     position: relative;
 

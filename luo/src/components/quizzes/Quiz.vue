@@ -1,6 +1,6 @@
 <template>
-  <div v-ripple class='animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`' @click='onQuizClick' @animationend='animatePress = false'>
-    <div class='quiz' :class='animatePress && "animate"'>
+  <div v-ripple class='quiz animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`' @click='onQuizClick' @animationend='animatePress = false'>
+    <div :class='animatePress && "animate"'>
       <div class='img-container'>
         <img :src='quiz.quizImg !== "" ? quiz.quizImg : require(`@/assets/img/samples/categories/${ quiz.quizSample }.jpg`)' :alt='`Header image of the "${ quiz.title }" quiz.`'>
       </div>
@@ -38,9 +38,6 @@ export default {
 
       // Fetch quiz by id.
       await this.$store.dispatch('Quizzes/fetchQuizById', { id: this.quiz.id });
-
-      // Show the collected quiz in the quiz info modal.
-      this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
     }
   }
 }
@@ -52,15 +49,37 @@ export default {
   margin-top: 0.7rem;
   border-radius: $smallRadius;
   overflow: hidden;
-  
-  .img-container {
-    height: 12rem;
+  width: 100%;
+  margin: 1rem 0 0 0;
+  background-color: $snow;
 
-    img {
-      width: 100%;
-      height: 12rem;
-      object-fit: cover;
-    }
+  @include phone-large {
+    width: 90%;
+  }
+
+  @include tablet {
+    width: calc(50% - 2rem);
+    margin: 1rem;
+  }
+
+  @include desktop-small {
+    width: calc(50% - 2rem);
+    margin: 1rem;
+  }
+
+  @include desktop-large {
+    width: calc(50% - 2rem);
+    margin: 1rem;
+  }
+  
+  .img-container img {
+    width: 100%;
+    height: 12rem;
+    object-fit: cover;
+
+    @include phone-large { height: 15rem }
+    @include desktop-small { height: 18rem }
+    @include desktop-large { height: 20rem }
   }
 
   .content-container {

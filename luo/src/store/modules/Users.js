@@ -1,4 +1,4 @@
-import { db } from '@/firebase/firebase';
+import { db, fire, firebase } from '@/firebase/firebase';
 import router from '@/router';
 
 export const Users = {
@@ -57,7 +57,6 @@ export const Users = {
           }
   
           if (snap.data() === undefined) {
-            console.log('REDIRECT');
             router.push('/authentication');
           }
         });
@@ -77,9 +76,16 @@ export const Users = {
     },
 
     // Save the user in the store when the avatar is clicked in QuizInfo.
-    onQuizInfoAvatarClick ({ commit }, payload) {
+    onQuizInfoAvatarClick ({ commit, state }, payload) {
       commit('SAVE_USER', payload.user);
-      commit('ENABLE_OTHER_USER');
+
+      if (fire.auth().currentUser.uid !== payload.user.id) {
+        commit('ENABLE_OTHER_USER');
+      }
+
+      if (fire.auth().currentUser.uid !== payload.user.id) {
+        router.push('/profile');
+      }
     },
 
     // When navigating away from /profile route.
@@ -91,6 +97,15 @@ export const Users = {
     // Clear user when app loads.
     onAppLoad ({ commit }) {
       commit('CLEAR_USER');
+    },
+
+    onUserFollow ({ state }) {
+      console.log('User to be followed', state.user);
+      console.log('User that follows someone', fire.auth().currentUser);
+
+      db.collection('users').doc(state.user.id).update({
+        followers: firebase.firestore.FieldValue.arrayUnion(fire.auth().currentUser.uid)
+      });
     }
   }
 }

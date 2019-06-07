@@ -47,7 +47,15 @@ export default {
   padding: 0 2rem 2rem 2rem;
   max-height: 80%;
   overflow: scroll;
-  top: 5rem;
+  top: 8rem; left: 0; right: 0;
+
+  @include tablet {
+    width: 40rem;
+  }
+
+  @include desktop {
+    width: 40rem;
+  }
 
   section {
     margin-top: 2.5rem;
