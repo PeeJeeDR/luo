@@ -53,10 +53,7 @@ export default {
       await this.$store.dispatch('Modals/closeModal');
       
       // Fetch quiz by id.
-      await this.$store.dispatch('Quizzes/fetchQuizById', { id: decodedString });
-
-      // Show the collected quiz in the quiz info modal.
-      this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
+      this.$store.dispatch('Quizzes/fetchQuizById', { id: decodedString, type: 'QR-scan' });
     }
   }
 }
