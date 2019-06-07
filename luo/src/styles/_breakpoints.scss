@@ -17,6 +17,13 @@ $large: 1200px;
   }
 }
 
+// Phone small and large combined.
+@mixin phone {
+  @media (max-width: #{ $small }) {
+    @content;
+  }
+}
+
 // Tablet (768px - 992px).
 @mixin tablet {
   @media (min-width: #{ $small }) and (max-width: #{ $medium }) {

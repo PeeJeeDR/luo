@@ -71,25 +71,5 @@ export default {
     top: 0; bottom: 0; left: 0; right: 0;
     margin-top: -10rem;
   }
-
-  @include phone-small {
-    background-color: lightcoral;
-  }
-
-  @include phone-large {
-    background-color: lightblue;
-  }
-
-  @include tablet {
-    background-color: lightyellow;
-  }
-
-  @include desktop-small {
-    background: lightpink;
-  }
-
-  @include desktop-large {
-    background-color: lightgreen;
-  }
 }
 </style>

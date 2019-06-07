@@ -1,5 +1,5 @@
 <template>
-  <div class='authentication page wrapper flex justify-start align-center direction-col'>
+  <div class='authentication wrapper flex justify-start align-center direction-col'>
     <img :src='Logo' alt='Logo of Luo.'>
 
     <div class="form-container flex direction-col align-center">
@@ -144,6 +144,12 @@ export default {
             if (err.code === 'auth/invalid-email') {
               this.error = 'Pleas use a valid e-mail address.';
             }
+
+            if (err.code === 'auth/network-request-failed') {
+              this.$store.dispatch('Notifications/setNotification', { 
+                message: 'We could not connect to our servers. Make sure you have a proper internet connection.'
+              });
+            }            
           });
         }
         /* ========== */
@@ -230,6 +236,16 @@ export default {
 
 <style lang='scss' scoped>
 .authentication {
+  width: 80%;
+
+  @include tablet {
+    width: 30rem;
+  }
+
+  @include desktop {
+    width: 30rem;
+  }
+
   img {
     padding-top: 4rem;
     width: 4rem;

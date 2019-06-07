@@ -49,6 +49,10 @@ export default {
   overflow: scroll;
   top: 8rem; left: 0; right: 0;
 
+  @include phone {
+    top: 5rem;
+  }
+
   @include tablet {
     width: 40rem;
   }

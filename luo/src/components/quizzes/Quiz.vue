@@ -1,6 +1,6 @@
 <template>
-  <div v-ripple class='quiz animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`' @click='onQuizClick' @animationend='animatePress = false'>
-    <div :class='animatePress && "animate"'>
+  <div v-ripple class='quiz-container animated fadeInLeft faster' :style='`animation-delay: ${ index * 0.1 }s`' @click='onQuizClick'>
+    <div :class='`quiz ${ animatePress && "animate" }`' @animationend='animatePress = false'>
       <div class='img-container'>
         <img :src='quiz.quizImg !== "" ? quiz.quizImg : require(`@/assets/img/samples/categories/${ quiz.quizSample }.jpg`)' :alt='`Header image of the "${ quiz.title }" quiz.`'>
       </div>
@@ -44,34 +44,33 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.quiz {
-  @include defaultShadow;
-  margin-top: 0.7rem;
-  border-radius: $smallRadius;
-  overflow: hidden;
-  width: 100%;
-  margin: 1rem 0 0 0;
-  background-color: $snow;
-
-  @include phone-large {
-    width: 90%;
+.quiz-container {
+  @include phone {
+    margin-top: 1rem;
   }
 
   @include tablet {
     width: calc(50% - 2rem);
-    margin: 1rem;
+    margin: 2rem 1rem 0 1rem;
   }
 
   @include desktop-small {
     width: calc(50% - 2rem);
-    margin: 1rem;
+    margin: 2rem 1rem 0 1rem;
   }
 
   @include desktop-large {
     width: calc(50% - 2rem);
-    margin: 1rem;
+    margin: 2rem 1rem 0 1rem;
   }
-  
+}
+.quiz {
+  @include defaultShadow;
+  border-radius: $smallRadius;
+  overflow: hidden;
+  width: 100%;
+  background-color: $snow;
+
   .img-container img {
     width: 100%;
     height: 12rem;
