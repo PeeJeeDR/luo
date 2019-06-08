@@ -43,7 +43,7 @@ export default {
   props: ['question', 'number'],
   methods: {
     editQuestion () {
-      this.$store.dispatch('CreateQuiz/onQuestionEdit', { questionId: this.question.id });
+      this.$store.dispatch('CreateQuiz/onQuestionEdit', { question: this.question });
     },
 
     deleteQuestion () {
@@ -60,6 +60,11 @@ export default {
   border-radius: $smallRadius;
   margin-top: 0.7rem;
   overflow: hidden;
+  margin: 1rem auto 0 auto;
+
+  @include desktop {
+    width: 45rem;
+  }
 
   .left {
     padding: 0.8rem;

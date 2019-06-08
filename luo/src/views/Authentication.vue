@@ -293,7 +293,7 @@ export default {
       padding-top: 2rem;
 
       p.error {
-        color: $lava;
+        color: $auwch;
         height: 1rem;
       }
 

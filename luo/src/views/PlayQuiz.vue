@@ -17,7 +17,9 @@
           </div>
         </div>
 
-        <multiple-choise key='1' :playingQuiz='playingQuiz' :inputEnabled='inputEnabled'/>
+        <div class='big-wrapper'>
+          <multiple-choise key='1' :playingQuiz='playingQuiz' :inputEnabled='inputEnabled'/>
+        </div>
       </div>
 
       <!-- === QUIZ END === -->

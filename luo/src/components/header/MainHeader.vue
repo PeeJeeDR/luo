@@ -39,7 +39,6 @@ export default {
   props: ['render'],
   computed: {
     ...mapState('Header', ['headerTitle', 'leftIcon', 'rightIcon']),
-    ...mapState('CreateQuiz', ['questions', 'quizToBeEdited', 'editMode']),
     ...mapState('Modals', ['modalIsOpen'])
   },
   methods: {
@@ -54,9 +53,7 @@ export default {
     },
 
     openQuizOptionsModal () {
-      if (this.questions.length > -1) {
-        this.$store.dispatch('Modals/openModal', { type: 'save-quiz' });
-      }
+      this.$store.dispatch('Modals/openModal', { type: 'save-quiz' });
     },
 
     exitPlayQuiz () {
@@ -66,13 +63,7 @@ export default {
 
     shouldRenderSave () {
       if (this.rightIcon === 'save') {
-        if (!this.editMode && this.questions.length > 0) {
-          return true;
-        }
-
-        if (this.editMode && this.quizToBeEdited.questions.length > 0) {
-          return true;
-        }
+        return true;
       }
 
       return false;

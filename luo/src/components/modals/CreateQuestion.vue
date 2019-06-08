@@ -29,6 +29,8 @@
             <label for='fileInput' ref='img' slot='upload-label'></label>
           </image-uploader>
 
+          <p>{{ formData }}</p>
+
           <img v-if='formData.questionImg !== ""' :src='formData.questionImg' alt='Uploaded file.' @click='$refs.img.click()'>
           <default-button v-if='formData.questionImg === ""' :content='"Add question image"' @click.native='$refs.img.click()'/>
         </section>
@@ -103,12 +105,22 @@ export default {
     selectedCorrectAnswer: false
   }),
   computed: {
-    ...mapState('CreateQuiz', ['questions', 'editMode', 'quizToBeEdited', 'selectedQuestionId', 'isNewQuestion']),
+    ...mapState('CreateQuiz', ['questions', 'editMode', 'quizToBeEdited', 'selectedQuestion', 'isNewQuestion']),
   },
   created () {
-    if (this.editMode && !this.isNewQuestion) {
-      const currentQuestion = this.quizToBeEdited.questions[this.selectedQuestionId];
+    console.log('QUIZ TO BE EDITED', this.quizToBeEdited);
+    if (this.editMode && !this.isNewQuestion && this.quizToBeEdited !== undefined) {
+      const currentQuestion = this.quizToBeEdited.questions[this.selectedQuestion.id];
 
+      this.formData = currentQuestion;
+      this.answersFilled = true;
+      this.selectedCorrectAnswer = true;
+    }
+
+    if (this.editMode && this.isNewQuestion && this.quizToBeEdited === undefined) {
+      console.log('Hello');
+      console.log('selected question', this.selectedQuestion);
+      const currentQuestion = { ...this.selectedQuestion };
       this.formData = currentQuestion;
       this.answersFilled = true;
       this.selectedCorrectAnswer = true;
@@ -204,7 +216,7 @@ export default {
       }
 
       if (this.editMode && !this.isNewQuestion) {
-        this.formData.id = this.selectedQuestionId;
+        this.formData.id = this.selectedQuestion.id;
       }
 
       if (!this.editMode) {
