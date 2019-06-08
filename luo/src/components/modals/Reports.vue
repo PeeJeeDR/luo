@@ -76,5 +76,20 @@ export default {
       margin-bottom: 1rem;
     }
   }
+
+  textarea {
+    max-width: 100%;
+    min-width: 100%;
+
+    @include tablet {
+      min-width: 36rem;
+      max-width: 36rem;
+    }
+
+    @include desktop {
+      min-width: 36rem;
+      max-width: 36rem;      
+    }
+  }
 }
 </style>

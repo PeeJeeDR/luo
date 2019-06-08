@@ -84,8 +84,6 @@ export default {
     },
 
     onAddQuizClick () {
-      this.$store.dispatch('CreateQuiz/onNormalQuizCreate');
-      
       if (fire.auth().currentUser !== null) {
         this.$router.push('/quizzes/create');
       }

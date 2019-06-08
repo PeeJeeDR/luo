@@ -114,7 +114,7 @@ export default {
     }
   },
   beforeDestroy () {
-    this.$store.dispatch('CreateQuiz/onCreateQuestionDestory');
+    this.$store.dispatch('CreateQuiz/onCreateQuestionModalDestory');
   },
   methods: {
     // When a image is selected.
@@ -216,20 +216,6 @@ export default {
 <style lang='scss' scoped>
 .create-question
 {
-  .default-button {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-
-    @include tablet {
-      width: 15rem;
-    }
-
-    @include desktop {
-      width: 15rem;
-    }
-  }
-
   .answer {
     margin-bottom: 1rem;
 

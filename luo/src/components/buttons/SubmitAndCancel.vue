@@ -25,6 +25,13 @@ export default {
   button {
     background: none;
     border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: $smallRadius;
+    transition: all $fast ease-in-out;
+
+    &:hover {
+      background-color: lighten($mr-grey, 5%);
+    }
   }
 
   .left button {

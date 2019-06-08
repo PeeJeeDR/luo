@@ -75,5 +75,19 @@ export default {
     object-fit: cover;
     border-radius: $smallRadius;
   }
+
+  .default-button {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+
+    @include tablet {
+      width: 15rem;
+    }
+
+    @include desktop {
+      width: 15rem;
+    }
+  }
 }
 </style>

@@ -1,4 +1,4 @@
-import { firebase, db } from '@/firebase/firebase';
+import { firebase, db, fire } from '@/firebase/firebase';
 import moment from 'moment';
 import router from '@/router';
 
@@ -198,9 +198,10 @@ export const Quizzes = {
     },
 
     // Post a new quiz.
-    postNewQuiz ({ dispatch, rootState }, payload) {
-      const questions = rootState.CreateQuiz.questions;
-      const { title, description, categories, userId, quizImg, isPublic, quizSample } = payload.quiz;
+    postNewQuiz ({ dispatch }, payload) {
+      const { title, description, questions, categories, isQRQuiz, quizImg, isPublic, quizSample } = payload.quiz;
+
+      console.log('POST NEW QUIZ');
 
       // Check if there is at least one question made - questions.length > 0
       if (questions.length > 0) {
@@ -214,13 +215,13 @@ export const Quizzes = {
           playedBy: [],
           likes: 0,
           likedBy: [],
-          createdBy: userId,
+          createdBy: fire.auth().currentUser.uid,
           quizImg,
           quizSample,
           categories,
           questions,
           blocked: false,
-          isQRQuiz: rootState.CreateQuiz.isQRQuiz,
+          isQRQuiz,
           isDeleted: false
         }
   
@@ -236,6 +237,8 @@ export const Quizzes = {
     },
 
     updateQuiz ({ dispatch }, payload) {
+      console.log('UPDATE QUIZ');
+
       db.collection('quizzes').doc(payload.quiz.id).update(payload.quiz)
       .then(() => {
         // Close the modal.

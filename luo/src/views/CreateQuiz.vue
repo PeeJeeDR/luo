@@ -15,7 +15,7 @@
       </div>
 
       <!-- Create question button. -->
-      <default-button :content='"create question"' @click.native='onQuestionCreate'/>
+      <default-button :content='"Create question"' @click.native='onQuestionCreate'/>
     </div>
   </div>
 </template>

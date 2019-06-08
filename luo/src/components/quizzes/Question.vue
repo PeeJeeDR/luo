@@ -44,7 +44,7 @@ export default {
   methods: {
     editQuestion () {
       console.log('QUESTION', this.question);
-      this.$store.dispatch('CreateQuiz/openQuestionEdit', { questionId: this.question.id });
+      this.$store.dispatch('CreateQuiz/onQuestionEditButtonClick', { questionId: this.question.id });
     },
 
     deleteQuestion () {

@@ -93,6 +93,11 @@
       "id": 2,
       "report": "Offensive content",
       "type": "offensive"
+    },
+    {
+      "id": 3,
+      "report": "Other",
+      "type": "other"
     }
   ],
   "notifications": {

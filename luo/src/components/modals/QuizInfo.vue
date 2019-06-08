@@ -140,7 +140,7 @@ export default {
     // When the edit button has pressed.
     onEditClick () {
       // Set edit mode in CreateQuiz.
-      this.$store.dispatch('CreateQuiz/onQuizEdit', { quiz: this.quizById });
+      this.$store.dispatch('CreateQuiz/onQuizEditButtonClick', { quiz: this.quizById });
     },
 
     // When the delete button has pressed.

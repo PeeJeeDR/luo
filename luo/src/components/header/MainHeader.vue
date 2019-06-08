@@ -2,14 +2,14 @@
   <header :class='`main-header ${ headerTitle }`'>
     <div class='wrapper'>
       <div v-if='headerTitle !== "profile"' class='nav-props flex justify-between align-center'>
-        <div :class='`icon ${ leftIcon }`'>
+        <div :class='`icon flex-center ${ leftIcon }`'>
           <hamburger v-if='leftIcon === "hamburger"' @click='openSidebar'/>
           <back v-if='leftIcon === "back"' @click='$router.push("/")'/>
         </div>
         
         <h2 v-if='headerTitle'>{{ capFirstChar(headerTitle) }}</h2>
 
-        <div :class='`icon ${ rightIcon }`'>
+        <div :class='`icon flex-center ${ rightIcon }`'>
           <search v-if='rightIcon === "search"'/>
           <save v-if='shouldRenderSave()' @click='openQuizOptionsModal'/>
         </div>
@@ -107,12 +107,19 @@ header {
   }
 
   .icon {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 3rem;
+    height: 3rem;
+    transition: all $fast ease-in-out;
+    border-radius: 20rem;
+
+    &:hover {
+      background-color: rgba($snow, 0.2);
+      cursor: pointer;
+    }
 
     svg {
-      width: 100%;
-      height: 100%;
+      width: 50%;
+      height: 50%;
       fill: $snow;
     }
 

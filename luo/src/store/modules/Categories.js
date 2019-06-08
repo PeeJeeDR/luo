@@ -15,7 +15,7 @@ export const Categories = {
       state.categories.push({
         category: 'Suggest category',
         id: 0,
-        slug: 'add'
+        slug: 'suggest'
       })
     },
 

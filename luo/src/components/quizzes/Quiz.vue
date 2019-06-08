@@ -64,12 +64,17 @@ export default {
     margin: 2rem 1rem 0 1rem;
   }
 }
+
 .quiz {
   @include defaultShadow;
   border-radius: $smallRadius;
   overflow: hidden;
   width: 100%;
   background-color: $snow;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   .img-container img {
     width: 100%;
