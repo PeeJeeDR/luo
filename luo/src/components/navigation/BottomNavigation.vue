@@ -38,7 +38,10 @@
       </div>
 
       <div class='item'>
-        <default-button :content='"Follow"'@click.native='onFollowClick'/>
+        <default-button 
+          :content='user.followers.includes(fire.auth().currentUser.uid) ? "Unfollow" : "Follow"' 
+          :extraClass='user.followers.includes(fire.auth().currentUser.uid) ? "disabled" : "enabled"'
+          @click.native='onFollowClick'/>
       </div>
     </div>
   </div>
@@ -61,7 +64,7 @@ export default {
   data: () => ({ fire }),
   computed: {
     ...mapState('Navigation', ['selectedOverview']),
-    ...mapState('Users', ['isOtherUser'])
+    ...mapState('Users', ['isOtherUser', 'user'])
   },
   methods: {
     onIconClick (selected) {
@@ -100,7 +103,13 @@ export default {
     },
 
     onFollowClick () {
-      this.$store.dispatch('Users/onUserFollow');
+      if (!this.user.followers.includes(fire.auth().currentUser.uid)) {
+        this.$store.dispatch('Users/onUserFollow');
+      }
+
+      if (this.user.followers.includes(fire.auth().currentUser.uid)) {
+        this.$store.dispatch('Users/onUserUnFollow');
+      }
     }
   }
 }

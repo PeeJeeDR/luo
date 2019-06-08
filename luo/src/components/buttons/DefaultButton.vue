@@ -1,5 +1,5 @@
 <template>
-  <button class='default-button' v-ripple>
+  <button :class='`default-button ${ extraClass }`' v-ripple>
     <p class='paragraph p--weight-bold p--color-light p--m'>{{ content }}</p>
   </button>
 </template>
@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'DefaultButton',
-  props: ['content']
+  props: ['content', 'extraClass']
 }
 </script>
 
@@ -20,5 +20,14 @@ export default {
   width: 100%;
   border: none;
   outline: none;
+
+  &.enabled {
+    @include gradient;
+  }
+
+  &.disabled {
+    background: none !important;
+    background-color: $dawn !important;
+  }
 }
 </style>

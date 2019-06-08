@@ -39,29 +39,26 @@ export const Users = {
   actions: {
     // Fetch user by id.
     fetchUserById ({ commit, state }, payload) {
-      if (!state.isOtherUser) {
-        db.collection('users').doc(payload.userId).onSnapshot(snap => {
-          if (snap.data() !== undefined) {
-            let result = snap.data();
-            result.id = payload.userId;
-  
-            // Save user for personal or other user page.
-            if (payload.type === 'user') {
-              commit('SAVE_USER', result);
-            }
-            
-            // Save user to show in QuizInfo.
-            if (payload.type === 'quiz-user') {
-              commit('SAVE_QUIZ_USER', result);
-            }
+      db.collection('users').doc(payload.userId).onSnapshot(snap => {
+        if (snap.data() !== undefined) {
+          let result = snap.data();
+          result.id = payload.userId;
+
+          // Save user for personal or other user page.
+          if (payload.type === 'user') {
+            commit('SAVE_USER', result);
           }
-  
-          if (snap.data() === undefined) {
-            router.push('/authentication');
+          
+          // Save user to show in QuizInfo.
+          if (payload.type === 'quiz-user') {
+            commit('SAVE_QUIZ_USER', result);
           }
-        });
-      }
-      
+        }
+
+        if (snap.data() === undefined) {
+          router.push('/authentication');
+        }
+      });
     },
 
     // Update thus users avatar.
@@ -100,11 +97,14 @@ export const Users = {
     },
 
     onUserFollow ({ state }) {
-      console.log('User to be followed', state.user);
-      console.log('User that follows someone', fire.auth().currentUser);
-
       db.collection('users').doc(state.user.id).update({
         followers: firebase.firestore.FieldValue.arrayUnion(fire.auth().currentUser.uid)
+      });
+    },
+
+    onUserUnFollow ({ state }) {
+      db.collection('users').doc(state.user.id).update({
+        followers: firebase.firestore.FieldValue.arrayRemove(fire.auth().currentUser.uid)
       });
     }
   }
