@@ -94,5 +94,9 @@
       "report": "Offensive content",
       "type": "offensive"
     }
-  ]
+  ],
+  "notifications": {
+    "QUESTION_UPDATED_SUCCESS": "The question has been updated successfully.",
+    "QUESTION_UPDATED_FAIL": "Something went wrong when editing the question. Please try again later."
+  }
 }

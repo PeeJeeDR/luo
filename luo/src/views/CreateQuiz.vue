@@ -7,10 +7,10 @@
       </transition>
 
       <!-- Create icon when there are no questions made. -->
-      <create v-if='shouldIconRender()'/>
+      <create v-if='quiz.questions === undefined || quiz.questions.length === 0'/>
 
       <!-- Made questions. -->
-      <div v-for='(question, i) in !editMode ? questions : quizToBeEdited.questions' :key='i'>
+      <div v-for='(question, i) in quiz.questions' :key='i'>
         <question :question='question' :number='i'/>
       </div>
 
@@ -32,7 +32,7 @@ export default {
   components: { Create, DefaultButton, Modal, Question },
   computed: {
     ...mapState('Modals', ['modalIsOpen']),
-    ...mapState('CreateQuiz', ['questions', 'isQRQuiz', 'editMode', 'quizToBeEdited'])
+    ...mapState('CreateQuiz', ['quiz'])
   },
   created () {
     // Set header content.
@@ -43,20 +43,8 @@ export default {
     });
   },
   methods: {
-    shouldIconRender () {
-      if (!this.editMode && this.questions.length === 0) {
-        return true;
-      } 
-
-      if (this.editMode && this.quizToBeEdited && this.quizToBeEdited.questions.length === 0) {
-        return true;
-      }
-
-      return false;
-    },
-
     onQuestionCreate () {
-      this.$store.dispatch('CreateQuiz/onNewQuestionButton');
+      this.$store.dispatch('CreateQuiz/onNewQuestionButtonClick');
     }
   }
 }

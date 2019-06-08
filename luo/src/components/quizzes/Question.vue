@@ -43,7 +43,8 @@ export default {
   props: ['question', 'number'],
   methods: {
     editQuestion () {
-      this.$store.dispatch('CreateQuiz/onQuestionEdit', { question: this.question });
+      console.log('QUESTION', this.question);
+      this.$store.dispatch('CreateQuiz/openQuestionEdit', { questionId: this.question.id });
     },
 
     deleteQuestion () {

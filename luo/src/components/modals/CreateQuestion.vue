@@ -29,8 +29,6 @@
             <label for='fileInput' ref='img' slot='upload-label'></label>
           </image-uploader>
 
-          <p>{{ formData }}</p>
-
           <img v-if='formData.questionImg !== ""' :src='formData.questionImg' alt='Uploaded file.' @click='$refs.img.click()'>
           <default-button v-if='formData.questionImg === ""' :content='"Add question image"' @click.native='$refs.img.click()'/>
         </section>
@@ -75,6 +73,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import clonedeep from 'lodash.clonedeep';
 import ModalMixins from '@/mixins/ModalMixins';
 import DefaultButton from '@/components/buttons/DefaultButton';
 import CheckMark from '@/components/buttons/CheckMark';
@@ -105,26 +104,17 @@ export default {
     selectedCorrectAnswer: false
   }),
   computed: {
-    ...mapState('CreateQuiz', ['questions', 'editMode', 'quizToBeEdited', 'selectedQuestion', 'isNewQuestion']),
+    ...mapState('CreateQuiz', ['quiz', 'questionId'])
   },
   created () {
-    console.log('QUIZ TO BE EDITED', this.quizToBeEdited);
-    if (this.editMode && !this.isNewQuestion && this.quizToBeEdited !== undefined) {
-      const currentQuestion = this.quizToBeEdited.questions[this.selectedQuestion.id];
-
-      this.formData = currentQuestion;
+    if (this.questionId !== undefined) {
+      this.formData = clonedeep(this.quiz.questions[this.questionId]);
       this.answersFilled = true;
       this.selectedCorrectAnswer = true;
     }
-
-    if (this.editMode && this.isNewQuestion && this.quizToBeEdited === undefined) {
-      console.log('Hello');
-      console.log('selected question', this.selectedQuestion);
-      const currentQuestion = { ...this.selectedQuestion };
-      this.formData = currentQuestion;
-      this.answersFilled = true;
-      this.selectedCorrectAnswer = true;
-    }
+  },
+  beforeDestroy () {
+    this.$store.dispatch('CreateQuiz/onCreateQuestionDestory');
   },
   methods: {
     // When a image is selected.
@@ -211,19 +201,13 @@ export default {
 
     // When submitting the form.
     onFormSubmit () {
-      if (this.editMode && this.isNewQuestion) {
-        this.formData.id = this.quizToBeEdited.questions.length;
+      if (this.questionId !== undefined) {
+        this.$store.dispatch('CreateQuiz/onQuestionEdit', { question: this.formData });
       }
 
-      if (this.editMode && !this.isNewQuestion) {
-        this.formData.id = this.selectedQuestion.id;
+      if (this.questionId === undefined) {
+        this.$store.dispatch('CreateQuiz/onQuestionCreate', { question: this.formData });
       }
-
-      if (!this.editMode) {
-        this.formData.id = this.questions.length;
-      }
-      
-      this.$store.dispatch('CreateQuiz/onQuestionFormSubmit', this.formData);
     }
   }
 }
@@ -232,6 +216,20 @@ export default {
 <style lang='scss' scoped>
 .create-question
 {
+  .default-button {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+
+    @include tablet {
+      width: 15rem;
+    }
+
+    @include desktop {
+      width: 15rem;
+    }
+  }
+
   .answer {
     margin-bottom: 1rem;
 
