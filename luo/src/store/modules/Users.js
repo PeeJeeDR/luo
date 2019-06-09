@@ -76,11 +76,17 @@ export const Users = {
     onQuizInfoAvatarClick ({ commit, state }, payload) {
       commit('SAVE_USER', payload.user);
 
-      if (fire.auth().currentUser.uid !== payload.user.id) {
-        commit('ENABLE_OTHER_USER');
+      if (fire.auth().currentUser) {
+        if (fire.auth().currentUser.uid !== payload.user.id) {
+          commit('ENABLE_OTHER_USER');
+        }
+  
+        if (fire.auth().currentUser.uid !== payload.user.id) {
+          router.push('/profile');
+        }
       }
 
-      if (fire.auth().currentUser.uid !== payload.user.id) {
+      if (!fire.auth().currentUser) {
         router.push('/profile');
       }
     },

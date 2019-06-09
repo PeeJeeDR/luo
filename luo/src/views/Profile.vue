@@ -42,13 +42,14 @@ export default {
   created () {
     this.$store.dispatch('Navigation/onAppLoad');
 
-    if (!this.isOtherUser) {
+    if (!this.isOtherUser && fire.auth().currentUser) {
       this.$store.dispatch('Users/fetchUserById', { userId: fire.auth().currentUser.uid, type: 'user' });
       this.$store.dispatch('Quizzes/fetchQuizzesMadeByUserId', { userId: fire.auth().currentUser.uid });
       this.$store.dispatch('Quizzes/fetchQuizzesPlayedByUserId', { userId: fire.auth().currentUser.uid });
     }
 
-    if (this.isOtherUser) {
+    if (this.isOtherUser || fire.auth().currentUser === null) {
+      console.log('OTHER USER');
       this.$store.dispatch('Users/fetchUserById', { userId: this.user.id, type: 'user' });
       this.$store.dispatch('Quizzes/fetchQuizzesMadeByUserId', { userId: this.user.id });
       this.$store.dispatch('Quizzes/fetchQuizzesPlayedByUserId', { userId: this.user.id });

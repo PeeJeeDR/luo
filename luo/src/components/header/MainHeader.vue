@@ -9,9 +9,9 @@
         
         <h2 v-if='headerTitle'>{{ capFirstChar(headerTitle) }}</h2>
 
-        <div :class='`icon flex-center ${ rightIcon }`'>
+        <div :class='`icon flex-center ${ rightIcon }`' @click='rightIconClick'>
           <search v-if='rightIcon === "search"'/>
-          <save v-if='shouldRenderSave()' @click='openQuizOptionsModal'/>
+          <save v-if='shouldRenderSave()'/>
         </div>
       </div>
 
@@ -50,6 +50,18 @@ export default {
 
         case 'back':
           this.$router.push('/');
+        break;
+      } 
+    },
+
+    rightIconClick () {
+      switch (this.rightIcon) {
+        case 'search':
+          
+        break;
+
+        case 'save':
+          this.openQuizOptionsModal();
         break;
       } 
     },

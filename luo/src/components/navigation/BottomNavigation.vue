@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div v-if='isOtherUser' class='follow-container flex align-center'>
+    <div v-if='isOtherUser && fire.auth().currentUser' class='follow-container flex align-center'>
       <div class='item flex justify-end'>
         <div class='back-container flex-center' @click='onBackClick'>
           <back />
