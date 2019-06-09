@@ -1,5 +1,13 @@
 <template>
   <div class='modal'>
+
+    <div class='loading-overlay flex-center' v-if='mediaUploading'>
+      <div class='greyed'></div>
+
+      <!-- === LOADER === -->
+      <moon-loader :loading='mediaUploading' color='#BA42CC'/>
+    </div>
+
     <create-question v-if='modalType === "create-question"'/>
     <save-quiz v-if='modalType === "save-quiz"'/>
     <quiz-info v-if='modalType === "quiz-info"'/>
@@ -12,6 +20,7 @@
 <script>
 import { mapState } from 'vuex';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import MoonLoader from 'vue-spinner/src/MoonLoader';
 import CreateQuestion from '@/components/modals/CreateQuestion';
 import SaveQuiz from '@/components/modals/SaveQuiz';
 import QuizInfo from '@/components/modals/QuizInfo';
@@ -21,9 +30,10 @@ import QRInfo from '@/components/modals/QRInfo';
 
 export default {
   name: 'Modal',
-  components: { CreateQuestion, SaveQuiz, QuizInfo, Reports, SuggestCategory, QRInfo },
+  components: { MoonLoader, CreateQuestion, SaveQuiz, QuizInfo, Reports, SuggestCategory, QRInfo },
   computed: {
-    ...mapState('Modals', ['modalType'])
+    ...mapState('Modals', ['modalType']),
+    ...mapState('CreateQuiz', ['mediaUploading'])
   },
   created () {
     disableBodyScroll(document.getElementsByTagName('body')[0]);
@@ -87,6 +97,19 @@ export default {
 
     @include desktop {
       width: 15rem;
+    }
+  }
+
+  .loading-overlay {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+
+    .greyed {
+      position: inherit;
+      width: 100%;
+      height: 100%;
+      background-color: $snow;
+      opacity: 0.9;
     }
   }
 }

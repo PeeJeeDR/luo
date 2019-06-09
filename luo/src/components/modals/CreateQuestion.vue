@@ -15,7 +15,7 @@
             style='display: none'
             :debug='1'
             :maxWidth='512'
-            :quality='0.7'
+            :quality='0.8'
             :autoRotate='true'
             outputFormat='string'
             :preview='true'
@@ -23,8 +23,8 @@
             accept='image/*'
             doNotResize='["gif", "svg"]'
             @input='setImage'
-            @onUpload='startImageResize'
-            @onComplete='endImageResize'
+            @onUpload='$store.dispatch("CreateQuiz/onMediaUploadStart")'
+            @onComplete='$store.dispatch("CreateQuiz/onMediaUploadEnd")'
           >
             <label for='fileInput' ref='img' slot='upload-label'></label>
           </image-uploader>
@@ -120,16 +120,6 @@ export default {
     // When a image is selected.
     setImage (output) {
       this.formData.questionImg = output;
-    },
-
-    // On start of image resize.
-    startImageResize () {
-      // FOR LOADING
-    },
-
-    // On end of image resize.
-    endImageResize () {
-      // FOR LOADING
     },
 
     // When user adds an answer, a input field has to be added.

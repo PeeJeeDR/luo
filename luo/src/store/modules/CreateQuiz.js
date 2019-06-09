@@ -15,7 +15,8 @@ export const CreateQuiz = {
       quizSample: '',
       isPublic: true
     },
-    questionId: undefined
+    questionId: undefined,
+    mediaUploading: false
   },
 
   mutations: {
@@ -48,10 +49,19 @@ export const CreateQuiz = {
     },
     RESET_QUESTION_ID (state) {
       state.questionId = undefined;
+    },
+
+    // Media upload
+    SET_MEDIA_UPLOADING_ON (state) {
+      state.mediaUploading = true;
+    },
+    SET_MEDIA_UPLOADING_OFF (state) {
+      state.mediaUploading = false;
     }
   },
 
   actions: {
+    // When clicking the add button in BottomNavigation.vue.
     onNewQuizButtonClick ({ commit }) {
       commit('CLEAR_QUIZ');
       commit('RESET_QUESTION_ID');
@@ -90,6 +100,7 @@ export const CreateQuiz = {
       }
     },
 
+    // When clicked on the edit button of a quiz in QuizInfo.vue.
     onQuizEditButtonClick ({ commit, dispatch }, payload) {
       commit('UPDATE_QUIZ', payload.quiz);
       dispatch('Modals/closeModal', {}, { root: true });
@@ -124,6 +135,14 @@ export const CreateQuiz = {
           router.push('/');
         });
       }
+    },
+
+    onMediaUploadStart ({ commit }) {
+      commit('SET_MEDIA_UPLOADING_ON');
+    },
+
+    onMediaUploadEnd ({ commit }) {
+      commit('SET_MEDIA_UPLOADING_OFF')
     }
   }
 }
