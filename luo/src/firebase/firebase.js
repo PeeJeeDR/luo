@@ -12,6 +12,18 @@ const fire = firebase.initializeApp({
   messagingSenderId: process.env.VUE_APP_FIREBASE_SENDER_ID
 });
 
+firebase.firestore().enablePersistence()
+.then(() => console.log('PERSISTENCE ENABLED'))
+.catch(err  => {
+  if (err.code == 'failed-precondition') {
+    console.error('Multiple tabs open, persistence can only be enabled in one tab at a a time.');
+  }
+  
+  if (err.code == 'unimplemented') {
+    console.error('The current browser does not support all of the features required to enable persistence');
+  }
+});
+
 const storage = fire.storage().ref();
 const db = fire.firestore();
 

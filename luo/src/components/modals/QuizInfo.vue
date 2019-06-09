@@ -38,7 +38,7 @@
         </div>
 
         <!-- Play, edit and delete button -->
-        <div :class='`button-container flex ${ fire.auth().currentUser.uid !== quizById.createdBy && "not-from-user" }`'>
+        <div :class='`button-container flex ${ getButtonContainerClass() }`'>
           <button 
             v-ripple 
             class='play flex-center' 
@@ -48,7 +48,7 @@
           </button>
 
           <button 
-            v-if='fire.auth().currentUser.uid === quizById.createdBy' 
+            v-if='fire.auth().currentUser !== null && fire.auth().currentUser.uid === quizById.createdBy' 
             v-ripple 
             class='edit flex-center' 
             @click='onEditClick'
@@ -57,7 +57,7 @@
           </button>
 
           <button 
-            v-if='fire.auth().currentUser.uid === quizById.createdBy' 
+            v-if='fire.auth().currentUser !== null && fire.auth().currentUser.uid === quizById.createdBy' 
             v-ripple 
             class='delete flex-center' 
             @click='showDeleteConfirm'
@@ -106,6 +106,14 @@ export default {
     ...mapState('Users', ['quizUser'])
   },
   methods: {
+    getButtonContainerClass () {
+      if (fire.auth().currentUser !== null && fire.auth().currentUser.id === this.quizById.createdBy) {
+        return 'from-user';
+      }
+
+      return 'not-from-user';
+    },
+
     // When the play button has pressed.
     playQuiz () {
       if (!this.quizById.isDeleted) {

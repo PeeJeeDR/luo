@@ -50,6 +50,7 @@ export default {
     ...mapState('Notifications', ['notification'])
   },
   created () {
+    console.log('navigator.onLine', navigator.onLine);
     // Set localstore session id to user that are not logged in.
     if (fire.auth().currentUser === null && !localStorage.sessionId) {
       localStorage.sessionId = [...Array(28)].map(i=>(~~(Math.random()*36)).toString(36)).join('');

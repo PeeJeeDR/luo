@@ -9,13 +9,11 @@ import ImageUploader from 'vue-image-upload-resize'
 
 Vue.config.productionTip = false;
 
-/* === DIRECTIVES === */
+// Directives.
 Vue.directive('ripple', Ripple);
-/* ========== */
 
-/* === PLUGINS === */
+// Plugins.
 Vue.use(ImageUploader);
-/* ========== */
 
 let app;
 

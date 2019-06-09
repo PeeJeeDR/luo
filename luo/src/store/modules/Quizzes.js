@@ -79,6 +79,10 @@ export const Quizzes = {
       .where('isDeleted', '==', false)
       .orderBy('created', 'desc')
       .onSnapshot(snap => {
+
+        const source = snap.metadata.fromCache ? 'local cache' : 'server';
+        console.log('Data came from ' + source);
+        
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -99,6 +103,10 @@ export const Quizzes = {
       .where('isDeleted', '==', false)
       .orderBy('plays', 'desc')
       .onSnapshot(snap => {
+
+        const source = snap.metadata.fromCache ? 'local cache' : 'server';
+        console.log('Data came from ' + source);
+
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
