@@ -129,8 +129,15 @@ export default {
         this.formData.quizSample = quizSample;
       }
 
+      let categoryIDS = [];
+
+      this.formData.categories.forEach(category => {
+        categoryIDS.push(category.id);
+      });
+
       this.formData.isQRQuiz = false;
       this.formData.isPublic = true;
+      this.formData.categories = categoryIDS;
 
       console.log('FORM DATA', this.formData);
 

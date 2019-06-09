@@ -37,7 +37,9 @@ export default {
       this.animatePress = true;
 
       // Fetch quiz by id.
-      await this.$store.dispatch('Quizzes/fetchQuizById', { id: this.quiz.id });
+      await this.$store.dispatch('Quizzes/fetchQuizById', { id: this.quiz.id }).then(() => {
+        this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
+      });
     }
   }
 }

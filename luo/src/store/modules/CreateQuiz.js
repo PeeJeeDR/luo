@@ -29,8 +29,17 @@ export const CreateQuiz = {
       state.quiz.questions[question.id] = question;
     },
 
+    // QUIZ
     UPDATE_QUIZ (state, quiz) {
       state.quiz = quiz;
+    },
+    CLEAR_QUIZ (state) {
+      state.quiz.title = '';
+      state.quiz.description = '';
+      state.quiz.questions = [];
+      state.quiz.quizImg = '';
+      state.quiz.quizSample = '';
+      state.quiz.isPublic = true;
     },
 
     // Set and reset the selected question id.
@@ -43,6 +52,11 @@ export const CreateQuiz = {
   },
 
   actions: {
+    onNewQuizButtonClick ({ commit }) {
+      commit('CLEAR_QUIZ');
+      commit('RESET_QUESTION_ID');
+    },
+
     // When clicked on the create question button in CreateQuiz.vue.
     onNewQuestionButtonClick ({ dispatch }) {
       dispatch('Modals/openModal', { type: 'create-question' }, { root: true });

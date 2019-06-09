@@ -154,9 +154,6 @@ export const Quizzes = {
   
             // Fetch user that created the collected quiz.
             dispatch('Users/fetchUserById', { userId: result.createdBy, type: 'quiz-user' }, { root: true });
-  
-            // Open QuizInfo.
-            dispatch('Modals/openModal', { type: 'quiz-info' }, { root: true });
           }
   
           if (!doc.exists) {
