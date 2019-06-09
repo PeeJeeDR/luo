@@ -5,7 +5,7 @@
         <img :key='currentQuestion' v-if='playingQuiz.questions[currentQuestion].questionImg !== ""' :src='playingQuiz.questions[currentQuestion].questionImg' :alt='`Header image for the "${ playingQuiz.title } quiz."`'>
       </transition>
 
-      <div class='content wrapper flex direction-col justify-between'>
+      <div class='content flex direction-col justify-between'>
         <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-100ms' leave-active-class='animated fadeOutLeft faster'>
           <question-title :key='currentQuestion' :currentQuestion='currentQuestion' :questions='playingQuiz.questions'/>
         </transition>

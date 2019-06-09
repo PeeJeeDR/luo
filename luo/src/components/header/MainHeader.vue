@@ -2,9 +2,9 @@
   <header :class='`main-header ${ headerTitle }`'>
     <div class='wrapper'>
       <div v-if='headerTitle !== "profile"' class='nav-props flex justify-between align-center'>
-        <div :class='`icon flex-center ${ leftIcon }`'>
-          <hamburger v-if='leftIcon === "hamburger"' @click='openSidebar'/>
-          <back v-if='leftIcon === "back"' @click='$router.push("/")'/>
+        <div :class='`icon flex-center ${ leftIcon }`' @click='leftIconClick'>
+          <hamburger v-if='leftIcon === "hamburger"'/>
+          <back v-if='leftIcon === "back"'/>
         </div>
         
         <h2 v-if='headerTitle'>{{ capFirstChar(headerTitle) }}</h2>
@@ -42,6 +42,18 @@ export default {
     ...mapState('Modals', ['modalIsOpen'])
   },
   methods: {
+    leftIconClick () {
+      switch (this.leftIcon) {
+        case 'hamburger':
+          this.openSidebar();
+        break;
+
+        case 'back':
+          this.$router.push('/');
+        break;
+      } 
+    },
+
     openSidebar () {
       disableBodyScroll(document.getElementsByTagName('body')[0]);
 

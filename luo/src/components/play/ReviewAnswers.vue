@@ -1,5 +1,5 @@
 <template>
-  <div class='review-answers wrapper'>
+  <div class='review-answers'>
     <ul>
       <li v-for='(question, i) in quiz.questions' :class='`question ${ returnQuestionClass(question.answers) }`'>
         <h3 class='heading h--xm h--weight-bold'>
@@ -69,6 +69,7 @@ export default {
 {
   height: 95%;
   overflow: scroll;
+  padding: 2rem 3rem;
 
   .question {
     padding: 1rem 0;

@@ -35,7 +35,7 @@
             <label for='fileInput' ref='img' slot='upload-label'></label>
           </image-uploader>
 
-          <default-button v-if='formData.quizImg === "" && formData.sampleImg === ""' :content='"Add quiz image"' @click.native='$refs.img.click()'/>
+          <default-button v-if='formData.quizImg === "" && formData.quizSample === ""' :content='"Add quiz image"' @click.native='$refs.img.click()'/>
           <img v-else :src='getQuizImgSource()' alt='Uploaded file.' @click='$refs.img.click()'>
         </section>
 
@@ -44,15 +44,12 @@
 
       <!-- Categories. -->
       <div key='2' v-if='selectedSlide === 1'>
-        {{ formData }}
         <section>
           <h3 class='title heading h--xm h--color-primary'>Categories</h3>
           <div class='categories'>
             <div class='category' v-for='category in categories' :key='category.id' @click='categorySelect(category)'>
               <div v-if='category.slug !== "suggest"' class='flex align-center'>
-                {{ formData.categories }}
-                {{ category }}
-                <check-mark :checked='formData.categories.indexOf(category.id) > -1'/>
+                <check-mark :checked='formData.categories.indexOf(category) > -1'/>
                 <img :src='require(`@/assets/icons/categories/${ category.slug }.png`)' :alt='`${ capFirstChar(category.category) } icon.`'>
                 <h2 class='heading h--m'>{{ category.category }}</h2>
               </div>
@@ -109,7 +106,7 @@ export default {
         return require(`@/assets/img/samples/categories/${ this.formData.quizSample }.jpg`);
       }
 
-      if (this.formData.sampleImg === '') {
+      if (this.formData.quizSample === '') {
         return this.formData.quizImg;
       }
     },

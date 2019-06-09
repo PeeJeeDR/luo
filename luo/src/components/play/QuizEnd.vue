@@ -1,5 +1,5 @@
 <template>
-  <div class='quiz-end big-wrapper'>
+  <div class='quiz-end'>
     
     <div class='notch flex-center'>
       <h4 class='heading h--m h--color-light'>
@@ -48,8 +48,8 @@
 
       <!-- === BUTTON CONTAINER === -->
       <div class='button-container flex direction-col align-center '>
-        <p v-if='!reviewEnabled' @click='onReviewClick' class='paragraph p--weight-bold p--xm p--color-almost-light'>Review answers</p>
-        <p v-if='reviewEnabled' @click='onBackClick' class='paragraph p--weight-bold p--xm p--color-almost-light'>Back</p>
+        <p v-if='!reviewEnabled' @click='onReviewClick' class='small-button paragraph p--weight-bold p--xm p--color-almost-light'>Review answers</p>
+        <p v-if='reviewEnabled' @click='onBackClick' class='small-button paragraph p--weight-bold p--xm p--color-almost-light'>Back</p>
         <default-button :content='"continue"' @click.native='onContinueClick'/>
       </div>
     </div>
@@ -192,6 +192,10 @@ export default {
         width: 1.8rem; 
         height: 1.8rem;
       }
+
+      &:hover {
+        cursor: pointer;
+      }
       
       &.unselected {
         border-color: $pinky;
@@ -219,6 +223,15 @@ export default {
     p {
       margin-bottom: 1.3rem;
     }
+  }
+
+  .small-button {
+    padding: 0.8rem 1.2rem;
+    border-radius: $smallRadius;
+  }
+  .small-button:hover {
+    background-color: lighten($mr-grey, 5%);
+    cursor: pointer;
   }
 }
 </style>

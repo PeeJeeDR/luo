@@ -209,7 +209,7 @@ export const Quizzes = {
     postNewQuiz ({ dispatch }, payload) {
       const { title, description, questions, categories, isQRQuiz, quizImg, isPublic, quizSample } = payload.quiz;
 
-      console.log('POST NEW QUIZ');
+      console.log('POST NEW QUIZ', payload);
 
       // Check if there is at least one question made - questions.length > 0
       if (questions.length > 0) {

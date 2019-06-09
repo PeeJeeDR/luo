@@ -12,8 +12,7 @@ export const CreateQuiz = {
       questions: [],
       categories: [],
       quizImg: '',
-      sampleImg: '',
-      userId: '',
+      quizSample: '',
       isPublic: true
     },
     questionId: undefined
@@ -91,17 +90,26 @@ export const CreateQuiz = {
     // When the form is submitted in SaveQuiz.vue.
     // We need to check first if the document already exists and react based on the result.
     onQuizFormSubmit ({ dispatch }, payload) {
-      db.collection('quizzes').doc(payload.quiz.id).get().then(doc => {
-        if (doc.exists) {
-          dispatch('Quizzes/updateQuiz', { quiz: payload.quiz }, { root: true });
-        }
+      if (payload.quiz.id !== undefined) {
+        db.collection('quizzes').doc(payload.quiz.id).get().then(doc => {
+          if (doc.exists) {
+            dispatch('Quizzes/updateQuiz', { quiz: payload.quiz }, { root: true });
+          }
+  
+          if (!doc.exists) {
+            dispatch('Quizzes/postNewQuiz', { quiz: payload.quiz }, { root: true });
+          }
+        }).catch(() => {
+          this.$store.dispatch('Notifications/setNotification', { message: 'Something went wrong while saving the quiz.' });
+        })
+      }
 
-        if (!doc.exists) {
-          dispatch('Quizzes/postNewQuiz', { quiz: payload.quiz }, { root: true });
-        }
-      }).catch(() => {
-        this.$store.dispatch('Notifications/setNotification', { message: 'Something went wrong while saving the quiz.' });
-      })
+      if (payload.quiz.id === undefined) {
+        dispatch('Quizzes/postNewQuiz', { quiz: payload.quiz }, { root: true }).then(() => {
+          dispatch('Modals/closeModal', {}, { root: true });
+          router.push('/');
+        });
+      }
     }
   }
 }

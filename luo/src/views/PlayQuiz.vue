@@ -1,5 +1,5 @@
 <template>
-  <div class='play-quiz big-wrapper'>
+  <div class='play-quiz big-wrapper flex-center'>
     <!-- Modal for reporting questions. -->
     <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
       <modal v-if='modalIsOpen'/>
@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <div class='big-wrapper'>
+        <div class='game-container'>
           <multiple-choise key='1' :playingQuiz='playingQuiz' :inputEnabled='inputEnabled'/>
         </div>
       </div>
@@ -77,12 +77,28 @@ export default {
   height: 100%;
   padding: 0.8rem 0;
 
+  @include desktop {
+    width: 50rem !important;
+  }
+
   .box {
     @include defaultShadow;
     overflow: hidden;
     height: 100%;
     width: 100%;
     border-radius: $smallRadius;
+
+    @include tablet {
+      height: 70%;
+    }
+
+    @include desktop {
+      height: 75%;
+    }
+
+    .game-container {
+      height: 100%;
+    }
 
     .box-header {
       button {
@@ -128,11 +144,24 @@ export default {
       object-fit: cover;
       border-bottom-left-radius: $largeRadius;
       border-bottom-right-radius: $largeRadius;
+
+      @include phone {
+        height: 15rem;
+      }
+
+      @include tablet {
+        height: 25rem;
+      }
+      
+      @include desktop {
+        height: 25rem;
+      }
     }
 
     .content {
-      padding: 1rem 0 2rem 0;
+      width: calc(100% - 0rem);
       height: 100%;
+      padding: 2rem;
     }
   }
 }
