@@ -25,7 +25,7 @@ export default {
   button {
     background: none;
     border: none;
-    padding: 0.8rem 1.2rem;
+    padding: 0.5rem;
     border-radius: $smallRadius;
     transition: all $fast ease-in-out;
 

@@ -2,7 +2,14 @@
   <div class='multiple-choise' v-if='playingQuiz.questions[currentQuestion] !== undefined'>
     <div class='parent flex direction-col'>
       <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-50ms' leave-active-class='animated fadeOutLeft faster'>
-        <img :key='currentQuestion' v-if='playingQuiz.questions[currentQuestion].questionImg !== ""' :src='playingQuiz.questions[currentQuestion].questionImg' :alt='`Header image for the "${ playingQuiz.title } quiz."`'>
+        <div 
+          :key='currentQuestion'
+          @click='expand = !expand' :class='`img-container ${ expand && "expanded" }`'
+          v-if='playingQuiz.questions[currentQuestion].questionImg !== ""'
+        >
+          <img :src='playingQuiz.questions[currentQuestion].questionImg' :alt='`Header image for the "${ playingQuiz.title } quiz."`'>
+          <div class='expand flex-center'><expand /></div>
+        </div>
       </transition>
 
       <div class='content flex direction-col justify-between'>
@@ -33,15 +40,17 @@
 <script>
 import AnswerButton from '@/components/buttons/AnswerButton';
 import QuestionTitle from '@/components/play/QuestionTitle';
+import Expand from '@/assets/icons/quizzes/Expand.svg';
 
 export default {
   name: 'MultipleChoise',
-  components: { AnswerButton, QuestionTitle },
+  components: { AnswerButton, QuestionTitle, Expand },
   props: ['playingQuiz', 'inputEnabled'],
   data: () => ({ 
     currentQuestion: 0,
     clickedButton: undefined,
-    showAnswer: false
+    showAnswer: false,
+    expand: false
   }),
   methods: {
     // When there is clicked on an answer.
@@ -125,7 +134,7 @@ export default {
     overflow-y: scroll;
     height: 100%;
     width: calc(100% + 2rem);
-    padding: 1rem 0 1.2rem 0;
+    padding: 5rem 0 1.2rem 0;
     margin: -2rem 0 0 -1rem;
   }
 }

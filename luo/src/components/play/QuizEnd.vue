@@ -10,7 +10,7 @@
     <div class='container flex direction-col justify-between'>
       <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
         <!-- === TITLE, SVG AND LIKE BUTTON === -->
-        <div key='0' v-if='!reviewEnabled' class='title-svg-and-like flex direction-col align-center justify-center'>
+        <div key='0' v-if='!reviewEnabled' class='title-svg-and-like flex direction-col align-center justify-start'>
           <!-- === TITLE === -->
           <div>
             <h2 v-if='correctAnswers === playingQuiz.questions.length' class='heading h--xxm h--color-primary'>Congratulations!</h2>
@@ -151,9 +151,12 @@ export default {
   }
 
   .title-svg-and-like {
+    height: 80%;
+    overflow: scroll;
+    
     .award {
       position: relative;
-      margin-top: 10rem;
+      margin-top: 9rem;
       width: 100%;
 
       .sphere-outer,
@@ -167,8 +170,8 @@ export default {
       }
 
       .sphere-outer {
-        width: 16rem; 
-        height: 16rem;
+        width: 15rem; 
+        height: 15rem;
       }
 
       .icon {
@@ -182,7 +185,7 @@ export default {
     }
 
     .likes {
-      margin-top: 11rem;
+      margin-top: 10rem;
       margin-bottom: 2rem;
       padding: 0.8rem;
       border: 2px solid;
@@ -219,6 +222,7 @@ export default {
   .button-container {
     width: 15rem;
     margin: 0 auto;
+    height: 20%;
 
     p {
       margin-bottom: 1.3rem;

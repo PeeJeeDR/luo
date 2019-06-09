@@ -29,8 +29,11 @@
             <label for='fileInput' ref='img' slot='upload-label'></label>
           </image-uploader>
 
+          <input style='display: none;' type='file' ref='audio' accept='audio/*'>
           <img v-if='formData.questionImg !== ""' :src='formData.questionImg' alt='Uploaded file.' @click='$refs.img.click()'>
+
           <default-button v-if='formData.questionImg === ""' :content='"Add question image"' @click.native='$refs.img.click()'/>
+          <default-button :content='"Add question audio"' @click.native='$refs.audio.click()'/>
         </section>
 
         <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide("question-1-2")'/>

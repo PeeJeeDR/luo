@@ -83,10 +83,10 @@ export default {
 
   .box {
     @include defaultShadow;
-    overflow: hidden;
     height: 100%;
     width: 100%;
     border-radius: $smallRadius;
+    overflow: hidden;
 
     @include tablet {
       height: 70%;
@@ -138,30 +138,62 @@ export default {
       }
     }
 
-    img {
-      width: 100%;
-      height: 12rem;
-      object-fit: cover;
-      border-bottom-left-radius: $largeRadius;
-      border-bottom-right-radius: $largeRadius;
+    .img-container {
+      position: relative;
 
-      @include phone {
-        height: 15rem;
+      &.expanded {
+        img {
+          height: 40vh !important;
+        }
       }
 
-      @include tablet {
-        height: 25rem;
+      img {
+        width: 100%;
+        object-fit: cover;
+        border-bottom-left-radius: $largeRadius;
+        border-bottom-right-radius: $largeRadius;
+        transition: $quarty;
+
+        @include phone {
+          height: 20vh;
+        }
+
+        @include tablet {
+          height: 25rem;
+        }
+        
+        @include desktop {
+          height: 25rem;
+        }
       }
-      
-      @include desktop {
-        height: 25rem;
+
+      .expand {
+        border-radius: 20rem;
+        width: 3rem;
+        height: 3rem;
+        position: absolute;
+        bottom: 10px; right: 5px;
+        background-color: #000;
+        z-index: 3;
+        opacity: 0.6;
+
+        svg {
+          fill: $snow;
+          width: 50%;
+          height: 50%;
+        }
       }
     }
 
     .content {
-      width: calc(100% - 0rem);
+      width: 100%;
       height: 100%;
       padding: 2rem;
+      overflow: scroll;
+
+      @include phone {
+        height: 80vh;
+      }
     }
   }
 }

@@ -191,7 +191,7 @@ export default {
 
   .img-container {
     @include subtileShadow;
-    height: 20rem;
+    height: 14rem;
     margin-left: -2rem;
     width: calc(100% + 4rem);
     border-bottom-left-radius: $largeRadius;

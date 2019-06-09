@@ -98,6 +98,10 @@ export default {
     @include desktop {
       width: 15rem;
     }
+
+    &:last-child {
+      margin-top: 1rem;
+    }
   }
 
   .loading-overlay {
