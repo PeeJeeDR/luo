@@ -16,7 +16,8 @@ export const CreateQuiz = {
       isPublic: true
     },
     questionId: undefined,
-    mediaUploading: false
+    mediaUploading: false,
+    quizModified: false
   },
 
   mutations: {
@@ -28,6 +29,12 @@ export const CreateQuiz = {
     // Update a question after edit.
     UPDATE_QUESTION (state, question) {
       state.quiz.questions[question.id] = question;
+      state.quizModified = true;
+    },
+
+    DELETE_QUESTION (state, questionId) {
+      state.quiz.questions.splice(questionId, 1);
+      state.quizModified = true;
     },
 
     // QUIZ
@@ -57,10 +64,20 @@ export const CreateQuiz = {
     },
     SET_MEDIA_UPLOADING_OFF (state) {
       state.mediaUploading = false;
+    },
+
+    // Reset modified state.
+    RESET_MODIFIED (state) {
+      state.quizModified = false;
     }
   },
 
   actions: {
+    // When CreateQuiz.vue is created.
+    onCreateQuizPageLoad ({ commit }) {
+      commit('RESET_MODIFIED');
+    },
+
     // When clicking the add button in BottomNavigation.vue.
     onNewQuizButtonClick ({ commit }) {
       commit('CLEAR_QUIZ');
@@ -85,6 +102,11 @@ export const CreateQuiz = {
       commit('UPDATE_QUESTION', payload.question);
       dispatch('Modals/closeModal', {}, { root: true });
       dispatch('Notifications/setNotification', { message: app.notifications.QUESTION_UPDATED_SUCCESS }, { root: true });
+    },
+
+    // When a question is deleted.
+    onQuestionDelete ({ commit }, payload) {
+      commit('DELETE_QUESTION', payload.questionId);
     },
 
     // When pressed the edit button of a question.
@@ -125,8 +147,7 @@ export const CreateQuiz = {
             dispatch('Quizzes/postNewQuiz', { quiz: payload.quiz }, { root: true });
           }
         }).catch(err => {
-          console.log('ERR', err);
-          this.$store.dispatch('Notifications/setNotification', { message: 'Something went wrong while saving the quiz.' }, { root: true });
+          dispatch('Notifications/setNotification', { message: 'Something went wrong while saving the quiz.' }, { root: true });
         })
       }
 

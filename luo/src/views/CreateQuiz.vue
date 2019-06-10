@@ -31,16 +31,36 @@ export default {
   name: 'CreateQuiz',
   components: { Create, DefaultButton, Modal, Question },
   computed: {
-    ...mapState('Modals', ['modalIsOpen']),
-    ...mapState('CreateQuiz', ['quiz'])
+    ...mapState('Modals', ['modalIsOpen', 'confirmAnswer']),
+    ...mapState('CreateQuiz', ['quiz', 'quizModified'])
   },
   created () {
+    this.$store.dispatch('CreateQuiz/onCreateQuizPageLoad');
+
     // Set header content.
     this.$store.dispatch('Header/onPageLoad', { 
       title: this.isQRQuiz ? 'Create QR code quiz' : 'Create quiz',
       leftIcon: 'back',
       rightIcon: 'save'
     });
+  },
+  beforeRouteLeave (to, from, next) {
+    console.log('Before toute leave');
+
+    if (this.quizModified) {
+      if (this.confirmAnswer === undefined) {
+        this.$store.dispatch('Modals/openModal', { type: 'confirm' });
+      } 
+      
+      if (this.confirmAnswer === 'leave') {
+        console.log('LEAVE');
+        next();
+      }
+    }
+
+    if (!this.quizModified) {
+      next();
+    }   
   },
   methods: {
     onQuestionCreate () {

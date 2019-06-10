@@ -25,9 +25,17 @@
         <audio v-if='question.audioUrl' :src='question.audioUrl' controls></audio>
       </div>
 
-      <div class='right'>
-        <button v-ripple class='flex-center' @click='editQuestion'><edit /></button>
-        <button class='flex-center' @click='deleteQuestion'><trash /></button>
+      <div :class='`right flex ${ showConfirm ? "open" : "closed" }`'>
+        <div>
+          <button v-ripple class='flex-center' @click='editClick'><edit /></button>
+          <button class='flex-center' @click='deleteClick'>
+            <trash v-if='!showConfirm'/>
+            <close v-if='showConfirm'/>
+          </button>
+        </div>
+        <div class='confirm'>
+          <button class='flex-center' @click='onDeleteYesPress'><trash /></button>
+        </div>
       </div>
     </div>
   </div>
@@ -36,18 +44,30 @@
 <script>
 import Edit from '@/assets/icons/quizzes/Edit.svg';
 import Trash from '@/assets/icons/quizzes/Trash.svg';
+import Close from '@/assets/icons/main-header/Close.svg';
 
 export default {
   name: 'Question',
-  components: { Edit, Trash },
+  components: { Edit, Trash, Close },
   props: ['question', 'number'],
+  data: () => ({
+    showConfirm: false
+  }),
   methods: {
-    editQuestion () {
-      console.log('QUESTION', this.question);
+    editClick () {
       this.$store.dispatch('CreateQuiz/onQuestionEditButtonClick', { questionId: this.question.id });
     },
 
-    deleteQuestion () {
+    deleteClick () {
+      this.showConfirm = !this.showConfirm;
+    },
+
+    onDeleteNoPress () {
+      this.showConfirm = false;
+    },
+
+    onDeleteYesPress () {
+      this.showConfirm = false;
       this.$store.dispatch('CreateQuiz/onQuestionDelete', { questionId: this.question.id });
     }
   }
@@ -105,7 +125,26 @@ export default {
   }
 
   .right {
-    width: 4rem;
+    width: 8rem;
+    transition: all $fast ease-in-out;
+
+    &.open {
+      margin-right: 0;
+    }
+
+    &.closed {
+      margin-right: -4rem;
+    }
+
+    .confirm button {
+      @include gradient;
+      border: none;
+      height: 100%;
+      
+      svg {
+        fill: $snow;
+      }
+    }
 
     button {
       min-height: 5rem;

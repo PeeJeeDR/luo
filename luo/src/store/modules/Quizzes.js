@@ -242,15 +242,17 @@ export const Quizzes = {
     },
 
     updateQuiz ({ dispatch }, payload) {
-      console.log('UPDATE QUIZ');
+      console.log('UPDATE QUIZ', payload);
 
       db.collection('quizzes').doc(payload.quiz.id).update(payload.quiz)
       .then(() => {
         // Close the modal.
         dispatch('Modals/closeModal', {}, { root: true });
 
-        // Route back to profile.
-        router.push('/profile');
+        // go to profile page.
+        router.back();
+
+        dispatch('Modals/onConfirmAnswerSelect', { confirmAnswer: 'leave' }, { root: true });
 
         // Show notification to the user.
         dispatch('Notifications/setNotification', { message: 'Quize updated successfully!' }, { root: true });

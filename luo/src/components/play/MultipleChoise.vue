@@ -68,6 +68,9 @@ export default {
     this.setAudioFile();
     this.audioFileCorrect.volume = 0.2;
   },
+  beforeDestroy () {
+    this.stopAudio();
+  },
   methods: {
     setAudioFile () {
       if (this.playingQuiz.questions[this.currentQuestion].questionAudio !== '') {
@@ -90,16 +93,19 @@ export default {
       }
     },
 
-    // When there is clicked on an answer.
-    onAnswerClick (answer, clickedButton) {
-      // Stop question audio from playing.
+    stopAudio () {
       this.audioIsPlaying = false;
 
       if (this.audioFile !== undefined) {
         this.audioFile.pause();
         this.audioFile.currentTime = 0;
+        this.audioFile = undefined;
       }
+    },
 
+    // When there is clicked on an answer.
+    onAnswerClick (answer, clickedButton) {
+      this.stopAudio();
 
       this.clickedButton = clickedButton;
 

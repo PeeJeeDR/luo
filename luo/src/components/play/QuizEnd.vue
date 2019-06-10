@@ -87,6 +87,11 @@ export default {
       this.quizEndSound.play();
     }
   },
+  beforeDestroy () {
+    this.quizEndSound.pause();
+    this.quizEndSound.currentTime = 0;
+    this.quizEndSound = undefined;
+  },
   methods: {
     onReviewClick () {
       this.reviewEnabled = true;
@@ -128,9 +133,6 @@ export default {
     },
 
     async onContinueClick () {
-      this.quizEndSound.pause();
-      this.quizEndSound.currentTime = 0;
-
       await this.$store.dispatch('PlayQuiz/onQuizEnd');
       this.$router.back();
     }

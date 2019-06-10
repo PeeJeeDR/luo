@@ -1,19 +1,21 @@
 <template>
   <div class='modal'>
-
+    <!-- Loading. -->
     <div class='loading-overlay flex-center' v-if='mediaUploading'>
       <div class='greyed'></div>
-
-      <!-- === LOADER === -->
       <moon-loader :loading='mediaUploading' color='#BA42CC'/>
     </div>
 
-    <create-question v-if='modalType === "create-question"'/>
-    <save-quiz v-if='modalType === "save-quiz"'/>
-    <quiz-info v-if='modalType === "quiz-info"'/>
-    <reports v-if='modalType === "report"'/>
-    <suggest-category v-if='modalType === "suggest-category"'/>
-    <q-r-info v-if='modalType === "qr"'/>
+    <!-- Contents. -->
+    <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
+      <create-question key='0' v-if='modalType === "create-question"'/>
+      <save-quiz key='1' v-if='modalType === "save-quiz"'/>
+      <quiz-info key='2' v-if='modalType === "quiz-info"'/>
+      <reports key='3' v-if='modalType === "report"'/>
+      <suggest-category key='4' v-if='modalType === "suggest-category"'/>
+      <q-r-info key='5' v-if='modalType === "qr"'/>
+      <create-quiz-confirm key='6' v-if='modalType === "confirm"'/>
+    </transition>
   </div>
 </template>
 
@@ -27,10 +29,11 @@ import QuizInfo from '@/components/modals/QuizInfo';
 import Reports from '@/components/modals/Reports';
 import SuggestCategory from '@/components/modals/SuggestCategory';
 import QRInfo from '@/components/modals/QRInfo';
+import CreateQuizConfirm from '@/components/modals/confirm/CreateQuizConfirm';
 
 export default {
   name: 'Modal',
-  components: { MoonLoader, CreateQuestion, SaveQuiz, QuizInfo, Reports, SuggestCategory, QRInfo },
+  components: { MoonLoader, CreateQuestion, SaveQuiz, QuizInfo, Reports, SuggestCategory, QRInfo, CreateQuizConfirm },
   computed: {
     ...mapState('Modals', ['modalType']),
     ...mapState('CreateQuiz', ['mediaUploading'])

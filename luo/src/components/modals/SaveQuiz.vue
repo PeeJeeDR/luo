@@ -45,7 +45,7 @@
           </div>
         </section>
 
-        <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error }}</p>
+        <p class='paragraph p--m p--color-danger p--weight-bold p--align-center error'>{{ error }}</p>
 
         <submit-and-cancel :includeBack='true' @onback='prevSlide' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='onFormSubmit'/>
       </div>
@@ -84,6 +84,7 @@ export default {
   created () {
     this.$store.dispatch('Categories/fetchCategories');
     this.formData = clonedeep(this.quiz);
+    console.log('FORM DATA AFTER DEEP CLONE', this.formData);
   },
   methods: {
     setImage (output) {
@@ -106,25 +107,40 @@ export default {
         this.formData.categories.splice(index, 1);
       } 
       else {
+        this.error = '';
         this.formData.categories.push(category)
       }
     },
 
     onFormSubmit () {
-      if (this.formData.quizImg === '') {
-        const randomCategory = this.formData.categories[Math.floor(Math.random() * (this.formData.categories.length - 0) + 0)].slug;
-        const quizSample = `${ randomCategory }/${ Math.floor(Math.random() * (3 - 1) + 1) }`;
-        
-        this.formData.quizSample = quizSample;
+      if (this.formData.categories.length === 0) {
+        this.error = 'Select at least one category.';
       }
 
-      this.formData.isQRQuiz = false;
-      this.formData.isPublic = true;
-      this.formData.categories = this.formData.categories.map(category => category.id);
+      if (this.formData.categories.length > 0) {
+        if (this.formData.quizImg === '' && this.formData.quizSample === '') {
+          const randomCategory = this.formData.categories[Math.floor(Math.random() * (this.formData.categories.length - 0) + 0)].slug;
+          const quizSample = `${ randomCategory }/${ Math.floor(Math.random() * (3 - 1) + 1) }`;
+          
+          this.formData.quizSample = quizSample;
+        }
 
-      console.log('FORM DATA', this.formData);
+        let categoryIds = this.formData.categories.map(category => { 
+          if (category.id !== undefined) {
+            return category.id;
+          }
 
-      this.$store.dispatch('CreateQuiz/onQuizFormSubmit', { quiz: this.formData });
+          if (category.id === undefined) {
+            return category;
+          }
+        });
+
+        this.formData.isQRQuiz = false;
+        this.formData.isPublic = true;
+        this.formData.categories = categoryIds;
+
+        this.$store.dispatch('CreateQuiz/onQuizFormSubmit', { quiz: this.formData });
+      }
     }
   }
 }
@@ -150,6 +166,10 @@ export default {
         margin-right: 1rem;
       }
     }
+  }
+
+  .error {
+    margin-top: 1rem;
   }
 }
 </style>

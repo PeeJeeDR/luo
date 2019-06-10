@@ -49,7 +49,7 @@ export default {
         break;
 
         case 'back':
-          this.$router.push('/');
+          this.$router.go(-1);
         break;
       } 
     },
