@@ -74,7 +74,7 @@ export const Quizzes = {
       commit('SET_LOADING_ON');
       
       db.collection('quizzes')
-      .where('public', '==', true)
+      .where('isPublic', '==', true)
       .where('isQRQuiz', '==', false)
       .where('isDeleted', '==', false)
       .orderBy('created', 'desc')
@@ -98,7 +98,7 @@ export const Quizzes = {
       commit('SET_LOADING_ON');
 
       db.collection('quizzes')
-      .where('public', '==', true)
+      .where('isPublic', '==', true)
       .where('isQRQuiz', '==', false)
       .where('isDeleted', '==', false)
       .orderBy('plays', 'desc')
@@ -123,7 +123,7 @@ export const Quizzes = {
 
       db.collection('quizzes')
       .where('categories', 'array-contains', payload.categoryId)
-      .where('public', '==', true)
+      .where('isPublic', '==', true)
       .where('isQRQuiz', '==', false)
       .where('isDeleted', '==', false)
       .onSnapshot(snap => {
@@ -213,7 +213,6 @@ export const Quizzes = {
         const quiz = {
           title: title.charAt(0).toUpperCase() + title.substr(1),
           description: description.charAt(0).toUpperCase() + description.substr(1) + (description.charAt(description.length - 1) === '.' ? '' : '.'),
-          public: isPublic,
           created: moment().format(),
           reports: [],
           plays: 0,
@@ -227,6 +226,7 @@ export const Quizzes = {
           questions,
           blocked: false,
           isQRQuiz,
+          isPublic,
           isDeleted: false
         }
   
@@ -242,16 +242,12 @@ export const Quizzes = {
     },
 
     updateQuiz ({ dispatch }, payload) {
-      console.log('UPDATE QUIZ', payload);
-
       db.collection('quizzes').doc(payload.quiz.id).update(payload.quiz)
       .then(() => {
         // Close the modal.
         dispatch('Modals/closeModal', {}, { root: true });
 
-        // go to profile page.
-        router.back();
-
+        // Tell the CreateQuiz.vue page to route to another page.
         dispatch('Modals/onConfirmAnswerSelect', { confirmAnswer: 'leave' }, { root: true });
 
         // Show notification to the user.

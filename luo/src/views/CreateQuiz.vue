@@ -35,6 +35,8 @@ export default {
     ...mapState('CreateQuiz', ['quiz', 'quizModified'])
   },
   created () {
+    console.log('QUIZ', this.quiz);
+
     this.$store.dispatch('CreateQuiz/onCreateQuizPageLoad');
 
     // Set header content.
@@ -45,8 +47,6 @@ export default {
     });
   },
   beforeRouteLeave (to, from, next) {
-    console.log('Before toute leave');
-
     if (this.quizModified) {
       if (this.confirmAnswer === undefined) {
         this.$store.dispatch('Modals/openModal', { type: 'confirm' });

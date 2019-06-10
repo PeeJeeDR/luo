@@ -39,7 +39,8 @@ export default {
   props: ['render'],
   computed: {
     ...mapState('Header', ['headerTitle', 'leftIcon', 'rightIcon']),
-    ...mapState('Modals', ['modalIsOpen'])
+    ...mapState('Modals', ['modalIsOpen']),
+    ...mapState('CreateQuiz', ['quiz'])
   },
   methods: {
     leftIconClick () {
@@ -49,7 +50,7 @@ export default {
         break;
 
         case 'back':
-          this.$router.go(-1);
+          this.$router.back();
         break;
       } 
     },
@@ -86,11 +87,7 @@ export default {
     },
 
     shouldRenderSave () {
-      if (this.rightIcon === 'save') {
-        return true;
-      }
-
-      return false;
+      return this.rightIcon === 'save' && this.quiz.questions.length > 0;
     }
   }
 }

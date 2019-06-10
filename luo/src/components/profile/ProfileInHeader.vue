@@ -49,9 +49,6 @@ export default {
     ...mapState('Quizzes', ['quizzesMadeByUser', 'quizzesPlayedByUser']),
     ...mapGetters('Quizzes', ['likesOfUser'])
   },
-  created () {
-    console.log('USER', this.user);
-  },
   methods: {
     onAvatarClick () {
       if (fire.auth().currentUser && fire.auth().currentUser.uid === this.user.id) {

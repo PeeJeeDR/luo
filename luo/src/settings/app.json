@@ -103,5 +103,25 @@
   "notifications": {
     "QUESTION_UPDATED_SUCCESS": "The question has been updated successfully.",
     "QUESTION_UPDATED_FAIL": "Something went wrong when editing the question. Please try again later."
+  },
+  "empty_quiz": {
+    "id": "",
+    "title": "",
+    "description": "",
+    "questions": [],
+    "categories": [],
+    "quizImg": "",
+    "quizSample": "",
+    "isPublic": true,
+    "isQRQuiz": false,
+    "isDeleted": false,
+    "created": "",
+    "createdBy": "",
+    "blocked": false,
+    "playedBy": [],
+    "plays": 0,
+    "likedBy": [],
+    "likes": 0,
+    "reports": []
   }
 }

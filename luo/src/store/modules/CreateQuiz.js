@@ -1,4 +1,5 @@
 import app from '@/settings/app.json';
+import clonedeep from 'lodash.clonedeep';
 import { db } from '@/firebase/firebase'; 
 import router from '@/router';
 
@@ -32,22 +33,18 @@ export const CreateQuiz = {
       state.quizModified = true;
     },
 
+    // Delete a question.
     DELETE_QUESTION (state, questionId) {
       state.quiz.questions.splice(questionId, 1);
       state.quizModified = true;
     },
 
-    // QUIZ
+    // Quiz.
     UPDATE_QUIZ (state, quiz) {
       state.quiz = quiz;
     },
     CLEAR_QUIZ (state) {
-      state.quiz.title = '';
-      state.quiz.description = '';
-      state.quiz.questions = [];
-      state.quiz.quizImg = '';
-      state.quiz.quizSample = '';
-      state.quiz.isPublic = true;
+      state.quiz = clonedeep(app.empty_quiz);
     },
 
     // Set and reset the selected question id.
@@ -137,6 +134,10 @@ export const CreateQuiz = {
     // When the form is submitted in SaveQuiz.vue.
     // We need to check first if the document already exists and react based on the result.
     onQuizFormSubmit ({ dispatch }, payload) {
+      if (payload.quiz.id === '') {
+        payload.quiz.id = undefined;
+      }
+
       if (payload.quiz.id !== undefined) {
         db.collection('quizzes').doc(payload.quiz.id).get().then(doc => {
           if (doc.exists) {
