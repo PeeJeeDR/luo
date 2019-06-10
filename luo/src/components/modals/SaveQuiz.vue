@@ -23,6 +23,7 @@
             :img='true' 
             :audio='false' 
             :formData='formData' 
+            :type='"quiz"'
             @onImgUpload='setImage'
           />
         </section>
@@ -84,7 +85,6 @@ export default {
   created () {
     this.$store.dispatch('Categories/fetchCategories');
     this.formData = clonedeep(this.quiz);
-    console.log('FORM DATA AFTER DEEP CLONE', this.formData);
   },
   methods: {
     setImage (output) {
@@ -149,6 +149,11 @@ export default {
 <style lang='scss' scoped>
 .save-quiz
 {
+  textarea {
+    height: 8rem !important;
+    margin-top: 0rem;
+  } 
+
   .public {
     margin-top: 1rem;
   }

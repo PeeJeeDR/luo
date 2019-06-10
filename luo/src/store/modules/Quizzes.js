@@ -206,7 +206,8 @@ export const Quizzes = {
     postNewQuiz ({ dispatch }, payload) {
       const { title, description, questions, categories, isQRQuiz, quizImg, isPublic, quizSample } = payload.quiz;
 
-      console.log('POST NEW QUIZ', payload);
+      // Tell the CreateQuiz.vue page to route to another page.
+      dispatch('Modals/onConfirmAnswerSelect', { confirmAnswer: 'leave' }, { root: true });
 
       // Check if there is at least one question made - questions.length > 0
       if (questions.length > 0) {

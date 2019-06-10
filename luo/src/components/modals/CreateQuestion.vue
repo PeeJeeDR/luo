@@ -43,7 +43,7 @@
           <p style='margin-top: -1rem;' class='paragraph p--s p--color-danger p--weight-bold error'>{{ error }}</p>
 
           <h2 
-            v-if='formData.answers.length < 4'
+            v-if='formData.answers.length < 4 && !answersFilled'
             class='add-answer heading h--m h--align-center h--color-primary' 
             :class='formData.answers[formData.answers.length - 1].answer === "" && "disabled"'
             @click='addAnswer'
@@ -99,8 +99,6 @@ export default {
   created () {
     if (this.questionId !== undefined) {
       this.formData = clonedeep(this.quiz.questions[this.questionId]);
-      this.answersFilled = true;
-      this.selectedCorrectAnswer = true;
     }
   },
   beforeDestroy () {
@@ -145,9 +143,12 @@ export default {
         this.formData.answers.pop();
       }
 
-      // Tab is pressed.
       if (e.keyCode === 9) {
         this.addAnswer();
+      }
+
+      if (e.keyCode === 13 && this.formData.answers.length > 3) {
+        this.checkAnswersSubmit();
       }
     },
 

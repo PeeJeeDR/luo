@@ -25,6 +25,7 @@ export const CreateQuiz = {
     // Push a new question.
     PUSH_QUESTION (state, question) {
       state.quiz.questions.push(question);
+      state.quizModified = true;
     },
 
     // Update a question after edit.

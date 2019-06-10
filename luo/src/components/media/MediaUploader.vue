@@ -51,6 +51,10 @@ export default {
       this.imgSource = this.formData.questionImg;
       this.audioSource = this.formData.questionAudio;
     }
+
+    if (this.type === 'quiz') {
+      this.imgSource = this.formData.quizImg;
+    }
   },
   methods: {
     setImage (output) {
