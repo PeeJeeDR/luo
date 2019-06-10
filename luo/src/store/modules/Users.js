@@ -63,7 +63,7 @@ export const Users = {
 
     // Update thus users avatar.
     updateUserAvatar ({ state, dispatch }, payload) {
-      db.collection('users').doc(state.userFromDB.id).update({ avatarUrl: payload.base64 })
+      db.collection('users').doc(state.user.id).update({ avatarUrl: payload.base64 })
       .then(() => {
         dispatch('Notifications/setNotification', { message: 'You profile image has updated successfully.' }, { root: true });
       })

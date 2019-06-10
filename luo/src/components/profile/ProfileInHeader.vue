@@ -2,8 +2,22 @@
   <div v-if='user !== undefined' class='profile-in-header'>
     <div class='flex justify-start align-start'>
       <div class='img-container' @click='onAvatarClick'>
-        <input type='file' ref='img' accept='image/*' style='display: none' @change='onImgSelect'>
-        <img :src='user.avatarUrl !== null ? "data:image/jpeg;base64," + user.avatarUrl : require(`@/assets/img/avatars/${ user.avatar }.png`)' alt='Avatar image.'>
+        <image-uploader
+          style='display: none'
+          :debug='1'
+          :maxWidth='300'
+          :quality='0.6'
+          :autoRotate='true'
+          outputFormat='string'
+          :preview='true'
+          accept='image/*'
+          doNotResize='["gif", "svg"]'
+          @input='onImgSelect'
+        >
+          <label for='fileInput' ref='img' slot='upload-label'></label>
+        </image-uploader>
+
+        <img :src='user.avatarUrl !== null ? user.avatarUrl : require(`@/assets/img/avatars/${ user.avatar }.png`)' alt='Avatar image.'>
         <button v-if='fire.auth().currentUser && fire.auth().currentUser.uid === user.id' class='flex-center'><edit /></button>
       </div>
     
@@ -45,12 +59,8 @@ export default {
       }
     },
 
-    onImgSelect (e) {
-      if (e.target.files[0] && e.target.files[0].type.includes('image')) {
-        image2base64(URL.createObjectURL(e.target.files[0])).then(res => {
-          this.$store.dispatch('Users/updateUserAvatar', { base64: res });
-        }).catch(() => {});
-      }
+    onImgSelect (output) {
+      this.$store.dispatch('Users/updateUserAvatar', { base64: output });
     }
   }
 }
