@@ -14,7 +14,12 @@
 
       <div class='content flex direction-col justify-between'>
         <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-100ms' leave-active-class='animated fadeOutLeft faster'>
-          <question-title :key='currentQuestion' :currentQuestion='currentQuestion' :questions='playingQuiz.questions'/>
+          <div :key='currentQuestion' class='flex'>
+            <div v-if='playingQuiz.questions[currentQuestion].questionAudio !== ""' :class='`audio-play-button flex-center ${ audioIsPlaying ? "playing" : "paused" }`' @click='playAudio'>
+              <volume />
+            </div>
+            <question-title :currentQuestion='currentQuestion' :questions='playingQuiz.questions'/>
+          </div>
         </transition>
 
         <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-150ms' leave-active-class='animated fadeOutLeft faster'>
@@ -41,20 +46,61 @@
 import AnswerButton from '@/components/buttons/AnswerButton';
 import QuestionTitle from '@/components/play/QuestionTitle';
 import Expand from '@/assets/icons/quizzes/Expand.svg';
+import Volume from '@/assets/icons/quizzes/Volume.svg';
+import Correct from '@/assets/sound/Correct.mp3';
+import Wrong from '@/assets/sound/Wrong.mp3';
 
 export default {
   name: 'MultipleChoise',
-  components: { AnswerButton, QuestionTitle, Expand },
+  components: { AnswerButton, QuestionTitle, Expand, Volume },
   props: ['playingQuiz', 'inputEnabled'],
   data: () => ({ 
     currentQuestion: 0,
     clickedButton: undefined,
     showAnswer: false,
-    expand: false
+    expand: false,
+    audioFileCorrect: new Audio(Correct),
+    audioFileWrong: new Audio(Wrong),
+    audioFile: undefined,
+    audioIsPlaying: false
   }),
+  created () {
+    this.setAudioFile();
+    this.audioFileCorrect.volume = 0.2;
+  },
   methods: {
+    setAudioFile () {
+      if (this.playingQuiz.questions[this.currentQuestion].questionAudio !== '') {
+        this.audioFile = new Audio(this.playingQuiz.questions[this.currentQuestion].questionAudio);
+      }
+    },
+    
+    playAudio () {
+      this.audioIsPlaying = !this.audioIsPlaying;
+      
+      if (this.audioFile !== undefined) {
+        if (!this.audioIsPlaying) {
+          this.audioFile.pause();
+          this.audioFile.currentTime = 0;
+        }
+
+        if (this.audioIsPlaying) {
+          this.audioFile.play();
+        }
+      }
+    },
+
     // When there is clicked on an answer.
     onAnswerClick (answer, clickedButton) {
+      // Stop question audio from playing.
+      this.audioIsPlaying = false;
+
+      if (this.audioFile !== undefined) {
+        this.audioFile.pause();
+        this.audioFile.currentTime = 0;
+      }
+
+
       this.clickedButton = clickedButton;
 
       this.$store.dispatch('PlayQuiz/onAnswerClick', { 
@@ -64,10 +110,12 @@ export default {
       });
 
       if (answer.correct) {
+        this.audioFileCorrect.play();
         this.$store.dispatch('PlayQuiz/onAnswerClick', { type: 'correct' });
       }
 
       if (!answer.correct) {
+        this.audioFileWrong.play();
         this.showAnswer = true;
         this.$store.dispatch('PlayQuiz/onAnswerClick', { type: 'wrong' });
       }
@@ -107,12 +155,16 @@ export default {
 
     // When there is clicked on the report button.
     onReportClick () {
-
       // Set quiz to be reported in the store.
       this.$store.dispatch('Reports/onReportClick', { quiz: this.playingQuiz, question: this.currentQuestion });
 
       // Open report modal.
       this.$store.dispatch('Modals/openModal', { type: 'report' });
+    }
+  },
+  watch: {
+    currentQuestion () {
+      this.setAudioFile();
     }
   }
 }

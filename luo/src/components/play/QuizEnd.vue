@@ -64,6 +64,7 @@ import DefaultButton from '@/components/buttons/DefaultButton';
 import AwardGold from '@/assets/icons/quizzes/AwardGold.svg';
 import Likes from '@/assets/icons/quizzes/Likes.svg';
 import Flag from '@/assets/icons/quizzes/Flag.svg';
+import QuizEnd from '@/assets/sound/QuizEnd.mp3';
 
 export default {
   name: 'QuizEnd',
@@ -72,13 +73,19 @@ export default {
     fire,
     reviewEnabled: false,
     likeClass: 'unselected',
-    animateLikeButton: false
+    animateLikeButton: false,
+    quizEndSound: new Audio(QuizEnd)
   }),
   computed: {
     ...mapState('PlayQuiz', ['correctAnswers', 'playingQuiz'])
   },
   created () {
     this.checkLikeStatus();
+
+    if (this.correctAnswers === this.playingQuiz.questions.length) {
+      this.quizEndSound.volume = 0.2;
+      this.quizEndSound.play();
+    }
   },
   methods: {
     onReviewClick () {
@@ -121,6 +128,9 @@ export default {
     },
 
     async onContinueClick () {
+      this.quizEndSound.pause();
+      this.quizEndSound.currentTime = 0;
+
       await this.$store.dispatch('PlayQuiz/onQuizEnd');
       this.$router.back();
     }
