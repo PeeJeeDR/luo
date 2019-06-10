@@ -1,24 +1,22 @@
-/* === FONT SIZES === */
+// Font sizes.
 $jon: 2rem;
 $khaleesi: 1.5rem;
 $khal-drogo: 1.3rem;
 $bran: 1rem;
 $ned: 0.8rem;
 $sansa: 0.6rem;
-/* ========== */
 
-/* === FONT FAMILIES === */
+// Font families.
 $montserrat: 'Montserrat', sans-serif;
-/* ========== */
 
-/* === ERRORS === */
+// Errors.
 .error {
   padding: 0.3rem 0 0 0.2rem;
 }
-/* ========== */
 
-/* === HEADING === */
+// Heading.
 .heading {
+  @include unselectable;
   font-family: $montserrat;
   color: $texty;
 
@@ -88,10 +86,10 @@ $montserrat: 'Montserrat', sans-serif;
     }
   }
 }
-/* ========== */
 
-/* === PARAGRAPH === */
+// Paragraph.
 .paragraph {
+  @include unselectable;
   font-family: $montserrat;
   color: $texty;
 
@@ -153,4 +151,3 @@ $montserrat: 'Montserrat', sans-serif;
     }
   }
 }
-/* ========== */

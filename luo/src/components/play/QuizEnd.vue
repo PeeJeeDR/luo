@@ -47,7 +47,7 @@
     
 
       <!-- === BUTTON CONTAINER === -->
-      <div class='button-container flex direction-col align-center '>
+      <div class='button-container flex direction-col align-center justify-end'>
         <p v-if='!reviewEnabled' @click='onReviewClick' class='small-button paragraph p--weight-bold p--xm p--color-almost-light'>Review answers</p>
         <p v-if='reviewEnabled' @click='onBackClick' class='small-button paragraph p--weight-bold p--xm p--color-almost-light'>Back</p>
         <default-button :content='"continue"' @click.native='onContinueClick'/>
@@ -236,6 +236,9 @@ export default {
   .small-button:hover {
     background-color: lighten($mr-grey, 5%);
     cursor: pointer;
+  }
+  .small-button:focus {
+    background-color: red !important;
   }
 }
 </style>

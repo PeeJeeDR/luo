@@ -11,29 +11,14 @@
         </section>
 
         <section>
-          <image-uploader
-            style='display: none'
-            :debug='1'
-            :maxWidth='512'
-            :quality='0.8'
-            :autoRotate='true'
-            outputFormat='string'
-            :preview='true'
-            capture='environment'
-            accept='image/*'
-            doNotResize='["gif", "svg"]'
-            @input='setImage'
-            @onUpload='$store.dispatch("CreateQuiz/onMediaUploadStart")'
-            @onComplete='$store.dispatch("CreateQuiz/onMediaUploadEnd")'
-          >
-            <label for='fileInput' ref='img' slot='upload-label'></label>
-          </image-uploader>
-
-          <input style='display: none;' type='file' ref='audio' accept='audio/*'>
-          <img v-if='formData.questionImg !== ""' :src='formData.questionImg' alt='Uploaded file.' @click='$refs.img.click()'>
-
-          <default-button v-if='formData.questionImg === ""' :content='"Add question image"' @click.native='$refs.img.click()'/>
-          <default-button :content='"Add question audio"' @click.native='$refs.audio.click()'/>
+          <media-uploader 
+            :img='true' 
+            :audio='true' 
+            :formData='formData' 
+            :type='"question"'
+            @onImgUpload='setImage'
+            @onAudioUpload='setAudio'
+          />
         </section>
 
         <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide("question-1-2")'/>
@@ -81,6 +66,7 @@ import ModalMixins from '@/mixins/ModalMixins';
 import DefaultButton from '@/components/buttons/DefaultButton';
 import CheckMark from '@/components/buttons/CheckMark';
 import SubmitAndCancel from '@/components/buttons/SubmitAndCancel';
+import MediaUploader from '@/components/media/MediaUploader';
 
 export default {
   /* === ModalMixins.js ===
@@ -91,7 +77,7 @@ export default {
 
   name: 'CreateQuestion',
   mixins: [ModalMixins],
-  components: { DefaultButton, CheckMark, SubmitAndCancel },
+  components: { DefaultButton, CheckMark, SubmitAndCancel, MediaUploader },
   data: () => ({
     formData: {
       question: '',
@@ -125,6 +111,11 @@ export default {
       this.formData.questionImg = output;
     },
 
+    // When audio is selected.
+    setAudio (output) {
+      this.formData.questionAudio = output;
+    },
+
     // When user adds an answer, a input field has to be added.
     addAnswer () {
       if (this.formData.answers.length > 0 && this.formData.answers.length < 4) {
@@ -148,10 +139,12 @@ export default {
       const firstAnswer = this.formData.answers[0].answer !== '';
       const lastAnswer = this.formData.answers[this.formData.answers.length - 1].answer;
 
+      // Return key is pressed.
       if (e.keyCode === 8 && (lastAnswer === '' && firstAnswer)) {
         this.formData.answers.pop();
       }
 
+      // Tab is pressed.
       if (e.keyCode === 9) {
         this.addAnswer();
       }

@@ -5,7 +5,7 @@ import store from './store/store';
 import './registerServiceWorker';
 import { fire } from '@/firebase/firebase';
 import Ripple from 'vue-ripple-directive';
-import ImageUploader from 'vue-image-upload-resize'
+import ImageUploader from 'vue-image-upload-resize';
 
 Vue.config.productionTip = false;
 

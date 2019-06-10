@@ -19,24 +19,12 @@
 
         <!-- Image. -->
         <section>
-          <image-uploader
-            style='display: none'
-            :debug='1'
-            :maxWidth='512'
-            :quality='0.7'
-            :autoRotate='true'
-            outputFormat='string'
-            :preview='true'
-            capture='environment'
-            accept='image/*'
-            doNotResize='["gif", "svg"]'
-            @input='setImage'
-          >
-            <label for='fileInput' ref='img' slot='upload-label'></label>
-          </image-uploader>
-
-          <default-button v-if='formData.quizImg === "" && formData.quizSample === ""' :content='"Add quiz image"' @click.native='$refs.img.click()'/>
-          <img v-else :src='getQuizImgSource()' alt='Uploaded file.' @click='$refs.img.click()'>
+          <media-uploader 
+            :img='true' 
+            :audio='false' 
+            :formData='formData' 
+            @onImgUpload='setImage'
+          />
         </section>
 
         <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide("quiz-1-2")'/>
@@ -74,6 +62,7 @@ import ModalMixins from '@/mixins/ModalMixins';
 import DefaultButton from '@/components/buttons/DefaultButton';
 import CheckMark from '@/components/buttons/CheckMark';
 import SubmitAndCancel from '@/components/buttons/SubmitAndCancel';
+import MediaUploader from '@/components/media/MediaUploader';
 
 export default {
   /* === ModalMixins.js ===
@@ -84,7 +73,7 @@ export default {
 
   name: 'SaveQuiz',
   mixins: [GlobalMethods, ModalMixins],
-  components: { DefaultButton, CheckMark, SubmitAndCancel },
+  components: { DefaultButton, CheckMark, SubmitAndCancel, MediaUploader },
   data: () => ({
     formData: {}
   }),
@@ -129,15 +118,9 @@ export default {
         this.formData.quizSample = quizSample;
       }
 
-      let categoryIDS = [];
-
-      this.formData.categories.forEach(category => {
-        categoryIDS.push(category.id);
-      });
-
       this.formData.isQRQuiz = false;
       this.formData.isPublic = true;
-      this.formData.categories = categoryIDS;
+      this.formData.categories = this.formData.categories.map(category => category.id);
 
       console.log('FORM DATA', this.formData);
 

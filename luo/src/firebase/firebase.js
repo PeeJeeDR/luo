@@ -13,7 +13,7 @@ const fire = firebase.initializeApp({
   messagingSenderId: process.env.VUE_APP_FIREBASE_SENDER_ID
 });
 
-const storage = fire.storage().ref();
+const storage = fire.storage();
 const db = fire.firestore();
 
 enablePersistence(firebase);

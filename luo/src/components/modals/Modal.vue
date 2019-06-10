@@ -75,15 +75,15 @@ export default {
     margin-top: 2.5rem;
   }
 
-  .title {
-    margin-bottom: 1rem;
-  }
-
   img {
     width: 100%;
     height: 15rem;
     object-fit: cover;
     border-radius: $smallRadius;
+  }
+
+  .title {
+    margin-bottom: 1rem;
   }
 
   .default-button {

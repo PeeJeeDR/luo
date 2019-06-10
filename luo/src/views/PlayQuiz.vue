@@ -190,10 +190,6 @@ export default {
       height: 100%;
       padding: 2rem;
       overflow: scroll;
-
-      @include phone {
-        height: 80vh;
-      }
     }
   }
 }

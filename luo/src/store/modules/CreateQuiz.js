@@ -124,8 +124,9 @@ export const CreateQuiz = {
           if (!doc.exists) {
             dispatch('Quizzes/postNewQuiz', { quiz: payload.quiz }, { root: true });
           }
-        }).catch(() => {
-          this.$store.dispatch('Notifications/setNotification', { message: 'Something went wrong while saving the quiz.' });
+        }).catch(err => {
+          console.log('ERR', err);
+          this.$store.dispatch('Notifications/setNotification', { message: 'Something went wrong while saving the quiz.' }, { root: true });
         })
       }
 

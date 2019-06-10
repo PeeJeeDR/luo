@@ -20,3 +20,12 @@
   -moz-box-shadow: 0px -5px 14px -9px rgba(0,0,0,0.45);
   box-shadow: 0px -5px 14px -9px rgba(0,0,0,0.45);
 }
+
+@mixin unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
