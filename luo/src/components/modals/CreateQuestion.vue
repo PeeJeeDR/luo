@@ -82,6 +82,7 @@ export default {
     formData: {
       question: '',
       questionImg: '',
+      questionAudio: '',
       answers: [{
         id: 0,
         answer: '',

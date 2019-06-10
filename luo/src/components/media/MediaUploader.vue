@@ -19,7 +19,7 @@
     </image-uploader>
 
     <!-- Audio uploader. -->
-    <input style='display: none;' type='file' ref='audio' @change='onAudioSelect'>
+    <input style='display: none;' accept='audio/*' type='file' ref='audio' @change='onAudioSelect'>
 
     <!-- Img preview. -->
     <img v-if='imgSource !== ""' :src='imgSource' alt='Uploaded file.' @click='$refs.img.click()'>
@@ -46,6 +46,7 @@ export default {
     audioSource: ''
   }),
   created () {
+    console.log('form data', this.formData);
     if (this.type === 'question') {
       this.imgSource = this.formData.questionImg;
       this.audioSource = this.formData.questionAudio;
