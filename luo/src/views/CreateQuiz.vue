@@ -35,8 +35,6 @@ export default {
     ...mapState('CreateQuiz', ['quiz', 'quizModified'])
   },
   created () {
-    console.log('QUIZ', this.quiz);
-
     this.$store.dispatch('CreateQuiz/onCreateQuizPageLoad');
 
     // Set header content.

@@ -89,11 +89,11 @@ export default {
     overflow: hidden;
 
     @include tablet {
-      height: 70%;
+      height: 90%;
     }
 
     @include desktop {
-      height: 75%;
+      height: 85%;
     }
 
     .game-container {

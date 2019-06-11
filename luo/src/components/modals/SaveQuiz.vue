@@ -38,7 +38,7 @@
           <div class='categories'>
             <div class='category' v-for='category in categories' :key='category.id' @click='categorySelect(category)'>
               <div v-if='category.slug !== "suggest"' class='flex align-center'>
-                <check-mark :checked='formData.categories.indexOf(category) > -1'/>
+                <check-mark :checked='shouldCategoryChecked(category)'/>
                 <img :src='require(`@/assets/icons/categories/${ category.slug }.png`)' :alt='`${ capFirstChar(category.category) } icon.`'>
                 <h2 class='heading h--m'>{{ category.category }}</h2>
               </div>
@@ -102,14 +102,24 @@ export default {
     },
 
     categorySelect (category) {
-      if (this.formData.categories.indexOf(category) > -1) {
-        let index = this.formData.categories.indexOf(category);
+      let filtered = [];
+
+      this.formData.categories.forEach(category => {
+        typeof category === 'object' ? filtered.push(category.id) : filtered.push(category);
+      });
+
+      if (filtered.indexOf(category.id) > -1) {
+        let index = filtered.indexOf(category.id);
         this.formData.categories.splice(index, 1);
       } 
       else {
         this.error = '';
-        this.formData.categories.push(category)
+        this.formData.categories.push(category);
       }
+    },
+
+    shouldCategoryChecked (category) {
+      return this.formData.categories.indexOf(category.id) > -1 || this.formData.categories.indexOf(category) > -1;
     },
 
     onFormSubmit () {

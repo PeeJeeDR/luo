@@ -46,7 +46,6 @@ export default {
     audioSource: ''
   }),
   created () {
-    console.log('form data', this.formData);
     if (this.type === 'question') {
       this.imgSource = this.formData.questionImg;
       this.audioSource = this.formData.questionAudio;
