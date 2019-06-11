@@ -78,6 +78,7 @@ export default {
       border: 2px solid $snow;
       border-radius: 200rem;
       object-fit: cover;
+      background-color: $snow;
     }
 
     button {

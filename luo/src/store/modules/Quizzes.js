@@ -23,6 +23,14 @@ export const Quizzes = {
       });
 
       return likes;
+    },
+
+    publicQuizzesByUser (state) {
+      return state.quizzesMadeByUser.filter(quiz => !quiz.isQRQuiz);
+    },
+
+    QRQuizzesByUser (state) {
+      return state.quizzesMadeByUser.filter(quiz => quiz.isQRQuiz);
     }
   },
 
@@ -180,6 +188,7 @@ export const Quizzes = {
       db.collection('quizzes')
       .where('createdBy', '==', payload.userId)
       .where('isDeleted', '==', false)
+      .orderBy('created', 'desc')
       .onSnapshot(snap => {
         commit('SAVE_QUIZZES_MADE_BY_USER', snap.docs.map(doc => {
           let result = doc.data();

@@ -28,6 +28,7 @@ export default {
     height: 5.5rem;
     border-radius: 20rem;
     border: 5px solid $snow;
+    background-color: $snow;
   }
 
   .star-container {

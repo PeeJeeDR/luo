@@ -10,9 +10,21 @@
       </transition>
 
       <!-- === QUIZZES MADE BY THE USER === -->
-      <section-title v-if='quizzesMadeByUser.length > 0' :title='"Your quizzes"'/>
+      <section-title 
+        v-if='publicQuizzesByUser.length > 0' 
+        :title='`${ isOtherUser ? "Quizzes of " + user.username : "Your public quizzes" }`'
+      />
       <div class='flex flex-wrap justify-center'>
-        <quiz v-for='(quiz, i) in quizzesMadeByUser' :key='i' :quiz='quiz' :index='i'/>
+        <quiz v-for='(quiz, i) in publicQuizzesByUser' :key='i' :quiz='quiz' :index='i'/>
+      </div>
+
+      <!-- === QR CODE QUIZZES MADE BY THE USER === -->
+      <section-title 
+        v-if='QRQuizzesByUser.length > 0 && !isOtherUser' 
+        :title='"Your QR code quizzes"'
+      />
+      <div class='flex flex-wrap justify-center'>
+        <quiz v-for='(quiz, i) in QRQuizzesByUser' :key='i' :quiz='quiz' :index='i'/>
       </div>
 
       <!-- === IF THERE ARE NO QUIZZES === -->
@@ -24,7 +36,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { fire } from '@/firebase/firebase';
 import MoonLoader from 'vue-spinner/src/MoonLoader';
 import Modal from '@/components/modals/Modal';
@@ -37,7 +49,8 @@ export default {
   computed: {
     ...mapState('Quizzes', ['quizzesMadeByUser', 'loading']),
     ...mapState('Modals', ['modalIsOpen']),
-    ...mapState('Users', ['isOtherUser', 'user'])
+    ...mapState('Users', ['isOtherUser', 'user']),
+    ...mapGetters('Quizzes', ['publicQuizzesByUser', 'QRQuizzesByUser'])
   },
   created () {
     this.$store.dispatch('Navigation/onAppLoad');

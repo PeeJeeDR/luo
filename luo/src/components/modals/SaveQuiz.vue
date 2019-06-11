@@ -11,9 +11,16 @@
           <textarea class='default-input textarea' placeholder='Quiz description' v-model='formData.description'></textarea>
           <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error1 }}</p>
 
-          <div v-if='formData.isQRQuiz' class='public flex align-center' @click='formData.isPublic = !formData.isPublic'>
-            <check-mark :checked='formData.isPublic'/>
-            <p class='paragraph p--m p--weight-bold p--color-lighter'>Make quiz public</p>
+          <div v-if='!isInitialQR' class='settings flex-center'>
+            <div class='setting flex align-center' @click='onPublicClick'>
+              <check-mark :checked='formData.isPublic'/>
+              <h2 class='heading h--m'>Make quiz public</h2>
+            </div>
+
+            <div class='setting flex align-center' @click='onQRClick'>
+              <check-mark :checked='formData.isQRQuiz'/>
+              <h2 class='heading h--m'>Make QR code quiz</h2>
+            </div>
           </div>
         </section>
 
@@ -76,7 +83,8 @@ export default {
   mixins: [GlobalMethods, ModalMixins],
   components: { DefaultButton, CheckMark, SubmitAndCancel, MediaUploader },
   data: () => ({
-    formData: {}
+    formData: {},
+    isInitialQR: false
   }),
   computed: {
     ...mapState('Categories', ['categories']),
@@ -85,8 +93,28 @@ export default {
   created () {
     this.$store.dispatch('Categories/fetchCategories');
     this.formData = clonedeep(this.quiz);
+
+    if (this.formData.isQRQuiz) {
+      this.isInitialQR = true;
+    }
   },
   methods: {
+    onPublicClick () {
+      this.formData.isPublic = !this.formData.isPublic;
+
+      if (this.formData.isPublic) {
+        this.formData.isQRQuiz = false;
+      }
+    },
+
+    onQRClick () {
+      this.formData.isQRQuiz = !this.formData.isQRQuiz;
+
+      if (this.formData.isQRQuiz) {
+        this.formData.isPublic = false;
+      }
+    },
+
     setImage (output) {
       this.formData.quizImg = output;
     },
@@ -145,10 +173,7 @@ export default {
           }
         });
 
-        this.formData.isQRQuiz = false;
-        this.formData.isPublic = true;
         this.formData.categories = categoryIds;
-
         this.$store.dispatch('CreateQuiz/onQuizFormSubmit', { quiz: this.formData });
       }
     }

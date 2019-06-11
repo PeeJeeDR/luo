@@ -23,12 +23,12 @@ export default {
     atCategoryClick () {
       enableBodyScroll(document.getElementsByTagName('body')[0]);
 
-      if (this.category.slug !== 'add') {
+      if (this.category.slug !== 'suggest') {
         this.$store.dispatch('Sidebar/onCategoryClick', { categoryId: this.category.id });
         this.$store.dispatch('Quizzes/fetchQuizesByCategory', { categoryId: this.category.id });
       }
       
-      if (this.category.slug === 'add') {
+      if (this.category.slug === 'suggest') {
         this.$store.dispatch('Sidebar/closeSidebar');
         this.$store.dispatch('Modals/openModal', { type: 'suggest-category' });
       }

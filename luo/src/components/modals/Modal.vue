@@ -87,6 +87,22 @@ export default {
     margin-bottom: 1rem;
   }
 
+  .settings {
+    @include phone {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .setting {
+      margin: 0 1rem;
+
+      @include phone {
+        margin-top: 1.5rem;
+      }
+    }
+  }
+
+
   .default-button {
     display: flex;
     justify-content: center;
