@@ -30,7 +30,7 @@
           <h3 class='title heading h--xm h--color-primary'>{{ !answersFilled ? 'Add your answers' : 'Which one is correct?' }}</h3>
 
           <div v-for='answer in formData.answers' :key='answer.id' class='answer flex-center'>
-            <check-mark v-if='answersFilled' @click.native='setAnswerCorrect(answer.id)' :checked='answer.correct'/>
+            <check-mark v-if='checkIfCheckHasToRender()' @click.native='setAnswerCorrect(answer.id)' :checked='answer.correct'/>
             <input 
               @keydown='onInputKeyDown' 
               class='default-input' 
@@ -91,7 +91,7 @@ export default {
       }]
     },
     answersFilled: false,
-    selectedCorrectAnswer: false
+    selectedCorrectAnswer: false,
   }),
   computed: {
     ...mapState('CreateQuiz', ['quiz', 'questionId'])
@@ -138,17 +138,33 @@ export default {
       const firstAnswer = this.formData.answers[0].answer !== '';
       const lastAnswer = this.formData.answers[this.formData.answers.length - 1].answer;
 
+      const tabBtn = 9;
+      const enterBtn = 13
+      const returnBtn = 8;
+
       // Return key is pressed.
-      if (e.keyCode === 8 && (lastAnswer === '' && firstAnswer)) {
+      if (e.keyCode === returnBtn && (lastAnswer === '' && firstAnswer)) {
         this.formData.answers.pop();
-      }
-
-      if (e.keyCode === 9) {
+      } 
+      
+      if (e.keyCode === tabBtn || e.keyCode === enterBtn) {
         this.addAnswer();
-      }
-
-      if (e.keyCode === 13 && this.formData.answers.length > 3) {
+      } 
+      
+      if (e.keyCode === enterBtn && this.formData.answers.length > 3) {
         this.checkAnswersSubmit();
+      }
+    },
+
+    checkIfCheckHasToRender () {
+      if (this.answersFilled) {
+        this.formData.answers.forEach(answer => {
+          if (answer.correct) {
+            this.selectedCorrectAnswer = true;
+          }
+        })
+
+        return true;
       }
     },
 
@@ -189,6 +205,7 @@ export default {
 
     // When submitting the form.
     onFormSubmit () {
+      console.log('Hello');
       if (this.questionId !== undefined) {
         this.$store.dispatch('CreateQuiz/onQuestionEdit', { question: this.formData });
       }
