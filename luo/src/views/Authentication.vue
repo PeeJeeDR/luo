@@ -58,7 +58,7 @@
 
         <p class='error'>{{ error }}</p>
         <default-button :content='formType === "login" ? "Login" : "Register"'/>
-        <p>Forgot password?</p>
+        <p v-if='formType === "login"'>Forgot password?</p>
         <p class='skip' @click='onSkipClick'>Skip login</p>
       </form>
     </div>
@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { fire, db } from '@/firebase/firebase';
 import Logo from '@/assets/img/logo/Logo.png';
 import DefaultButton from '@/components/buttons/DefaultButton';
@@ -89,6 +90,8 @@ export default {
     error: ''
   }),
   created () {
+    window.scrollTo(0,0);
+
     this.$store.dispatch('Users/onAppLoad');
 
     // Reset some variables in the store.
@@ -179,7 +182,8 @@ export default {
                   avatar: Math.floor(Math.random() * (12 - 1) + 1),
                   avatarUrl: null,
                   xp: 0,
-                  followers: []
+                  followers: [],
+                  created: moment().format()
                 }).catch(err => {
                   console.log('error', err);
                 });

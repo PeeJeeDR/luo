@@ -42,6 +42,7 @@ export default {
     margin-left: -2rem;
     margin-bottom: -2rem;
     position: relative;
+    height: 20rem;
 
     h2 {
       position: absolute;
@@ -55,6 +56,7 @@ export default {
 
     .wrapper {
       display: -webkit-box;
+      height: 100%;
     }
   }
 

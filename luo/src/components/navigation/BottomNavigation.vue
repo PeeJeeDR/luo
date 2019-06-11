@@ -142,14 +142,17 @@ export default {
   }
 
   .icon {
-    margin: 0 0.5rem;
-    width: 3rem;
+    margin: 0;
+    width: 50%;
     height: 3rem;
-    padding: 0.5rem;
+
+    @include phone {
+      
+    }
 
     svg {
       fill: $dawn;
-      width: 100%;
+      width: 50%;
       height: 100%;
       transition: all $fast ease-in-out;
 

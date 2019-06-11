@@ -58,6 +58,7 @@ export default {
     },
 
     onAuthClick () {
+      this.closeSidebar();
       this.$router.push('/authentication');
       this.$store.dispatch('Sidebar/closeSidebar');
     }
@@ -81,10 +82,10 @@ export default {
 
   .bar {
     background-color: $snow;
-    width: 60%;
+    width: 230px;
     overflow: scroll;
     white-space: nowrap;
-    padding: 2rem 0 1rem 0;
+    padding: 2rem 0 1rem 0; 
 
     @include tablet {
       width: 250px;

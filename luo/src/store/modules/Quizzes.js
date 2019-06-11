@@ -53,6 +53,7 @@ export const Quizzes = {
 
     // Save quizzes made by user.
     SAVE_QUIZZES_MADE_BY_USER (state, quizzes) {
+      console.log('QUIZZES', quizzes);
       state.quizzesMadeByUser = quizzes;
     },
     CLEAR_QUIZZES_MADE_BY_USER (state) {
