@@ -66,7 +66,6 @@ export default {
   }),
   created () {
     this.setAudioFile();
-    this.shuffleArray();
     this.audioFileCorrect.volume = 0.2;
   },
   beforeDestroy () {
@@ -167,22 +166,12 @@ export default {
 
       // Open report modal.
       this.$store.dispatch('Modals/openModal', { type: 'report' });
-    },
-
-    shuffleArray () {
-      let array = this.playingQuiz.questions[this.currentQuestion].answers;
-
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
     }
   },
   watch: {
     currentQuestion () {
       this.expand = false;
       this.setAudioFile();
-      this.shuffleArray();
     }
   }
 }

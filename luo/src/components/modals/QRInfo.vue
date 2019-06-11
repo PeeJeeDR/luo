@@ -1,28 +1,13 @@
 <template>
   <div class='qr-info'>
-    <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
-      <div key='0' v-if='!scanIsOpen'>
-        <section>
-          <h3 class='title heading h--xm h--color-primary'>QR code quizzes</h3>
-          <p>
-            If you want your quiz to be only available with a QR code so that only
-            people with the code can play the quiz.
-          </p>
-        </section>
+    <div class='scanner'>
+      <h2 class='heading h--l h--color-light'>Scan a QR code!</h2>
 
-        <section>
-          <default-button :content='"Scan QR code"' @click.native='onQuizScan'/>
-          <default-button :content='"Make QR code quiz"' @click.native='onQuizMake'/>
-        </section>
-      </div>
-
-      <div key='1' v-if='scanIsOpen' class='scanner'>
-        <qrcode-stream 
-          @decode='onDecode'
-          :camera='"auto"'
-        ></qrcode-stream>
-      </div>
-    </transition>
+      <qrcode-stream 
+        @decode='onDecode'
+        :camera='"auto"'
+      ></qrcode-stream>
+    </div>
   </div>
 </template>
 
@@ -33,20 +18,7 @@ import DefaultButton from '@/components/buttons/DefaultButton';
 export default {
   name: 'QRInfo',
   components: { DefaultButton, QrcodeStream },
-  data: () => ({
-    scanIsOpen: false
-  }),
   methods: {
-    onQuizScan () {
-      this.scanIsOpen = !this.scanIsOpen;
-    },
-
-    onQuizMake () {
-      this.$store.dispatch('CreateQuiz/onQRQuizCreate');
-      this.$router.push('/quizzes/create');
-      this.$store.dispatch('Modals/closeModal');
-    },
-
     async onDecode (decodedString) {
       console.log('DECODED', decodedString);
       // Close the scanner.
@@ -67,13 +39,28 @@ export default {
   }
 
   .scanner {
-    height: 20rem;
+    margin-left: -2rem;
+    margin-bottom: -2rem;
+    position: relative;
+
+    h2 {
+      position: absolute;
+      z-index: 1;
+      top: 0; left: 0; right: 0;
+      text-align: center;
+      padding-left: 2rem;
+      margin: 1rem auto;
+      opacity: 0.8;
+    }
+
+    .wrapper {
+      display: -webkit-box;
+    }
   }
 
   video {
     object-fit: cover !important;
-    width: 60rem;
-    height: 22rem !important;
+    width: 100%;
   }
 }
 </style>

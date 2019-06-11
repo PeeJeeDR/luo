@@ -54,6 +54,22 @@ export const PlayQuiz = {
     },
     RESET_CURRENT_QUESTION (state) {
       state.currentQuestion = 0;
+    },
+
+    SHUFFLE_ANSWERS (state) {
+      console.log('SHUFFLE');
+      /* let array = state.playingQuiz.questions[state.currentQuestion].answers;
+
+      console.log('ARRAY BEFORE', array);
+
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+
+      console.log('ARRAY AFTER', array);
+
+      state.playingQuiz.questions[state.currentQuestion].answers = array; */
     }
   },
 
@@ -91,6 +107,7 @@ export const PlayQuiz = {
     // When a new question loads.
     onNewQuestionLoad ({ commit }) {
       commit('ENABLE_INPUT');
+      commit('SHUFFLE_ANSWERS');
     },
 
     // When the quiz completed.
