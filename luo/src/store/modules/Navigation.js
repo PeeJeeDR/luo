@@ -5,7 +5,7 @@ export const Navigation = {
   namespaced: true,
 
   state: {
-    selectedOverview: 'new',
+    selectedOverview: 'new'
   },
 
   mutations: {
@@ -17,9 +17,7 @@ export const Navigation = {
 
   actions: {
     // On icon click in the bottom nav.
-    onIconClick ({ commit, dispatch, state, rootState }, payload) {
-      const isOtherUser = rootState.Users.isOtherUser;
-
+    onIconClick ({ commit, dispatch, state }, payload) {
       // Enable scrolling on the document.
       enableBodyScroll(document.getElementsByTagName('body')[0]);
 
@@ -90,6 +88,10 @@ export const Navigation = {
     onBackClick ({ commit }) {
       // Set the selected overview.
       commit('SET_SELECTED_OVERVIEW', 'new');
+    },
+
+    onQRClick ({ commit }) {
+      commit('SET_SELECTED_OVERVIEW', 'QR');
     }
   }
 }

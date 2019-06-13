@@ -1,36 +1,33 @@
 <template>
   <div id='app'>
-    <!-- NOTIFICATIONS -->
+    <!-- Notifications. -->
     <transition mode='out-in' enter-active-class='animated fadeIn faster' leave-active-class='animated fadeOut faster'>
       <default-notification v-if='notification !== ""'/>
     </transition>
-    <!-- ========== -->
 
-    <!-- OVERLAY THAT RENDERS WHEN MODAL IS OPEN -->
+    <!-- QR scanner. -->
+    <q-r-scanner v-if='selectedOverview === "QR"'/>
+
+    <!-- Overlay that renders when te modal is open. -->
     <transition name='half-fade'>
       <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModal")'></div>
     </transition>
-    <!-- ========== -->
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- Bottom navigation. -->
     <transition mode='out-in' enter-active-class='animated slideInUp faster' leave-active-class='animated slideOutDown faster'>
       <bottom-navigation v-if='$route.meta.bottomNav.enabled'/>
     </transition>
-    <!-- ========== -->
 
-    <!-- MAIN HEADER -->
+    <!-- Main header. -->
     <main-header v-if='$route.meta.header.enabled'/>
-    <!-- ========== -->
 
-    <!-- SIDE BAR (TOGGLED BY MAIN HEADER) -->
+    <!-- Sidebar (TOGGLED BY MAIN HEADER). -->
     <sidebar />
-    <!-- ========== -->
 
-    <!-- ALL PAGES RENDERED IN ROUTER -->
+    <!-- All pages rendered from Router.js. -->
     <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
       <router-view/>
     </transition>
-    <!-- ========== -->
   </div>
 </template>
 
@@ -41,13 +38,15 @@ import DefaultNotification from '@/components/notifications/DefaultNotification'
 import MainHeader from '@/components/header/MainHeader';
 import Sidebar from '@/components/sidebar/Sidebar';
 import BottomNavigation from '@/components/navigation/BottomNavigation';
+import QRScanner from '@/components/navigation/QRScanner';
 
 export default {
   name: 'App',
-  components: { DefaultNotification, MainHeader, Sidebar, BottomNavigation },
+  components: { DefaultNotification, MainHeader, Sidebar, BottomNavigation, QRScanner },
   computed: {
     ...mapState('Modals', ['overlay']),
-    ...mapState('Notifications', ['notification'])
+    ...mapState('Notifications', ['notification']),
+    ...mapState('Navigation', ['selectedOverview'])
   },
   created () {
     // Set localstore session id to user that are not logged in.

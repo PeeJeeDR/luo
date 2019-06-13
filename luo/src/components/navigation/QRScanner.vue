@@ -21,8 +21,7 @@ export default {
   methods: {
     async onDecode (decodedString) {
       console.log('DECODED', decodedString);
-      // Close the scanner.
-      await this.$store.dispatch('Modals/closeModal');
+
       
       // Fetch quiz by id.
       this.$store.dispatch('Quizzes/fetchQuizById', { id: decodedString, type: 'QR-scan' });
@@ -34,15 +33,18 @@ export default {
 <style lang='scss'>
 .qr-info
 {
+  position: fixed;
+  top: 0; bottom: 0; left: 0; right: 0;
+  z-index: 5;
+  background-color: $snow;
+
   .default-button:last-child {
     margin-top: 1rem;
   }
 
   .scanner {
-    margin-left: -2rem;
-    margin-bottom: -2rem;
-    position: relative;
-    height: 20rem;
+    height: 100%;
+    width: 100%;
 
     h2 {
       position: absolute;
@@ -57,6 +59,18 @@ export default {
     .wrapper {
       display: -webkit-box;
       height: 100%;
+      width: 100%;
+      margin: 0;
+
+      .inside {
+        height: 100%;
+
+        video,
+        canvas,
+        .overlay {
+          height: inherit;
+        }
+      }
     }
   }
 

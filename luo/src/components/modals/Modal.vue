@@ -26,12 +26,11 @@ import SaveQuiz from '@/components/modals/SaveQuiz';
 import QuizInfo from '@/components/modals/QuizInfo';
 import Reports from '@/components/modals/Reports';
 import SuggestCategory from '@/components/modals/SuggestCategory';
-import QRInfo from '@/components/modals/QRInfo';
 import CreateQuizConfirm from '@/components/modals/confirm/CreateQuizConfirm';
 
 export default {
   name: 'Modal',
-  components: { MoonLoader, CreateQuestion, SaveQuiz, QuizInfo, Reports, SuggestCategory, QRInfo, CreateQuizConfirm },
+  components: { MoonLoader, CreateQuestion, SaveQuiz, QuizInfo, Reports, SuggestCategory, CreateQuizConfirm },
   computed: {
     ...mapState('Modals', ['modalType']),
     ...mapState('CreateQuiz', ['mediaUploading'])

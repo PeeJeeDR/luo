@@ -21,7 +21,7 @@
       <!-- Right. -->
       <div class='icon-container flex'>
         <div class='icon flex-center' @click='onQRCodeClick'>
-          <q-r :class='selectedOverview === "qr" && "active"'/>
+          <q-r :class='selectedOverview === "QR" && "active"'/>
         </div>
 
         <div class='icon flex-center' @click='onProfileClick'>
@@ -39,8 +39,8 @@
 
       <div class='item'>
         <default-button 
-          :content='user.followers.includes(fire.auth().currentUser.uid) ? "Unfollow" : "Follow"' 
-          :extraClass='user.followers.includes(fire.auth().currentUser.uid) ? "disabled" : "enabled"'
+          :content='user.followers !== undefined && user.followers.includes(fire.auth().currentUser.uid) ? "Unfollow" : "Follow"' 
+          :extraClass='user.followers !== undefined && user.followers.includes(fire.auth().currentUser.uid) ? "disabled" : "enabled"'
           @click.native='onFollowClick'/>
       </div>
     </div>
@@ -73,7 +73,17 @@ export default {
     },
 
     onQRCodeClick () {
-      this.$store.dispatch('Modals/openModal', { type: 'qr' });
+      let constraints = { audio: false, video: true };
+
+      navigator.mediaDevices.getUserMedia(constraints)
+      .then(stream => {
+        this.$store.dispatch('Navigation/onQRClick');
+      })
+      .catch(err => {
+        if (err.name=="NotAllowedError") {
+          this.$store.dispatch('Notifications/setNotification', { message: 'Please enable camera access in order to scan QR codes.' });
+        }
+      });
     },
 
     onProfileClick () {
@@ -105,12 +115,14 @@ export default {
     },
 
     onFollowClick () {
-      if (!this.user.followers.includes(fire.auth().currentUser.uid)) {
-        this.$store.dispatch('Users/onUserFollow');
-      }
+      if (this.user.followers !== undefined) {
+        if (!this.user.followers.includes(fire.auth().currentUser.uid)) {
+          this.$store.dispatch('Users/onUserFollow');
+        }
 
-      if (this.user.followers.includes(fire.auth().currentUser.uid)) {
-        this.$store.dispatch('Users/onUserUnFollow');
+        if (this.user.followers.includes(fire.auth().currentUser.uid)) {
+          this.$store.dispatch('Users/onUserUnFollow');
+        }
       }
     }
   }
@@ -124,9 +136,9 @@ export default {
   bottom: 0;
   position: fixed;
   margin: auto;
-  width: 100%;
-  padding: 0.6rem 0;
+  padding: 1rem;
   z-index: 2;
+  width: 100%;
 
   .add {
     width: 3rem;
@@ -143,17 +155,18 @@ export default {
 
   .icon {
     margin: 0;
-    width: 50%;
     height: 3rem;
+    width: 5rem;
 
     @include phone {
-      
+      padding: 0;
+      width: 50%;
     }
 
     svg {
       fill: $dawn;
       width: 50%;
-      height: 100%;
+      max-height:3rem;
       transition: all $fast ease-in-out;
 
       &.active {
@@ -173,6 +186,10 @@ export default {
       margin-right: 9.5rem;
       border-radius: $largeRadius;
 
+      @include phone {
+        margin-right: 6rem !important;
+      }
+
       svg {
         fill: $mist;
         width: 60%;
@@ -183,6 +200,11 @@ export default {
     .default-button {
       width: 15rem;
       margin-left: -7.5rem;
+
+      @include phone {
+        width: 10rem;
+        margin-left: -5rem;
+      }
     }
   }
 }
