@@ -7,7 +7,7 @@
         <section>
           <h3 class='title heading h--xm h--color-primary'>What is your question?</h3>
           <input class='default-input' type='text' placeholder='Question' v-model='formData.question'>
-          <p class='paragraph p--s p--color-danger p--weight-bold error'>{{ error }}</p>
+          <p class='paragraph p--s p--color-danger p--weight-bold'>{{ error }}</p>
         </section>
 
         <section>
@@ -40,7 +40,7 @@
             >
           </div>
 
-          <p style='margin-top: -1rem;' class='paragraph p--s p--color-danger p--weight-bold error'>{{ error }}</p>
+          <p style='margin-top: -1rem;' class='paragraph p--s p--color-danger p--weight-bold'>{{ error }}</p>
 
           <h2 
             v-if='formData.answers.length < 4 && !answersFilled'
@@ -205,7 +205,6 @@ export default {
 
     // When submitting the form.
     onFormSubmit () {
-      console.log('Hello');
       if (this.questionId !== undefined) {
         this.$store.dispatch('CreateQuiz/onQuestionEdit', { question: this.formData });
       }

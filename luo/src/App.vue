@@ -6,7 +6,7 @@
     </transition>
 
     <!-- QR scanner. -->
-    <q-r-scanner v-if='selectedOverview === "QR"'/>
+    <q-r-scanner v-if='scanner'/>
 
     <!-- Overlay that renders when te modal is open. -->
     <transition name='half-fade'>
@@ -46,7 +46,7 @@ export default {
   computed: {
     ...mapState('Modals', ['overlay']),
     ...mapState('Notifications', ['notification']),
-    ...mapState('Navigation', ['selectedOverview'])
+    ...mapState('Navigation', ['scanner'])
   },
   created () {
     // Set localstore session id to user that are not logged in.

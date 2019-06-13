@@ -10,7 +10,7 @@
       </transition>
 
       <!-- === QUIZ OVERVIEW === -->
-      <div class='quizzes-overview page-small-header flex flex-wrap justify-center' v-if='!loading'>
+      <div class='page-small-header flex flex-wrap justify-center' v-if='!loading'>
         <quiz v-for='(quiz, i) in quizzes' :key='i' :quiz='quiz' :index='i'/>
       </div>
 

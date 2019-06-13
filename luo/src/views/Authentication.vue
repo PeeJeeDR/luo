@@ -9,9 +9,9 @@
         <hr :class='formType'>
       </div>
 
-      <form @submit.prevent='onFormSubmit'>
-        <!-- === LOGIN === -->
-        <div v-if='formType === "login"'>
+      <!-- Login. -->
+      <form v-if='formType === "login"' @submit.prevent='onFormSubmit'>
+        <div>
           <input 
             class='default-input' 
             type='email' 
@@ -25,10 +25,14 @@
             placeholder='Password'
           >
         </div>
-        <!-- ========== -->
 
-        <!-- === REGISTER === -->
-        <div v-if='formType === "register"'>
+        <p class='paragraph p--color-danger p--weight-bold p--m p--align-center'>{{ error }}</p>
+        <default-button :content='"login"'/>
+      </form>
+
+      <!-- Register. -->
+      <form v-if='formType === "register"' @submit.prevent='onFormSubmit'>
+        <div>
           <input 
             class='default-input' 
             type='text' 
@@ -54,13 +58,14 @@
             placeholder='Repeat password'
           >
         </div>
-        <!-- ========== -->
-
-        <p class='error'>{{ error }}</p>
-        <default-button :content='formType === "login" ? "Login" : "Register"'/>
-        <p v-if='formType === "login"'>Forgot password?</p>
-        <p class='skip' @click='onSkipClick'>Skip login</p>
+        
+        <p class='paragraph p--color-danger p--weight-bold p--m p--align-center'>{{ error }}</p>
+        <default-button :content='"Register"'/>
       </form>
+
+      <!-- Error, forgot password and skip login. -->
+      <p class='paragraph p--color-primary p--weight-bold p--s' v-if='formType === "login"'>Forgot password?</p>
+      <p class='skip paragraph p--color-primary p--weight-bold p--l' @click='onSkipClick'>Skip login</p>
     </div>
   </div>
 </template>
@@ -241,6 +246,7 @@ export default {
 <style lang='scss' scoped>
 .authentication {
   width: 80%;
+  position: relative;
 
   @include tablet {
     width: 30rem;
@@ -251,7 +257,7 @@ export default {
   }
 
   img {
-    padding-top: 4rem;
+    padding-top: 5rem;
     width: 4rem;
   }
 
@@ -290,37 +296,24 @@ export default {
     }
   }
 
-  .form-container, form {
+  .form-container {
     width: 100%;
 
     form {
+      width: inherit;
       padding-top: 2rem;
 
-      p.error {
-        color: $auwch;
-        height: 1rem;
+      p {
+        margin: 1rem 0;
       }
 
       .default-button {
-        margin-top: 3rem;
-      }
-
-      p {
-        font-size: $sansa;
-        text-align: center;
-        margin-top: 0.8rem;
-        font-weight: bold;
-        color: $pinky;
+        margin: 1rem 0 1rem 0;
       }
     }
 
-    .skip {
-      color: $pinky;
-      font-weight: bold;
-      font-size: $ned;
-      bottom: 5rem;
-      margin-top: 3rem;
-      padding-bottom: 4rem;
+    p.skip {
+      margin: 4rem 0;
     }
   }
 }

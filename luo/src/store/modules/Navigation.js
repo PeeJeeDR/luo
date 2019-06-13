@@ -5,7 +5,8 @@ export const Navigation = {
   namespaced: true,
 
   state: {
-    selectedOverview: 'new'
+    selectedOverview: 'new',
+    scanner: false
   },
 
   mutations: {
@@ -13,6 +14,13 @@ export const Navigation = {
     SET_SELECTED_OVERVIEW (state, selected) {
       state.selectedOverview = selected;
     },
+
+    OPEN_SCANNER (state) {
+      state.scanner = true;
+    },
+    CLOSE_SCANNER (state) {
+      state.scanner = false;
+    }
   },
 
   actions: {
@@ -91,7 +99,11 @@ export const Navigation = {
     },
 
     onQRClick ({ commit }) {
-      commit('SET_SELECTED_OVERVIEW', 'QR');
+      commit('OPEN_SCANNER');
+    },
+
+    onQRScan ({ commit }) {
+      commit('CLOSE_SCANNER');
     }
   }
 }

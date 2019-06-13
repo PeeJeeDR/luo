@@ -22,9 +22,15 @@ export default {
     async onDecode (decodedString) {
       console.log('DECODED', decodedString);
 
+      // Close scanner.
+      this.$store.dispatch('Navigation/onQRScan');
       
       // Fetch quiz by id.
-      this.$store.dispatch('Quizzes/fetchQuizById', { id: decodedString, type: 'QR-scan' });
+      this.$store.dispatch('Quizzes/fetchQuizById', { id: decodedString, type: 'QR-scan' })
+      .then(() => {
+        // Open quiz info modal.
+        this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
+      });
     }
   }
 }
@@ -51,7 +57,6 @@ export default {
       z-index: 1;
       top: 0; left: 0; right: 0;
       text-align: center;
-      padding-left: 2rem;
       margin: 1rem auto;
       opacity: 0.8;
     }
@@ -64,6 +69,7 @@ export default {
 
       .inside {
         height: 100%;
+        width: 100%;
 
         video,
         canvas,
