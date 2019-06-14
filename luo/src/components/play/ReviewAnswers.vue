@@ -22,6 +22,9 @@
 export default {
   name: 'ReviewAnswers',
   props: ['quiz'],
+  created () {
+    console.log('QUIZ IN REVIEW', this.quiz);
+  },
   methods: {
     returnQuestionClass (answers) {
       let styleClass = undefined;

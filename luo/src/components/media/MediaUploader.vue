@@ -28,8 +28,8 @@
     <audio v-if='audioSource !== ""' :src='audioSource' controls></audio>
 
     <!-- Buttons. -->
-    <default-button v-if='imgSource === "" && img' :content='"Add quiz image"' @click.native='$refs.img.click()'/>
-    <default-button v-if='audioSource === "" && audio' :content='"Add quiz audio"' @click.native='$refs.audio.click()'/>
+    <default-button v-if='imgSource === "" && img' :content='`Add ${ type } image`' @click.native='$refs.img.click()'/>
+    <default-button v-if='audioSource === "" && audio' :content='`Add ${ type } image`' @click.native='$refs.audio.click()'/>
   </div>
 </template>
 

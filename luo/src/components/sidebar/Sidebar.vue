@@ -127,7 +127,7 @@ export default {
       background-color: $clouds;
       height: 1px;
       width: 100%;
-      margin: 0 auto;
+      margin: -0.15rem auto 0 auto;
     }
 
     .icon {

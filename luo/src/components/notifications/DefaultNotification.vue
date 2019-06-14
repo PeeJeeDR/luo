@@ -19,7 +19,7 @@ export default {
 .default-notification
 {
   position: fixed;
-  bottom: 5rem; left: 0; right: 0;
+  bottom: 6rem; left: 0; right: 0;
   z-index: 5;
 
   p {

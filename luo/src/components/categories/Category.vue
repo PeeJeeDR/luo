@@ -60,7 +60,7 @@ export default {
     img {
       width: 2rem;
 
-      &[name='add'] {
+      &[name='suggest'] {
         transform: scale(0.7);
       }
     }

@@ -132,14 +132,16 @@ export default {
       }
     },
 
-    async onContinueClick () {
-      await this.$store.dispatch('PlayQuiz/onQuizEnd');
-      this.$router.back();
+    onContinueClick () {
+      this.$store.dispatch('PlayQuiz/onQuizEnd')
+      .then(() => {
+        this.$router.back();
+      });
     }
   },
   watch: {
     playingQuiz () {
-      this.checkLikeStatus();
+      // this.checkLikeStatus();
     }
   }
 }
