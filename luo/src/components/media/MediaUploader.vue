@@ -29,7 +29,7 @@
 
     <!-- Buttons. -->
     <default-button v-if='imgSource === "" && img' :content='`Add ${ type } image`' @click.native='$refs.img.click()'/>
-    <default-button v-if='audioSource === "" && audio' :content='`Add ${ type } image`' @click.native='$refs.audio.click()'/>
+    <default-button v-if='audioSource === "" && audio' :content='`Add ${ type } audio`' @click.native='$refs.audio.click()'/>
   </div>
 </template>
 
@@ -63,6 +63,8 @@ export default {
 
     onAudioSelect (e) {
       this.$store.dispatch('CreateQuiz/onMediaUploadStart');
+
+      console.log('file', e.target.files[0]);
 
       storage.ref('question-audio-files').child(e.target.files[0].name.split('.')[0]).put(e.target.files[0])
       .then(res => {

@@ -14,7 +14,7 @@
 
       <div class='content flex direction-col justify-between'>
         <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-100ms' leave-active-class='animated fadeOutLeft faster'>
-          <div :key='currentQuestion' class='flex'>
+          <div :key='currentQuestion' class='title-audio flex'>
             <div v-if='playingQuiz.questions[currentQuestion].questionAudio !== ""' :class='`audio-play-button flex-center ${ audioIsPlaying ? "playing" : "paused" }`' @click='playAudio'>
               <volume />
             </div>
@@ -187,6 +187,10 @@ export default {
 
   .parent {
     height: 100%;
+  }
+
+  .title-audio {
+    z-index: 2;
   }
 
   .answers {
