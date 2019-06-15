@@ -190,40 +190,6 @@ export default {
       height: 100%;
       padding: 2rem;
       overflow: scroll;
-
-      .audio-play-button {
-        width: 3rem;
-        height: 3rem;
-        margin-right: 1rem;
-        border-radius: 20rem;
-        flex: 0 0 3rem;
-        
-        &.paused {
-          border: 2px solid $pinky;
-
-          svg { fill: $pinky; }
-        }
-
-        &.playing {
-          background-color: $pinky;
-
-          svg { fill: $snow; }
-        }
-
-        svg {
-          width: 50%;
-          height: 50%;
-          transition: all 100ms ease-in-out;
-        }
-
-        &:hover {
-          cursor: pointer;
-
-          svg {
-            transform: scale(0.9);
-          }
-        }
-      }
     }
   }
 }

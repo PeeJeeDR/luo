@@ -101,7 +101,6 @@ export default {
     }
   }
 
-
   .default-button {
     display: flex;
     justify-content: center;
@@ -123,6 +122,7 @@ export default {
   .loading-overlay {
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
+    z-index: 2;
 
     .greyed {
       position: inherit;

@@ -15,9 +15,7 @@
       <div class='content flex direction-col justify-between'>
         <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-100ms' leave-active-class='animated fadeOutLeft faster'>
           <div :key='currentQuestion' class='title-audio flex'>
-            <div v-if='playingQuiz.questions[currentQuestion].questionAudio !== ""' :class='`audio-play-button flex-center ${ audioIsPlaying ? "playing" : "paused" }`' @click='playAudio'>
-              <volume />
-            </div>
+            <audio-button v-if='audioFile' :file='audioFile' :autoPlay='true'/>
             <question-title :currentQuestion='currentQuestion' :questions='playingQuiz.questions'/>
           </div>
         </transition>
@@ -46,13 +44,13 @@
 import AnswerButton from '@/components/buttons/AnswerButton';
 import QuestionTitle from '@/components/play/QuestionTitle';
 import Expand from '@/assets/icons/quizzes/Expand.svg';
-import Volume from '@/assets/icons/quizzes/Volume.svg';
 import Correct from '@/assets/sound/Correct.mp3';
 import Wrong from '@/assets/sound/Wrong.mp3';
+import AudioButton from '@/components/buttons/AudioButton.vue';
 
 export default {
   name: 'MultipleChoise',
-  components: { AnswerButton, QuestionTitle, Expand, Volume },
+  components: { AnswerButton, QuestionTitle, Expand, AudioButton },
   props: ['playingQuiz', 'inputEnabled'],
   data: () => ({ 
     currentQuestion: 0,
@@ -62,50 +60,28 @@ export default {
     audioFileCorrect: new Audio(Correct),
     audioFileWrong: new Audio(Wrong),
     audioFile: undefined,
-    audioIsPlaying: false
   }),
   created () {
     this.setAudioFile();
     this.audioFileCorrect.volume = 0.2;
   },
   beforeDestroy () {
-    this.stopAudio();
+    this.removeAudio();
   },
   methods: {
     setAudioFile () {
       if (this.playingQuiz.questions[this.currentQuestion].questionAudio !== '') {
-        this.audioFile = new Audio(this.playingQuiz.questions[this.currentQuestion].questionAudio);
-      }
-    },
-    
-    playAudio () {
-      this.audioIsPlaying = !this.audioIsPlaying;
-      
-      if (this.audioFile !== undefined) {
-        if (!this.audioIsPlaying) {
-          this.audioFile.pause();
-          this.audioFile.currentTime = 0;
-        }
-
-        if (this.audioIsPlaying) {
-          this.audioFile.play();
-        }
+        this.audioFile = this.playingQuiz.questions[this.currentQuestion].questionAudio;
       }
     },
 
-    stopAudio () {
-      this.audioIsPlaying = false;
-
-      if (this.audioFile !== undefined) {
-        this.audioFile.pause();
-        this.audioFile.currentTime = 0;
-        this.audioFile = undefined;
-      }
+    removeAudio () {
+      this.audioFile = undefined;
     },
 
     // When there is clicked on an answer.
     onAnswerClick (answer, clickedButton) {
-      this.stopAudio();
+      this.removeAudio();
 
       this.clickedButton = clickedButton;
 
@@ -191,6 +167,10 @@ export default {
 
   .title-audio {
     z-index: 2;
+
+    button {
+      margin-right: 1.5rem;
+    }
   }
 
   .answers {

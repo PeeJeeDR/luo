@@ -10,7 +10,7 @@
       </transition>
 
       <!-- === QUIZ OVERVIEW === -->
-      <div class='page-small-header flex flex-wrap justify-center' v-if='!loading'>
+      <div class='overview flex flex-wrap justify-center' v-if='!loading'>
         <quiz v-for='(quiz, i) in quizzes' :key='i' :quiz='quiz' :index='i'/>
       </div>
 
@@ -55,6 +55,10 @@ export default {
 
   .spinner {
     margin-top: 6rem;
+  }
+
+  .overview {
+    padding: 4rem 0 7rem 0;
   }
 }
 </style>

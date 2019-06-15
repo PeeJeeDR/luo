@@ -23,7 +23,7 @@
         v-if='QRQuizzesByUser.length > 0 && !isOtherUser' 
         :title='"Your QR code quizzes"'
       />
-      <div class='flex flex-wrap justify-center'>
+      <div class='overview flex flex-wrap justify-center'>
         <quiz v-for='(quiz, i) in QRQuizzesByUser' :key='i' :quiz='quiz' :index='i'/>
       </div>
 
@@ -83,6 +83,10 @@ export default {
 
   h2 {
     margin-top: 5rem !important;
+  }
+
+  .overview {
+    padding-bottom: 2rem;
   }
 }
 </style>

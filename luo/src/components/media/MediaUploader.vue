@@ -21,11 +21,16 @@
     <!-- Audio uploader. -->
     <input style='display: none;' accept='audio/*' type='file' ref='audio' @change='onAudioSelect'>
 
-    <!-- Img preview. -->
-    <img v-if='imgSource !== ""' :src='imgSource' alt='Uploaded file.' @click='$refs.img.click()'>
+    <div class='preview-container'>
+      <!-- Img preview. -->
+      <img v-if='imgSource !== ""' :src='imgSource' alt='Uploaded file.' @click='$refs.img.click()'>
 
-    <!-- Audio preview. -->
-    <audio v-if='audioSource !== ""' :src='audioSource' controls></audio>
+      <!-- Audio preview. -->
+      <div v-if='audioSource' class='audio-container flex justify-between align-center'>
+        <audio-button v-if='audioSource' :file='audioSource'/>
+        <button class='close flex-center' @click='deleteAudio'><close/></button>
+      </div>
+    </div>
 
     <!-- Buttons. -->
     <default-button v-if='imgSource === "" && img' :content='`Add ${ type } image`' @click.native='$refs.img.click()'/>
@@ -36,14 +41,16 @@
 <script>
 import { storage } from '@/firebase/firebase';
 import DefaultButton from '@/components/buttons/DefaultButton';
+import AudioButton from '@/components/buttons/AudioButton';
+import Close from '@/assets/icons/main-header/Close.svg';
 
 export default {
   name: 'MediaUploader',
-  components: { DefaultButton },
+  components: { DefaultButton, AudioButton, Close },
   props: ['img', 'audio', 'type', 'formData'],
   data: () => ({
     imgSource: '',
-    audioSource: ''
+    audioSource: '',
   }),
   created () {
     if (this.type === 'question') {
@@ -61,10 +68,12 @@ export default {
       this.$emit('onImgUpload', output);
     },
 
+    deleteAudio () {
+      this.audioSource = '';
+    },
+
     onAudioSelect (e) {
       this.$store.dispatch('CreateQuiz/onMediaUploadStart');
-
-      console.log('file', e.target.files[0]);
 
       storage.ref('question-audio-files').child(e.target.files[0].name.split('.')[0]).put(e.target.files[0])
       .then(res => {
@@ -87,3 +96,40 @@ export default {
   }
 }
 </script>
+
+<style lang='scss'>
+.media-uploader {
+  .preview-container {
+    position: relative;
+
+    .audio-container {
+      position: absolute;
+      background-color: $snow;
+      bottom: 1.2rem;
+      left: 1rem;
+      padding: 0.5rem;
+      border-radius: $smallRadius;
+      width: 7rem;
+      z-index: 1;
+
+      button.close  {
+        padding: 0.5rem;
+        background: none;
+        border-radius: $smallRadius;
+        border: none;
+        transition: all $fast ease-in-out;
+
+        &:hover {
+          background-color: lighten($mr-grey, 5%);
+        }
+
+        svg{
+          fill: $mist;
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+    }
+  }
+}
+</style>
