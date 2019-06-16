@@ -78,3 +78,10 @@ export const onCategorySuggestion = functions.firestore.document(`category-sugge
     console.log('ERROR', err);
   });
 });
+
+// When a user gets deleted.
+export const deleteUser = functions.firestore.document('users/{userID}').onDelete(snap => {
+  return admin.auth().deleteUser(snap.id)
+    .then(() => console.log('Deleted user with ID:' + snap.id))
+    .catch((error) => console.error('There was an error while deleting user:', error));
+});
