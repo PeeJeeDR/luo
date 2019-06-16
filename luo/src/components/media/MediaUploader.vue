@@ -21,13 +21,15 @@
     <!-- Audio uploader. -->
     <input style='display: none;' accept='audio/*' type='file' ref='audio' @change='onAudioSelect'>
 
-    <div class='preview-container'>
+    <div :class='`preview-container ${ (audioSource && imgSource === "") && "audio-added" }`'>
       <!-- Img preview. -->
       <img v-if='imgSource !== ""' :src='imgSource' alt='Uploaded file.' @click='$refs.img.click()'>
 
+      <h1 v-if='audioSource && imgSource === ""' class='heading h--xxm h--color-mist flex-center' @click='$refs.img.click()'>Upload image</h1>
+
       <!-- Audio preview. -->
       <div v-if='audioSource' class='audio-container flex justify-between align-center'>
-        <audio-button v-if='audioSource' :file='audioSource'/>
+        <audio-button v-if='audioSource' :file='audioSource' :autoPlay='false' :isAudioFile='false'/>
         <button class='close flex-center' @click='deleteAudio'><close/></button>
       </div>
     </div>
@@ -82,6 +84,7 @@ export default {
           if (res.state === 'success' && url) {
             this.audioSource = url;
             this.$emit('onAudioUpload', this.audioSource);
+            this.$store.dispatch('Notifications/setNotification', { message: 'Audio successfully successfully.' });
           }
 
           this.$store.dispatch('CreateQuiz/onMediaUploadEnd');
@@ -101,6 +104,18 @@ export default {
 .media-uploader {
   .preview-container {
     position: relative;
+
+    &.audio-added {
+      height: 12rem;
+      background: $mr-grey;
+      border-radius: $smallRadius;
+      text-align: center;
+
+      h1 {
+        width: 100%;
+        height: 100%;
+      }
+    }
 
     .audio-container {
       position: absolute;

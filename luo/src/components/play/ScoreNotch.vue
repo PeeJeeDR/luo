@@ -1,7 +1,6 @@
 <template>
   <div class='score-notch'>
     <h4 class='heading h--m h--color-light'>
-      <!-- Score: {{ correctAnswers }}/{{ playingQuiz.questions.length }} -->
       Score: {{ getScore }}/{{ reviews.length }}
     </h4>
   </div>

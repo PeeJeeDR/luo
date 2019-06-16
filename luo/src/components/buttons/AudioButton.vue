@@ -10,13 +10,20 @@ import Volume from '@/assets/icons/quizzes/Volume.svg';
 export default {
   name: 'AudioButton',
   components: { Volume },
-  props: ['file', 'autoPlay'],
+  props: ['file', 'autoPlay', 'isAudioFile'],
   data: () => ({ 
     audioFile: undefined, 
     playing: false 
   }),
   created () {
-    this.audioFile = new Audio(this.file);
+    if (!this.isAudioFile) {
+      this.audioFile = new Audio(this.file);
+    }
+
+    if (this.isAudioFile) {
+      this.audioFile = this.file;
+    }
+    
     this.autoPlay && setTimeout(() => { this.toggleAudio() }, 600);
   },
   methods: {

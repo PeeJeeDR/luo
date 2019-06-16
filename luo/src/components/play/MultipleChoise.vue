@@ -15,7 +15,7 @@
       <div class='content flex direction-col justify-between'>
         <transition mode='out-in' enter-active-class='animated fadeInLeft faster delay-100ms' leave-active-class='animated fadeOutLeft faster'>
           <div :key='currentQuestion' class='title-audio flex'>
-            <audio-button v-if='audioFile' :file='audioFile' :autoPlay='true'/>
+            <audio-button v-if='audioFile' :file='audioFile' :autoPlay='true' :isAudioFile='true'/>
             <question-title :currentQuestion='currentQuestion' :questions='playingQuiz.questions'/>
           </div>
         </transition>
@@ -72,12 +72,16 @@ export default {
   methods: {
     setAudioFile () {
       if (this.playingQuiz.questions[this.currentQuestion].questionAudio !== '') {
-        this.audioFile = this.playingQuiz.questions[this.currentQuestion].questionAudio;
+        this.audioFile = new Audio(this.playingQuiz.questions[this.currentQuestion].questionAudio);
       }
     },
 
     removeAudio () {
-      this.audioFile = undefined;
+      if (this.audioFile) {
+        this.audioFile.pause();
+        this.audioFile.currentTime = 0;
+        // this.audioFile = undefined;
+      }
     },
 
     // When there is clicked on an answer.
