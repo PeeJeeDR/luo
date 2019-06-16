@@ -53,10 +53,14 @@ export default {
       // this.$router.push('/authentication');
     }
 
+    if (fire.auth().currentUser) {
+      this.$store.dispatch('Users/watchUsers');
+    }
+
     // Set localstore session id to user that are not logged in.
-    if (fire.auth().currentUser === null && !localStorage.sessionId) {
+    if (!fire.auth().currentUser && !localStorage.sessionId) {
       localStorage.sessionId = [...Array(28)].map(i=>(~~(Math.random()*36)).toString(36)).join('');
-    } 
+    }
   }
 }
 </script>

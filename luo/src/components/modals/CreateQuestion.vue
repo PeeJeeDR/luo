@@ -203,7 +203,7 @@ export default {
 
     checkDuplicateValues () {
       let answers = this.formData.answers.map(answer => answer.answer.toLowerCase());
-      let arr = [ ...new Set(answers) ];
+      let arr = [...new Set(answers)];
 
       if (answers.length !== arr.length) {
         return true;

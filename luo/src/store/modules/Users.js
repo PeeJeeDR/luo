@@ -37,8 +37,23 @@ export const Users = {
   },
 
   actions: {
+    // Watch users.
+    watchUsers ({ dispatch }) {
+      db.collection('users').onSnapshot(snap => {
+        snap.docChanges().forEach(change => {
+          if (change.type === 'removed') {
+            console.log('REMOVED', change.doc.id);
+            if (fire.auth().currentUser.uid === change.doc.id) {
+              router.push('/authentication');
+              dispatch('Notifications/setNotification', { message: 'Your account is deleted.' }, { root: true });
+            }
+          }
+        })
+      });
+    },
+
     // Fetch user by id.
-    fetchUserById ({ commit, state }, payload) {
+    fetchUserById ({ commit }, payload) {
       db.collection('users').doc(payload.userId).onSnapshot(snap => {
         if (snap.data() !== undefined) {
           let result = snap.data();
@@ -69,7 +84,7 @@ export const Users = {
       })
       .catch(() => {
         dispatch('Notifications/setNotification', { message: 'Someting went wrong while updating your profile image.' }, { root: true });
-      })
+      });
     },
 
     // Save the user in the store when the avatar is clicked in QuizInfo.
@@ -102,12 +117,14 @@ export const Users = {
       commit('CLEAR_USER');
     },
 
+    // When someone follows another user.
     onUserFollow ({ state }) {
       db.collection('users').doc(state.user.id).update({
         followers: firebase.firestore.FieldValue.arrayUnion(fire.auth().currentUser.uid)
       });
     },
 
+    // When someone unfollows another user.
     onUserUnFollow ({ state }) {
       db.collection('users').doc(state.user.id).update({
         followers: firebase.firestore.FieldValue.arrayRemove(fire.auth().currentUser.uid)

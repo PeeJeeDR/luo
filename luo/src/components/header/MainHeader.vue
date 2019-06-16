@@ -140,7 +140,7 @@ header {
 
     &.hamburger {
       @include desktop {
-        transform: translateX(-0.7rem)
+        transform: translateX(-0.25rem)
       }
     }
 

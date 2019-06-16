@@ -54,17 +54,17 @@ export default {
 
   @include tablet {
     width: calc(50% - 2rem);
-    margin: 2rem 1rem 0 1rem;
+    margin: 1rem 0.5rem 0 0.5rem;
   }
 
   @include desktop-small {
     width: calc(50% - 2rem);
-    margin: 2rem 1rem 0 1rem;
+    margin: 1rem 0.5rem 0 0.5rem;
   }
 
   @include desktop-large {
     width: calc(50% - 2rem);
-    margin: 2rem 1rem 0 1rem;
+    margin: 1rem 0.5rem 0 0.5rem;
   }
 }
 

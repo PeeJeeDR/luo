@@ -79,12 +79,10 @@ export default {
 {
   padding: 7.5rem 0 6rem 0;
 
-  .spinner {
-    margin-top: 3rem;
-  }
-
-  .section-title {
-    margin-top: 3rem;
+  .spinner,
+  .section-title,
+  h2 {
+    margin-top: 3rem !important;
   }
 }
 </style>

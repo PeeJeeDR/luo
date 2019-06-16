@@ -14,7 +14,12 @@ export default {
 
 <style lang='scss' scoped>
 .section-title
-{ 
+{
+  @include desktop {
+    width: calc(100% - 2rem);
+    margin: 0 auto;
+  }
+
   h3 {
     white-space: nowrap;
     margin-right: 1rem;
