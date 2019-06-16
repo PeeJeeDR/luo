@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import clonedeep from 'lodash.clonedeep';
 import AnswerButton from '@/components/buttons/AnswerButton';
 import QuestionTitle from '@/components/play/QuestionTitle';
 import Expand from '@/assets/icons/quizzes/Expand.svg';
@@ -85,21 +86,19 @@ export default {
 
       this.clickedButton = clickedButton;
 
-      this.$store.dispatch('PlayQuiz/onAnswerClick', { 
-        type: 'alter', 
-        currentQuestion: this.currentQuestion,
-        clickedAnswerId: answer.id
-      });
+      let questionCopy = clonedeep(this.playingQuiz.questions[this.currentQuestion]);
+      questionCopy.answers[clickedButton].clicked = true;
+
+      this.$store.dispatch('PlayQuiz/pushQuestionToReviews', { question: questionCopy });
+      this.$store.commit('PlayQuiz/SET_CURRENT_QUESTION', this.currentQuestion);
 
       if (answer.correct) {
         this.audioFileCorrect.play();
-        this.$store.dispatch('PlayQuiz/onAnswerClick', { type: 'correct' });
       }
 
       if (!answer.correct) {
         this.audioFileWrong.play();
         this.showAnswer = true;
-        this.$store.dispatch('PlayQuiz/onAnswerClick', { type: 'wrong' });
       }
         
       // Go to the next question after a second.

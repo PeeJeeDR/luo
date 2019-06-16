@@ -117,10 +117,11 @@ export default {
     // When the play button has pressed.
     playQuiz () {
       if (!this.quizById.isDeleted) {
+
         // Save the selected quiz in the store.
         this.$store.dispatch('PlayQuiz/onPlayButtonClick', { quiz: this.quizById }).then(() => {
 
-          // Close info modam.
+          // Close info modal.
           this.$store.dispatch('Modals/closeModal');
 
           // Open play quiz page.
@@ -129,7 +130,8 @@ export default {
       }
 
       if (this.quizById.isDeleted) {
-        // Close info modam.
+
+        // Close info modal.
         this.$store.dispatch('Modals/closeModal');
 
         // Set notification.

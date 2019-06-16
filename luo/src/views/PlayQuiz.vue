@@ -52,6 +52,8 @@ export default {
     showBox: false
   }),
   created () {
+    this.$store.dispatch('PlayQuiz/clearReviewsArray');
+    
     if (this.playingQuiz === undefined) {
       this.$router.push('/');
     }
@@ -163,7 +165,7 @@ export default {
         }
         
         @include desktop {
-          height: 25rem;
+          height: 20vh;
         }
       }
 

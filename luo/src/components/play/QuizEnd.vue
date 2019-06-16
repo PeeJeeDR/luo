@@ -1,23 +1,19 @@
 <template>
   <div class='quiz-end'>
     
-    <div class='notch flex-center'>
-      <h4 class='heading h--m h--color-light'>
-        Score: {{ correctAnswers }}/{{ playingQuiz.questions.length }}
-      </h4>
-    </div>
+    <score-notch />
 
     <div class='container flex direction-col justify-between'>
       <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
-        <!-- === TITLE, SVG AND LIKE BUTTON === -->
+        <!-- Title, svg and like button. -->
         <div key='0' v-if='!reviewEnabled' class='title-svg-and-like flex direction-col align-center justify-start'>
-          <!-- === TITLE === -->
+          <!-- Title. -->
           <div>
             <h2 v-if='correctAnswers === playingQuiz.questions.length' class='heading h--xxm h--color-primary'>Congratulations!</h2>
             <h2 v-if='correctAnswers !== playingQuiz.questions.length' class='heading h--xxm h--color-primary'>You made it!</h2>
           </div>
 
-          <!-- === SVG === -->
+          <!-- Svg. -->
           <div class='award flex-center'>
             <div class='sphere-outer'></div>
             <div class='sphere-inner'></div>
@@ -28,7 +24,7 @@
             </div>
           </div>
 
-          <!-- === LIKE BUTTON === -->
+          <!-- Like button. -->
           <div 
             :class='`likes flex-center ${ likeClass } ${ animateLikeButton && likeClass === "selected" && "animated bounceIn fast" }`' 
             v-if='fire.auth().currentUser !== null && fire.auth().currentUser.uid !== playingQuiz.createdBy'
@@ -39,14 +35,14 @@
           </div>
         </div>
 
-        <!-- === REVIEW SCREEN === -->
+        <!-- Review screen. -->
         <div key='1' v-if='reviewEnabled' class='review flex align-start'>
-          <review-answers :quiz='playingQuiz'/>
+          <review-answers />
         </div>
       </transition>
     
 
-      <!-- === BUTTON CONTAINER === -->
+      <!-- Button container. -->
       <div class='button-container flex direction-col align-center justify-end'>
         <p v-if='!reviewEnabled' @click='onReviewClick' class='small-button paragraph p--weight-bold p--xm p--color-almost-light'>Review answers</p>
         <p v-if='reviewEnabled' @click='onBackClick' class='small-button paragraph p--weight-bold p--xm p--color-almost-light'>Back</p>
@@ -59,6 +55,7 @@
 <script>
 import { fire } from '@/firebase/firebase';
 import { mapState } from 'vuex';
+import ScoreNotch from '@/components/play/ScoreNotch';
 import ReviewAnswers from '@/components/play/ReviewAnswers';
 import DefaultButton from '@/components/buttons/DefaultButton';
 import AwardGold from '@/assets/icons/quizzes/AwardGold.svg';
@@ -68,7 +65,7 @@ import QuizEnd from '@/assets/sound/QuizEnd.mp3';
 
 export default {
   name: 'QuizEnd',
-  components: { ReviewAnswers, DefaultButton, AwardGold, Likes, Flag },
+  components: { ScoreNotch, ReviewAnswers, DefaultButton, AwardGold, Likes, Flag },
   data: () => ({
     fire,
     reviewEnabled: false,
@@ -141,7 +138,7 @@ export default {
   },
   watch: {
     playingQuiz () {
-      // this.checkLikeStatus();
+      this.checkLikeStatus();
     }
   }
 }
@@ -151,13 +148,6 @@ export default {
 .quiz-end
 {
   height: 100%;
-
-  .notch h4 {
-    background-color: $pinky;
-    padding: 0.8rem 1.2rem;
-    border-bottom-left-radius: $mediumRadius;
-    border-bottom-right-radius: $mediumRadius;
-  }
 
   .container {
     height: calc(100% - 3rem);

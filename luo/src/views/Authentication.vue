@@ -65,7 +65,7 @@
 
       <!-- Error, forgot password and skip login. -->
       <p class='paragraph p--color-primary p--weight-bold p--s' v-if='formType === "login"'>Forgot password?</p>
-      <p class='skip paragraph p--color-primary p--weight-bold p--l' @click='onSkipClick'>Skip login</p>
+      <p class='skip paragraph p--color-primary p--weight-bold p--l p--hover-enabled' @click='onSkipClick'>Skip login</p>
     </div>
   </div>
 </template>
@@ -73,6 +73,7 @@
 <script>
 import moment from 'moment';
 import { fire, db } from '@/firebase/firebase';
+import app from '@/settings/app.json';
 import Logo from '@/assets/img/logo/Logo.png';
 import DefaultButton from '@/components/buttons/DefaultButton';
 
@@ -114,7 +115,7 @@ export default {
     },
 
     onSkipClick () {
-      this.$store.dispatch('Notifications/setNotification', { message: 'You are in guest mode. Restricted to only play quizzes.' });
+      this.$store.dispatch('Notifications/setNotification', { message: app.notifications.GUEST_MODE });
       this.$router.push('/');
     },
 
@@ -126,7 +127,7 @@ export default {
     },
 
     onFormSubmit () {
-      // VALIDATIONS
+      // Validations
       this.error = '';
 
       const validUsername = this.validUsername(this.registerData.username);
@@ -134,14 +135,14 @@ export default {
       const validEmail = this.validEmail(this.formType === 'login' ? this.loginData.email : this.registerData.email);
 
       if (validEmail && validPassword) {
-        /* === LOGIN === */
+        // Login.
         if (this.formType === 'login') {
           const email = this.loginData.email;
           const password = this.loginData.password;
 
           fire.auth().signInWithEmailAndPassword(email, password).then(res => {
             if (res.user) {
-              this.$store.dispatch('Notifications/setNotification', { message: 'You are logged in successfully.' });
+              this.$store.dispatch('Notifications/setNotification', { message: app.notifications.LOGIN_USER_SUCCESS });
               this.$router.push('/');
             }
           }).catch(err => {
@@ -150,33 +151,31 @@ export default {
             }
 
             if (err.code === 'auth/invalid-email') {
-              this.error = 'Pleas use a valid e-mail address.';
+              this.error = 'Please use a valid e-mail address.';
             }
 
             if (err.code === 'auth/network-request-failed') {
-              this.$store.dispatch('Notifications/setNotification', { 
-                message: 'We could not connect to our servers. Make sure you have a proper internet connection.'
-              });
+              this.$store.dispatch('Notifications/setNotification', { message: app.notifications.SERVER_CONNECTION_FAIL });
             }            
           });
         }
-        /* ========== */
       
-        /* === REGISTER === */
+        // Register.
         if (this.formType === 'register') {
           const username = this.registerData.username;
           const email = this.registerData.email;
           const password = this.registerData.password;
           const repeated = this.registerData.repeatedPassword;
 
-          // IF PASSWORD IS SAME AS REPEATED PASSWORD
+          // If password is the same as the repeated password.
           if (password === repeated && validUsername) {
             this.error = '';
 
+            // Create a new user.
             fire.auth().createUserWithEmailAndPassword(email, password).then(res => {       
               res.user && res.user.updateProfile({ 
                 displayName: username,
-                photoURL: undefined, // DEFAULT AVATAR
+                photoURL: undefined, // Default avatar.
               }).then(() => {
                 db.collection('users').doc(res.user.uid).set({
                   username: res.user.displayName,
@@ -189,12 +188,12 @@ export default {
                   xp: 0,
                   followers: [],
                   created: moment().format()
-                }).catch(err => {
-                  console.log('error', err);
+                }).catch(() => {
+                  this.$store.dispatch('Notifications/setNotification', { message: app.notifications.REGISTER_USER_FAIL });
                 });
               });
 
-              this.$store.dispatch('Notifications/setNotification', { message: 'You are registered successfully.' });
+              this.$store.dispatch('Notifications/setNotification', { message: app.notifications.REGISTER_USER_SUCCESS });
               this.$router.push('/');
             }).catch(err => {
               if (err.code === 'auth/email-already-in-use') {
@@ -204,10 +203,14 @@ export default {
               if (err.code === 'auth/argument-error') {
                 this.error = 'Please use a valid e-mail address.'
               }
+
+              if (err.code === 'auth/network-request-failed') {
+                this.$store.dispatch('Notifications/setNotification', { message: app.notifications.SERVER_CONNECTION_FAIL });
+              }  
             });
           }
 
-          // IF PASSWORD IS NOT THE SAME AS REPEATED PASSWORD
+          // If password is NOT the same as the repeated password.
           if (password !== repeated) {
             this.error = "Passwords doesn't match."
           }

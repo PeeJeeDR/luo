@@ -145,4 +145,15 @@ $montserrat: 'Montserrat', sans-serif;
       color: $yeah;
     }
   }
+
+  &.p--hover-enabled {
+    padding: 0.5rem;
+    transition: all $fast ease-in-out;
+    border-radius: $smallRadius;
+
+    &:hover {
+      cursor: pointer;
+      background-color: lighten($mr-grey, 5%);
+    }
+  }
 }

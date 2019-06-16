@@ -1,13 +1,17 @@
 <template>
-  <button :class='`default-button ${ extraClass }`' v-ripple>
-    <p class='paragraph p--weight-bold p--color-light p--m'>{{ content }}</p>
+  <button :class='`default-button flex-center ${ extraClass }`' v-ripple>
+    <p v-if='!loading' class='paragraph p--weight-bold p--color-light p--m'>{{ content }}</p>
+    <moon-loader v-if='loading' class='spinner' color='#FFF'/>
   </button>
 </template>
 
 <script>
+import MoonLoader from 'vue-spinner/src/MoonLoader';
+
 export default {
   name: 'DefaultButton',
-  props: ['content', 'extraClass']
+  components: { MoonLoader },
+  props: ['content', 'extraClass', 'loading']
 }
 </script>
 
@@ -28,6 +32,10 @@ export default {
   &.disabled {
     background: none !important;
     background-color: $dawn !important;
+  }
+
+  .spinner {
+    transform: scale(0.6);
   }
 }
 </style>

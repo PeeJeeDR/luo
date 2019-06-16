@@ -9,7 +9,22 @@ export const PlayQuiz = {
     inputEnabled: true,
     xp: 0,
     correctAnswers: 0,
-    currentQuestion: 0
+    currentQuestion: 0,
+    reviews: []
+  },
+
+  getters: {
+    getScore (state) {
+      let score = 0;
+
+      state.reviews.forEach(review => {
+        review.answers.forEach(answer => {
+          score = answer.clicked && answer.correct ? score + 1 : score + 0;
+        })
+      });
+
+      return score;
+    }
   },
 
   mutations: {
@@ -36,40 +51,35 @@ export const PlayQuiz = {
     },
 
     // Add correct or wrong answer so we know what the score is.
-    ADD_CORRECT_ANSWER (state) {
-      state.correctAnswers += 1;
-    },
     RESET_CORRECT_ANSWERS (state) {
       state.correctAnswers = 0;
     },
 
-    // Set the clicked answer so we now on the quiz review which one was pressed.
-    SET_CLICKED_ANSWER (state, payload) {
-      state.playingQuiz.questions[payload.currentQuestion].answers[payload.clickedAnswerId].clicked = true;
-    },
-
     // Set current question so the progress bars knows how long it has to be.
-    SET_CURRENT_QUESTION (state, payload) {
-      state.currentQuestion = payload.currentQuestion + 1;
+    SET_CURRENT_QUESTION (state, currentQuestion) {
+      state.currentQuestion = currentQuestion + 1;
     },
     RESET_CURRENT_QUESTION (state) {
       state.currentQuestion = 0;
     },
 
-    SHUFFLE_ANSWERS (state) {
-      console.log('SHUFFLE');
-      /* let array = state.playingQuiz.questions[state.currentQuestion].answers;
+    // Push answered question in the reviews array.
+    PUSH_QUESTION_TO_REVIEWS (state, question) {
+      state.reviews.push(question);
+    },
+    CLEAR_REVIEWS_ARRAY (state) {
+      state.reviews = [];
+    },
 
-      console.log('ARRAY BEFORE', array);
+    SHUFFLE_ANSWERS (state) {
+      let array = state.playingQuiz.questions[state.currentQuestion].answers;
 
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
       }
 
-      console.log('ARRAY AFTER', array);
-
-      state.playingQuiz.questions[state.currentQuestion].answers = array; */
+      state.playingQuiz.questions[state.currentQuestion].answers = array;
     }
   },
 
@@ -77,6 +87,7 @@ export const PlayQuiz = {
     // When the play button has been pressed.
     onPlayButtonClick ({ commit }, payload) {
       commit('SET_PLAYING_QUIZ', payload.quiz);
+      commit('SHUFFLE_ANSWERS');
     },
 
     // When the player presses the X icon when playing a quiz.
@@ -88,24 +99,18 @@ export const PlayQuiz = {
 
     // When the user presses an answer.
     // Alter is to change the clicked state.
-    onAnswerClick ({ commit }, payload) {
-      if (payload.currentQuestion !== undefined) {
-        commit('SET_CURRENT_QUESTION', payload);
-      }
-      
-      if (payload.type === 'alter') {
-        commit('SET_CLICKED_ANSWER', payload);
-      }
-
-      if (payload.type === 'correct') {
-        commit('ADD_CORRECT_ANSWER');
-      }
-
+    pushQuestionToReviews ({ commit }, payload) {
       commit('DISABLE_INPUT');
+      commit('PUSH_QUESTION_TO_REVIEWS', payload.question);
+    },
+
+    // Empty the reviews array when a new quiz has started.
+    clearReviewsArray ({ commit }) {
+      commit('CLEAR_REVIEWS_ARRAY');
     },
 
     // When a new question loads.
-    onNewQuestionLoad ({ commit }) {
+    onNewQuestionLoad ({ commit }, payload) {
       commit('ENABLE_INPUT');
       commit('SHUFFLE_ANSWERS');
     },

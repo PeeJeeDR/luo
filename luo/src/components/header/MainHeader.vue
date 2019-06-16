@@ -138,6 +138,12 @@ header {
       cursor: pointer;
     }
 
+    &.hamburger {
+      @include desktop {
+        transform: translateX(-0.7rem)
+      }
+    }
+
     svg {
       width: 50%;
       height: 50%;

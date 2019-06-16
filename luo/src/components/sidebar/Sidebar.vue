@@ -86,6 +86,8 @@ export default {
     overflow: scroll;
     white-space: nowrap;
     padding: 2rem 0 1rem 0; 
+    border-top-right-radius: $mediumRadius;
+    border-bottom-right-radius: $mediumRadius;
 
     @include tablet {
       width: 250px;

@@ -25,7 +25,7 @@ export default {
 
       if (this.category.slug !== 'suggest') {
         this.$store.dispatch('Sidebar/onCategoryClick', { categoryId: this.category.id });
-        this.$store.dispatch('Quizzes/fetchQuizesByCategory', { categoryId: this.category.id });
+        this.$store.dispatch('Quizzes/fetchQuizzesByCategory', { categoryId: this.category.id });
       }
       
       if (this.category.slug === 'suggest') {

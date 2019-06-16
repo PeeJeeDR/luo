@@ -161,6 +161,7 @@ export default {
     @include phone {
       padding: 0;
       width: 50%;
+      max-height: 3rem;
     }
 
     svg {

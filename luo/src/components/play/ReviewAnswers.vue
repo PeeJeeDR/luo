@@ -1,14 +1,14 @@
 <template>
   <div class='review-answers'>
     <ul>
-      <li v-for='(question, i) in quiz.questions' :class='`question ${ returnQuestionClass(question.answers) }`'>
+      <li v-for='(review, i) in reviews' class='question'>
         <h3 class='heading h--xm h--weight-bold'>
-          {{ i + 1 }}. {{ question.question }}
+          {{ i + 1 }}. {{ review.question }}
         </h3>
 
         <ul class='answers'>
-          <li v-for='answer in question.answers'>
-            <p :class='`paragraph p--m ${ returnAnswerClass(answer) }`'>
+          <li v-for='(answer, i) in review.answers'>
+            <p :class='`paragraph p--m ${ returnAnswerClass(answer, i) }`'>
               {{ answer.answer }} {{ answer.clicked && "(your answer)" }}
             </p>
           </li>
@@ -19,30 +19,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: 'ReviewAnswers',
   props: ['quiz'],
-  created () {
-    console.log('QUIZ IN REVIEW', this.quiz);
+  computed: {
+    ...mapState('PlayQuiz', ['reviews'])
   },
   methods: {
-    returnQuestionClass (answers) {
-      let styleClass = undefined;
-
-      answers.forEach(answer => {
-        if (answer.clicked && answer.correct) {
-          styleClass = 'correct';
-        }
-
-        if (answer.clicked && !answer.correct) {
-          styleClass = 'wrong';
-        }
-      });
-
-      return styleClass !== undefined ? styleClass : '';
-    },
-
-    returnAnswerClass (answer) {
+    returnAnswerClass (answer, i) {
       let styleClass = undefined;
 
       if (answer.clicked) {
@@ -73,6 +58,7 @@ export default {
   height: 95%;
   overflow: scroll;
   padding: 2rem 3rem;
+  width: 100%;
 
   .question {
     padding: 1rem 0;
