@@ -27,7 +27,7 @@
         </div>
 
         <p class='paragraph p--color-danger p--weight-bold p--m p--align-center'>{{ error }}</p>
-        <default-button :content='"login"'/>
+        <default-button :content='"login"' :loading='loading'/>
       </form>
 
       <!-- Register. -->
@@ -60,7 +60,7 @@
         </div>
         
         <p class='paragraph p--color-danger p--weight-bold p--m p--align-center'>{{ error }}</p>
-        <default-button :content='"Register"'/>
+        <default-button :content='"Register"' :loading='loading'/>
       </form>
 
       <!-- Error, forgot password and skip login. -->
@@ -93,7 +93,8 @@ export default {
       password: '',
       repeatedPassword: ''
     },
-    error: ''
+    error: '',
+    loading: false
   }),
   created () {
     window.scrollTo(0,0);
@@ -140,12 +141,17 @@ export default {
           const email = this.loginData.email;
           const password = this.loginData.password;
 
+          this.loading = true;
+
           fire.auth().signInWithEmailAndPassword(email, password).then(res => {
             if (res.user) {
               this.$store.dispatch('Notifications/setNotification', { message: app.notifications.LOGIN_USER_SUCCESS });
+              this.loading = false;
               this.$router.push('/');
             }
           }).catch(err => {
+            this.loading = false;
+
             if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
               this.error = 'Password or email address is wrong.';
             }
@@ -170,13 +176,15 @@ export default {
           // If password is the same as the repeated password.
           if (password === repeated && validUsername) {
             this.error = '';
+            this.loading = true;
 
             // Create a new user.
             fire.auth().createUserWithEmailAndPassword(email, password).then(res => {       
               res.user && res.user.updateProfile({ 
                 displayName: username,
                 photoURL: undefined, // Default avatar.
-              }).then(() => {
+              })
+              .then(() => {
                 db.collection('users').doc(res.user.uid).set({
                   username: res.user.displayName,
                   email: res.user.email,
@@ -188,9 +196,17 @@ export default {
                   xp: 0,
                   followers: [],
                   created: moment().format()
-                }).catch(() => {
+                })
+                .then(() => {
+                  this.loading = false;
+                })
+                .catch(() => {
+                  this.loading = false;
                   this.$store.dispatch('Notifications/setNotification', { message: app.notifications.REGISTER_USER_FAIL });
                 });
+              })
+              .catch(() => {
+                this.loading = false;
               });
 
               this.$store.dispatch('Notifications/setNotification', { message: app.notifications.REGISTER_USER_SUCCESS });

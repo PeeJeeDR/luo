@@ -1,5 +1,5 @@
 <template>
-  <div class='overview'>
+  <div class='overview big-wrapper'>
     <quizzes />
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
 
 <style lang='scss' scoped>
 .overview {
-  height: 100%;
+  padding: 4.5rem 0 6rem 0;
 }
 </style>
 

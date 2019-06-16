@@ -14,9 +14,7 @@ export default {
 
 <style lang='scss' scoped>
 .section-title
-{
-  padding-top: 3rem;
-  
+{ 
   h3 {
     white-space: nowrap;
     margin-right: 1rem;

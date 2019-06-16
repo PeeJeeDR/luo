@@ -1,24 +1,22 @@
 <template>
   <div class='quizzes'>
-    <div class='big-wrapper'>
-      <!-- === LOADER === -->
-      <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
+    <!-- Loader. -->
+    <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
 
-      <!-- === QUIZ INFO MODAL === -->
-      <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
-        <modal v-if='modalIsOpen'/>
-      </transition>
+    <!-- Quiz info modal. -->
+    <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
+      <modal v-if='modalIsOpen'/>
+    </transition>
 
-      <!-- === QUIZ OVERVIEW === -->
-      <div class='overview flex flex-wrap justify-center' v-if='!loading'>
-        <quiz v-for='(quiz, i) in quizzes' :key='i' :quiz='quiz' :index='i'/>
-      </div>
-
-      <!-- === INFO TEXT WHEN THERE ARE NO QUIZZES FOUND === -->
-      <h2 v-if='quizzes.length === 0 && !loading' class='big-wrapper heading h--l h--color-mist h--align-center'>
-        Oops! It looks like there are no quizzes made! Are you the first one? ;-)
-      </h2>
+    <!-- Quiz overview. -->
+    <div class='flex flex-wrap justify-center' v-if='!loading'>
+      <quiz v-for='(quiz, i) in quizzes' :key='i' :quiz='quiz' :index='i'/>
     </div>
+
+    <!-- Info text for if there are no quizzes found. -->
+    <h2 v-if='quizzes.length === 0 && !loading' class='big-wrapper heading h--l h--color-mist h--align-center'>
+      Oops! It looks like there are no quizzes made! Are you the first one? ;-)
+    </h2>
   </div>
 </template>
 
@@ -50,15 +48,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.quizzes {
-  height: 100%;
-
-  .spinner {
-    margin-top: 6rem;
-  }
-
-  .overview {
-    padding: 4rem 0 7rem 0;
-  }
+.quizzes .spinner {
+  margin-top: 3rem;
 }
 </style>

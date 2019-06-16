@@ -19,8 +19,8 @@
             <div class='sphere-inner'></div>
 
             <div class='icon flex-center'>
-              <award-gold v-if='correctAnswers === playingQuiz.questions.length'/>
-              <flag v-if='correctAnswers !== playingQuiz.questions.length'/>
+              <award-gold v-if='getScore === reviews.length'/>
+              <flag v-else/>
             </div>
           </div>
 
@@ -54,7 +54,7 @@
 
 <script>
 import { fire } from '@/firebase/firebase';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import ScoreNotch from '@/components/play/ScoreNotch';
 import ReviewAnswers from '@/components/play/ReviewAnswers';
 import DefaultButton from '@/components/buttons/DefaultButton';
@@ -74,12 +74,13 @@ export default {
     quizEndSound: new Audio(QuizEnd)
   }),
   computed: {
-    ...mapState('PlayQuiz', ['correctAnswers', 'playingQuiz'])
+    ...mapState('PlayQuiz', ['correctAnswers', 'playingQuiz', 'reviews']),
+    ...mapGetters('PlayQuiz', ['getScore']),
   },
   created () {
     this.checkLikeStatus();
 
-    if (this.correctAnswers === this.playingQuiz.questions.length) {
+    if (this.getScore === this.reviews.length) {
       this.quizEndSound.volume = 0.2;
       this.quizEndSound.play();
     }

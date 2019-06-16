@@ -1,15 +1,15 @@
 <template>
-  <div class='profile big-wrapper page-big-header'>
-    <!-- === LOADER === -->
+  <div class='profile big-wrapper'>
+    <!-- Loader. -->
     <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
 
     <div v-if='!loading'>
-      <!-- === QUIZ INFO MODAL === -->
+      <!-- Quiz info modal. -->
       <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
         <modal v-if='modalIsOpen'/>
       </transition>
 
-      <!-- === QUIZZES MADE BY THE USER === -->
+      <!-- Quizzes made by the user. -->
       <section-title 
         v-if='publicQuizzesByUser.length > 0' 
         :title='`${ isOtherUser ? "Quizzes of " + user.username : "Your public quizzes" }`'
@@ -18,7 +18,7 @@
         <quiz v-for='(quiz, i) in publicQuizzesByUser' :key='i' :quiz='quiz' :index='i'/>
       </div>
 
-      <!-- === QR CODE QUIZZES MADE BY THE USER === -->
+      <!-- QR code quizzes made by the user. -->
       <section-title 
         v-if='QRQuizzesByUser.length > 0 && !isOtherUser' 
         :title='"Your QR code quizzes"'
@@ -27,9 +27,9 @@
         <quiz v-for='(quiz, i) in QRQuizzesByUser' :key='i' :quiz='quiz' :index='i'/>
       </div>
 
-      <!-- === IF THERE ARE NO QUIZZES === -->
+      <!-- If there are no quizzes. -->
       <h2 v-if='quizzesMadeByUser.length === 0' class='big-wrapper heading h--l h--color-mist h--align-center'>
-        It looks like you haven't made any quizzes yet, Go make one!
+        It looks like you haven't made any quizzes yet, go make one!
       </h2>
     </div>
   </div>
@@ -77,16 +77,14 @@ export default {
 <style lang='scss' scoped>
 .profile
 {
+  padding: 7.5rem 0 6rem 0;
+
   .spinner {
     margin-top: 3rem;
   }
 
-  h2 {
-    margin-top: 5rem !important;
-  }
-
-  .overview {
-    padding-bottom: 2rem;
+  .section-title {
+    margin-top: 3rem;
   }
 }
 </style>

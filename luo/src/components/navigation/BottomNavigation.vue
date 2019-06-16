@@ -139,6 +139,7 @@ export default {
   padding: 1rem;
   z-index: 2;
   width: 100%;
+  max-height: 5rem;
 
   .add {
     width: 3rem;
@@ -155,13 +156,11 @@ export default {
 
   .icon {
     margin: 0;
-    height: 3rem;
     width: 5rem;
 
     @include phone {
       padding: 0;
       width: 50%;
-      max-height: 3rem;
     }
 
     svg {

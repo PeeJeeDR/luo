@@ -1,5 +1,5 @@
 <template>
-  <div class='create-quiz align-center page-small-header'>
+  <div class='create-quiz align-center'>
     <div class='big-wrapper'>
       <!-- Modal for creating questions. -->
       <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
@@ -73,7 +73,7 @@ export default {
   position: relative;
   height: 100%;
   overflow: scroll;
-  padding-bottom: 7rem;
+  padding: 4.5rem 0 7rem 0;
 
   .default-button {
     margin: 0 auto;

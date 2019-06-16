@@ -48,7 +48,7 @@ export default {
 .modal
 {
   @include subtileShadow;
-  position: fixed;
+  position: fixed !important;
   z-index: 30;
   margin: auto;
   width: 94%;

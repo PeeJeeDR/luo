@@ -20,7 +20,8 @@ export default {
   @include gradient;
   @include defaultShadow;
   border-radius: $smallRadius;
-  padding: 1.2rem 1rem;
+  padding: 0 1rem;
+  height: 3.5rem;
   width: 100%;
   border: none;
   outline: none;
