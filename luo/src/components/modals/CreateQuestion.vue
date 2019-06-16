@@ -37,6 +37,7 @@
               v-model='answer.answer' 
               type='text' 
               :placeholder='`Answer ${ answer.id + 1 }`'
+              :disabled='answersFilled'
             >
           </div>
 
@@ -52,7 +53,12 @@
           </h2>
         </section>
 
-        <submit-and-cancel :includeBack='true' @onback='prevSlide' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='checkAnswersSubmit'/>
+        <submit-and-cancel 
+          :includeBack='true' 
+          @onback='answersFilled ? (answersFilled = false, selectedCorrectAnswer = false) : prevSlide' 
+          @oncancel='$store.dispatch("Modals/closeModal")'
+          @onsubmit='checkAnswersSubmit'
+        />
       </div>
 
     </transition>

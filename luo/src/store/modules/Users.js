@@ -41,12 +41,9 @@ export const Users = {
     watchUsers ({ dispatch }) {
       db.collection('users').onSnapshot(snap => {
         snap.docChanges().forEach(change => {
-          if (change.type === 'removed') {
-            console.log('REMOVED', change.doc.id);
-            if (fire.auth().currentUser.uid === change.doc.id) {
-              router.push('/authentication');
-              dispatch('Notifications/setNotification', { message: 'Your account is deleted.' }, { root: true });
-            }
+          if (change.type === 'removed' && (fire.auth().currentUser.uid === change.doc.id)) {
+            router.push('/authentication');
+            dispatch('Notifications/setNotification', { message: 'Your account is deleted.' }, { root: true });
           }
         })
       });

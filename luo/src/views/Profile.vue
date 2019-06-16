@@ -55,6 +55,10 @@ export default {
   created () {
     this.$store.dispatch('Navigation/onAppLoad');
 
+    if (!fire.auth().currentUser) {
+      location.reload();
+    }
+
     if (!this.isOtherUser && fire.auth().currentUser) {
       this.$store.dispatch('Users/fetchUserById', { userId: fire.auth().currentUser.uid, type: 'user' });
       this.$store.dispatch('Quizzes/fetchQuizzesMadeByUserId', { userId: fire.auth().currentUser.uid });
