@@ -186,6 +186,11 @@ export default {
           return;
         }
 
+        if (this.checkDuplicateValues()) {
+          this.error = 'Make sure you use unique values!';
+          return;
+        }
+
         this.error = '';
         this.answersFilled = true;
       }
@@ -193,6 +198,19 @@ export default {
       // Submit after selecting a correct answer.
       if (this.selectedCorrectAnswer) {
         this.onFormSubmit();
+      }
+    },
+
+    checkDuplicateValues () {
+      let answers = this.formData.answers.map(answer => answer.answer.toLowerCase());
+      let arr = [ ...new Set(answers) ];
+
+      if (answers.length !== arr.length) {
+        return true;
+      }
+
+      if (answers.length === arr.length) {
+        return false;
       }
     },
 
