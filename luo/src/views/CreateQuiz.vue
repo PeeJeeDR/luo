@@ -51,7 +51,6 @@ export default {
       } 
       
       if (this.confirmAnswer === 'leave') {
-        console.log('LEAVE');
         next();
       }
     }

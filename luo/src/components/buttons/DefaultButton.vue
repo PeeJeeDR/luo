@@ -24,7 +24,6 @@ export default {
   height: 3.5rem;
   width: 100%;
   border: none;
-  outline: none;
 
   &.enabled {
     @include gradient;

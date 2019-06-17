@@ -2,15 +2,18 @@
   <div class='create-question'>
     <transition mode='out-in' enter-active-class='animated fadeInLeft faster' leave-active-class='animated fadeOutLeft faster'>
 
-      <!-- Make question. -->
       <div key='1' v-if='selectedSlide === 0'>
+        <!-- Question. -->
         <section>
           <h3 class='title heading h--xm h--color-primary'>What is your question?</h3>
           <input class='default-input' type='text' placeholder='Question' v-model='formData.question'>
-          <p class='paragraph p--s p--color-danger p--weight-bold'>{{ error }}</p>
+
+          <p class='error paragraph p--m p--color-danger p--weight-bold p--align-center'>{{ errors.questionError }}</p>
         </section>
 
+        <!-- Media. -->
         <section>
+          <h3 class='title heading h--xm h--color-primary'>Add media (optional)</h3>
           <media-uploader 
             :img='true' 
             :audio='true' 
@@ -21,46 +24,32 @@
           />
         </section>
 
-        <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide("question-1-2")'/>
-      </div>
+        <!-- Answers. -->
+        <section class='answers'>
+          <div class='flex align-center justify-between'>
+            <h3 class='heading h--xm h--color-primary'>Answers</h3>
+            <h3 class='heading h--xm h--color-primary'>Correct</h3>
+          </div>  
 
-      <!-- Add answers. -->
-      <div key='2' v-if='selectedSlide === 1'>
-        <section>
-          <h3 class='title heading h--xm h--color-primary'>{{ !answersFilled ? 'Add your answers' : 'Which one is correct?' }}</h3>
-
-          <div v-for='answer in formData.answers' :key='answer.id' class='answer flex-center'>
-            <check-mark v-if='checkIfCheckHasToRender()' @click.native='setAnswerCorrect(answer.id)' :checked='answer.correct'/>
-            <input 
-              @keydown='onInputKeyDown' 
-              class='default-input' 
-              v-model='answer.answer' 
-              type='text' 
-              :placeholder='`Answer ${ answer.id + 1 }`'
-              :disabled='answersFilled'
-            >
+          <div v-for='(answer, i) in formData.answers' class='single-answer flex align-center justify-between'>
+            <input v-model='answer.answer' class='default-input' type='text' :placeholder='`Answer ${ i + 1 }`'>
+            <check-mark 
+              v-if='answer.answer.trim() !== "" || formData.answers.indexOf(answer) === 0 || formData.answers.indexOf(answer) === 1' 
+              :checked='answer.correct' 
+              @click.native='setCorrectAnswer(i)'
+            />
           </div>
 
-          <p style='margin-top: -1rem;' class='paragraph p--s p--color-danger p--weight-bold'>{{ error }}</p>
+          <p class='error paragraph p--m p--color-danger p--weight-bold p--align-center'>{{ errors.answersError }}</p>
 
-          <h2 
-            v-if='formData.answers.length < 4 && !answersFilled'
-            class='add-answer heading h--m h--align-center h--color-primary' 
-            :class='formData.answers[formData.answers.length - 1].answer === "" && "disabled"'
-            @click='addAnswer'
-          >
+          <h2 v-if='formData.answers.length < 4' class='add-answer heading h--xm h--align-center h--color-primary' @click='addAnswer'>
             Add answer
           </h2>
         </section>
 
-        <submit-and-cancel 
-          :includeBack='true' 
-          @onback='answersFilled ? (answersFilled = false, selectedCorrectAnswer = false) : prevSlide' 
-          @oncancel='$store.dispatch("Modals/closeModal")'
-          @onsubmit='checkAnswersSubmit'
-        />
+        <!-- Submit. -->
+        <default-button class='save' :content='"Save quiz"' @click.native='saveQuestion'/>
       </div>
-
     </transition>
   </div>
 </template>
@@ -96,8 +85,13 @@ export default {
         type: 'text'
       }]
     },
+    errors: {
+      questionError: '',
+      mediaError: '',
+      answersError: ''
+    },
     answersFilled: false,
-    selectedCorrectAnswer: false,
+    selectedCorrectAnswer: false
   }),
   computed: {
     ...mapState('CreateQuiz', ['quiz', 'questionId'])
@@ -111,130 +105,117 @@ export default {
     this.$store.dispatch('CreateQuiz/onCreateQuestionModalDestory');
   },
   methods: {
-    // When a image is selected.
     setImage (output) {
       this.formData.questionImg = output;
     },
 
-    // When audio is selected.
     setAudio (output) {
       this.formData.questionAudio = output;
     },
 
-    // When user adds an answer, a input field has to be added.
     addAnswer () {
-      if (this.formData.answers.length > 0 && this.formData.answers.length < 4) {
-        if (this.formData.answers[this.formData.answers.length - 1].answer.trim() === '') { 
-          this.error = 'Make sure you filled in the previous answer.'
-          return
-        }
+      let _this = this;
 
-        this.error = '';
+      // Functions.
+      function isPreviousNotEmpty () {
+        return _this.formData.answers[_this.formData.answers.length - 1].answer.trim() !== '';
+      }
+      function isValidNumberOfAnswers () {
+        return _this.formData.answers.length > 0 && _this.formData.answers.length < 4;
+      }
+
+      // Errors.
+      if (!isPreviousNotEmpty()) {
+        this.errors.answersError = 'Please fill in the previous answer.';
+      }
+
+      // Push new empty answer.
+      if (isPreviousNotEmpty() && isValidNumberOfAnswers()) {
+        this.errors.answersError = '';
+
         this.formData.answers.push({
           id: this.formData.answers.length,
           answer: '',
           correct: false,
           type: 'text'
-        });
-      }
-    },
-
-    // Delete answer field.
-    onInputKeyDown (e) {
-      const firstAnswer = this.formData.answers[0].answer !== '';
-      const lastAnswer = this.formData.answers[this.formData.answers.length - 1].answer;
-
-      const tabBtn = 9;
-      const enterBtn = 13
-      const returnBtn = 8;
-
-      // Return key is pressed.
-      if (e.keyCode === returnBtn && (lastAnswer === '' && firstAnswer)) {
-        this.formData.answers.pop();
-      } 
-      
-      if (e.keyCode === tabBtn || e.keyCode === enterBtn) {
-        this.addAnswer();
-      } 
-      
-      if (e.keyCode === enterBtn && this.formData.answers.length > 3) {
-        this.checkAnswersSubmit();
-      }
-    },
-
-    checkIfCheckHasToRender () {
-      if (this.answersFilled) {
-        this.formData.answers.forEach(answer => {
-          if (answer.correct) {
-            this.selectedCorrectAnswer = true;
-          }
         })
-
-        return true;
       }
     },
 
-    // When submitted on add answers screen.
-    // We need to check if all answers are correctly filled.
-    checkAnswersSubmit () {
-      // Switch to select correct answer screen.
-      if (!this.selectedCorrectAnswer) {
-        let emptyAnswers = this.formData.answers.filter(answer => answer.answer.trim() === '');
-        let filledAnswers = this.formData.answers.filter(answer => answer.answer.trim() !== '');
-
-        if (emptyAnswers.length > 0) {
-          this.error = 'Make sure you filled in every answer.';
-          return;
-        }
-
-        if (filledAnswers.length < 2) {
-          this.error = 'Make sure you add at least 2 questions.';
-          return;
-        }
-
-        if (this.checkDuplicateValues()) {
-          this.error = 'Make sure you use unique values!';
-          return;
-        }
-
-        this.error = '';
-        this.answersFilled = true;
-      }
-
-      // Submit after selecting a correct answer.
-      if (this.selectedCorrectAnswer) {
-        this.onFormSubmit();
-      }
-    },
-
-    checkDuplicateValues () {
-      let answers = this.formData.answers.map(answer => answer.answer.toLowerCase());
-      let arr = [...new Set(answers)];
-
-      if (answers.length !== arr.length) {
-        return true;
-      }
-
-      if (answers.length === arr.length) {
-        return false;
-      }
-    },
-
-    // When selecting a correct answer.
-    setAnswerCorrect (i) {
+    setCorrectAnswer (i) {
       this.formData.answers.map(answer => answer.correct = false);
-      this.formData.answers[i].correct = true;
-      this.selectedCorrectAnswer = true;
-    },
 
-    // When submitting the form.
-    onFormSubmit () {
-      if (this.questionId !== undefined) {
-        this.$store.dispatch('CreateQuiz/onQuestionEdit', { question: this.formData });
+      if (this.formData.answers[i].answer.trim() === '') {
+        this.errors.answersError = 'Make sure to fill in the question first.';
+        return;
       }
 
-      if (this.questionId === undefined) {
-        this.$store.dispatch('CreateQuiz/onQuestionCreate', { question: this.formData });
+      this.errors.answersError = '';
+      this.formData.answers[i].correct = true;
+    },
+
+    saveQuestion () {
+      let _this = this;
+
+      // Functions.
+      function checkQuestionFilled () {
+        const questionLength = _this.formData.question.trim().length;
+
+        console.log('QUESRION LENFRG', questionLength);
+        
+        if (questionLength < 6) {
+          _this.errors.questionError = 'Make sure the question is at least 5 characters long.';
+          return false;
+        }
+
+        _this.errors.questionError = '';
+        return true;
+      }
+
+      function selectedCorrectAnswer () {
+        const correctAnswers = _this.formData.answers.filter(answer => answer.correct).length;
+
+        if (correctAnswers === 0) {
+          _this.errors.answersError = 'Select a correct answer.';
+          return false;
+        }
+
+        _this.errors.answersError = '';
+        return true;
+      }
+
+      function checkIfMinAnswersCreated () {
+        const answersLength = _this.formData.answers.length;
+
+        if (answersLength < 2) {
+          _this.errors.answersError = 'Make sure to create at least 2 answers.';
+          return false;
+        }
+
+        _this.errors.answersError = '';
+        return true;
+      }
+
+      function removeEmptyAnswers () {
+        const answersLength = _this.formData.answers.length;
+
+        if (_this.formData.answers[answersLength - 1].answer.trim() === '' && answersLength !== 1) {
+          _this.formData.answers.pop();
+        }
+      }
+
+      // Execute functions.
+      removeEmptyAnswers();
+
+      // Save question.
+      if (checkQuestionFilled() && checkIfMinAnswersCreated() && selectedCorrectAnswer()) {
+        if (this.questionId !== undefined) {
+          this.$store.dispatch('CreateQuiz/onQuestionEdit', { question: this.formData });
+        }
+
+        if (this.questionId === undefined) {
+          this.$store.dispatch('CreateQuiz/onQuestionCreate', { question: this.formData });
+        }
       }
     }
   }
@@ -244,19 +225,34 @@ export default {
 <style lang='scss' scoped>
 .create-question
 {
-  .answer {
-    margin-bottom: 1rem;
+  .error {
+    margin-top: 1rem;
+  }
 
-    input {
-      margin: 0;
+  section.answers {
+    .single-answer {
+      margin-top: 1rem;
+
+      .default-input {
+        margin-top: 0rem;
+        width: 100%;
+      }
+    }
+
+    .check-mark {
+      margin: 0 0 0 1rem;
+    }
+
+    .add-answer {
+      margin-top: 1.5rem;
     }
   }
 
-  .add-answer {
-    margin-top: 2rem;
+  .save {
+    margin: 5rem auto 0 auto;
 
-    &.disabled {
-      color: $mist;
+    @include phone {
+      width: 100%;
     }
   }
 }

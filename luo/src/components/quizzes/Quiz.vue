@@ -90,7 +90,7 @@ export default {
   }
 
   .content-container {
-    padding: 0.8rem;
+    padding: 1rem;
     position: relative;
 
     .title-container {
@@ -105,6 +105,7 @@ export default {
 
       p {
         margin-top: 0.6rem;
+        word-wrap: break-word;
       }
     }
   }

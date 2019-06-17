@@ -6,7 +6,7 @@
       <moon-loader :loading='mediaUploading' color='#BA42CC'/>
     </div>
 
-    <button class='close flex-center' @click='closeModal'>
+    <button class='close-modal flex-center' @click='closeModal'>
       <close />
     </button>
 
@@ -104,7 +104,7 @@ export default {
     border-radius: $smallRadius;
   }
 
-  button.close {
+  button.close-modal {
     position: absolute;
     right: 1.5rem;
     top: 1.5rem;
@@ -116,8 +116,8 @@ export default {
     border: none;
 
     svg {
-      width: 80%;
-      height: 80%;
+      width: 90%;
+      height: 90%;
       fill: $mist;
     }
   }
@@ -144,7 +144,6 @@ export default {
   .default-button {
     display: flex;
     justify-content: center;
-    margin: 0 auto;
 
     @include tablet {
       width: 15rem;
@@ -152,10 +151,6 @@ export default {
 
     @include desktop {
       width: 15rem;
-    }
-
-    &:last-child {
-      margin-top: 1rem;
     }
   }
 

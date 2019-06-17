@@ -74,7 +74,7 @@
           <p>Are you sure you want to delete this quiz?</p>
         </section>
 
-        <section>
+        <section class='flex-center direction-col'>
           <default-button :content='"Yes!"' @click.native='onYesPress'/>
           <default-button :content='"No"' @click.native='onNoPress'/>
         </section>

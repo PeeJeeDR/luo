@@ -14,7 +14,8 @@ export const CreateQuiz = {
       categories: [],
       quizImg: '',
       quizSample: '',
-      isPublic: true
+      isPublic: true,
+      isQRQuiz: false
     },
     questionId: undefined,
     mediaUploading: false,

@@ -53,7 +53,6 @@ export const Quizzes = {
 
     // Save quizzes made by user.
     SAVE_QUIZZES_MADE_BY_USER (state, quizzes) {
-      console.log('QUIZZES', quizzes);
       state.quizzesMadeByUser = quizzes;
     },
     CLEAR_QUIZZES_MADE_BY_USER (state) {
@@ -80,7 +79,6 @@ export const Quizzes = {
   actions: {
     // Fetch new quizzes.
     fetchNewQuizzes ({ commit }) {
-      console.log('FETCH NEW QUIZZES');
       commit('SET_LOADING_ON');
       
       db.collection('quizzes')
@@ -89,10 +87,6 @@ export const Quizzes = {
       .where('isDeleted', '==', false)
       .orderBy('created', 'desc')
       .onSnapshot(snap => {
-
-        const source = snap.metadata.fromCache ? 'local cache' : 'server';
-        // console.log('Data came from ' + source);
-        
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -105,7 +99,6 @@ export const Quizzes = {
 
     // Fetch popular quizzes.
     fetchPopularQuizzes ({ commit }) {
-      console.log('FETCH POPULAR QUIZZES');
       commit('SET_LOADING_ON');
 
       db.collection('quizzes')
@@ -114,10 +107,6 @@ export const Quizzes = {
       .where('isDeleted', '==', false)
       .orderBy('plays', 'desc')
       .onSnapshot(snap => {
-
-        const source = snap.metadata.fromCache ? 'local cache' : 'server';
-        console.log('Data came from ' + source);
-
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -130,7 +119,6 @@ export const Quizzes = {
 
     // Fetch quizzes by  category.
     fetchQuizzesByCategory ({ commit }, payload) {
-      console.log('FETCH QUIZZES BY CATEGORY');
       commit('SET_LOADING_ON');
 
       db.collection('quizzes')
@@ -151,8 +139,6 @@ export const Quizzes = {
 
     // Fetch quizzes by id.
     fetchQuizById ({ commit, dispatch }, payload) {
-      console.log('FETCH BY ID');
-      
       try {
         db.collection('quizzes').doc(payload.id)
         .onSnapshot(doc => {
@@ -191,8 +177,6 @@ export const Quizzes = {
 
     // Fetch quizzes made by user id.
     fetchQuizzesMadeByUserId ({ commit }, payload) {
-      console.log('FETCH QUIZZES MADE BY USER ID');
-      
       db.collection('quizzes')
       .where('createdBy', '==', payload.userId)
       .where('isDeleted', '==', false)
@@ -208,8 +192,6 @@ export const Quizzes = {
 
     // Fetch quizzes played by user id.
     fetchQuizzesPlayedByUserId ({ commit }, payload) {
-      console.log('FETCH QUIZZES PLAYED BY USER ID');
-
       db.collection('quizzes')
       .where('playedBy', 'array-contains', payload.userId)
       .onSnapshot(snap => {
@@ -262,7 +244,6 @@ export const Quizzes = {
     },
 
     updateQuiz ({ dispatch }, payload) {
-      console.log('UPDATE QUIZ');
       db.collection('quizzes').doc(payload.quiz.id).update(payload.quiz)
       .then(() => {
         // Close the modal.

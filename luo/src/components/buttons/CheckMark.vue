@@ -16,9 +16,9 @@ export default {
 
 <style lang='scss' scoped>
 .check-mark {
-  flex: 0 0 2rem;
-  width: 2rem;
-  height: 2rem;
+  flex: 0 0 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   margin: 0 1rem 0 0;
   border-radius: 4rem;
   position: relative;
@@ -33,7 +33,7 @@ export default {
 
   svg {
     fill: $snow;
-    transform: scale(0.35);
+    transform: scale(0.5);
     position: absolute;
   }
 }

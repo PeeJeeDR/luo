@@ -35,8 +35,10 @@
     </div>
 
     <!-- Buttons. -->
-    <default-button v-if='imgSource === "" && img' :content='`Add ${ type } image`' @click.native='$refs.img.click()'/>
-    <default-button v-if='audioSource === "" && audio' :content='`Add ${ type } audio`' @click.native='$refs.audio.click()'/>
+    <div class='buttons flex justify-center'>
+      <default-button v-if='imgSource === "" && img' :content='`Add ${ type } image`' @click.native='$refs.img.click()'/>
+      <default-button v-if='audioSource === "" && audio' :content='`Add ${ type } audio`' @click.native='$refs.audio.click()'/>
+    </div>
   </div>
 </template>
 
@@ -142,6 +144,29 @@ export default {
           fill: $mist;
           width: 1.5rem;
           height: 1.5rem;
+        }
+      }
+    }
+  }
+
+  .buttons {
+    margin: 1rem -1%;
+
+    @include phone-small {
+      flex-direction: column;
+    }
+
+    .default-button {
+      width: 48%;
+      margin: 0 1%;
+
+      @include phone-small {
+        width: 100%;
+      }
+
+      &:last-child {
+        @include phone-small {
+          margin-top: 1rem;
         }
       }
     }
