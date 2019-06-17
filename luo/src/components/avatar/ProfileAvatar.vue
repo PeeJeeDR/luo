@@ -1,11 +1,16 @@
 <template>
   <div class='profile-avatar' v-if='img !== undefined'>
-    <img :src='img.avatarUrl !== null ? img.avatarUrl : require(`@/assets/img/avatars/${ img.avatar }.png`)' alt='avatar image.'>
+    <div class='flex align-center'>
+      <img :src='img.avatarUrl !== null ? img.avatarUrl : require(`@/assets/img/avatars/${ img.avatar }.png`)' alt='avatar image.'>
+      <div class='view'>
+        <p class='paragraph p--color-primary p--weight-bold'>VIEW PROFILE</p>
+      </div>
+    </div>
+    
 
     <div class='star-container flex-center' v-if='false'>
       <star />
     </div>
-    
   </div>
 </template>
 
@@ -29,6 +34,15 @@ export default {
     border-radius: 20rem;
     border: 5px solid $snow;
     background-color: $snow;
+    z-index: 1;
+  }
+
+  .view p {
+    background-color: $snow;
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+    width: 11rem;
+    margin-left: -1.5rem;
+    border-radius: $smallRadius;
   }
 
   .star-container {
