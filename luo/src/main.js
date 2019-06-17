@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store/store';
-import './registerServiceWorker';
+// import './registerServiceWorker';
 import { fire } from '@/firebase/firebase';
 import Ripple from 'vue-ripple-directive';
 import ImageUploader from 'vue-image-upload-resize';

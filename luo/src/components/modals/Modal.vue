@@ -6,6 +6,10 @@
       <moon-loader :loading='mediaUploading' color='#BA42CC'/>
     </div>
 
+    <button class='close flex-center' @click='closeModal'>
+      <close />
+    </button>
+
     <!-- Contents. -->
     <create-question key='0' v-if='modalType === "create-question"'/>
     <save-quiz key='1' v-if='modalType === "save-quiz"'/>
@@ -14,12 +18,14 @@
     <suggest-category key='4' v-if='modalType === "suggest-category"'/>
     <q-r-info key='5' v-if='modalType === "qr"'/>
     <create-quiz-confirm key='6' v-if='modalType === "confirm"'/>
+    <not-logged-in key='7' v-if='modalType === "not-logged-in"'/>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import Close from '@/assets/icons/main-header/Close.svg';
 import MoonLoader from 'vue-spinner/src/MoonLoader';
 import CreateQuestion from '@/components/modals/CreateQuestion';
 import SaveQuiz from '@/components/modals/SaveQuiz';
@@ -27,10 +33,21 @@ import QuizInfo from '@/components/modals/QuizInfo';
 import Reports from '@/components/modals/Reports';
 import SuggestCategory from '@/components/modals/SuggestCategory';
 import CreateQuizConfirm from '@/components/modals/confirm/CreateQuizConfirm';
+import NotLoggedIn from '@/components/modals/NotLoggedIn';
 
 export default {
   name: 'Modal',
-  components: { MoonLoader, CreateQuestion, SaveQuiz, QuizInfo, Reports, SuggestCategory, CreateQuizConfirm },
+  components: { 
+    Close,
+    MoonLoader, 
+    CreateQuestion, 
+    SaveQuiz, 
+    QuizInfo, 
+    Reports, 
+    SuggestCategory, 
+    CreateQuizConfirm, 
+    NotLoggedIn 
+  },
   computed: {
     ...mapState('Modals', ['modalType']),
     ...mapState('CreateQuiz', ['mediaUploading'])
@@ -40,6 +57,11 @@ export default {
   },
   beforeDestroy () {
     enableBodyScroll(document.getElementsByTagName('body')[0]);
+  },
+  methods: {
+    closeModal () {
+      this.$store.dispatch('Modals/closeModal');
+    }
   }
 }
 </script>
@@ -80,6 +102,24 @@ export default {
     height: 15rem;
     object-fit: cover;
     border-radius: $smallRadius;
+  }
+
+  button.close {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    padding: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: $snow;
+    border-radius: 20rem;
+    border: none;
+
+    svg {
+      width: 80%;
+      height: 80%;
+      fill: $mist;
+    }
   }
 
   .title {

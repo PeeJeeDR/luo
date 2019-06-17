@@ -101,17 +101,15 @@
     }
   ],
   "notifications": {
+    "GENERAL_ERROR": "Something went wrong. Please try again later.",
     "QUESTION_UPDATED_SUCCESS": "The question has been updated successfully.",
     "QUESTION_UPDATED_FAIL": "Something went wrong editing this question. Please try again later.",
-
     "GUEST_MODE": "You are in guest mode. Restricted to only play quizzes.",
-
     "LOGIN_USER_SUCCESS": "You are logged in successfully!",
-
     "REGISTER_USER_SUCCESS": "You are registered successfully!",
     "REGISTER_USER_FAIL": "Something went wrong while creating your account. Please try again later.",
-
-    "SERVER_CONNECTION_FAIL": "We could not connect to our servers. Make sure you have a proper internet connection."
+    "SERVER_CONNECTION_FAIL": "We could not connect to our servers. Make sure you have a proper internet connection.",
+    "ASK_CAMERA_ACCESS": "Please enable camera access in order to scan QR codes."
   },
   "empty_quiz": {
     "id": "",

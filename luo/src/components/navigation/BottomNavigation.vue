@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import app from '@/settings/app.json';
 import { fire } from '@/firebase/firebase'; 
 import { mapState } from 'vuex';
 import SquareButton from '@/components/buttons/SquareButton';
@@ -81,7 +82,7 @@ export default {
       })
       .catch(err => {
         if (err.name=="NotAllowedError") {
-          this.$store.dispatch('Notifications/setNotification', { message: 'Please enable camera access in order to scan QR codes.' });
+          this.$store.dispatch('Notifications/setNotification', { message: app.notifications.ASK_CAMERA_ACCESS });
         }
       });
     },
@@ -104,7 +105,7 @@ export default {
       }
       
       if (fire.auth().currentUser === null) {
-        this.$store.dispatch('Notifications/setNotification', { message: 'You need to be logged in to create quizzes.' });
+        this.$store.dispatch('Modals/openModal', { type: 'not-logged-in' });
       }
     },
 

@@ -10,7 +10,7 @@
 
     <!-- Overlay that renders when te modal is open. -->
     <transition name='half-fade'>
-      <div class='overlay' v-if='overlay' @click='$store.dispatch("Modals/closeModal")'></div>
+      <div class='overlay' v-if='overlay'></div>
     </transition>
 
     <!-- Bottom navigation. -->

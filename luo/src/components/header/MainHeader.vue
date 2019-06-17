@@ -7,7 +7,9 @@
           <back v-if='leftIcon === "back"'/>
         </div>
         
-        <h2 v-if='headerTitle'>{{ capFirstChar(headerTitle) }}</h2>
+        <h2 v-if='headerTitle'>
+          {{ capFirstChar(headerTitle) }} {{ (headerTitle === 'new' || headerTitle === 'popular') && "quizzes" }}
+        </h2>
 
         <div :class='`icon flex-center ${ rightIcon }`' @click='rightIconClick'>
           <search v-if='rightIcon === "search"'/>
