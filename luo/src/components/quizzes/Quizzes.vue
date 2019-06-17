@@ -3,11 +3,6 @@
     <!-- Loader. -->
     <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
 
-    <!-- Quiz info modal. -->
-    <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
-      <modal v-if='modalIsOpen'/>
-    </transition>
-
     <!-- Quiz overview. -->
     <div class='flex flex-wrap justify-center' v-if='!loading'>
       <quiz v-for='(quiz, i) in quizzes' :key='i' :quiz='quiz' :index='i'/>
@@ -33,7 +28,6 @@ export default {
   components: { Modal, Quiz, MoonLoader },
   computed: {
     ...mapState('Quizzes', ['quizzes', 'loading']),
-    ...mapState('Modals', ['modalIsOpen'])
   },
   created () {
     this.$store.dispatch('Header/onPageLoad', { 

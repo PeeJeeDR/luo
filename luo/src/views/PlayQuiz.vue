@@ -1,10 +1,5 @@
 <template>
   <div class='play-quiz big-wrapper flex-center'>
-    <!-- Modal for reporting questions. -->
-    <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
-      <modal v-if='modalIsOpen'/>
-    </transition>
-    
     <transition mode='out-in' enter-active-class='animated jackInTheBox' leave-active-class='animated rotateOutUpRight faster'>
       <!-- === PLAYING QUIZ === -->
       <div key='0' class='box' v-if='playingQuiz !== undefined && showBox && !quizCompleted'>
@@ -46,7 +41,6 @@ export default {
   components: { QuizEnd, MultipleChoise, Close, Modal },
   computed: {
     ...mapState('PlayQuiz', ['playingQuiz', 'inputEnabled', 'quizCompleted', 'currentQuestion']),
-    ...mapState('Modals', ['modalIsOpen'])
   },
   data: () => ({ 
     showBox: false

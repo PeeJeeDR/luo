@@ -19,6 +19,7 @@
     <q-r-info key='5' v-if='modalType === "qr"'/>
     <create-quiz-confirm key='6' v-if='modalType === "confirm"'/>
     <not-logged-in key='7' v-if='modalType === "not-logged-in"'/>
+    <forgot-password key='8' v-if='modalType === "forgot-password"'/>
   </div>
 </template>
 
@@ -34,6 +35,7 @@ import Reports from '@/components/modals/Reports';
 import SuggestCategory from '@/components/modals/SuggestCategory';
 import CreateQuizConfirm from '@/components/modals/confirm/CreateQuizConfirm';
 import NotLoggedIn from '@/components/modals/NotLoggedIn';
+import ForgotPassword from '@/components/modals/ForgotPassword';
 
 export default {
   name: 'Modal',
@@ -46,7 +48,8 @@ export default {
     Reports, 
     SuggestCategory, 
     CreateQuizConfirm, 
-    NotLoggedIn 
+    NotLoggedIn,
+    ForgotPassword
   },
   computed: {
     ...mapState('Modals', ['modalType']),

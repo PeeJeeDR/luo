@@ -64,7 +64,7 @@
       </form>
 
       <!-- Error, forgot password and skip login. -->
-      <p class='paragraph p--color-primary p--weight-bold p--s' v-if='formType === "login"'>Forgot password?</p>
+      <p class='paragraph p--color-primary p--weight-bold p--s' v-if='formType === "login"' @click='onPasswordForgot'>Forgot password?</p>
       <p class='skip paragraph p--color-primary p--weight-bold p--l p--hover-enabled' @click='onSkipClick'>Skip login</p>
     </div>
   </div>
@@ -113,6 +113,10 @@ export default {
     registerClick () {
       this.formType = 'register';
       this.resetForm();
+    },
+
+    onPasswordForgot () {
+      this.$store.dispatch('Modals/openModal', { type: 'forgot-password' });
     },
 
     onSkipClick () {

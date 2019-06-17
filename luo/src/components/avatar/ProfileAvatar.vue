@@ -3,7 +3,7 @@
     <div class='flex align-center'>
       <img :src='img.avatarUrl !== null ? img.avatarUrl : require(`@/assets/img/avatars/${ img.avatar }.png`)' alt='avatar image.'>
       <div class='view'>
-        <p class='paragraph p--color-primary p--weight-bold'>VIEW PROFILE</p>
+        <p class='paragraph p--color-primary p--weight-bold p--s'>VIEW PROFILE</p>
       </div>
     </div>
     
@@ -40,7 +40,7 @@ export default {
   .view p {
     background-color: $snow;
     padding: 0.5rem 0.5rem 0.5rem 2rem;
-    width: 11rem;
+    width: 8rem;
     margin-left: -1.5rem;
     border-radius: $smallRadius;
   }

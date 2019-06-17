@@ -8,6 +8,11 @@
     <!-- QR scanner. -->
     <q-r-scanner v-if='scanner'/>
 
+    <!-- Modal. -->
+    <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
+      <modal v-if='modalIsOpen'/>
+    </transition>
+
     <!-- Overlay that renders when te modal is open. -->
     <transition name='half-fade'>
       <div class='overlay' v-if='overlay'></div>
@@ -34,6 +39,7 @@
 <script>
 import { mapState } from 'vuex';
 import { fire } from '@/firebase/firebase'; 
+import Modal from '@/components/modals/Modal';
 import DefaultNotification from '@/components/notifications/DefaultNotification';
 import MainHeader from '@/components/header/MainHeader';
 import Sidebar from '@/components/sidebar/Sidebar';
@@ -42,9 +48,9 @@ import QRScanner from '@/components/navigation/QRScanner';
 
 export default {
   name: 'App',
-  components: { DefaultNotification, MainHeader, Sidebar, BottomNavigation, QRScanner },
+  components: { Modal, DefaultNotification, MainHeader, Sidebar, BottomNavigation, QRScanner },
   computed: {
-    ...mapState('Modals', ['overlay']),
+    ...mapState('Modals', ['overlay', 'modalIsOpen']),
     ...mapState('Notifications', ['notification']),
     ...mapState('Navigation', ['scanner'])
   },
