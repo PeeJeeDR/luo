@@ -13,7 +13,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-// Cache assets
+// Cache assets.
 workbox.routing.registerRoute(
   /\.(?:html|css|js|png|jpg|jpeg|svg)$/,
   workbox.strategies.staleWhileRevalidate({
@@ -22,25 +22,33 @@ workbox.routing.registerRoute(
   'GET'
 );
 
-// Cache content from multiple origins
+workbox.routing.registerRoute(
+  new RegExp('https://firebasestorage.googleapis.com/v0/b/luo-quiz-app.appspot.com/.*'),
+  workbox.strategies.staleWhileRevalidate()
+);
+
+// Cache content from multiple origins.
 workbox.routing.registerRoute(
   /.*(?:googleapis|gstatic)\.com/,
   new workbox.strategies.StaleWhileRevalidate(),
 );
 
-console.log('FIREBASE SERVICE WORKER');
-
+// Firebase messaging.
 firebase.initializeApp({
-  messagingSenderId: '836601391574'
+  'messagingSenderId': '836601391574'
 });
 
 const messaging = firebase.messaging();
 
-messaging.getToken(token => {
-  console.log('TOKEN', token);
-})
+messaging.setBackgroundMessageHandler(payload => {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  // Customize notification here
+  const notificationTitle = 'Background Message Title';
+  const notificationOptions = {
+    body: 'Background Message body.',
+    icon: '/firebase-logo.png'
+  };
 
-messaging.onMessage(payload => {
-  console.log('Message received. Load counter for in-app notifications', payload);
-});
+  return self.registration.showNotification(notificationTitle, notificationOptions);
+})
 

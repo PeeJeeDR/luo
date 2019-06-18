@@ -1,5 +1,8 @@
 <template>
   <div id='app'>
+
+    <p v-if='false'>TOKEN: {{ token }}</p>
+
     <!-- Notifications. -->
     <transition mode='out-in' enter-active-class='animated fadeIn faster' leave-active-class='animated fadeOut faster'>
       <default-notification v-if='notification !== ""'/>
@@ -37,8 +40,9 @@
 </template>
 
 <script>
+import '@/firebase/messaging';
 import { mapState } from 'vuex';
-import { fire } from '@/firebase/firebase'; 
+import { fire, messaging } from '@/firebase/firebase'; 
 import Modal from '@/components/modals/Modal';
 import DefaultNotification from '@/components/notifications/DefaultNotification';
 import MainHeader from '@/components/header/MainHeader';
@@ -49,6 +53,9 @@ import QRScanner from '@/components/navigation/QRScanner';
 export default {
   name: 'App',
   components: { Modal, DefaultNotification, MainHeader, Sidebar, BottomNavigation, QRScanner },
+  data: () => ({
+    token: localStorage.getItem('messagingToken')
+  }),
   computed: {
     ...mapState('Modals', ['overlay', 'modalIsOpen']),
     ...mapState('Notifications', ['notification']),
@@ -75,6 +82,16 @@ export default {
 #app {
   height: 100%;
   position: relative;
+
+  p {
+    position: fixed;
+    background: lightblue;
+    top: 0;
+    z-index: 5;
+    width: 100%;
+    padding: 0 1rem;
+    word-wrap: break-word;
+  }
 
   .overlay {
     z-index: 5;

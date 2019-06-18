@@ -1,6 +1,8 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as sgMail from '@sendgrid/mail';
+import axios from 'axios';
+import * as config from './config';
 
 // Firestore database setup.
 admin.initializeApp();
@@ -78,6 +80,41 @@ export const onCategorySuggestion = functions.firestore.document(`category-sugge
     console.log('ERROR', err);
   });
 });
+
+export const onUserFollow = functions.firestore.document(`users/{userId}`).onUpdate(change => {
+  const before = change.before.data();
+  const after = change.after.data();
+
+  if (before !== undefined && after !== undefined) {
+    if (before.followers.length !== after.followers.length) {
+      return axios({
+        url: 'https://fcm.googleapis.com/fcm/send',
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':`key=${ config.AUTH_KEY }`
+        },
+        data: {
+          'notification': {
+            'title': 'New follower.',
+            'text': 'You have a new follower!',
+            'sound': 'default'
+          },
+          'to': after.messagingToken,
+          'priority': 'high'
+        }
+      })
+      .then(res => {
+        console.log('Norification sended successfully.', res)
+      })
+      .catch(err => {
+        console.log('Norification sended successfully.', err)
+      })
+    }
+  }
+
+  return null;
+})
 
 // When a user gets deleted.
 export const deleteUser = functions.firestore.document('users/{userID}').onDelete(snap => {

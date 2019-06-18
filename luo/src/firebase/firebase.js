@@ -21,28 +21,10 @@ const storage = fire.storage();
 // Firestore Database.
 const db = fire.firestore();
 
+// Messaging
+const messaging = fire.messaging();
+
 // Cache persistence.
 enablePersistence(firebase);
 
-// Messaging.
-const messaging = fire.messaging();
-
-messaging.requestPermission()
-.then(() => {
-  console.log('GRANTED PERMISSION');
-  return messaging.getToken();
-})
-.then(token => {
-  console.log('TOKEN', token);
-})
-.catch(() => {
-  console.log('NO PERMISSION GRANTED');
-});
-
-messaging.onMessage(payload => {
-  console.log('payload', payload);
-});
-
-
-
-export { firebase, fire, storage, db };
+export { firebase, fire, storage, db, messaging };
