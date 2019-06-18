@@ -86,29 +86,40 @@ export const onUserFollow = functions.firestore.document(`users/{userId}`).onUpd
   const after = change.after.data();
 
   if (before !== undefined && after !== undefined) {
-    if (before.followers.length !== after.followers.length) {
-      return axios({
-        url: 'https://fcm.googleapis.com/fcm/send',
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization':`key=${ config.AUTH_KEY }`
-        },
-        data: {
-          'notification': {
-            'title': 'New follower.',
-            'text': 'You have a new follower!',
-            'sound': 'default'
+    if (before.followers.length < after.followers.length) {
+      db.collection('users').doc(after.followers[after.followers.length - 1]).get()
+      .then(user => {
+        console.log('USER', user.data());
+        console.log('OUTPUT', `${ user.data()!.username } started following you!`);
+
+        const text = user.data()!.username + ' started following you!';
+
+        return axios({
+          url: 'https://fcm.googleapis.com/fcm/send',
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `key=${ config.AUTH_KEY }`
           },
-          'to': after.messagingToken,
-          'priority': 'high'
-        }
-      })
-      .then(res => {
-        console.log('Norification sended successfully.', res)
+          data: {
+            'notification': {
+              'title': 'New follower',
+              'body': text,
+              'sound': 'default'
+            },
+            'to': after.messagingToken,
+            'priority': 'high'
+          }
+        })
+        .then(res => {
+          console.log('Norification sended successfully.', res)
+        })
+        .catch(err => {
+          console.log('Norification sended successfully.', err)
+        })
       })
       .catch(err => {
-        console.log('Norification sended successfully.', err)
+        console.log('Error when getting user:', err);
       })
     }
   }
