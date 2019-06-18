@@ -29,6 +29,7 @@ export default {
   position: relative;
 
   img {
+    flex: 0 0 5.5rem;
     width: 5.5rem;
     height: 5.5rem;
     border-radius: 20rem;

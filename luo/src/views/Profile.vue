@@ -4,11 +4,6 @@
     <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
 
     <div v-if='!loading'>
-      <!-- Quiz info modal. -->
-      <transition enter-active-class='animated bounceInUp fast' leave-active-class='animated bounceOutDown fast'>
-        <modal v-if='modalIsOpen'/>
-      </transition>
-
       <!-- Quizzes made by the user. -->
       <section-title 
         v-if='publicQuizzesByUser.length > 0' 

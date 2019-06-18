@@ -10,7 +10,8 @@ export const PlayQuiz = {
     xp: 0,
     correctAnswers: 0,
     currentQuestion: 0,
-    reviews: []
+    reviews: [],
+    isPlaying: false
   },
 
   getters: {
@@ -28,9 +29,11 @@ export const PlayQuiz = {
   },
 
   mutations: {
-    // Set the quiz that has to be played.
+    // Set and reset the quiz that has to be played.
     SET_PLAYING_QUIZ (state, quiz) {
-      state.playingQuiz = quiz;
+      if (!state.isPlaying) {
+        state.playingQuiz = quiz;
+      }
     },
 
     // Set quiz playing state.
@@ -80,13 +83,23 @@ export const PlayQuiz = {
       }
 
       state.playingQuiz.questions[state.currentQuestion].answers = array;
-    }
+    },
+
+    ENABLE_PLAYING (state) {
+      state.isPlaying = true;
+    },
+    DISABLE_PLAYING (state) {
+      state.isPlaying = false;
+    },
   },
 
   actions: {
     // When the play button has been pressed.
     onPlayButtonClick ({ commit }, payload) {
+      console.log('TEST');
+      commit('DISABLE_PLAYING');
       commit('SET_PLAYING_QUIZ', payload.quiz);
+      commit('ENABLE_PLAYING');
       commit('SHUFFLE_ANSWERS');
     },
 
@@ -95,6 +108,7 @@ export const PlayQuiz = {
       commit('SET_QUIZ_COMPLETED_OFF');
       commit('ENABLE_INPUT');
       commit('RESET_CORRECT_ANSWERS');
+      commit('DISABLE_PLAYING');
     },
 
     // When the user presses an answer.
@@ -119,6 +133,7 @@ export const PlayQuiz = {
     quizCompleted ({ commit, dispatch, state }) {
       commit('SET_QUIZ_COMPLETED_ON');
       commit('RESET_CURRENT_QUESTION');
+      commit('DISABLE_PLAYING');
 
       if (fire.auth().currentUser === null && localStorage.sessionId !== null) {
         dispatch('Quizzes/addQuizPlay', { quiz: state.playingQuiz, id: localStorage.sessionId }, { root: true });
@@ -131,6 +146,7 @@ export const PlayQuiz = {
 
     // When the continue button has been pressed on the end of a quiz.
     onQuizEnd ({ commit }) {
+      commit('DISABLE_PLAYING');
       commit('RESET_CURRENT_QUESTION');
       commit('SET_QUIZ_COMPLETED_OFF');
       commit('ENABLE_INPUT');

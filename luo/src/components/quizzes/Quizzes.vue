@@ -17,7 +17,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import MoonLoader from 'vue-spinner/src/MoonLoader';
 import Modal from '@/components/modals/Modal';
 import Quiz from '@/components/quizzes/Quiz';

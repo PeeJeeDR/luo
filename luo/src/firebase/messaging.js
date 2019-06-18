@@ -51,6 +51,7 @@ const listenTokenRefresh = () => {
 }
 
 const saveToken = (token) => {
+  console.log('SAVE NEW TOKEN');
   localStorage.setItem('messagingToken', token);
 
   if (fire.auth().currentUser.uid) {
@@ -67,7 +68,13 @@ const saveToken = (token) => {
 }
 
 fire.auth().onAuthStateChanged(auth => {
-  if (auth.uid) {
+  if (auth && auth.uid) {
+    if (auth.uid !== localStorage.getItem('lastLoginId')) {
+      localStorage.removeItem('messagingToken');
+      console.log('REMOVE OLD TOKEN');
+    }
+
+    localStorage.setItem('lastLoginId', auth.uid);
     getMessagingToken();
     listenTokenRefresh();
   }

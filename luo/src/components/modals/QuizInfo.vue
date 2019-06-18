@@ -7,8 +7,8 @@
           <transition mode='out-in' enter-active-class='animated slideInUp faster' leave-active-class='animated slideOutDown faster'>
             <img key='0' v-if='!showQR' :src='quizById.quizImg !== "" ? quizById.quizImg : require(`@/assets/img/samples/categories/${ quizById.quizSample }.jpg`)' :alt='`Header image for the "${ quizById.title } quiz."`'>
 
-            <div key='1' v-if='showQR' class='flex-center' style='height: 100%;'>
-              <qrcode :value='quizById.id'></qrcode>
+            <div @click='onQRCodeClick' id='QR-code' key='1' v-if='showQR' class='flex-center' style='height: 100%;'>
+              <qrcode style='object-fit: contain' :tag='"img"' :value='quizById.id'></qrcode>
             </div>
           </transition>
         </div>
@@ -85,6 +85,7 @@
 
 <script>
 import app from '@/settings/app.json';
+import { enableBodyScroll } from 'body-scroll-lock';
 import { fire } from '@/firebase/firebase';
 import { mapState } from 'vuex';
 import Qrcode from '@chenfengyuan/vue-qrcode';
@@ -105,6 +106,10 @@ export default {
   computed: {
     ...mapState('Quizzes', ['quizById']),
     ...mapState('Users', ['quizUser'])
+  },
+  beforeDestroy () {
+    console.log('ENABLE');
+    enableBodyScroll(document.getElementsByTagName('body')[0]);
   },
   methods: {
     getButtonContainerClass () {
@@ -175,6 +180,13 @@ export default {
       .catch(() => {
         this.$store.dispatch('Notifications/setNotification', { message: app.notifications.QUIZ_DELETE_FAIL });
       });
+    },
+
+    onQRCodeClick () {
+      let w = window.open();
+      w.document.write(document.getElementById('QR-code').innerHTML);
+      w.print();
+      w.close();
     }
   }
 }

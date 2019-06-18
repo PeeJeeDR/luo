@@ -87,6 +87,8 @@ export const Quizzes = {
       .where('isDeleted', '==', false)
       .orderBy('created', 'desc')
       .onSnapshot(snap => {
+        console.log('FETCH NEW');
+
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -107,6 +109,8 @@ export const Quizzes = {
       .where('isDeleted', '==', false)
       .orderBy('plays', 'desc')
       .onSnapshot(snap => {
+        console.log('FETCH POPULAR');
+
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -119,7 +123,6 @@ export const Quizzes = {
 
     // Fetch quizzes by  category.
     fetchQuizzesByCategory ({ commit }, payload) {
-      console.log('PAYLOAD', payload);
       commit('SET_LOADING_ON');
 
       db.collection('quizzes')
@@ -128,7 +131,8 @@ export const Quizzes = {
       .where('isQRQuiz', '==', false)
       .where('isDeleted', '==', false)
       .onSnapshot(snap => {
-        console.log('DOCS', snap.docs);
+        console.log('FETCH CATEGORY');
+
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -144,6 +148,8 @@ export const Quizzes = {
       try {
         db.collection('quizzes').doc(payload.id)
         .onSnapshot(doc => {
+        console.log('FETCH ID');
+
           if (doc.exists) {
             let result = doc.data();
             result.id = doc.id;
