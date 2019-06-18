@@ -8,7 +8,7 @@
       :quality='0.8'
       :autoRotate='true'
       outputFormat='string'
-      :preview='true'
+      :preview='false'
       accept='image/*'
       doNotResize='["gif", "svg"]'
       @input='setImage'

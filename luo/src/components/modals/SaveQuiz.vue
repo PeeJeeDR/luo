@@ -115,7 +115,7 @@ export default {
     },
 
     setImage (output) {
-      this.formData.quizImg = output;
+      // this.formData.quizImg = output;
     },
 
     getQuizImgSource () {
