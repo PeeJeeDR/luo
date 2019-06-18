@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.quizzes .spinner {
-  margin-top: 3rem;
+.quizzes .spinner, .quizzes h2 {
+  margin-top: 3rem !important;
 }
 </style>

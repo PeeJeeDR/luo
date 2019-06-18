@@ -43,7 +43,7 @@
         <section>
           <h3 class='title heading h--xm h--color-primary'>Categories</h3>
           <div class='categories'>
-            <div class='category' v-for='category in categories' :key='category.id' @click='categorySelect(category)'>
+            <div class='category' v-for='category in categories' :key='category.slug' @click='categorySelect(category)'>
               <div v-if='category.slug !== "suggest"' class='flex align-center'>
                 <check-mark :checked='shouldCategoryChecked(category)'/>
                 <img :src='require(`@/assets/icons/categories/${ category.slug }.png`)' :alt='`${ capFirstChar(category.category) } icon.`'>
@@ -91,7 +91,6 @@ export default {
     ...mapState('CreateQuiz', ['quiz'])
   },
   created () {
-    this.$store.dispatch('Categories/fetchCategories');
     this.formData = clonedeep(this.quiz);
 
     if (this.formData.isQRQuiz) {
@@ -133,11 +132,11 @@ export default {
       let filtered = [];
 
       this.formData.categories.forEach(category => {
-        typeof category === 'object' ? filtered.push(category.id) : filtered.push(category);
+        typeof category === 'object' ? filtered.push(category.slug) : filtered.push(category);
       });
 
-      if (filtered.indexOf(category.id) > -1) {
-        let index = filtered.indexOf(category.id);
+      if (filtered.indexOf(category.slug) > -1) {
+        let index = filtered.indexOf(category.slug);
         this.formData.categories.splice(index, 1);
       } 
       else {
@@ -147,7 +146,7 @@ export default {
     },
 
     shouldCategoryChecked (category) {
-      return this.formData.categories.indexOf(category.id) > -1 || this.formData.categories.indexOf(category) > -1;
+      return this.formData.categories.indexOf(category.slug) > -1 || this.formData.categories.indexOf(category) > -1;
     },
 
     onFormSubmit () {
@@ -163,17 +162,17 @@ export default {
           this.formData.quizSample = quizSample;
         }
 
-        let categoryIds = this.formData.categories.map(category => { 
-          if (category.id !== undefined) {
-            return category.id;
+        let categorySlugs = this.formData.categories.map(category => { 
+          if (category.slug !== undefined) {
+            return category.slug;
           }
 
-          if (category.id === undefined) {
+          if (category.slug === undefined) {
             return category;
           }
         });
 
-        this.formData.categories = categoryIds;
+        this.formData.categories = categorySlugs;
         this.$store.dispatch('CreateQuiz/onQuizFormSubmit', { quiz: this.formData });
       }
     }

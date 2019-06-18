@@ -8,15 +8,12 @@ const getMessagingToken = () => {
     if (token) {
       const currentMessageToken = localStorage.getItem('messagingToken');
 
-      console.log('token will be updated', currentMessageToken != token);
-
       if (currentMessageToken != token) {
         await saveToken(token)
       }
     } 
 
     if (!token) {
-      console.log('No Instance ID token available. Request permission to generate one.');
       notificationsPermisionRequest();
     }
   })
@@ -44,7 +41,6 @@ const listenTokenRefresh = () => {
     messaging.onTokenRefresh(() => {
       messaging.getToken()
       .then(token => {
-        console.log('TOKEN REFRESH');
         saveToken(token);
       })
       .catch(err => {
@@ -55,10 +51,7 @@ const listenTokenRefresh = () => {
 }
 
 const saveToken = (token) => {
-  console.log('SAVE TOKEN IN DB!', token);
   localStorage.setItem('messagingToken', token);
-
-  //  console.log('AUTH', fire.auth().currentUser);
 
   if (fire.auth().currentUser.uid) {
     db.collection('users').doc(fire.auth().currentUser.uid).set({
@@ -74,7 +67,6 @@ const saveToken = (token) => {
 }
 
 fire.auth().onAuthStateChanged(auth => {
-  console.log('AUTH CHANGE', auth.uid);
   if (auth.uid) {
     getMessagingToken();
     listenTokenRefresh();

@@ -1,6 +1,6 @@
 <template>
   <div class='categories' v-if='!loading'>
-    <category v-for='(category, i) in categories' :key='i' :category='category'/>    
+    <category v-for='category in categories' :key='category.slug' :category='category'/>    
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
   name: 'Categories',
   components: { Category, Add },
   computed: {
-    ...mapState('Categories', ['categories', 'loading'])
+    ...mapState('Categories', ['categories'])
   }
 }
 </script>

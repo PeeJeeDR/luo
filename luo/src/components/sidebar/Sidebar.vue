@@ -7,8 +7,7 @@
         <img :src='Logo' alt='Logo of Luo.'>
       </header>
 
-      <moon-loader :loading='loading' color='#BA42CC' class='spinner flex-center'/>
-      <categories v-if='!loading'/>
+      <categories />
 
       <div class='bottom'>
         <hr>
@@ -35,21 +34,16 @@ import Logo from '@/assets/img/logo/Logo.png';
 import Logout from '@/assets/icons/sidebar/Logout.svg';
 import Login from '@/assets/icons/sidebar/Login.svg';
 import Categories from '@/components/categories/Categories';
-import MoonLoader from 'vue-spinner/src/MoonLoader';
 
 export default {
   name: 'Sidebar',
-  components: { Categories, MoonLoader, Logout, Login },
+  components: { Categories, Logout, Login },
   data: () => ({
     Logo,
     fire
   }),
   computed: {
-    ...mapState('Categories', ['loading']),
     ...mapState('Sidebar', ['open'])
-  },
-  created () {
-    this.$store.dispatch('Categories/fetchCategories');
   },
   methods: {
     closeSidebar () {

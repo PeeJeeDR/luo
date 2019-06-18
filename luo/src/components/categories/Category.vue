@@ -1,7 +1,11 @@
 <template>
-  <div :class='`category ${ category.id === selectedCategory && "selected" }`'>
+  <div :class='`category ${ category.slug === selectedCategory && "selected" }`'>
     <div v-ripple class='container flex align-center' @click='atCategoryClick'>
-      <img :src='require(`@/assets/icons/categories/${ category.slug }.png`)' :name='category.slug' :alt='`${ capFirstChar(category.category) } icon.`'>
+      <img 
+        :src='require(`@/assets/icons/categories/${ category.slug }.png`)' 
+        :name='category.slug' 
+        :alt='`${ capFirstChar(category.category) } icon.`'
+      >
       <h4 class='heading h--m'>{{ capFirstChar(category.category) }}</h4>
     </div>
   </div>
@@ -24,8 +28,8 @@ export default {
       enableBodyScroll(document.getElementsByTagName('body')[0]);
 
       if (this.category.slug !== 'suggest') {
-        this.$store.dispatch('Sidebar/onCategoryClick', { categoryId: this.category.id });
-        this.$store.dispatch('Quizzes/fetchQuizzesByCategory', { categoryId: this.category.id });
+        this.$store.dispatch('Sidebar/onCategoryClick', { categoryId: this.category.slug });
+        this.$store.dispatch('Quizzes/fetchQuizzesByCategory', { categoryId: this.category.slug });
       }
       
       if (this.category.slug === 'suggest') {

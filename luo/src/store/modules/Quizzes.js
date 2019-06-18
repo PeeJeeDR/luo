@@ -119,6 +119,7 @@ export const Quizzes = {
 
     // Fetch quizzes by  category.
     fetchQuizzesByCategory ({ commit }, payload) {
+      console.log('PAYLOAD', payload);
       commit('SET_LOADING_ON');
 
       db.collection('quizzes')
@@ -127,6 +128,7 @@ export const Quizzes = {
       .where('isQRQuiz', '==', false)
       .where('isDeleted', '==', false)
       .onSnapshot(snap => {
+        console.log('DOCS', snap.docs);
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;

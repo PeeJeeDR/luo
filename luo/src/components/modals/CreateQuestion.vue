@@ -48,7 +48,7 @@
         </section>
 
         <!-- Submit. -->
-        <default-button class='save' :content='"Save quiz"' @click.native='saveQuestion'/>
+        <default-button class='save' :content='"Save question"' @click.native='saveQuestion'/>
       </div>
     </transition>
   </div>

@@ -1,51 +1,20 @@
 import { db } from '@/firebase/firebase';
+import app from '@/settings/app.json';
+
+export const categoriesWithSuggest = () => {
+  let categories = app.categories.sort((a, b) => a.slug.localeCompare(b.slug));
+  categories.push({ category: 'Suggest category', slug: 'suggest' });
+  return categories;
+}
 
 export const Categories = {
   namespaced: true,
 
   state: {
-    categories: [],
-    loading: false
-  },
-
-  mutations: {
-    // Save categories to the store.
-    SAVE_CATEGORIES (state, categories) {
-      state.categories = categories;
-      state.categories.push({
-        category: 'Suggest category',
-        id: 0,
-        slug: 'suggest'
-      })
-    },
-
-    // Loading state handlers.
-    SET_LOADING_ON (state) {
-      state.loading = true;
-    },
-    SET_LOADING_OFF (state) {
-      state.loading = false;
-    }
+    categories: categoriesWithSuggest(),
   },
 
   actions: {
-    // Fetch all categories in sidebar.
-    fetchCategories ({ commit }) {
-      commit('SET_LOADING_ON');
-
-      db.collection('categories').orderBy('category', 'asc').onSnapshot(snap => {
-        const mapped = snap.docs.map(doc => {
-          const copy = doc.data();
-          copy.id = doc.id;
-          
-          return copy;
-        });
-
-        commit('SAVE_CATEGORIES', mapped);
-        commit('SET_LOADING_OFF');
-      });
-    },
-
     // When there is a category suggested.
     async onCategorySuggestion ({ dispatch }, payload) {
       // Post suggestion to firestore and send mail to admin with cloud function.
