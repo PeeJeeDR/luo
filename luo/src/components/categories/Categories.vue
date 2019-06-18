@@ -1,5 +1,5 @@
 <template>
-  <div class='categories' v-if='!loading'>
+  <div class='categories'>
     <category v-for='category in categories' :key='category.slug' :category='category'/>    
   </div>
 </template>

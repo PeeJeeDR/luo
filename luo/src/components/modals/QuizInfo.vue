@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import app from '@/settings/app.json';
 import { fire } from '@/firebase/firebase';
 import { mapState } from 'vuex';
 import Qrcode from '@chenfengyuan/vue-qrcode';
@@ -136,7 +137,7 @@ export default {
 
         // Set notification.
         this.$store.dispatch('Notifications/setNotification', { 
-          message: 'This quiz has been deleted.' 
+          message: app.notifications.QUIZ_HAS_BEEN_DELETED
         });
       }
     },
@@ -164,16 +165,15 @@ export default {
     },
 
     // When the user selects Yes in the delete comfirmation box.
-    async onYesPress () {
+    onYesPress () {
       // Delete quiz.
-      await this.$store.dispatch('Quizzes/deleteQuiz', { quiz: this.quizById });
-
-      // Close modal.
-      this.$store.dispatch('Modals/closeModal');
-
-      // Set notification.
-      this.$store.dispatch('Notifications/setNotification', { 
-        message: 'Quiz removed successfully.' 
+      this.$store.dispatch('Quizzes/deleteQuiz', { quiz: this.quizById })
+      .then(() => {
+        this.$store.dispatch('Modals/closeModal');
+        this.$store.dispatch('Notifications/setNotification', { message: app.notifications.QUIZ_DELETE_SUCCESS });
+      })
+      .catch(() => {
+        this.$store.dispatch('Notifications/setNotification', { message: app.notifications.QUIZ_DELETE_FAIL });
       });
     }
   }

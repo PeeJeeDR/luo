@@ -86,7 +86,6 @@ export default {
           if (res.state === 'success' && url) {
             this.audioSource = url;
             this.$emit('onAudioUpload', this.audioSource);
-            this.$store.dispatch('Notifications/setNotification', { message: 'Audio successfully successfully.' });
           }
 
           this.$store.dispatch('CreateQuiz/onMediaUploadEnd');

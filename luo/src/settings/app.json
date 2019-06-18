@@ -111,7 +111,10 @@
     "SERVER_CONNECTION_FAIL": "We could not connect to our servers. Make sure you have a proper internet connection.",
     "ASK_CAMERA_ACCESS": "Please enable camera access in order to scan QR codes.",
     "SEND_PASSWORD_FORGOT_SUCCESS": "Password recovery mail sended successfully.",
-    "SEND_PASSWORD_FORGOT_FAIL": "Something went wrong while sending a password recovery mail."
+    "SEND_PASSWORD_FORGOT_FAIL": "Something went wrong while sending a password recovery mail.",
+    "QUIZ_HAS_BEEN_DELETED": "This quiz has been deleted.",
+    "QUIZ_DELETE_SUCCESS": "Quiz deleted successfully.",
+    "QUIZ_DELETE_FAIL": "Something went wrong while deleting your quiz. Please try again later."
   },
   "empty_quiz": {
     "id": "",
