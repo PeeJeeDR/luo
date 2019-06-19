@@ -9,8 +9,8 @@
     </section>
 
     <section>
-      <default-button :content='"Stay"' @click.native='onYesPress'/>
-      <default-button :content='"Leave"' @click.native='onNoPress'/>
+      <default-button style='margin: 0 auto;' :content='"Stay"' @click.native='onYesPress'/>
+      <default-button style='margin: 1rem auto 0 auto;' :content='"Leave"' @click.native='onNoPress'/>
     </section>
   </div>
 </template>

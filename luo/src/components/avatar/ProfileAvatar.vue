@@ -1,13 +1,12 @@
 <template>
-  <div class='profile-avatar' v-if='img !== undefined'>
+  <div class='profile-avatar' v-if='user !== undefined'>
     <div class='flex align-center'>
-      <img :src='img.avatarUrl !== null ? img.avatarUrl : require(`@/assets/img/avatars/${ img.avatar }.png`)' alt='avatar image.'>
-      <div class='view'>
+      <img :src='user.avatarUrl !== null ? user.avatarUrl : require(`@/assets/img/avatars/${ user.avatar }.png`)' alt='avatar image.'>
+      <div class='view' v-if='shouldRenderViewProfile()'>
         <p class='paragraph p--color-primary p--weight-bold p--s'>VIEW PROFILE</p>
       </div>
     </div>
     
-
     <div class='star-container flex-center' v-if='false'>
       <star />
     </div>
@@ -15,12 +14,27 @@
 </template>
 
 <script>
+import { fire } from '@/firebase/firebase';
 import Star from '@/assets/icons/profile/StarFull.svg';
 
 export default {
   name: 'ProfileAvatar',
   components: { Star },
-  props: ['img']
+  props: ['user'],
+  data: () => ({
+    fire
+  }),
+  methods: {
+    shouldRenderViewProfile () {
+      if (fire.auth().currentUser) {
+        return fire.auth().currentUser.uid !== this.user.id;
+      }
+
+      if (!fire.auth().currentUser) {
+        return true;
+      }
+    }
+  }
 }
 </script>
 

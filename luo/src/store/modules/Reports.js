@@ -32,7 +32,7 @@ export const Reports = {
         quizId: payload.quizToBeReported.id,
         created: moment().format(),
         reportTypes: payload.selectedReports,
-        reportedQuestion: payload.quizToBeReported.questions[payload.currentQuestion],
+        reportedQuestion: payload.quizToBeReported.questions[payload.currentQuestion] !== undefined ? payload.quizToBeReported.questions[payload.currentQuestion] : null,
         reportMessage: payload.reportMessage
       }
 

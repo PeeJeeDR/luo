@@ -17,12 +17,19 @@
         <div :class='`over-image flex justify-between align-center ${ showQR && "qr-is-open" }`'>
           <div>
             <transition mode='out-in' enter-active-class='animated fadeInDown faster' leave-active-class='animated fadeOut faster'>
-              <profile-avatar v-if='!showQR' :img='quizUser' @click.native='onAvatarClick'/>
+              <profile-avatar v-if='!showQR' :user='quizUser' @click.native='onAvatarClick'/>
             </transition>
           </div>
           <button v-if='quizById.isQRQuiz && quizById.createdBy === fire.auth().currentUser.uid' @click='showQR = !showQR' class='flex-center'>
             <h2 class='heading h--m h--color-primary'>{{ !showQR ? "SHOW QR CODE" : "HIDE QR CODE" }}</h2>
           </button>
+          <p 
+            v-if='shouldReportRender()' 
+            class='report paragraph p--weight-bold p--m p--color-almost-light p--align-center' 
+            @click='onReportClick'
+          >
+            Report
+          </p>
         </div>
 
         <!-- Title and stats. -->
@@ -32,8 +39,9 @@
           <p class='paragraph p--m p--color-lighter'>{{ quizById.description }}</p>
         
           <div class='stats flex align-center'>
-            <stat :title='"Likes"' :value='quizById.likes' :align='"center"' :color='"primary"'/>
             <stat :title='"Questions"' :value='quizById.questions.length' :align='"center"' :color='"primary"'/>
+            <stat :title='"Played"' :value='quizById.playedBy.length' :align='"center"' :color='"primary"'/>
+            <stat :title='"Likes"' :value='quizById.likes' :align='"center"' :color='"primary"'/>
           </div>
         </div>
 
@@ -85,7 +93,6 @@
 
 <script>
 import app from '@/settings/app.json';
-import { enableBodyScroll } from 'body-scroll-lock';
 import { fire } from '@/firebase/firebase';
 import { mapState } from 'vuex';
 import Qrcode from '@chenfengyuan/vue-qrcode';
@@ -107,11 +114,30 @@ export default {
     ...mapState('Quizzes', ['quizById']),
     ...mapState('Users', ['quizUser'])
   },
-  beforeDestroy () {
-    console.log('ENABLE');
-    enableBodyScroll(document.getElementsByTagName('body')[0]);
-  },
   methods: {
+    // When the user presses report quiz.
+    onReportClick () {
+      // Set quiz to be reported in the store.
+      this.$store.dispatch('Reports/onReportClick', { quiz: this.quizById, question: null })
+      .then(() => {
+        // Open report modal.
+        this.$store.dispatch('Modals/openModal', { type: 'report' });
+      });
+    },
+
+    shouldReportRender () {
+      if (fire.auth().currentUser) {
+        let currentUserId = fire.auth().currentUser.uid;
+
+        return this.quizById.createdBy !== currentUserId && !this.quizById.isQRQuiz && this.quizById.playedBy.includes(currentUserId);
+      }
+
+      if (!fire.auth().currentUser) {
+        return false;
+      }
+    },
+
+    // Get the style of the play button.
     getButtonContainerClass () {
       if (fire.auth().currentUser !== null && fire.auth().currentUser.id === this.quizById.createdBy) {
         return 'from-user';
@@ -238,10 +264,14 @@ export default {
       background-color: $snow;
       border-radius: 25rem;
     }
+
+    .report {
+      margin-top: 3rem;
+    }
   }
 
   .content {
-    padding: 0.5rem;
+    padding: 2rem 1rem 1rem 1rem;
 
     p {
       margin-top: 0.6rem;

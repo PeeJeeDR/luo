@@ -1,6 +1,5 @@
 import { firebase, db, fire } from '@/firebase/firebase';
 import moment from 'moment';
-import router from '@/router';
 
 export const Quizzes = {
   namespaced: true,
@@ -131,7 +130,7 @@ export const Quizzes = {
       .where('isQRQuiz', '==', false)
       .where('isDeleted', '==', false)
       .onSnapshot(snap => {
-        console.log('FETCH CATEGORY');
+        console.log('FETCH CATEGORY', snap);
 
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
@@ -148,8 +147,6 @@ export const Quizzes = {
       try {
         db.collection('quizzes').doc(payload.id)
         .onSnapshot(doc => {
-        console.log('FETCH ID');
-
           if (doc.exists) {
             let result = doc.data();
             result.id = doc.id;
