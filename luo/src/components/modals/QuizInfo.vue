@@ -177,6 +177,7 @@ export default {
     // When the users avatar is clicked.
     onAvatarClick () {
       // This will open the profile route and save the user in the Users state.
+      this.$store.commit('Users/ENABLE_OTHER_USER');
       this.$store.dispatch('Navigation/onQuizInfoAvatarClick', { user: this.quizUser });
     },
 

@@ -90,15 +90,12 @@ export const Users = {
 
       if (fire.auth().currentUser) {
         if (fire.auth().currentUser.uid !== payload.user.id) {
+          console.log('ENABLE OTHER USER');
           commit('ENABLE_OTHER_USER');
-        }
-  
-        if (fire.auth().currentUser.uid !== payload.user.id) {
-          router.push('/profile');
         }
       }
 
-      if (!fire.auth().currentUser) {
+      if (!fire.auth().currentUser && !state.isOtherUser) {
         router.push('/profile');
       }
     },

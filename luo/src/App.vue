@@ -56,7 +56,8 @@ export default {
     ...mapState('Navigation', ['scanner'])
   },
   created () {
-    if (!fire.auth().currentUser) {
+    if (!fire.auth().currentUser && !localStorage.getItem('usedAppOnce')) {
+      localStorage.setItem('usedAppOnce', true);
       this.$router.push('/authentication');
     }
 

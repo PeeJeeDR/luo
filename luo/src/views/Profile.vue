@@ -50,7 +50,7 @@ export default {
   created () {
     this.$store.dispatch('Navigation/onAppLoad');
 
-    if (!fire.auth().currentUser) {
+    if (!fire.auth().currentUser && !this.isOtherUser) {
       location.reload();
     }
 
