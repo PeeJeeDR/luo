@@ -125,6 +125,7 @@ export default {
       });
     },
 
+    // Should the report button render?
     shouldReportRender () {
       if (fire.auth().currentUser) {
         let currentUserId = fire.auth().currentUser.uid;

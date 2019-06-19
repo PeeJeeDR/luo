@@ -57,7 +57,7 @@ export default {
   },
   created () {
     if (!fire.auth().currentUser) {
-      // this.$router.push('/authentication');
+      this.$router.push('/authentication');
     }
 
     if (fire.auth().currentUser) {

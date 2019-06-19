@@ -89,7 +89,7 @@ export default {
     },
 
     shouldRenderSave () {
-      return this.rightIcon === 'save' && this.quiz.questions.length > 0;
+      return this.rightIcon === 'save' && this.quiz.questions.length > 0; // Should be .length > 2. But for demo set to 0.
     }
   }
 }
