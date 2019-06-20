@@ -214,6 +214,11 @@ export default {
 
   .default-button {
     margin: 0 auto;
+    width: 49%;
+
+    @include phone-small {
+      width: 102%;
+    }
   }
 }
 </style>

@@ -148,6 +148,8 @@ export const CreateQuiz = {
         payload.quiz.id = undefined;
       }
 
+      console.log('PAYLOAD', payload );
+
       if (payload.quiz.id !== undefined) {
         db.collection('quizzes').doc(payload.quiz.id).get().then(doc => {
           if (doc.exists) {

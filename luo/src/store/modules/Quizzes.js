@@ -246,11 +246,11 @@ export const Quizzes = {
     },
 
     updateQuiz ({ dispatch }, payload) {
+      // Close the modal.
+      dispatch('Modals/closeModal', {}, { root: true });
+
       db.collection('quizzes').doc(payload.quiz.id).update(payload.quiz)
       .then(() => {
-        // Close the modal.
-        dispatch('Modals/closeModal', {}, { root: true });
-
         // Tell the CreateQuiz.vue page to route to another page.
         dispatch('Modals/onConfirmAnswerSelect', { confirmAnswer: 'leave' }, { root: true });
 
