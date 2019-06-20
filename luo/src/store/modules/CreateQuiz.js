@@ -31,6 +31,7 @@ export const CreateQuiz = {
 
     // Update a question after edit.
     UPDATE_QUESTION (state, question) {
+      console.log('DEES IS ALLEMAAL OKE');
       state.quiz.questions[question.id] = question;
       state.quizModified = true;
     },
@@ -43,9 +44,11 @@ export const CreateQuiz = {
 
     // Quiz.
     UPDATE_QUIZ (state, quiz) {
+      console.log('UPDATE QUIZ', quiz);
       state.quiz = quiz;
     },
     CLEAR_QUIZ (state) {
+      console.log('CLEAR QUIZ');
       state.quiz = clonedeep(app.empty_quiz);
     },
 

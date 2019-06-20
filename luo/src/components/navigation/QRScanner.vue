@@ -29,11 +29,7 @@ export default {
       this.closeScanner();
       
       // Fetch quiz by id.
-      this.$store.dispatch('Quizzes/fetchQuizById', { id: decodedString, type: 'QR-scan' })
-      .then(() => {
-        // Open quiz info modal.
-        this.$store.dispatch('Modals/openModal', { type: 'quiz-info' });
-      });
+      this.$store.dispatch('Quizzes/fetchQuizById', { id: decodedString, type: 'QR-scan' });
     },
 
     closeScanner () {

@@ -106,8 +106,6 @@ export default {
   },
   methods: {
     setImage (output) {
-      console.log('SET IMG', output);
-      this.formData.questionImg = '';
       this.formData.questionImg = output;
     },
 

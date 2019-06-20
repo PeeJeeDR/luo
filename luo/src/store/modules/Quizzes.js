@@ -86,8 +86,6 @@ export const Quizzes = {
       .where('isDeleted', '==', false)
       .orderBy('created', 'desc')
       .onSnapshot(snap => {
-        console.log('FETCH NEW');
-
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -108,8 +106,6 @@ export const Quizzes = {
       .where('isDeleted', '==', false)
       .orderBy('plays', 'desc')
       .onSnapshot(snap => {
-        console.log('FETCH POPULAR');
-
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -130,8 +126,6 @@ export const Quizzes = {
       .where('isQRQuiz', '==', false)
       .where('isDeleted', '==', false)
       .onSnapshot(snap => {
-        console.log('FETCH CATEGORY', snap);
-
         commit('SAVE_QUIZZES', snap.docs.map(doc => {
           let result = doc.data();
           result.id = doc.id;
@@ -159,6 +153,9 @@ export const Quizzes = {
   
             // Fetch user that created the collected quiz.
             dispatch('Users/fetchUserById', { userId: result.createdBy, type: 'quiz-user' }, { root: true });
+
+            // Open quiz info modal.
+            dispatch('Modals/openModal', { type: 'quiz-info' }, { root: true });
           }
   
           if (!doc.exists) {
@@ -275,8 +272,6 @@ export const Quizzes = {
 
     // Increment plays when a quiz has been played.
     addQuizPlay ({}, payload) {
-      console.log('ADD QUIZ PLAY');
-      
       db.collection('quizzes').doc(payload.quiz.id).update({
         playedBy: firebase.firestore.FieldValue.arrayUnion(payload.id)
       })

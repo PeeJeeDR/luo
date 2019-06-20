@@ -14,17 +14,22 @@
       </div>
 
       <!-- QR code quizzes made by the user. -->
-      <section-title 
-        v-if='QRQuizzesByUser.length > 0 && !isOtherUser' 
-        :title='"Your QR code quizzes"'
-      />
-      <div class='overview flex flex-wrap justify-center'>
-        <quiz v-for='(quiz, i) in QRQuizzesByUser' :key='i' :quiz='quiz' :index='i'/>
-      </div>
+      <div v-if='!isOtherUser'>
+        <section-title 
+          v-if='QRQuizzesByUser.length > 0 && !isOtherUser' 
+          :title='"Your QR code quizzes"'
+        />
+        <div class='overview flex flex-wrap justify-center'>
+          <quiz v-for='(quiz, i) in QRQuizzesByUser' :key='i' :quiz='quiz' :index='i'/>
+        </div>
 
-      <!-- If there are no quizzes. -->
-      <h2 v-if='quizzesMadeByUser.length === 0' class='big-wrapper heading h--l h--color-mist h--align-center'>
-        It looks like you haven't made any quizzes yet, go make one!
+        <!-- If there are no quizzes. -->
+        <h2 v-if='quizzesMadeByUser.length === 0' class='big-wrapper heading h--l h--color-mist h--align-center'>
+          It looks like you haven't made any quizzes yet, go make one!
+        </h2>
+      </div>
+      <h2 v-else class='big-wrapper heading h--l h--color-mist h--align-center'>
+        This user hasn't made any public quizzes yet
       </h2>
     </div>
   </div>
