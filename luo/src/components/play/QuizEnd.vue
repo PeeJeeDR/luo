@@ -24,15 +24,12 @@
             </div>
           </div>
 
-          <!-- Like button. -->
-          <div 
-            :class='`likes flex-center ${ likeClass } ${ animateLikeButton && likeClass === "selected" && "animated bounceIn fast" }`' 
-            v-if='fire.auth().currentUser !== null && fire.auth().currentUser.uid !== playingQuiz.createdBy'
-            @click='onLikeClick' 
-            @animationend='animateLikeButton = false'
-          >
-            <likes />
-          </div>
+          <like-button
+            v-if='fire.auth().currentUser && fire.auth().currentUser.uid !== playingQuiz.createdBy'
+            :quiz='playingQuiz'
+            @onLike='onLikeClick'
+            @onUnlike='onUnlike'
+          />
         </div>
 
         <!-- Review screen. -->
@@ -59,18 +56,16 @@ import ScoreNotch from '@/components/play/ScoreNotch';
 import ReviewAnswers from '@/components/play/ReviewAnswers';
 import DefaultButton from '@/components/buttons/DefaultButton';
 import AwardGold from '@/assets/icons/quizzes/AwardGold.svg';
-import Likes from '@/assets/icons/quizzes/Likes.svg';
 import Flag from '@/assets/icons/quizzes/Flag.svg';
 import QuizEnd from '@/assets/sound/QuizEnd.mp3';
+import LikeButton from '@/components/buttons/LikeButton';
 
 export default {
   name: 'QuizEnd',
-  components: { ScoreNotch, ReviewAnswers, DefaultButton, AwardGold, Likes, Flag },
+  components: { ScoreNotch, ReviewAnswers, DefaultButton, AwardGold, Flag, LikeButton },
   data: () => ({
     fire,
     reviewEnabled: false,
-    likeClass: 'unselected',
-    animateLikeButton: false,
     quizEndSound: new Audio(QuizEnd)
   }),
   computed: {
@@ -78,8 +73,6 @@ export default {
     ...mapGetters('PlayQuiz', ['getScore']),
   },
   created () {
-    this.checkLikeStatus();
-
     if (this.getScore === this.reviews.length) {
       this.quizEndSound.volume = 0.2;
       this.quizEndSound.play();
@@ -100,34 +93,21 @@ export default {
     },
 
     onLikeClick () {
-      if (this.likeClass === 'unselected') {
-        this.$store.dispatch('Quizzes/likeQuiz', { 
-          quiz: this.playingQuiz,
-          id: fire.auth().currentUser.uid
-        });
-      }
-
-      if (this.likeClass === 'selected') {
-        this.$store.dispatch('Quizzes/unlikeQuiz', { 
-          quiz: this.playingQuiz,
-          id: fire.auth().currentUser.uid
-        });
-      }
-
-      this.animateLikeButton = true;
-      this.likeClass = this.likeClass === 'unselected' ? 'selected' : 'unselected';
+      console.log('ON LIKE');
+      
+      this.$store.dispatch('Quizzes/likeQuiz', { 
+        quiz: this.playingQuiz,
+        id: fire.auth().currentUser.uid
+      });
     },
 
-    checkLikeStatus () {
-      if (fire.auth().currentUser) {
-        if (this.playingQuiz.likedBy.includes(fire.auth().currentUser.uid)) {
-          this.likeClass = 'selected';
-        }
+    onUnlike () {
+      console.log('ON UNLIKE');
 
-        if (!this.playingQuiz.likedBy.includes(fire.auth().currentUser.uid)) {
-          this.likeClass = 'unselected';
-        }
-      }
+      this.$store.dispatch('Quizzes/unlikeQuiz', { 
+        quiz: this.playingQuiz,
+        id: fire.auth().currentUser.uid
+      });
     },
 
     onContinueClick () {
@@ -135,11 +115,6 @@ export default {
       .then(() => {
         this.$router.back();
       });
-    }
-  },
-  watch: {
-    playingQuiz () {
-      this.checkLikeStatus();
     }
   }
 }
@@ -185,40 +160,6 @@ export default {
         svg {
           width: 6rem;
           height: 6rem;
-        }
-      }
-    }
-
-    .likes {
-      margin-top: 10rem;
-      margin-bottom: 2rem;
-      padding: 0.8rem;
-      border: 2px solid;
-      border-radius: 20rem;
-
-      svg {
-        width: 1.8rem; 
-        height: 1.8rem;
-      }
-
-      &:hover {
-        cursor: pointer;
-      }
-      
-      &.unselected {
-        border-color: $pinky;
-
-        svg {
-          fill: $pinky;
-        }
-      }
-
-      &.selected {
-        background-color: $pinky;
-        border-color: $pinky;
-
-        svg {
-          fill: $snow;
         }
       }
     }

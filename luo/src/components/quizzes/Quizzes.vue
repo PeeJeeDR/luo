@@ -36,6 +36,7 @@ export default {
     });
 
     this.$store.dispatch('Navigation/onAppLoad');
+    this.$store.commit('Users/DISABLE_OTHER_USER');
   }
 }
 </script>

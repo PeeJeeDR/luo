@@ -90,7 +90,6 @@ export const Users = {
 
       if (fire.auth().currentUser) {
         if (fire.auth().currentUser.uid !== payload.user.id) {
-          console.log('ENABLE OTHER USER');
           commit('ENABLE_OTHER_USER');
         }
       }
@@ -102,7 +101,6 @@ export const Users = {
 
     // When navigating away from /profile route.
     onProfileDismount ({ commit }) {
-      commit('DISABLE_OTHER_USER');
       commit('CLEAR_QUIZ_USER');
     },
 

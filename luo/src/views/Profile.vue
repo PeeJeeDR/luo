@@ -61,7 +61,6 @@ export default {
     }
 
     if (this.isOtherUser || fire.auth().currentUser === null) {
-      console.log('OTHER USER');
       this.$store.dispatch('Users/fetchUserById', { userId: this.user.id, type: 'user' });
       this.$store.dispatch('Quizzes/fetchQuizzesMadeByUserId', { userId: this.user.id });
       this.$store.dispatch('Quizzes/fetchQuizzesPlayedByUserId', { userId: this.user.id });
