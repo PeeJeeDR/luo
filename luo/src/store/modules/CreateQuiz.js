@@ -31,8 +31,12 @@ export const CreateQuiz = {
 
     // Update a question after edit.
     UPDATE_QUESTION (state, question) {
-      console.log('DEES IS ALLEMAAL OKE');
-      state.quiz.questions[question.id] = question;
+      let newQuiz = clonedeep(state.quiz);
+
+      
+      newQuiz.questions[question.id] = question;
+
+      state.quiz = newQuiz;
       state.quizModified = true;
     },
 
@@ -100,7 +104,7 @@ export const CreateQuiz = {
     },
 
     // When a question is edited.
-    onQuestionEdit ({ dispatch, commit }, payload) {
+    onQuestionEdit ({ dispatch, commit, state }, payload) {
       console.log('PAYLOAD', payload);
       commit('UPDATE_QUESTION', payload.question);
       dispatch('Modals/closeModal', {}, { root: true });

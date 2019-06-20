@@ -57,6 +57,11 @@ export default {
     onQuestionCreate () {
       this.$store.dispatch('CreateQuiz/onNewQuestionButtonClick');
     }
+  },
+  watch: {
+    quiz () {
+      console.log('QUIZ UPDATED', this.quiz);
+    }
   }
 }
 </script>
