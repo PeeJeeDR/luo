@@ -163,19 +163,19 @@ export const Quizzes = {
   
           if (!doc.exists) {
             dispatch('Notifications/setNotification', { 
-              message: 'Someting went wrong by fetching this quiz. Please try again later.' 
+              message: 'Something went wrong by fetching this quiz. Please try again later.' 
             }, { root: true });
           }
         });
       } catch (err) {
         if (payload.type === 'QR-scan') {
           dispatch('Notifications/setNotification', { 
-            message: 'Someting went wrong by fetching this quiz. Please try again later.' 
+            message: 'Something went wrong by fetching this quiz. Please try again later.' 
           }, { root: true });
         }
         
         dispatch('Notifications/setNotification', { 
-          message: 'Someting went wrong by scanning this quiz. Please try again later.' 
+          message: 'Something went wrong by scanning this quiz. Please try again later.' 
         }, { root: true });
       }
     },
@@ -240,7 +240,7 @@ export const Quizzes = {
         // Add quiz to firestore.
         db.collection('quizzes').add(quiz)
         .then(() => {
-          dispatch('Notifications/setNotification', { message: 'Quize made successfully!' }, { root: true });
+          dispatch('Notifications/setNotification', { message: 'Quiz made successfully!' }, { root: true });
         })
         .catch(() => {
           dispatch('Notifications/setNotification', { message: 'Something went wrong while creating the quiz. Please try again later.' }, { root: true });
@@ -258,7 +258,7 @@ export const Quizzes = {
         dispatch('Modals/onConfirmAnswerSelect', { confirmAnswer: 'leave' }, { root: true });
 
         // Show notification to the user.
-        dispatch('Notifications/setNotification', { message: 'Quize updated successfully!' }, { root: true });
+        dispatch('Notifications/setNotification', { message: 'Quiz updated successfully!' }, { root: true });
       })
       .catch(() => {
         // Show notification to the user.

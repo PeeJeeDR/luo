@@ -35,13 +35,13 @@
           />
         </section>
 
-        <submit-and-cancel :includeBack='false' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='nextSlide("quiz-1-2")'/>
+        <default-button :content='"Next"' @click.native='nextSlide("quiz-1-2")'/>
       </div>
 
       <!-- Categories. -->
       <div key='2' v-if='selectedSlide === 1'>
         <section>
-          <h3 class='title heading h--xm h--color-primary'>Categories</h3>
+          <h3 class='title heading h--xm h--color-primary'>Select categories</h3>
           <div class='categories'>
             <div class='category' v-for='category in categories' :key='category.slug' @click='categorySelect(category)'>
               <div v-if='category.slug !== "suggest"' class='flex align-center'>
@@ -55,7 +55,7 @@
 
         <p class='paragraph p--m p--color-danger p--weight-bold p--align-center error'>{{ error }}</p>
 
-        <submit-and-cancel :includeBack='true' @onback='prevSlide' @oncancel='$store.dispatch("Modals/closeModal")' @onsubmit='onFormSubmit'/>
+        <default-button :content='"Submit"' @click.native='onFormSubmit'/>
       </div>
     </transition>
   </div>
@@ -115,7 +115,7 @@ export default {
     },
 
     setImage (output) {
-      // this.formData.quizImg = output;
+      this.formData.quizImg = output;
     },
 
     getQuizImgSource () {
@@ -195,6 +195,7 @@ export default {
   .categories {
     height: 20rem;
     overflow: scroll;
+    margin: 1rem 0 4rem 0;
 
     .category {
       margin: 1.5rem 0;
@@ -209,6 +210,10 @@ export default {
 
   .error {
     margin-top: 1rem;
+  }
+
+  .default-button {
+    margin: 0 auto;
   }
 }
 </style>

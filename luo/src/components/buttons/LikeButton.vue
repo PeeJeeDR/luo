@@ -59,8 +59,6 @@ export default {
 <style lang='scss' scoped>
 .like-button
 {
-  margin-top: 11rem;
-  margin-bottom: 2rem;
   padding: 0.8rem;
   border: 2px solid;
   border-radius: 20rem;

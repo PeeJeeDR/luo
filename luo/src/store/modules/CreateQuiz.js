@@ -98,6 +98,7 @@ export const CreateQuiz = {
 
     // When a question is edited.
     onQuestionEdit ({ dispatch, commit }, payload) {
+      console.log('PAYLOAD', payload);
       commit('UPDATE_QUESTION', payload.question);
       dispatch('Modals/closeModal', {}, { root: true });
       dispatch('Notifications/setNotification', { message: app.notifications.QUESTION_UPDATED_SUCCESS }, { root: true });

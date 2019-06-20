@@ -65,6 +65,7 @@ export default {
   created () {
     this.setAudioFile();
     this.audioFileCorrect.volume = 0.2;
+    this.expand = false;
   },
   beforeDestroy () {
     this.removeAudio();
@@ -80,7 +81,7 @@ export default {
       if (this.audioFile) {
         this.audioFile.pause();
         this.audioFile.currentTime = 0;
-        // this.audioFile = undefined;
+        this.audioFile = undefined;
       }
     },
 

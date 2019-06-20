@@ -179,6 +179,14 @@ export default {
   }
 
   .follow-container {
+    position: relative;
+    height: 2.5rem;
+
+    @include desktop {
+      width: 75%;
+      margin: 0 auto;
+    }
+
     .item {
       width: 50%;
     }
@@ -186,11 +194,12 @@ export default {
     .back-container {
       width: 2.5rem;
       height: 2.5rem;
-      margin-right: 9.5rem;
+      position: absolute;
+      left: 1rem; top: 0; bottom: 0;
       border-radius: $largeRadius;
 
       @include phone {
-        margin-right: 6rem !important;
+        left: 0;
       }
 
       svg {

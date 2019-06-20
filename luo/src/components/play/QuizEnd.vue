@@ -27,7 +27,7 @@
           <like-button
             v-if='fire.auth().currentUser && fire.auth().currentUser.uid !== playingQuiz.createdBy'
             :quiz='playingQuiz'
-            @onLike='onLikeClick'
+            @onLike='onLike'
             @onUnlike='onUnlike'
           />
         </div>
@@ -92,9 +92,7 @@ export default {
       this.reviewEnabled = false;
     },
 
-    onLikeClick () {
-      console.log('ON LIKE');
-      
+    onLike () {
       this.$store.dispatch('Quizzes/likeQuiz', { 
         quiz: this.playingQuiz,
         id: fire.auth().currentUser.uid
@@ -102,8 +100,6 @@ export default {
     },
 
     onUnlike () {
-      console.log('ON UNLIKE');
-
       this.$store.dispatch('Quizzes/unlikeQuiz', { 
         quiz: this.playingQuiz,
         id: fire.auth().currentUser.uid
@@ -162,6 +158,11 @@ export default {
           height: 6rem;
         }
       }
+    }
+
+    .like-button {
+      margin-top: 11rem;
+      margin-bottom: 2rem;
     }
   }
 

@@ -34,9 +34,20 @@
 
         <!-- Title and stats. -->
         <div class='content'>
-          <h4 class='heading h--xm'>{{ quizById.title }}</h4>
-          <hr>
-          <p class='paragraph p--m p--color-lighter'>{{ quizById.description }}</p>
+          <div class='flex justify-between align-center'>
+            <div>
+              <h4 class='heading h--xm'>{{ quizById.title }}</h4>
+              <hr>
+              <p class='paragraph p--m p--color-lighter'>{{ quizById.description }}</p>
+            </div>
+
+            <like-button
+              v-if='fire.auth().currentUser && fire.auth().currentUser.uid !== quizById.createdBy'
+              :quiz='quizById'
+              @onLike='onLike'
+              @onUnlike='onUnlike'
+            />
+          </div>
         
           <div class='stats flex align-center'>
             <stat :title='"Questions"' :value='quizById.questions.length' :align='"center"' :color='"primary"'/>
@@ -101,10 +112,11 @@ import Trash from '@/assets/icons/quizzes/Trash.svg';
 import ProfileAvatar from '@/components/avatar/ProfileAvatar';
 import Stat from '@/components/utils/Stat';
 import DefaultButton from '@/components/buttons/DefaultButton';
+import LikeButton from '@/components/buttons/LikeButton';
 
 export default {
   name: 'QuizInfo',
-  components: { ProfileAvatar, Edit, Trash, Qrcode, Stat, DefaultButton },
+  components: { ProfileAvatar, Edit, Trash, Qrcode, Stat, DefaultButton, LikeButton },
   data: () => ({
     showQR: false,
     fire,
@@ -210,12 +222,31 @@ export default {
       });
     },
 
+    // Print the QR code is pressed when its open.
     onQRCodeClick () {
       let w = window.open();
       w.document.write(document.getElementById('QR-code').innerHTML);
       w.print();
       w.close();
-    }
+    },
+
+    // When the user likes a quiz.
+    onLike () {
+      console.log('ON LIKE');
+      this.$store.dispatch('Quizzes/likeQuiz', { 
+        quiz: this.quizById,
+        id: fire.auth().currentUser.uid
+      });
+    },
+
+    // When the user unlikes a quiz.
+    onUnlike () {
+      console.log('ON UNLIKE');
+      this.$store.dispatch('Quizzes/unlikeQuiz', { 
+        quiz: this.quizById,
+        id: fire.auth().currentUser.uid
+      });
+    },
   }
 }
 </script>
@@ -273,7 +304,12 @@ export default {
   }
 
   .content {
+    width: 100%;
     padding: 2rem 1rem 1rem 1rem;
+
+    .like-button {
+      margin-right: -1rem;
+    }
 
     p {
       margin-top: 0.6rem;
