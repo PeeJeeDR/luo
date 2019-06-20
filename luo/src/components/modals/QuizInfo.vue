@@ -20,7 +20,7 @@
               <profile-avatar v-if='!showQR' :user='quizUser' @click.native='onAvatarClick'/>
             </transition>
           </div>
-          <button v-if='quizById.isQRQuiz && quizById.createdBy === fire.auth().currentUser.uid' @click='showQR = !showQR' class='flex-center'>
+          <button v-if='quizById.isQRQuiz && fire.auth().currentUser && quizById.createdBy === fire.auth().currentUser.uid' @click='showQR = !showQR' class='flex-center'>
             <h2 class='heading h--m h--color-primary'>{{ !showQR ? "SHOW QR CODE" : "HIDE QR CODE" }}</h2>
           </button>
           <p 
