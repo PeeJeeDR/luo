@@ -18,7 +18,8 @@
     "axios": "^0.19.0",
     "firebase-admin": "~7.0.0",
     "firebase-functions": "^2.3.0",
-    "lodash": ">=4.17.13"
+    "lodash": ">=4.17.13",
+    "lodash.merge": ">=4.6.2"
   },
   "devDependencies": {
     "tslint": "^5.12.0",
